@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="13.3">
-  <zoom_level>17</zoom_level>
+  <zoom_level>10</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>272</x>
-      <y>527</y>
-      <w>170</w>
-      <h>51</h>
+      <x>100</x>
+      <y>280</y>
+      <w>100</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>ohm_pf</panel_attributes>
     <additional_attributes/>
@@ -15,25 +15,24 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>884</x>
-      <y>323</y>
-      <w>187</w>
-      <h>187</h>
+      <x>460</x>
+      <y>160</y>
+      <w>140</w>
+      <h>70</h>
     </coordinates>
-    <panel_attributes>SimpleClass
----
-asdfasdf
-+asdf
-asdf</panel_attributes>
+    <panel_attributes>Sample
+--
+- _pose : Pose
+- _weight : double</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>204</x>
-      <y>136</y>
-      <w>357</w>
-      <h>323</h>
+      <x>60</x>
+      <y>50</y>
+      <w>210</w>
+      <h>190</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Stereotype&gt;&gt;
 Package::FatClass
@@ -53,12 +52,50 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>340</x>
-      <y>442</y>
-      <w>51</w>
-      <h>119</h>
+      <x>140</x>
+      <y>230</y>
+      <w>30</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>510</x>
+      <y>70</y>
+      <w>150</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>namespace ohmPf</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>400</x>
+      <y>280</y>
+      <w>250</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>SampleSet
+--
+- _samples : std::vektor&lt;Sample&gt;
+- _numSamples : int
+- (info about samples kd-tree; nn)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>520</x>
+      <y>220</y>
+      <w>50</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+2..n</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
   </element>
 </diagram>
