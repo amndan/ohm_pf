@@ -4,30 +4,30 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>368</x>
-      <y>144</y>
-      <w>144</w>
-      <h>56</h>
+      <x>640</x>
+      <y>160</y>
+      <w>152</w>
+      <h>64</h>
     </coordinates>
-    <panel_attributes>ohmPf::Sample
+    <panel_attributes>&lt;&lt;Struct&gt;&gt;
+ohmPf::Sample_t
 --
-- _pose : omhPf::Pose
-- _weight : std::double</panel_attributes>
+pose : omhPf::Pose_t
+weight : std::double</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>344</x>
-      <y>240</y>
-      <w>200</w>
+      <x>616</x>
+      <y>272</y>
+      <w>216</w>
       <h>88</h>
     </coordinates>
     <panel_attributes>ohmPf::SampleSet
 --
-- _samples : std::vektor&lt;Sample&gt;
+- _samples : std::vektor&lt;Sample_t&gt;
 - _numSamples : std::int
-- _id : std::int
 - _stamp : std::time
 - (info about samples kd-tree; nn)</panel_attributes>
     <additional_attributes/>
@@ -35,20 +35,20 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>440</x>
-      <y>192</y>
+      <x>712</x>
+      <y>216</y>
       <w>40</w>
-      <h>64</h>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 2..n</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>616</x>
-      <y>264</y>
+      <x>888</x>
+      <y>296</y>
       <w>272</w>
       <h>96</h>
     </coordinates>
@@ -67,8 +67,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>840</x>
-      <y>384</y>
+      <x>1112</x>
+      <y>416</y>
       <w>304</w>
       <h>128</h>
     </coordinates>
@@ -87,27 +87,23 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>608</x>
-      <y>400</y>
+      <x>888</x>
+      <y>464</y>
       <w>168</w>
-      <h>112</h>
+      <h>56</h>
     </coordinates>
-    <panel_attributes>ohmPf::pose
+    <panel_attributes>&lt;&lt;Struct&gt;&gt;
+ohmPf::Pose_t
 --
-- _pose : Eigen::Vector
---
-+ getPhiRad() : std::double
-+ getPhiDeg() : std::double
-+ getX() : std::double
-+ getY() : std::double
-+ getPose() : Eigen::Vector</panel_attributes>
+vector : Eigen::Vector
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>952</x>
-      <y>8</y>
+      <x>1224</x>
+      <y>40</y>
       <w>400</w>
       <h>320</h>
     </coordinates>
@@ -118,8 +114,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>288</x>
-      <y>432</y>
+      <x>560</x>
+      <y>464</y>
       <w>280</w>
       <h>80</h>
     </coordinates>
@@ -135,8 +131,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>424</x>
-      <y>552</y>
+      <x>696</x>
+      <y>584</y>
       <w>320</w>
       <h>72</h>
     </coordinates>
@@ -151,8 +147,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>768</x>
-      <y>152</y>
+      <x>1040</x>
+      <y>184</y>
       <w>128</w>
       <h>80</h>
     </coordinates>
@@ -167,8 +163,8 @@ a2 : std::double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>88</x>
-      <y>552</y>
+      <x>360</x>
+      <y>584</y>
       <w>320</w>
       <h>72</h>
     </coordinates>
@@ -183,8 +179,8 @@ a2 : std::double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>136</x>
-      <y>320</y>
+      <x>376</x>
+      <y>464</y>
       <w>144</w>
       <h>80</h>
     </coordinates>
@@ -199,8 +195,8 @@ zphi : std::double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>792</x>
-      <y>552</y>
+      <x>1064</x>
+      <y>584</y>
       <w>192</w>
       <h>64</h>
     </coordinates>
@@ -214,8 +210,8 @@ zphi : std::double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1000</x>
-      <y>552</y>
+      <x>1272</x>
+      <y>584</y>
       <w>192</w>
       <h>64</h>
     </coordinates>
@@ -228,8 +224,8 @@ zphi : std::double
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>880</x>
-      <y>504</y>
+      <x>1152</x>
+      <y>536</y>
       <w>24</w>
       <h>64</h>
     </coordinates>
@@ -240,8 +236,8 @@ zphi : std::double
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1080</x>
-      <y>504</y>
+      <x>1352</x>
+      <y>536</y>
       <w>24</w>
       <h>64</h>
     </coordinates>
@@ -252,8 +248,8 @@ zphi : std::double
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>472</x>
-      <y>504</y>
+      <x>744</x>
+      <y>536</y>
       <w>24</w>
       <h>64</h>
     </coordinates>
@@ -264,8 +260,8 @@ zphi : std::double
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>328</x>
-      <y>504</y>
+      <x>600</x>
+      <y>536</y>
       <w>24</w>
       <h>64</h>
     </coordinates>
@@ -276,8 +272,8 @@ zphi : std::double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>568</x>
-      <y>144</y>
+      <x>888</x>
+      <y>184</y>
       <w>128</w>
       <h>80</h>
     </coordinates>
@@ -292,8 +288,8 @@ sampleMax : std::int
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>88</x>
-      <y>656</y>
+      <x>360</x>
+      <y>688</y>
       <w>472</w>
       <h>80</h>
     </coordinates>
@@ -303,6 +299,51 @@ sampleMax : std::int
 --
 + getRandomSample(mu : std::double, sigma std::double) : std::double)
 + getProbability(x : std::double, mu : std::double, sigma std::double) : std::double)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>0</y>
+      <w>400</w>
+      <h>320</h>
+    </coordinates>
+    <panel_attributes>Ablage
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>8</x>
+      <y>32</y>
+      <w>168</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>ohmPf::Pose_t
+--
++ _pose : Eigen::Vector
+--
++ getPhiRad() : std::double
++ getPhiDeg() : std::double
++ getX() : std::double
++ getY() : std::double
++ getPose() : Eigen::Vector</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>208</x>
+      <y>48</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>ohmPf::Sample_t
+--
+- _pose : omhPf::Pose_t
+- _weight : std::double</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>

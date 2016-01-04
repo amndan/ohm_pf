@@ -8,7 +8,7 @@ project ( ohmPf )
 
 set ( INCLUDE_DIRS_OHMPF
 	"${PROJECT_SOURCE_DIR}/include"
-	#...
+	"${PROJECT_SOURCE_DIR}/include/Eigen"
 )
 
 include_directories( ${INCLUDE_DIRS_OHMPF} )
@@ -18,12 +18,11 @@ include_directories( ${INCLUDE_DIRS_OHMPF} )
 #
 
 set ( SOURCES_OHMPF
-	${PROJECT_SOURCE_DIR}/src/Pose.cpp
-	#...
+	#${PROJECT_SOURCE_DIR}/src/Pose.cpp
 )
 
-add_library( ohmPf STATIC ${SOURCES_OHMPF})
-target_include_directories ( ohmPf PUBLIC ${INCLUDE_DIRS} )
+#add_library( ohmPf STATIC ${SOURCES_OHMPF})
+#target_include_directories ( ohmPf PUBLIC ${INCLUDE_DIRS} )
 
 # # # #
 # Testing
@@ -34,7 +33,7 @@ set ( TESTING_SOURCES_DIR
 )
 
 add_executable( testPose ${TESTING_SOURCES_DIR}/testPose.cpp )
-target_link_libraries( testPose ohmPf )
+#target_link_libraries( testPose ohmPf )
 
 
 

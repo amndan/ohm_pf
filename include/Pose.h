@@ -8,15 +8,15 @@
 #ifndef SRC_POSE_H_
 #define SRC_POSE_H_
 
-#include <iostream>
+#include "../Eigen/Dense"
 
-namespace ohmPf {
+namespace ohmPf
+{
 
-class Pose {
-public:
-	Pose();
-	virtual ~Pose();
-};
+typedef struct
+{
+  Eigen::Vector3d vector;
+} Pose_t;
 
 } /* namespace ohmPf */
 
