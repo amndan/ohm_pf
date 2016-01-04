@@ -4,19 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>112</x>
-      <y>288</y>
-      <w>80</w>
-      <h>24</h>
-    </coordinates>
-    <panel_attributes>ohm_pf</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>376</x>
-      <y>192</y>
+      <x>368</x>
+      <y>144</y>
       <w>144</w>
       <h>56</h>
     </coordinates>
@@ -29,42 +18,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>80</x>
-      <y>104</y>
-      <w>168</w>
-      <h>152</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;Stereotype&gt;&gt;
-Package::FatClass
-{Some Properties}
---
--id: Long
-_-ClassAttribute: Long_
---
-#Operation(i: int): int
-/+AbstractOperation()/
---
-Responsibilities
--- Resp1
-*-- Resp2*</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>144</x>
-      <y>248</y>
-      <w>24</w>
-      <h>56</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>352</x>
-      <y>288</y>
+      <x>344</x>
+      <y>240</y>
       <w>200</w>
       <h>88</h>
     </coordinates>
@@ -80,8 +35,8 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>448</x>
-      <y>240</y>
+      <x>440</x>
+      <y>192</y>
       <w>40</w>
       <h>64</h>
     </coordinates>
@@ -92,8 +47,8 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>672</x>
-      <y>88</y>
+      <x>616</x>
+      <y>264</y>
       <w>272</w>
       <h>96</h>
     </coordinates>
@@ -112,8 +67,8 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>848</x>
-      <y>432</y>
+      <x>840</x>
+      <y>384</y>
       <w>304</w>
       <h>128</h>
     </coordinates>
@@ -132,8 +87,8 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>744</x>
-      <y>256</y>
+      <x>608</x>
+      <y>400</y>
       <w>168</w>
       <h>112</h>
     </coordinates>
@@ -151,8 +106,8 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>960</x>
-      <y>56</y>
+      <x>952</x>
+      <y>8</y>
       <w>400</w>
       <h>320</h>
     </coordinates>
@@ -163,9 +118,9 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>296</x>
-      <y>480</y>
-      <w>264</w>
+      <x>288</x>
+      <y>432</y>
+      <w>280</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Abstract&gt;&gt;
@@ -180,8 +135,8 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>432</x>
-      <y>616</y>
+      <x>424</x>
+      <y>552</y>
       <w>320</w>
       <h>72</h>
     </coordinates>
@@ -196,8 +151,8 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>160</x>
-      <y>400</y>
+      <x>768</x>
+      <y>152</y>
       <w>128</w>
       <h>80</h>
     </coordinates>
@@ -212,8 +167,8 @@ a2 : std::double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>96</x>
-      <y>616</y>
+      <x>88</x>
+      <y>552</y>
       <w>320</w>
       <h>72</h>
     </coordinates>
@@ -228,8 +183,8 @@ a2 : std::double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>0</x>
-      <y>400</y>
+      <x>136</x>
+      <y>320</y>
       <w>144</w>
       <h>80</h>
     </coordinates>
@@ -244,8 +199,8 @@ zphi : std::double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>800</x>
-      <y>624</y>
+      <x>792</x>
+      <y>552</y>
       <w>192</w>
       <h>64</h>
     </coordinates>
@@ -259,12 +214,12 @@ zphi : std::double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1008</x>
-      <y>624</y>
+      <x>1000</x>
+      <y>552</y>
       <w>192</w>
       <h>64</h>
     </coordinates>
-    <panel_attributes>ohmPf::RosMap
+    <panel_attributes>ohmPf::OccMap
 --
 - _map : obviously::tsdGrid &lt;-- ?
 --</panel_attributes>
@@ -273,56 +228,56 @@ zphi : std::double
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>888</x>
-      <y>552</y>
+      <x>880</x>
+      <y>504</y>
       <w>24</w>
-      <h>88</h>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 </panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1088</x>
-      <y>552</y>
+      <x>1080</x>
+      <y>504</y>
       <w>24</w>
-      <h>88</h>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 </panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>480</x>
-      <y>552</y>
+      <x>472</x>
+      <y>504</y>
       <w>24</w>
-      <h>80</h>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 </panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>336</x>
-      <y>552</y>
+      <x>328</x>
+      <y>504</y>
       <w>24</w>
-      <h>80</h>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 </panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>504</x>
-      <y>56</y>
+      <x>568</x>
+      <y>144</y>
       <w>128</w>
       <h>80</h>
     </coordinates>
@@ -337,17 +292,17 @@ sampleMax : std::int
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>584</x>
-      <y>408</y>
-      <w>216</w>
-      <h>72</h>
+      <x>88</x>
+      <y>656</y>
+      <w>472</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>ohmPf::GaussianPdf
 --
-mu : std::double
-sigma : std::double
+
 --
-+ getRandomSample() : std::double</panel_attributes>
++ getRandomSample(mu : std::double, sigma std::double) : std::double)
++ getProbability(x : std::double, mu : std::double, sigma std::double) : std::double)</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
