@@ -6,6 +6,7 @@ project(ohm_pf)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+	nav_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -127,7 +128,16 @@ include_directories(
 # add_dependencies(ohm_pf ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
- add_executable(testPose testing/testPose.cpp)
+add_executable(main_test 
+	testing/main_test.cpp 
+	src/SampleSet.cpp
+)
+
+add_executable(OhmPfNode 
+	testing/main_OhmPfNode.cpp	
+	src/OhmPfNode.cpp 
+	src/SampleSet.cpp
+)
 
 
 ## Add cmake target dependencies of the executable
@@ -135,9 +145,9 @@ include_directories(
 # add_dependencies(ohm_pf_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(ohm_pf_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(OhmPfNode
+ ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
