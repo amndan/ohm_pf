@@ -8,7 +8,7 @@
 #ifndef INCLUDE_PARTICLE_H_
 #define INCLUDE_PARTICLE_H_
 
-#include "../include/Pose.h"
+#include "Pose.h"
 
 namespace ohmPf
 {

@@ -8,7 +8,7 @@
 #ifndef SRC_POSE_H_
 #define SRC_POSE_H_
 
-#include "../Eigen/Dense"
+#include "Eigen/Dense"
 
 namespace ohmPf
 {

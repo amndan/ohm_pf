@@ -6,8 +6,8 @@
  */
 
 #include <iostream>
-#include "../include/Pose.h"
-#include "../include/Particle.h"
+#include "Pose.h"
+#include "Particle.h"
 
 using namespace std;
 
