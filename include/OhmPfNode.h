@@ -10,6 +10,7 @@
 
 #include "ros/ros.h"
 #include "geometry_msgs/PoseArray.h"
+#include "tf/transform_datatypes.h"
 #include "SampleSet.h"
 
 namespace ohmPf
