@@ -5,20 +5,20 @@
  *      Author: amndan
  */
 
-#ifndef INCLUDE_PARTICLE_H_
-#define INCLUDE_PARTICLE_H_
+#ifndef INCLUDE_SAMPLE_H_
+#define INCLUDE_SAMPLE_H_
 
-#include "Pose.h"
+#include "Eigen/Dense"
 
 namespace ohmPf
 {
 
 typedef struct
 {
-  Pose_t pose;
+  Eigen::Vector3d pose;
   double weight;
-} Particle_t;
+} Sample_t;
 
 } /* namespace ohmPf */
 
-#endif /* INCLUDE_PARTICLE_H_ */
+#endif /* INCLUDE_SAMPLE_H_ */

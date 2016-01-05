@@ -6,21 +6,21 @@
  */
 
 #include <iostream>
-#include "Pose.h"
-#include "Particle.h"
+
+#include "../include/Sample.h"
 
 using namespace std;
 
 int main(int argc, char** argv)
 {
-  ohmPf::Particle_t particle;
-  particle.pose.vector(0) = 12;
-  particle.pose.vector(1) = 13;
-  particle.pose.vector(2) = 14;
+  ohmPf::Sample_t particle;
+  particle.pose(0) = 12;
+  particle.pose(1) = 13;
+  particle.pose(2) = 14;
 
-  particle.weight = particle.pose.vector(2) + 2;
+  particle.weight = particle.pose(2) + 2;
 
-  cout << "***" << particle.pose.vector << endl;
+  cout << "***" << particle.pose << endl;
   cout << "***" << particle.weight << endl;
 
   return 0;
