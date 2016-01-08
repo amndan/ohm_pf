@@ -138,6 +138,7 @@ add_executable(OhmPfNode
 	testing/main_OhmPfNode.cpp	
 	src/OhmPfNode.cpp 
 	src/SampleSet.cpp
+	src/GaussianPdf.cpp
 )
 
 

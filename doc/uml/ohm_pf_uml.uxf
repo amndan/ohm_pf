@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="13.3">
-  <zoom_level>7</zoom_level>
+  <zoom_level>9</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>560</x>
-      <y>231</y>
-      <w>133</w>
-      <h>56</h>
+      <x>720</x>
+      <y>180</y>
+      <w>171</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Struct&gt;&gt;
 ohmPf::Sample_t
@@ -19,10 +19,10 @@ weight : std::double</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>539</x>
-      <y>329</y>
-      <w>189</w>
-      <h>77</h>
+      <x>693</x>
+      <y>306</y>
+      <w>243</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>ohmPf::SampleSet
 --
@@ -37,10 +37,10 @@ weight : std::double</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>623</x>
-      <y>280</y>
-      <w>35</w>
-      <h>63</h>
+      <x>801</x>
+      <y>243</y>
+      <w>45</w>
+      <h>81</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 2..n</panel_attributes>
@@ -49,10 +49,10 @@ weight : std::double</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>777</x>
-      <y>350</y>
-      <w>238</w>
-      <h>84</h>
+      <x>999</x>
+      <y>333</y>
+      <w>306</w>
+      <h>108</h>
     </coordinates>
     <panel_attributes>ohmPf::Filter
 --
@@ -69,10 +69,10 @@ weight : std::double</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>973</x>
-      <y>455</y>
-      <w>266</w>
-      <h>112</h>
+      <x>1251</x>
+      <y>468</y>
+      <w>342</w>
+      <h>144</h>
     </coordinates>
     <panel_attributes>&lt;Abstract&gt;
 /ohmPf::Map/
@@ -89,10 +89,10 @@ weight : std::double</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>182</x>
-      <y>210</y>
-      <w>147</w>
-      <h>49</h>
+      <x>234</x>
+      <y>153</y>
+      <w>189</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Struct&gt;&gt;
 ohmPf::Pose_t
@@ -104,10 +104,10 @@ pose : Eigen::Vector
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1071</x>
-      <y>126</y>
-      <w>350</w>
-      <h>280</h>
+      <x>1377</x>
+      <y>45</y>
+      <w>450</w>
+      <h>360</h>
     </coordinates>
     <panel_attributes>TODO
 --</panel_attributes>
@@ -116,10 +116,10 @@ pose : Eigen::Vector
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>490</x>
-      <y>497</y>
-      <w>245</w>
-      <h>70</h>
+      <x>630</x>
+      <y>522</y>
+      <w>315</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Abstract&gt;&gt;
 /ohmPf::Sensor/
@@ -133,10 +133,10 @@ pose : Eigen::Vector
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>609</x>
-      <y>602</y>
-      <w>280</w>
-      <h>63</h>
+      <x>783</x>
+      <y>657</y>
+      <w>360</w>
+      <h>81</h>
     </coordinates>
     <panel_attributes>ohmPf::OdometryDiff
 --
@@ -149,10 +149,10 @@ pose : Eigen::Vector
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>910</x>
-      <y>252</y>
-      <w>112</w>
-      <h>70</h>
+      <x>1170</x>
+      <y>207</y>
+      <w>144</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Struct&gt;&gt;
 ohmPf::odomParams
@@ -165,10 +165,10 @@ a2 : std::double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>315</x>
-      <y>602</y>
-      <w>280</w>
-      <h>63</h>
+      <x>405</x>
+      <y>657</y>
+      <w>360</w>
+      <h>81</h>
     </coordinates>
     <panel_attributes>ohmPf::Laser2d
 --
@@ -181,10 +181,10 @@ a2 : std::double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>329</x>
-      <y>497</y>
-      <w>126</w>
-      <h>70</h>
+      <x>432</x>
+      <y>522</y>
+      <w>162</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Struct&gt;&gt;
 ohmPf::Laser2dParams
@@ -197,10 +197,10 @@ zphi : std::double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>931</x>
-      <y>602</y>
-      <w>168</w>
-      <h>56</h>
+      <x>1197</x>
+      <y>657</y>
+      <w>216</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>ohmPf::TsdMap
 --
@@ -212,10 +212,10 @@ zphi : std::double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1113</x>
-      <y>602</y>
-      <w>168</w>
-      <h>56</h>
+      <x>1431</x>
+      <y>657</y>
+      <w>216</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>ohmPf::OccMap
 --
@@ -226,10 +226,10 @@ zphi : std::double
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1008</x>
-      <y>560</y>
-      <w>21</w>
-      <h>56</h>
+      <x>1296</x>
+      <y>603</y>
+      <w>27</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 </panel_attributes>
@@ -238,10 +238,10 @@ zphi : std::double
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1183</x>
-      <y>560</y>
-      <w>21</w>
-      <h>56</h>
+      <x>1521</x>
+      <y>603</y>
+      <w>27</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 </panel_attributes>
@@ -250,10 +250,10 @@ zphi : std::double
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>651</x>
-      <y>560</y>
-      <w>21</w>
-      <h>56</h>
+      <x>837</x>
+      <y>603</y>
+      <w>27</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 </panel_attributes>
@@ -262,10 +262,10 @@ zphi : std::double
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>525</x>
-      <y>560</y>
-      <w>21</w>
-      <h>56</h>
+      <x>675</x>
+      <y>603</y>
+      <w>27</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 </panel_attributes>
@@ -274,10 +274,10 @@ zphi : std::double
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>777</x>
-      <y>252</y>
-      <w>112</w>
-      <h>70</h>
+      <x>999</x>
+      <y>207</y>
+      <w>144</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Struct&gt;&gt;
 ohmPf::PfParams
@@ -290,10 +290,10 @@ sampleMax : std::int
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>315</x>
-      <y>693</y>
-      <w>413</w>
-      <h>70</h>
+      <x>1053</x>
+      <y>774</y>
+      <w>531</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>ohmPf::GaussianPdf
 --
@@ -307,9 +307,9 @@ sampleMax : std::int
     <id>UMLClass</id>
     <coordinates>
       <x>0</x>
-      <y>91</y>
-      <w>350</w>
-      <h>280</h>
+      <y>0</y>
+      <w>450</w>
+      <h>360</h>
     </coordinates>
     <panel_attributes>Ablage
 --</panel_attributes>
@@ -318,10 +318,10 @@ sampleMax : std::int
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>7</x>
-      <y>119</y>
-      <w>147</w>
-      <h>98</h>
+      <x>9</x>
+      <y>36</y>
+      <w>189</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>ohmPf::Pose_t
 --
@@ -337,15 +337,59 @@ sampleMax : std::int
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>182</x>
-      <y>133</y>
-      <w>126</w>
-      <h>49</h>
+      <x>234</x>
+      <y>54</y>
+      <w>162</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>ohmPf::Sample_t
 --
 - _pose : omhPf::Pose_t
 - _weight : std::double</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>594</x>
+      <y>747</y>
+      <w>360</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>ohmPf::CeilCam
+--
+- _params : ohmPf::CeilCamParams
+--
++ setParams(params : ohmPf::CeilCamParams) : bool
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>765</x>
+      <y>603</y>
+      <w>27</w>
+      <h>162</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>243</x>
+      <y>522</y>
+      <w>162</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Struct&gt;&gt;
+ohmPf::CeilCamParams
+--
+foo : std::double
+bar : std::double
+...</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
