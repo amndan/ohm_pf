@@ -22,9 +22,9 @@ SampleSet::~SampleSet()
   // TODO Auto-generated destructor stub
 }
 
-std::vector<Sample_t> SampleSet::getSamples() const
+std::vector<Sample_t>* SampleSet::getSamples()
 {
-  return _samples;
+  return &_samples;
 }
 
 void SampleSet::setSamples(std::vector<Sample_t> samples)

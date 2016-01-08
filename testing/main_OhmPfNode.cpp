@@ -5,28 +5,30 @@
 
 int main(int argc, char** argv)
 {
+
   ros::init(argc, argv, "ohmPf");
 
   ohmPf::OhmPfNode* ohmPfNode = new ohmPf::OhmPfNode();
 
-  ohmPf::Sample_t newSample;
-  newSample.pose(0) = 2;
-  newSample.pose(1) = 3;
-  newSample.pose(2) = 1;
-  newSample.weight = 1;
+  Eigen::Vector3d mu;
+  mu(0) = 2;
+  mu(1) = 3;
+  mu(2) = 1;
 
-  ohmPf::GaussianPdf* sampler = new ohmPf::GaussianPdf();
 
   while(1)
   {
     // generate cloud
+
     std::vector<ohmPf::Sample_t> samples;
     for(unsigned int i = 0; i < 500; i++)
     {
-      samples.push_back(sampler->getRandomSample(newSample, 0.5, 0.1));
+      samples.push_back(ohmPf::GaussianPdf::getRandomSample(mu, 0.5, 0.1));
     }
 
-    ohmPfNode->printSampleSet(samples);
+    ohmPf::SampleSet* sampleSet = new ohmPf::SampleSet(samples);
+
+    ohmPfNode->printSampleSet(sampleSet);
     ohmPfNode->spinOnce();
   }
 }

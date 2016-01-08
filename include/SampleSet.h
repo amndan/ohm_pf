@@ -21,7 +21,7 @@ public:
   SampleSet(std::vector<Sample_t> samples);
   virtual ~SampleSet();
 
-  std::vector<Sample_t> getSamples() const;
+  std::vector<Sample_t>* getSamples();
   void setSamples(std::vector<Sample_t> samples);
 
   int getCountSamples() const;

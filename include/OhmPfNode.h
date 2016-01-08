@@ -24,7 +24,7 @@ public:
   virtual ~OhmPfNode();
   void spin();
   void spinOnce();
-  void printSampleSet(std::vector<Sample_t> samples);
+  void printSampleSet(SampleSet* sampleSet);
 private:
   ros::Publisher _pubSampleSet;
   ros::NodeHandle _nh;

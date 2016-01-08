@@ -45,7 +45,7 @@ int main(int argc, char** argv)
   sampleSet->normalize();
   cout << "is normalized: " << sampleSet->isNormalized() << endl;
 
-  samples = sampleSet->getSamples();
+  samples = *(sampleSet->getSamples());
 
   delete sampleSet;
 

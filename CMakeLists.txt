@@ -139,6 +139,8 @@ add_executable(OhmPfNode
 	src/OhmPfNode.cpp 
 	src/SampleSet.cpp
 	src/GaussianPdf.cpp
+	src/Filter.cpp
+	src/OdomDiff.cpp
 )
 
 

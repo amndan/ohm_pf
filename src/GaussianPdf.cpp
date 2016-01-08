@@ -22,13 +22,14 @@ namespace ohmPf
     // TODO Auto-generated destructor stub
   }
 
-  Sample_t GaussianPdf::getRandomSample(Sample_t mu, double sigmaT, double sigmaPhi)
+  Sample_t GaussianPdf::getRandomSample(Eigen::Vector3d mu, double sigmaT, double sigmaPhi)
   {
     Sample_t sample;
 
-    sample.pose(0) = getRandomValue((double)mu.pose(0), sigmaT);
-    sample.pose(1) = getRandomValue((double)mu.pose(1), sigmaT);
-    sample.pose(2) = getRandomValue((double)mu.pose(2), sigmaPhi);
+    sample.pose(0) = getRandomValue((double)mu(0), sigmaT);
+    sample.pose(1) = getRandomValue((double)mu(1), sigmaT);
+    sample.pose(2) = getRandomValue((double)mu(2), sigmaPhi);
+    sample.weight = 1.0;
 
     return sample;
   }

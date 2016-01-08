@@ -10,6 +10,7 @@
 
 #include <ctime>
 #include <assert.h>
+#include "Eigen/Dense"
 #include "Sample.h"
 
 namespace ohmPf
@@ -21,7 +22,7 @@ namespace ohmPf
     GaussianPdf();
     virtual ~GaussianPdf();
 
-    Sample_t static getRandomSample(Sample_t mu, double sigmaT, double sigmaPhi);
+    Sample_t static getRandomSample(Eigen::Vector3d mu, double sigmaT, double sigmaPhi);
     double static getRandomValue(double mu, double sigma);
     void static initializeSeed();
 

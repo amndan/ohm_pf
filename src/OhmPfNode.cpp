@@ -39,7 +39,10 @@ void OhmPfNode::spinOnce()
   }
 }
 
-void OhmPfNode::printSampleSet(std::vector<Sample_t> samples){
+void OhmPfNode::printSampleSet(SampleSet* sampleSet){
+  std::vector<Sample_t> samples;
+  samples = *(sampleSet->getSamples());
+
   geometry_msgs::PoseArray poseArray;
   geometry_msgs::Pose pose;
 
