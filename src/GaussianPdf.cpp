@@ -36,12 +36,12 @@ namespace ohmPf
 
   double GaussianPdf::getRandomValue(double mu, double sigma)
   {
-    assert(sigma > 0);
+    assert(sigma >= 0);
 
     if(!_initialized)
       initializeSeed();
 
-    double tmp;
+    double tmp = 0;
 
     for(unsigned int i = 0; i < 12; i++)
     {

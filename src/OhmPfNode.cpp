@@ -11,7 +11,7 @@ namespace ohmPf
 {
 
 OhmPfNode::OhmPfNode() :
-    _nh(), _prvNh("~"), loopRate(5)
+    _nh(), _prvNh("~"), loopRate(25)
 {
   _pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>("particleCloud", 1, true);
 }

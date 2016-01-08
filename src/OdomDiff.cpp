@@ -6,9 +6,6 @@
  */
 
 #include "OdomDiff.h"
-#include "Eigen/Dense"
-#include <cmath>
-#include <iostream>
 
 namespace ohmPf
 {
@@ -31,9 +28,9 @@ namespace ohmPf
     double sRot2;
 
     sRot1 = _dRot1 - GaussianPdf::getRandomValue(0.0, _paramSet.a1 * pow(_dRot1,2) + _paramSet.a2 * pow(_dTrans,2));
-    sTrans = _dTrans - GaussianPdf::getRandomValue(0, _paramSet.a3 * pow(_dTrans,2) + //...
+    sTrans = _dTrans - GaussianPdf::getRandomValue(0.0, _paramSet.a3 * pow(_dTrans,2) + //...
         _paramSet.a4 * pow(_dRot1,2) + _paramSet.a4 * pow(_dRot2,2));
-    sRot2 = _dRot2 - GaussianPdf::getRandomValue(0, _paramSet.a1 * pow(_dRot2,2) + _paramSet.a2 * pow(_dTrans,2));
+    sRot2 = _dRot2 - GaussianPdf::getRandomValue(0.0, _paramSet.a1 * pow(_dRot2,2) + _paramSet.a2 * pow(_dTrans,2));
 
     (*pose)(0) += sTrans * std::cos((*pose)(2) + sRot1);
     (*pose)(1) += sTrans * std::sin((*pose)(2) + sRot1);
@@ -46,6 +43,8 @@ namespace ohmPf
 
   void OdomDiff::updateFilter(Filter* filter)
   {
+    assert(_initialized);
+
     std::vector<Sample_t>* samples = filter->getSampleSet()->getSamples();
 
     for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
@@ -64,8 +63,10 @@ namespace ohmPf
 
   void OdomDiff::calcParameters()
     {
+
       _dRot1 = std::atan2(_odom1(1) - _odom0(1),_odom1(0) - _odom0(0));
       _dTrans = std::sqrt(pow(_odom1(0) - _odom0(0), 2) + pow(_odom1(1) - _odom0(1), 2));
       _dRot2 = _odom1(2) - _odom0(2) - _dRot1;
+
     }
 } /* namespace ohmPf */

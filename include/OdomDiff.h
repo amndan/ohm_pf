@@ -10,6 +10,11 @@
 
 #include "OdomDiffParams.h"
 #include "Filter.h"
+#include "Eigen/Dense"
+#include "GaussianPdf.h"
+#include <cmath>
+#include <iostream>
+
 
 namespace ohmPf
 {
@@ -20,9 +25,9 @@ namespace ohmPf
     OdomDiff(OdomDiffParams_t paramSet);
     virtual ~OdomDiff();
     void updateFilter(Filter* filter);
-    void updatePose(Eigen::Vector3d* pose);
     void setMeasurement(Eigen::Vector3d odom0, Eigen::Vector3d odom1);
   private:
+    void updatePose(Eigen::Vector3d* pose);
     void calcParameters();
     OdomDiffParams_t _paramSet;
     Eigen::Vector3d _odom0;

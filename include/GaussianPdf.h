@@ -12,6 +12,7 @@
 #include <assert.h>
 #include "Eigen/Dense"
 #include "Sample.h"
+#include <iostream>
 
 namespace ohmPf
 {

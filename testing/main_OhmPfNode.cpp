@@ -2,6 +2,10 @@
 #include "OhmPfNode.h"
 #include "SampleSet.h"
 #include "GaussianPdf.h"
+#include "Filter.h"
+#include "Eigen/Dense"
+#include "OdomDiffParams.h"
+#include "OdomDiff.h"
 
 int main(int argc, char** argv)
 {
@@ -10,25 +14,43 @@ int main(int argc, char** argv)
 
   ohmPf::OhmPfNode* ohmPfNode = new ohmPf::OhmPfNode();
 
-  Eigen::Vector3d mu;
-  mu(0) = 2;
-  mu(1) = 3;
-  mu(2) = 1;
+  ohmPf::FilterParams_t filterParams;
+  filterParams.samplesMax = 500;
+  filterParams.samplesMin = 5;
+  ohmPf::Filter* filter = new ohmPf::Filter(filterParams);
 
+  Eigen::Vector3d initPose;
+  initPose(0) = 1;
+  initPose(1) = 2;
+  initPose(2) = 0;
+
+  filter->initWithPose(initPose);
+  ohmPfNode->printSampleSet(filter->getSampleSet());
+
+  ohmPf::OdomDiffParams_t odomParams;
+  odomParams.a1 = 0;
+  odomParams.a2 = 0;
+  odomParams.a3 = 0;
+  odomParams.a4 = 0;
+
+  ohmPf::OdomDiff* odom = new ohmPf::OdomDiff(odomParams);
+
+  Eigen::Vector3d odom0;
+  odom0(0) = 0;
+  odom0(1) = 0;
+  odom0(2) = 0;
+  Eigen::Vector3d odom1;
+  odom1(0) = 0.5;
+  odom1(1) = 0.3;
+  odom1(2) = 0.1;
+
+  odom->setMeasurement(odom0, odom1);
 
   while(1)
   {
     // generate cloud
-
-    std::vector<ohmPf::Sample_t> samples;
-    for(unsigned int i = 0; i < 500; i++)
-    {
-      samples.push_back(ohmPf::GaussianPdf::getRandomSample(mu, 0.5, 0.1));
-    }
-
-    ohmPf::SampleSet* sampleSet = new ohmPf::SampleSet(samples);
-
-    ohmPfNode->printSampleSet(sampleSet);
+    odom->updateFilter(filter);
+    ohmPfNode->printSampleSet(filter->getSampleSet());
     ohmPfNode->spinOnce();
   }
 }
