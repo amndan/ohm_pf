@@ -8,15 +8,13 @@
 #ifndef INCLUDE_FilterParams_H_
 #define INCLUDE_FilterParams_H_
 
-#include "Eigen/Dense"
-
 namespace ohmPf
 {
 
 typedef struct
 {
-  double samplesMin;
-  double samplesMax;
+  unsigned int samplesMin;
+  unsigned int samplesMax;
 } FilterParams_t;
 
 } /* namespace ohmPf */

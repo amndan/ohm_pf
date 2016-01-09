@@ -13,12 +13,22 @@ namespace ohmPf
 OhmPfNode::OhmPfNode() :
     _nh(), _prvNh("~"), loopRate(25)
 {
+  _prvNh.param<std::string>("topFixedFrame", _paramSet.topFixedFrame, "map");
+  _prvNh.param<std::string>("topOdometry", _paramSet.topOdometry, "/robot0/odom");
+
   _pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>("particleCloud", 1, true);
+  _subOdometry = _nh.subscribe(_paramSet.topOdometry, 1, &OhmPfNode::calOdom, this);
+
+  _odomInitialized = false;
+
+  spawnOdom();
+  spawnFilter();
 }
 
 OhmPfNode::~OhmPfNode()
 {
-  // TODO Auto-generated destructor stub
+  delete _odomDiff;
+  delete _filter;
 }
 
 void OhmPfNode::spin()
@@ -47,7 +57,7 @@ void OhmPfNode::printSampleSet(SampleSet* sampleSet){
   geometry_msgs::Pose pose;
 
   //todo: use frame id from parameter
-  poseArray.header.frame_id = "map";
+  poseArray.header.frame_id = _paramSet.topFixedFrame;
 
   for(unsigned int i = 0; i < samples.size(); i++)
   {
@@ -64,6 +74,51 @@ void OhmPfNode::printSampleSet(SampleSet* sampleSet){
     poseArray.poses.push_back(pose);
   }
   _pubSampleSet.publish(poseArray);
+}
+
+void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
+{
+  Eigen::Vector3d measurement;
+  measurement(0) = msg->pose.pose.position.x;
+  measurement(1) = msg->pose.pose.position.y;
+  measurement(2) = tf::getYaw(msg->pose.pose.orientation);
+
+  if(!_odomInitialized)
+  {
+    ROS_INFO_STREAM("Received first odom message - initializing odom...");
+    _odomDiff->addSingleMeasurement(measurement);
+    _odomInitialized = true;
+    ROS_INFO_STREAM("odom initialized - wait for second odom measurement before first filter update");
+
+    //todo remove init from here
+    _filter->initWithPose(measurement);
+    printSampleSet(_filter->getSampleSet());
+
+    return;
+  }
+
+  _odomDiff->addSingleMeasurement(measurement);
+  _odomDiff->updateFilter(_filter);
+  printSampleSet(_filter->getSampleSet());
+}
+
+void OhmPfNode::spawnOdom()
+{
+  //todo: get odom Params from Launchfile
+  _odomDiffParams.a1 = 0;
+  _odomDiffParams.a2 = 0;
+  _odomDiffParams.a3 = 0;
+  _odomDiffParams.a4 = 0;
+
+  _odomDiff = new ohmPf::OdomDiff(_odomDiffParams);
+}
+
+void OhmPfNode::spawnFilter()
+{
+  _filterParams.samplesMax = 500;
+  _filterParams.samplesMin = 20;
+
+  _filter = new ohmPf::Filter(_filterParams);
 }
 
 } /* namespace ohmPf */

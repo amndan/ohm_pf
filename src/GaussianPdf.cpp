@@ -26,9 +26,9 @@ namespace ohmPf
   {
     Sample_t sample;
 
-    sample.pose(0) = getRandomValue((double)mu(0), sigmaT);
-    sample.pose(1) = getRandomValue((double)mu(1), sigmaT);
-    sample.pose(2) = getRandomValue((double)mu(2), sigmaPhi);
+    sample.pose(0) = getRandomValue(mu(0), sigmaT);
+    sample.pose(1) = getRandomValue(mu(1), sigmaT);
+    sample.pose(2) = getRandomValue(mu(2), sigmaPhi);
     sample.weight = 1.0;
 
     return sample;
@@ -41,7 +41,7 @@ namespace ohmPf
     if(!_initialized)
       initializeSeed();
 
-    double tmp = 0;
+    double tmp = 0.0;
 
     for(unsigned int i = 0; i < 12; i++)
     {

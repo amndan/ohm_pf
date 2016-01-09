@@ -8,8 +8,6 @@
 #ifndef INCLUDE_OdomDiffParams_t_H_
 #define INCLUDE_OdomDiffParams_t_H_
 
-#include "Eigen/Dense"
-
 namespace ohmPf
 {
 

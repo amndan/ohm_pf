@@ -14,6 +14,7 @@
 #include "GaussianPdf.h"
 #include <cmath>
 #include <iostream>
+#include <HelperFunctions.h>
 
 
 namespace ohmPf
@@ -26,8 +27,9 @@ namespace ohmPf
     virtual ~OdomDiff();
     void updateFilter(Filter* filter);
     void setMeasurement(Eigen::Vector3d odom0, Eigen::Vector3d odom1);
+    void addSingleMeasurement(Eigen::Vector3d odom);
   private:
-    void updatePose(Eigen::Vector3d* pose);
+    void updatePose(Eigen::Vector3d& pose);
     void calcParameters();
     OdomDiffParams_t _paramSet;
     Eigen::Vector3d _odom0;
@@ -36,6 +38,7 @@ namespace ohmPf
     double _dTrans;
     double _dRot2;
     bool _initialized;
+    bool _receivedFirstMeasurement;
   };
 
 } /* namespace ohmPf */

@@ -7,6 +7,7 @@ project(ohm_pf)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
 	nav_msgs
+	geometry_msgs
 	tf
 )
 

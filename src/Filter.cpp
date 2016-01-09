@@ -28,7 +28,7 @@ namespace ohmPf
     return _sampleSet;
   }
 
-  void Filter::initWithPose(Eigen::Vector3d pose)
+  void Filter::initWithPose(const Eigen::Vector3d& pose)
   {
     // generate cloud
     std::vector<Sample_t> samples;
