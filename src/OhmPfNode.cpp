@@ -15,9 +15,11 @@ OhmPfNode::OhmPfNode() :
 {
   _prvNh.param<std::string>("topFixedFrame", _paramSet.topFixedFrame, "map");
   _prvNh.param<std::string>("topOdometry", _paramSet.topOdometry, "/robot0/odom");
+  _prvNh.param<std::string>("top2dPoseEst", _paramSet.top2dPoseEst, "initialpose");
 
   _pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>("particleCloud", 1, true);
   _subOdometry = _nh.subscribe(_paramSet.topOdometry, 1, &OhmPfNode::calOdom, this);
+  _sub2dPoseEst = _nh.subscribe(_paramSet.top2dPoseEst, 1, &OhmPfNode::cal2dPoseEst, this);
 
   _odomInitialized = false;
 
@@ -88,7 +90,7 @@ void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
     ROS_INFO_STREAM("Received first odom message - initializing odom...");
     _odomDiff->addSingleMeasurement(measurement);
     _odomInitialized = true;
-    ROS_INFO_STREAM("odom initialized - wait for second odom measurement before first filter update");
+    ROS_INFO_STREAM("odom initialized");
 
     //todo remove init from here
     _filter->initWithPose(measurement);
@@ -99,6 +101,17 @@ void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
 
   _odomDiff->addSingleMeasurement(measurement);
   _odomDiff->updateFilter(_filter);
+  printSampleSet(_filter->getSampleSet());
+}
+
+void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg)
+{
+  Eigen::Vector3d measurement;
+  measurement(0) = msg->pose.pose.position.x;
+  measurement(1) = msg->pose.pose.position.y;
+  measurement(2) = tf::getYaw(msg->pose.pose.orientation);
+
+  _filter->initWithPose(measurement);
   printSampleSet(_filter->getSampleSet());
 }
 

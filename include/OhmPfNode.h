@@ -11,6 +11,7 @@
 #include "ros/ros.h"
 #include "geometry_msgs/PoseArray.h"
 #include "nav_msgs/Odometry.h"
+#include "geometry_msgs/PoseWithCovarianceStamped.h"
 #include "tf/transform_datatypes.h"
 #include "SampleSet.h"
 #include "OhmPfNodeParams.h"
@@ -33,10 +34,12 @@ public:
   void printSampleSet(SampleSet* sampleSet);
 private:
   void calOdom(const nav_msgs::OdometryConstPtr& msg);
+  void cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg);
   void spawnOdom();
   void spawnFilter();
   ros::Publisher _pubSampleSet;
   ros::Subscriber _subOdometry;
+  ros::Subscriber _sub2dPoseEst;
   ros::NodeHandle _nh;
   ros::NodeHandle _prvNh;
   ros::Rate loopRate;

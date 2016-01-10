@@ -14,7 +14,8 @@
 #include "GaussianPdf.h"
 #include <cmath>
 #include <iostream>
-#include <HelperFunctions.h>
+
+#include "UtilitiesOhmPf.h"
 
 
 namespace ohmPf

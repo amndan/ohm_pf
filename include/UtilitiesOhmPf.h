@@ -1,12 +1,12 @@
 /*
- * HelperFunctions.h
+ * UtilitiesOhmPf.h
  *
  *  Created on: Jan 9, 2016
  *      Author: amndan
  */
 
-#ifndef INCLUDE_HELPERFUNCTIONS_H_
-#define INCLUDE_HELPERFUNCTIONS_H_
+#ifndef INCLUDE_UTILITIESOHMPF_H_
+#define INCLUDE_UTILITIESOHMPF_H_
 
 #include <cmath>
 
@@ -25,4 +25,4 @@ static void correctAngleOverflow(double& angle)
 
 }  // ohmPf
 
-#endif /* INCLUDE_HELPERFUNCTIONS_H_ */
+#endif /* INCLUDE_UTILITIESOHMPF_H_ */
