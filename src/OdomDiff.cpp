@@ -88,14 +88,5 @@ namespace ohmPf
       _dRot1 = std::atan2(_odom1(1) - _odom0(1),_odom1(0) - _odom0(0)) - _odom0(2);
       _dTrans = std::sqrt(pow(_odom1(0) - _odom0(0), 2) + pow(_odom1(1) - _odom0(1), 2));
       _dRot2 = _odom1(2) - _odom0(2) - _dRot1;
-
-      std::cout << _odom1(0) << std::endl;
-      std::cout << _odom1(1) << std::endl;
-      std::cout << _odom1(2) << std::endl;
-      std::cout << "---odom1" << std::endl;
-      std::cout << _odom0(0) << std::endl;
-      std::cout << _odom0(1) << std::endl;
-      std::cout << _odom0(2) << std::endl;
-      std::cout << "---odom0" << std::endl;
     }
 } /* namespace ohmPf */

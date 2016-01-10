@@ -49,6 +49,8 @@ private:
   ohmPf::Filter* _filter;
   ohmPf::FilterParams_t _filterParams;
   bool _odomInitialized;
+
+  int odomCounter;
 };
 
 } /* namespace ohmPf */

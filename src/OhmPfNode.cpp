@@ -25,6 +25,7 @@ OhmPfNode::OhmPfNode() :
 
   spawnOdom();
   spawnFilter();
+
 }
 
 OhmPfNode::~OhmPfNode()
@@ -80,6 +81,37 @@ void OhmPfNode::printSampleSet(SampleSet* sampleSet){
 
 void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
 {
+  //#######################
+
+  odomCounter++;
+  if (odomCounter > 100)
+  {
+    odomCounter = 0;
+    double dist;
+
+    std::vector<Sample_t>* samples = _filter->getSampleSet()->getSamples();
+
+    for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
+    {
+      dist = std::sqrt( std::pow(it->pose(0) - msg->pose.pose.position.x,2) + //...
+          std::pow(it->pose(1) - msg->pose.pose.position.y,2)) +
+          std::pow(it->pose(2) - tf::getYaw(msg->pose.pose.orientation),2);
+
+      it->weight = it->weight * 1/dist;
+
+    }
+
+    _filter->getSampleSet()->normalize();
+    _filter->getSampleSet()->resample();
+    printSampleSet(_filter->getSampleSet());
+
+    ROS_INFO_STREAM("resampled!");
+
+  }
+
+  //#######################
+
+
   Eigen::Vector3d measurement;
   measurement(0) = msg->pose.pose.position.x;
   measurement(1) = msg->pose.pose.position.y;
@@ -118,9 +150,9 @@ void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConst
 void OhmPfNode::spawnOdom()
 {
   //todo: get odom Params from Launchfile
-  _odomDiffParams.a1 = 0;
+  _odomDiffParams.a1 = 0.001;
   _odomDiffParams.a2 = 0;
-  _odomDiffParams.a3 = 0;
+  _odomDiffParams.a3 = 0.01;
   _odomDiffParams.a4 = 0;
 
   _odomDiff = new ohmPf::OdomDiff(_odomDiffParams);

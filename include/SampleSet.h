@@ -11,6 +11,8 @@
 #include "Sample.h"
 #include <vector>
 #include <iostream>
+#include <numeric>
+#include <ctime>
 
 namespace ohmPf
 {
@@ -25,9 +27,9 @@ public:
   void setSamples(std::vector<Sample_t> samples);
 
   int getCountSamples() const;
-
   void normalize();
   bool isNormalized() const;
+  void resample();
 
 private:
   std::vector<Sample_t> _samples;
