@@ -25,6 +25,7 @@ namespace ohmPf
 
     Sample_t static getRandomSample(Eigen::Vector3d mu, double sigmaT, double sigmaPhi);
     double static getRandomValue(double mu, double sigma);
+    double static getProbability(double mu, double sigma, double x);
     void static initializeSeed();
 
   private:

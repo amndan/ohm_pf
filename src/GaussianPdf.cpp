@@ -34,6 +34,12 @@ namespace ohmPf
     return sample;
   }
 
+  double GaussianPdf::getProbability(double mu, double sigma, double x)
+  {
+    //todo: precalculate density with normalized gaussian
+    return (1) / (sqrt(2 * M_PI * pow(sigma, 2))) * pow(M_E, ((-0.5 * pow((x - mu), 2)) / (pow(sigma, 2))));
+  }
+
   double GaussianPdf::getRandomValue(double mu, double sigma)
   {
     assert(sigma >= 0);

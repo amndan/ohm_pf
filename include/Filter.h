@@ -25,6 +25,7 @@ namespace ohmPf
     virtual ~Filter();
     SampleSet* getSampleSet();
     void initWithPose(const Eigen::Vector3d& pose);
+    void initWithMap(); // todo: init filter with map
 
   private:
     SampleSet* _sampleSet;

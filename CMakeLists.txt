@@ -142,6 +142,7 @@ add_executable(OhmPfNode
 	src/GaussianPdf.cpp
 	src/Filter.cpp
 	src/OdomDiff.cpp
+	src/CeilCam.cpp
 )
 
 

@@ -16,15 +16,18 @@ OhmPfNode::OhmPfNode() :
   _prvNh.param<std::string>("topFixedFrame", _paramSet.topFixedFrame, "map");
   _prvNh.param<std::string>("topOdometry", _paramSet.topOdometry, "/robot0/odom");
   _prvNh.param<std::string>("top2dPoseEst", _paramSet.top2dPoseEst, "initialpose");
+  _prvNh.param<std::string>("topCeilCam", _paramSet.topCeilCam, "position_topic");
 
   _pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>("particleCloud", 1, true);
   _subOdometry = _nh.subscribe(_paramSet.topOdometry, 1, &OhmPfNode::calOdom, this);
   _sub2dPoseEst = _nh.subscribe(_paramSet.top2dPoseEst, 1, &OhmPfNode::cal2dPoseEst, this);
+  _subCeilCam = _nh.subscribe(_paramSet.topCeilCam, 1, &OhmPfNode::calCeilCam, this);
 
   _odomInitialized = false;
 
   spawnOdom();
   spawnFilter();
+  _ceilCam = new CeilCam();
 
 }
 
@@ -83,31 +86,30 @@ void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
 {
   //#######################
 
-  odomCounter++;
-  if (odomCounter > 100)
-  {
-    odomCounter = 0;
-    double dist;
-
-    std::vector<Sample_t>* samples = _filter->getSampleSet()->getSamples();
-
-    for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
-    {
-      dist = std::sqrt( std::pow(it->pose(0) - msg->pose.pose.position.x,2) + //...
-          std::pow(it->pose(1) - msg->pose.pose.position.y,2)) +
-          std::pow(it->pose(2) - tf::getYaw(msg->pose.pose.orientation),2);
-
-      it->weight = it->weight * 1/dist;
-
-    }
-
-    _filter->getSampleSet()->normalize();
-    _filter->getSampleSet()->resample();
-    printSampleSet(_filter->getSampleSet());
-
-    ROS_INFO_STREAM("resampled!");
-
-  }
+//  odomCounter++;
+//  if (odomCounter > 10)
+//  {
+//    odomCounter = 0;
+//    double dist;
+//
+//    std::vector<Sample_t>* samples = _filter->getSampleSet()->getSamples();
+//
+//    for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
+//    {
+//      dist = std::sqrt( std::pow(it->pose(0) - msg->pose.pose.position.x,2) + //...
+//          std::pow(it->pose(1) - msg->pose.pose.position.y,2)) +
+//          std::pow(it->pose(2) - tf::getYaw(msg->pose.pose.orientation),2);
+//
+//      it->weight = it->weight * GaussianPdf::getProbability(0.0, 2, dist);
+//    }
+//
+//    _filter->getSampleSet()->normalize();
+//    _filter->getSampleSet()->resample();
+//    printSampleSet(_filter->getSampleSet());
+//
+//    ROS_INFO_STREAM("resampled with odom!");
+//
+//  }
 
   //#######################
 
@@ -143,27 +145,50 @@ void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConst
   measurement(1) = msg->pose.pose.position.y;
   measurement(2) = tf::getYaw(msg->pose.pose.orientation);
 
-  _filter->initWithPose(measurement);
+  //_filter->initWithPose(measurement);
+  _filter->initWithMap();
   printSampleSet(_filter->getSampleSet());
 }
 
 void OhmPfNode::spawnOdom()
 {
   //todo: get odom Params from Launchfile
-  _odomDiffParams.a1 = 0.001;
-  _odomDiffParams.a2 = 0;
-  _odomDiffParams.a3 = 0.01;
-  _odomDiffParams.a4 = 0;
+  _odomDiffParams.a1 = 0.005;
+  _odomDiffParams.a2 = 0.0;
+  _odomDiffParams.a3 = 15.0;
+  _odomDiffParams.a4 = 0.0;
 
   _odomDiff = new ohmPf::OdomDiff(_odomDiffParams);
 }
 
 void OhmPfNode::spawnFilter()
 {
-  _filterParams.samplesMax = 500;
+  _filterParams.samplesMax = 1000;
   _filterParams.samplesMin = 20;
 
   _filter = new ohmPf::Filter(_filterParams);
+}
+
+void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
+{
+  std::vector<Eigen::Vector3d> measurement;
+
+  std::vector<geometry_msgs::Pose> vec = msg->poses;
+
+  for(std::vector<geometry_msgs::Pose>::iterator it = vec.begin(); it != vec.end(); ++it)
+  {
+    Eigen::Vector3d pose;
+    pose(0) = it->position.x;
+    pose(1) = it->position.y;
+    pose(0) = tf::getYaw(it->orientation);
+    measurement.push_back(pose);
+  }
+
+  _ceilCam->setMeasurement(measurement);
+  _ceilCam->updateFilter(_filter);
+  _filter->getSampleSet()->normalize();
+  _filter->getSampleSet()->resample();
+
 }
 
 } /* namespace ohmPf */

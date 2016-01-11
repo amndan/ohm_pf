@@ -16,6 +16,7 @@
 #include "SampleSet.h"
 #include "OhmPfNodeParams.h"
 #include "OdomDiffParams.h"
+#include "CeilCam.h"
 #include "FilterParams.h"
 #include "OdomDiff.h"
 #include "Filter.h"
@@ -35,10 +36,12 @@ public:
 private:
   void calOdom(const nav_msgs::OdometryConstPtr& msg);
   void cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg);
+  void calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg);
   void spawnOdom();
   void spawnFilter();
   ros::Publisher _pubSampleSet;
   ros::Subscriber _subOdometry;
+  ros::Subscriber _subCeilCam;
   ros::Subscriber _sub2dPoseEst;
   ros::NodeHandle _nh;
   ros::NodeHandle _prvNh;
@@ -46,8 +49,10 @@ private:
   OhmPfNodeParams_t _paramSet;
   ohmPf::OdomDiffParams_t _odomDiffParams;
   ohmPf::OdomDiff* _odomDiff;
+  ohmPf::CeilCam* _ceilCam;
   ohmPf::Filter* _filter;
   ohmPf::FilterParams_t _filterParams;
+
   bool _odomInitialized;
 
   int odomCounter;

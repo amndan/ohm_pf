@@ -54,11 +54,15 @@ void SampleSet::normalize()
   if (!_normalized)
   {
     double sumWeight = 0.0;
-    for(unsigned int i = 0; i < _samples.size(); i++){
+    for(unsigned int i = 0; i < _samples.size(); i++)
+    {
       sumWeight += _samples[i].weight;
     }
 
-    for(unsigned int i = 0; i < _samples.size(); i++){
+    assert(sumWeight != 0); // todo: debug why sumweight can be 0
+
+    for(unsigned int i = 0; i < _samples.size(); i++)
+    {
       _samples[i].weight /= sumWeight;
     }
 
@@ -106,6 +110,7 @@ void SampleSet::resample()
   }
 
   _samples = newSamples;
+  _normalized = false;
   _countSamples = countSamples;
 
 }
