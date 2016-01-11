@@ -180,7 +180,7 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
     Eigen::Vector3d pose;
     pose(0) = it->position.x;
     pose(1) = it->position.y;
-    pose(0) = tf::getYaw(it->orientation);
+    pose(2) = tf::getYaw(it->orientation);
     measurement.push_back(pose);
   }
 
