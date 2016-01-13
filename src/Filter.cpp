@@ -47,10 +47,10 @@ namespace ohmPf
     _initialized = true;
   }
 
-  void Filter::initWithMap()
+  void Filter::initWithMap(Map& map)
   {
-    double x = 20;
-    double y = 20;
+    double x = map.getWith();
+    double y = map.getHeigh();
 
     // generate cloud
     std::vector<Sample_t> samples;
@@ -59,9 +59,14 @@ namespace ohmPf
     {
       Sample_t sample;
       sample.weight = 1;
-      sample.pose(0) = drand48() * x;
-      sample.pose(1) = drand48() * y;
       sample.pose(2) = drand48() * 2 * M_PI - M_PI;
+      // todo: more efficient way here
+      do
+      {
+        sample.pose(0) = drand48() * x;
+        sample.pose(1) = drand48() * y;
+      }while( !map.isOccupied( sample.pose(0), sample.pose(1) ) );
+
       samples.push_back(sample);
     }
 

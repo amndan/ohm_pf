@@ -143,6 +143,7 @@ add_executable(OhmPfNode
 	src/Filter.cpp
 	src/OdomDiff.cpp
 	src/CeilCam.cpp
+	src/RosMap.cpp
 )
 
 add_executable(CeilCamSimulator

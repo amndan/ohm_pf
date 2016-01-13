@@ -11,6 +11,7 @@
 #include "ros/ros.h"
 #include "geometry_msgs/PoseArray.h"
 #include "nav_msgs/Odometry.h"
+#include "nav_msgs/GetMap.h"
 #include "geometry_msgs/PoseWithCovarianceStamped.h"
 #include "tf/transform_datatypes.h"
 #include "SampleSet.h"
@@ -20,6 +21,7 @@
 #include "FilterParams.h"
 #include "OdomDiff.h"
 #include "Filter.h"
+#include "RosMap.h"
 
 
 namespace ohmPf
@@ -43,6 +45,7 @@ private:
   ros::Subscriber _subOdometry;
   ros::Subscriber _subCeilCam;
   ros::Subscriber _sub2dPoseEst;
+  ros::ServiceClient _cliMapSrv;
   ros::NodeHandle _nh;
   ros::NodeHandle _prvNh;
   ros::Rate loopRate;

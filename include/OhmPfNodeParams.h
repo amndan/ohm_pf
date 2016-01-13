@@ -17,6 +17,8 @@ typedef struct
   std::string topOdometry;
   std::string top2dPoseEst;
   std::string topCeilCam;
+  std::string topMap;
+  std::string topMapSrv;
 } OhmPfNodeParams_t;
 
 } /* namespace ohmPf */

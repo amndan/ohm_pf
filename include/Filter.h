@@ -14,6 +14,7 @@
 #include "Sample.h"
 #include "GaussianPdf.h"
 #include <assert.h>
+#include "Map.h"
 
 namespace ohmPf
 {
@@ -25,7 +26,7 @@ namespace ohmPf
     virtual ~Filter();
     SampleSet* getSampleSet();
     void initWithPose(const Eigen::Vector3d& pose);
-    void initWithMap(); // todo: init filter with map
+    void initWithMap(Map& map); // todo: init filter with map
     bool isInitialized();
 
   private:

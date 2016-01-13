@@ -17,11 +17,14 @@ OhmPfNode::OhmPfNode() :
   _prvNh.param<std::string>("topOdometry", _paramSet.topOdometry, "/robot0/odom");
   _prvNh.param<std::string>("top2dPoseEst", _paramSet.top2dPoseEst, "initialpose");
   _prvNh.param<std::string>("topCeilCam", _paramSet.topCeilCam, "ceilCamPoseArray");
+  _prvNh.param<std::string>("topMap", _paramSet.topMap, "map");
+  _prvNh.param<std::string>("topMapSrv", _paramSet.topMapSrv, "static_map");
 
   _pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>("particleCloud", 1, true);
   _subOdometry = _nh.subscribe(_paramSet.topOdometry, 1, &OhmPfNode::calOdom, this);
   _sub2dPoseEst = _nh.subscribe(_paramSet.top2dPoseEst, 1, &OhmPfNode::cal2dPoseEst, this);
   _subCeilCam = _nh.subscribe(_paramSet.topCeilCam, 1, &OhmPfNode::calCeilCam, this);
+  _cliMapSrv = _nh.serviceClient<nav_msgs::GetMap>(_paramSet.topMapSrv);
 
   _odomInitialized = false;
 
@@ -133,14 +136,32 @@ void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
 
 void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg)
 {
-  Eigen::Vector3d measurement;
-  measurement(0) = msg->pose.pose.position.x;
-  measurement(1) = msg->pose.pose.position.y;
-  measurement(2) = tf::getYaw(msg->pose.pose.orientation);
+//  Eigen::Vector3d measurement;
+//  measurement(0) = msg->pose.pose.position.x;
+//  measurement(1) = msg->pose.pose.position.y;
+//  measurement(2) = tf::getYaw(msg->pose.pose.orientation);
+//
+//  //_filter->initWithPose(measurement);
+//  _filter->initWithMap();
+//  printSampleSet(_filter->getSampleSet());
 
-  //_filter->initWithPose(measurement);
-  _filter->initWithMap();
-  printSampleSet(_filter->getSampleSet());
+  // todo: integrate into gl service
+  nav_msgs::GetMap srv_map;
+
+  if (_cliMapSrv.call(srv_map))
+  {
+    ROS_INFO("Map service called successfully");
+    const nav_msgs::OccupancyGrid& map(srv_map.response.map);
+    std::cout << "map.data: " << (int) map.data[50] << std::endl;
+
+    RosMap rosMap(map);
+    _filter->initWithMap(rosMap);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call map service");
+    return;
+  }
 }
 
 void OhmPfNode::spawnOdom()
