@@ -77,6 +77,7 @@ bool SampleSet::isNormalized() const
 
 void SampleSet::resample()
 {
+  // todo: use a more intelligent way to do this
   assert(_normalized);
 
   std::vector<double> weightsCumsum;
@@ -88,6 +89,8 @@ void SampleSet::resample()
   {
     weightsCumsum.push_back(it->weight);
   }
+
+  //std::cout << "stabw:" << getStabw(weightsCumsum) << std::endl;
 
   std::partial_sum(weightsCumsum.begin(), weightsCumsum.end(), weightsCumsum.begin());
 
@@ -104,6 +107,8 @@ void SampleSet::resample()
       if(rand < weightsCumsum[j])
       {
         newSamples.push_back(_samples[j]);
+        addGaussianRandomness(newSamples[i]);
+        newSamples[i].weight = 1.0;
         break;
       }
     }

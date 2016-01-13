@@ -130,10 +130,10 @@ include_directories(
 # add_dependencies(ohm_pf ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(main_test 
-	testing/main_test.cpp 
-	src/SampleSet.cpp
-)
+#add_executable(main_test 
+#	testing/main_test.cpp 
+#	src/SampleSet.cpp
+#)
 
 add_executable(OhmPfNode 
 	testing/main_OhmPfNode.cpp	
@@ -143,6 +143,10 @@ add_executable(OhmPfNode
 	src/Filter.cpp
 	src/OdomDiff.cpp
 	src/CeilCam.cpp
+)
+
+add_executable(CeilCamSimulator
+    testing/CeilCamSimulator.cpp 
 )
 
 
@@ -155,6 +159,9 @@ target_link_libraries(OhmPfNode
  ${catkin_LIBRARIES}
 )
 
+target_link_libraries(CeilCamSimulator
+ ${catkin_LIBRARIES}
+)
 #############
 ## Install ##
 #############

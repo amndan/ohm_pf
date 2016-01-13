@@ -9,6 +9,10 @@
 #define INCLUDE_UTILITIESOHMPF_H_
 
 #include <cmath>
+#include "GaussianPdf.h"
+#include "assert.h"
+#include "Eigen/Dense"
+#include <numeric>
 
 namespace ohmPf
 {
@@ -21,6 +25,43 @@ static void correctAngleOverflow(double& angle)
     angle -= 2 * M_PI;
   else if(angle < -M_PI)
     angle += 2 * M_PI;
+}
+
+static double getProbabilityFrom2Poses(
+    const Eigen::Vector3d& measurement,
+    const Eigen::Vector3d& sample,
+    double sigmaPos = 0.5,
+    double sigmaPhi = 0.5 * M_PI,
+    double weightPhi = 0.5)
+{
+  assert(weightPhi >= 0.0 && weightPhi <= 1.0);
+
+  double distPos = std::sqrt( std::pow(measurement(0) - sample(0),2) + std::pow(measurement(1) - sample(1),2) );
+
+  double pPhi = GaussianPdf::getProbability(measurement(2), sigmaPhi, sample(2));
+  double pPos = GaussianPdf::getProbability(0.0, sigmaPos, distPos);
+
+  return (1-weightPhi) * pPos + weightPhi * pPhi;
+}
+
+static void addGaussianRandomness(
+    Sample_t& sample,
+    double sigmaPos = 0.05,
+    double sigmaPhi = 10 / 180 * M_PI)
+{
+  sample.pose(0) -= GaussianPdf::getRandomValue(0.0, sigmaPos);
+  sample.pose(1) -= GaussianPdf::getRandomValue(0.0, sigmaPos);
+  sample.pose(2) -= GaussianPdf::getRandomValue(0.0, sigmaPhi);
+  correctAngleOverflow(sample.pose(2));
+}
+
+static double getStabw(const std::vector<double>& v)
+{
+  double sum = std::accumulate(v.begin(), v.end(), 0.0);
+  double mean = sum / v.size();
+  double sq_sum = std::inner_product(v.begin(), v.end(), v.begin(), 0.0);
+
+  return std::sqrt(sq_sum / v.size() - mean * mean);
 }
 
 }  // ohmPf

@@ -28,6 +28,11 @@ namespace ohmPf
     return _sampleSet;
   }
 
+  bool Filter::isInitialized()
+  {
+    return _initialized;
+  }
+
   void Filter::initWithPose(const Eigen::Vector3d& pose)
   {
     // generate cloud

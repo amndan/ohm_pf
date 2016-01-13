@@ -16,7 +16,7 @@ OhmPfNode::OhmPfNode() :
   _prvNh.param<std::string>("topFixedFrame", _paramSet.topFixedFrame, "map");
   _prvNh.param<std::string>("topOdometry", _paramSet.topOdometry, "/robot0/odom");
   _prvNh.param<std::string>("top2dPoseEst", _paramSet.top2dPoseEst, "initialpose");
-  _prvNh.param<std::string>("topCeilCam", _paramSet.topCeilCam, "position_topic");
+  _prvNh.param<std::string>("topCeilCam", _paramSet.topCeilCam, "ceilCamPoseArray");
 
   _pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>("particleCloud", 1, true);
   _subOdometry = _nh.subscribe(_paramSet.topOdometry, 1, &OhmPfNode::calOdom, this);
@@ -62,21 +62,14 @@ void OhmPfNode::printSampleSet(SampleSet* sampleSet){
   geometry_msgs::PoseArray poseArray;
   geometry_msgs::Pose pose;
 
-  //todo: use frame id from parameter
   poseArray.header.frame_id = _paramSet.topFixedFrame;
 
   for(unsigned int i = 0; i < samples.size(); i++)
   {
     pose.position.x = samples[i].pose(0);
     pose.position.y = samples[i].pose(1);
-    pose.position.z = 0;
-    //todo: use a more efficient method here
-    tf::Quaternion orientation = tf::createQuaternionFromYaw( (double) samples[i].pose(2) );
-    pose.orientation.w = orientation.getW();
-    pose.orientation.x = orientation.getX();
-    pose.orientation.y = orientation.getY();
-    pose.orientation.z = orientation.getZ();
-
+    pose.position.z = 0.0;
+    tf::quaternionTFToMsg(tf::createQuaternionFromYaw( samples[i].pose(2) ), pose.orientation);
     poseArray.poses.push_back(pose);
   }
   _pubSampleSet.publish(poseArray);
@@ -163,7 +156,7 @@ void OhmPfNode::spawnOdom()
 
 void OhmPfNode::spawnFilter()
 {
-  _filterParams.samplesMax = 1000;
+  _filterParams.samplesMax = 5000;
   _filterParams.samplesMin = 20;
 
   _filter = new ohmPf::Filter(_filterParams);
@@ -171,24 +164,27 @@ void OhmPfNode::spawnFilter()
 
 void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
 {
-  std::vector<Eigen::Vector3d> measurement;
-
-  std::vector<geometry_msgs::Pose> vec = msg->poses;
-
-  for(std::vector<geometry_msgs::Pose>::iterator it = vec.begin(); it != vec.end(); ++it)
+  if (_filter->isInitialized())
   {
-    Eigen::Vector3d pose;
-    pose(0) = it->position.x;
-    pose(1) = it->position.y;
-    pose(2) = tf::getYaw(it->orientation);
-    measurement.push_back(pose);
+    std::vector<Eigen::Vector3d> measurement;
+
+    // todo: why do i need this conversation?
+    std::vector<geometry_msgs::Pose> vec = msg->poses;
+
+    for(std::vector<geometry_msgs::Pose>::iterator it = vec.begin(); it != vec.end(); ++it)
+    {
+      Eigen::Vector3d pose;
+      pose(0) = it->position.x;
+      pose(1) = it->position.y;
+      pose(2) = tf::getYaw(it->orientation);
+      measurement.push_back(pose);
+    }
+
+    _ceilCam->setMeasurement(measurement);
+    _ceilCam->updateFilter(_filter);
+    _filter->getSampleSet()->normalize();
+    _filter->getSampleSet()->resample();
   }
-
-  _ceilCam->setMeasurement(measurement);
-  _ceilCam->updateFilter(_filter);
-  _filter->getSampleSet()->normalize();
-  _filter->getSampleSet()->resample();
-
 }
 
 } /* namespace ohmPf */

@@ -10,6 +10,8 @@
 
 #include "Sample.h"
 #include "Filter.h"
+#include "GaussianPdf.h"
+#include "UtilitiesOhmPf.h"
 #include <cmath>
 
 namespace ohmPf

@@ -151,7 +151,7 @@ pose : Eigen::Vector
     <coordinates>
       <x>1170</x>
       <y>270</y>
-      <w>144</w>
+      <w>189</w>
       <h>90</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Struct&gt;&gt;
