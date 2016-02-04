@@ -65,7 +65,7 @@ namespace ohmPf
       {
         sample.pose(0) = drand48() * x;
         sample.pose(1) = drand48() * y;
-      }while( !map.isOccupied( sample.pose(0), sample.pose(1) ) );
+      }while( !map.isOccupied( sample.pose(0), sample.pose(1), true ) );
 
       samples.push_back(sample);
     }

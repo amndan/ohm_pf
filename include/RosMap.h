@@ -7,10 +7,12 @@
 
 #include "nav_msgs/OccupancyGrid.h"
 #include "ros/types.h"
+#include "tf/transform_datatypes.h"
 #include "Map.h"
 #include "Eigen/Dense"
 #include "assert.h"
 #include "iostream"
+#include "UtilitiesOhmPf.h"
 
 #ifndef TESTING_ROSMAP_H_
 #define TESTING_ROSMAP_H_
@@ -25,15 +27,18 @@ namespace ohmPf
   public:
     RosMap(const nav_msgs::OccupancyGrid& msg);
     virtual ~RosMap();
-    bool isOccupied(double x, double y); // in meter
+    bool isOccupied(double x, double y, bool isInMapOriginFrame = false); // in meter
     double getWith();
     double getHeigh();
   private:
     std::vector<int8_t> _mapRaw;
-    Eigen::Matrix<int8_t, Eigen::Dynamic, Eigen::Dynamic> _map;
+    //Eigen::Matrix<int8_t, Eigen::Dynamic, Eigen::Dynamic> _map;
     float _resolution;  // m/cell
     unsigned int _width; // cells
     unsigned int _height; // cells
+    Eigen::Matrix3d _tfMapToMapOrigin;
+
+    void PointInMapToOrigin(double& x, double& y);
 
 
   };
