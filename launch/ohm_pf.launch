@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <!-- extern parameters -->
+    <arg name="output" default="screen" />
+    <arg name="topFixedFrame" default="map" />
+    <arg name="topOdometry" default="/robot0/odom" />
+    <arg name="top2dPoseEst" default="initialpose" />
+    <arg name="topCeilCam" default="ceilCamPoseArray" />
+    <arg name="topMap" default="map" />
+    <arg name="topMapSrv" default="static_map" />
+    <!-- ******************* -->
+
+    <node name="slam_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)">
+        <param name="topFixedFrame" type="string" value="$(arg topFixedFrame)" />
+        <param name="topOdometry" type="string" value="$(arg topOdometry)" />
+        <param name="top2dPoseEst" type="string" value="$(arg top2dPoseEst)" />
+        <param name="topCeilCam" type="string" value="$(arg topCeilCam)" />
+        <param name="topMap" type="string" value="$(arg topMap)" />
+        <param name="topMapSrv" type="string" value="$(arg topMapSrv)" />
+    </node>
+
+</launch>
