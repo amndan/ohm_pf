@@ -54,6 +54,10 @@ namespace ohmPf
     double xMax;
     double yMax;
 
+    map.getMinEnclRect(xMin, yMin, xMax, yMax);
+
+    std::cout << "(xMax - xMin) - xMin" << (xMax - xMin) - xMin << "(xMax" << xMax << "xMin" << xMin << std::endl;
+
     // generate cloud
     std::vector<Sample_t> samples;
 
@@ -65,8 +69,8 @@ namespace ohmPf
       // todo: more efficient way here
       do
       {
-        sample.pose(0) = drand48() * (xMax - xMin) - xMin;
-        sample.pose(1) = drand48() * (yMax - yMin) - yMin;
+        sample.pose(0) = drand48() * (xMax - xMin) + xMin;
+        sample.pose(1) = drand48() * (yMax - yMin) + yMin;
       }while( !map.isOccupied( sample.pose(0), sample.pose(1)) );
       //todo: check if there is at least one field not occupied
 

@@ -99,5 +99,23 @@ namespace ohmPf
     yMin = rectInOrigin.row(1).minCoeff();
   }
 
+  void RosMap::calcProbMap()
+  {
+//    unsigned int maxDistance = 5;
+//    unsigned int filterSize = std::ceil(1.0 * (double) maxDistance);
+//
+//    _probMap = _mapRaw;
+//
+//    for(unsigned int i = 0; i < _width; i++) // x
+//      for(unsigned int j = 0; j < _height; j++)  //y
+//      {
+//        if(_mapRaw[j * _width + i] == 0) // is occupied?
+//        {
+//          for(unsigned int k = -filterSize; i < _width; k++) // x
+//            for(unsigned int l = 0; j < _height; l++)  //y
+//        }
+//      }
+  }
+
 }
 /* namespace ohmPf */

@@ -32,8 +32,10 @@ namespace ohmPf
     double getHeigh();
     Eigen::Matrix3d getOrigin();
     void getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax);
+    void calcProbMap();
   private:
     std::vector<int8_t> _mapRaw;
+    std::vector<int8_t> _probMap;
     //Eigen::Matrix<int8_t, Eigen::Dynamic, Eigen::Dynamic> _map;
     float _resolution;  // m/cell
     unsigned int _width; // cells
