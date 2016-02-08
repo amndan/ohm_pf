@@ -36,20 +36,21 @@ namespace ohmPf
   {
     PointInMapToOrigin(x, y);
 
-    assert(x > 0 && y > 0);
-    assert(x / _resolution < _width);  // todo: < | <=
-    assert(y / _resolution < _height);
-
     x = std::floor(x / _resolution);
     y = std::floor(y / _resolution);
 
-    if(_mapRaw[y * _width + x] == 0)
+    if (x < 0 || y < 0 || x > _width || y > _height)
     {
       return true;
     }
-    else
+
+    if(_mapRaw[y * _width + x] == 0)
     {
       return false;
+    }
+    else
+    {
+      return true;
     }
   }
 

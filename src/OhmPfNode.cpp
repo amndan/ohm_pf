@@ -152,9 +152,8 @@ void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConst
   {
     ROS_INFO("Map service called successfully");
     const nav_msgs::OccupancyGrid& map(srv_map.response.map);
-    std::cout << "map.data: " << (int) map.data[50] << std::endl;
 
-    RosMap rosMap(map);
+    RosMap* rosMap = new RosMap(map);
     _filter->initWithMap(rosMap);
   }
   else
@@ -203,6 +202,7 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
 
     _ceilCam->setMeasurement(measurement);
     _ceilCam->updateFilter(_filter);
+    _filter->updateWithMap();
     _filter->getSampleSet()->normalize();
     _filter->getSampleSet()->resample();
   }

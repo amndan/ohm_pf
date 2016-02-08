@@ -13,6 +13,7 @@ namespace ohmPf
   Filter::Filter(FilterParams_t paramSet)
   {
     _sampleSet = NULL;
+    _map = NULL;
     this->_paramSet = paramSet;
     _initialized = false;
   }
@@ -20,6 +21,7 @@ namespace ohmPf
   Filter::~Filter()
   {
     delete _sampleSet;
+    delete _map;
   }
 
   SampleSet* Filter::getSampleSet()
@@ -47,14 +49,18 @@ namespace ohmPf
     _initialized = true;
   }
 
-  void Filter::initWithMap(Map& map)
+  void Filter::initWithMap(Map* map)
   {
     double xMin;
     double yMin;
     double xMax;
     double yMax;
 
-    map.getMinEnclRect(xMin, yMin, xMax, yMax);
+    delete _sampleSet;
+    delete _map;
+    _map = map;
+
+    _map->getMinEnclRect(xMin, yMin, xMax, yMax);
 
     std::cout << "(xMax - xMin) - xMin" << (xMax - xMin) - xMin << "(xMax" << xMax << "xMin" << xMin << std::endl;
 
@@ -64,14 +70,14 @@ namespace ohmPf
     for(unsigned int i = 0; i < _paramSet.samplesMax; i++)
     {
       Sample_t sample;
-      sample.weight = 1;
+      sample.weight = 1.0;
       sample.pose(2) = drand48() * 2 * M_PI - M_PI;
       // todo: more efficient way here
       do
       {
         sample.pose(0) = drand48() * (xMax - xMin) + xMin;
         sample.pose(1) = drand48() * (yMax - yMin) + yMin;
-      }while( !map.isOccupied( sample.pose(0), sample.pose(1)) );
+      }while( _map->isOccupied( sample.pose(0), sample.pose(1)) );
       //todo: check if there is at least one field not occupied
 
       samples.push_back(sample);
@@ -79,6 +85,28 @@ namespace ohmPf
 
     _sampleSet = new SampleSet(samples);
     _initialized = true;
+  }
+
+  void Filter::updateWithMap()
+  {
+    //assert(_map != NULL);
+
+    if(_map == NULL)
+    {
+      std::cout<< __PRETTY_FUNCTION__ << "no map available; skip map update of filter" << std::endl;
+      return;
+    }
+
+    std::vector<Sample_t>* samples = _sampleSet->getSamples();
+
+    for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
+    {
+      if( _map->isOccupied( it->pose(0),it->pose(1) ) )
+      {
+        it->weight = 0.0;
+      }
+    }
+
   }
 
 } /* namespace ohmPf */

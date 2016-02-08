@@ -37,7 +37,7 @@ namespace ohmPf
       for(std::vector<Sample_t>::iterator it2 = samples->begin(); it2 != samples->end(); ++it2)
       {
         int n = std::distance(samples->begin(), it2);
-        probs[n] = std::max(probs[n], getProbabilityFrom2Poses(*it, it2->pose));
+        probs[n] = std::max(probs[n], getProbabilityFrom2Poses(*it, it2->pose, 0.1));
       }
     }
 
