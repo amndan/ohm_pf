@@ -13,6 +13,7 @@
 #include "assert.h"
 #include "iostream"
 #include "UtilitiesOhmPf.h"
+#include <cmath>
 
 #ifndef TESTING_ROSMAP_H_
 #define TESTING_ROSMAP_H_
@@ -33,6 +34,7 @@ namespace ohmPf
     Eigen::Matrix3d getOrigin();
     void getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax);
     void calcProbMap();
+    void getProbMap(nav_msgs::OccupancyGrid& msg);
   private:
     std::vector<int8_t> _mapRaw;
     std::vector<int8_t> _probMap;

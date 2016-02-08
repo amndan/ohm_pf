@@ -15,6 +15,8 @@
 #include "GaussianPdf.h"
 #include <assert.h>
 #include "Map.h"
+#include "ros/time.h" // ros time can be used without ros environment -- compile with "-lboost_system"
+#include "ros/duration.h"
 
 namespace ohmPf
 {

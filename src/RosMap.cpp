@@ -23,6 +23,8 @@ namespace ohmPf
     tf::poseMsgToTF(msg.info.origin, tmp);
     _tfMapToMapOrigin = tfToEigenMatrix3x3(tmp);
 
+    calcProbMap(); // todo: just do that if neccesary
+
     //Eigen::Map< Matrix<int8_t, Eigen::Dynamic, Eigen::Dynamic> > mf(_mapRaw.data(), _width, _height);
     //_map = mf;
   }
@@ -102,20 +104,43 @@ namespace ohmPf
 
   void RosMap::calcProbMap()
   {
-//    unsigned int maxDistance = 5;
-//    unsigned int filterSize = std::ceil(1.0 * (double) maxDistance);
-//
-//    _probMap = _mapRaw;
-//
-//    for(unsigned int i = 0; i < _width; i++) // x
-//      for(unsigned int j = 0; j < _height; j++)  //y
-//      {
-//        if(_mapRaw[j * _width + i] == 0) // is occupied?
-//        {
-//          for(unsigned int k = -filterSize; i < _width; k++) // x
-//            for(unsigned int l = 0; j < _height; l++)  //y
-//        }
-//      }
+    int maxDistance = 10; // in cells
+    int filterSize = std::ceil(1.0 * (double) maxDistance); // in cells
+
+    _probMap = _mapRaw;
+    double dist = 0.0;
+
+    for(int i = 0; i < _width; i++) // x
+    {
+      for(int j = 0; j < _height; j++)  //y
+      {
+        if(_mapRaw[j * _width + i] != 0) // is occupied?
+        {
+          for(int k = -filterSize; k <= filterSize; k++) // x
+          {
+            for(int l = -filterSize; l <= filterSize; l++)  //y
+            {
+              if( (i + k) >= 0 && (i + k) < _width && (j + l) >= 0 && (j + l) < _height)
+              {
+                dist = std::sqrt(pow(k,2)+pow(l,2));
+
+                if(dist < maxDistance)
+                {
+                  dist = (1.0 - dist / maxDistance) * 100.0; // normalize to [0;100]
+                  _probMap[(j+l) * _width + (i+k)] = std::max((double)_probMap[(j+l) * _width + (i+k)], dist);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    std::cout << __PRETTY_FUNCTION__ << " --> created prob map!" << std::endl;
+  }
+
+  void RosMap::getProbMap(nav_msgs::OccupancyGrid& msg)
+  {
+    msg.data = _probMap;
   }
 
 }

@@ -42,6 +42,7 @@ private:
   void spawnOdom();
   void spawnFilter();
   ros::Publisher _pubSampleSet;
+  ros::Publisher _pubProbMap;
   ros::Subscriber _subOdometry;
   ros::Subscriber _subCeilCam;
   ros::Subscriber _sub2dPoseEst;

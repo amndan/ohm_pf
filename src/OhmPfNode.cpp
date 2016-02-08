@@ -21,6 +21,7 @@ OhmPfNode::OhmPfNode() :
   _prvNh.param<std::string>("topMapSrv", _paramSet.topMapSrv, "static_map");
 
   _pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>("particleCloud", 1, true);
+  _pubProbMap = _nh.advertise<nav_msgs::OccupancyGrid>("probMap", 1, true);
   _subOdometry = _nh.subscribe(_paramSet.topOdometry, 1, &OhmPfNode::calOdom, this);
   _sub2dPoseEst = _nh.subscribe(_paramSet.top2dPoseEst, 1, &OhmPfNode::cal2dPoseEst, this);
   _subCeilCam = _nh.subscribe(_paramSet.topCeilCam, 1, &OhmPfNode::calCeilCam, this);
@@ -154,7 +155,15 @@ void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConst
     const nav_msgs::OccupancyGrid& map(srv_map.response.map);
 
     RosMap* rosMap = new RosMap(map);
+
+    nav_msgs::OccupancyGrid probMapMsg;
+    probMapMsg.header = map.header;
+    probMapMsg.info = map.info;
+    rosMap->getProbMap(probMapMsg);
+    _pubProbMap.publish(probMapMsg);
+
     _filter->initWithMap(rosMap);
+
   }
   else
   {
