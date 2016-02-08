@@ -49,8 +49,10 @@ namespace ohmPf
 
   void Filter::initWithMap(Map& map)
   {
-    double x = map.getWith();
-    double y = map.getHeigh();
+    double xMin;
+    double yMin;
+    double xMax;
+    double yMax;
 
     // generate cloud
     std::vector<Sample_t> samples;
@@ -63,9 +65,10 @@ namespace ohmPf
       // todo: more efficient way here
       do
       {
-        sample.pose(0) = drand48() * x;
-        sample.pose(1) = drand48() * y;
-      }while( !map.isOccupied( sample.pose(0), sample.pose(1), true ) );
+        sample.pose(0) = drand48() * (xMax - xMin) - xMin;
+        sample.pose(1) = drand48() * (yMax - yMin) - yMin;
+      }while( !map.isOccupied( sample.pose(0), sample.pose(1)) );
+      //todo: check if there is at least one field not occupied
 
       samples.push_back(sample);
     }

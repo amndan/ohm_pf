@@ -27,9 +27,11 @@ namespace ohmPf
   public:
     RosMap(const nav_msgs::OccupancyGrid& msg);
     virtual ~RosMap();
-    bool isOccupied(double x, double y, bool isInMapOriginFrame = false); // in meter
+    bool isOccupied(double x, double y); // in meter
     double getWith();
     double getHeigh();
+    Eigen::Matrix3d getOrigin();
+    void getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax);
   private:
     std::vector<int8_t> _mapRaw;
     //Eigen::Matrix<int8_t, Eigen::Dynamic, Eigen::Dynamic> _map;

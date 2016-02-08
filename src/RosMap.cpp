@@ -15,8 +15,8 @@ namespace ohmPf
     // todo: clean variables
     _mapRaw = msg.data;
     _resolution = msg.info.resolution;
-    _width = msg.info.width; // width is in map_origin_system
-    _height = msg.info.height; // height is in map_origin_system
+    _width = msg.info.width;  // width is in map_origin_system
+    _height = msg.info.height;  // height is in map_origin_system
     // todo: need getXmin() getXmax() functions for injecting particles over whole map
 
     tf::Transform tmp;
@@ -32,18 +32,18 @@ namespace ohmPf
     // TODO Auto-generated destructor stub
   }
 
-  bool RosMap::isOccupied(double x, double y, bool isInMapOriginFrame)
+  bool RosMap::isOccupied(double x, double y)
   {
-    if (!isInMapOriginFrame) PointInMapToOrigin(x, y);
+    PointInMapToOrigin(x, y);
 
     assert(x > 0 && y > 0);
-    assert(x / _resolution  < _width); // todo: < | <=
+    assert(x / _resolution < _width);  // todo: < | <=
     assert(y / _resolution < _height);
 
     x = std::floor(x / _resolution);
     y = std::floor(y / _resolution);
 
-    if ( _mapRaw[y * _width + x] == 0)
+    if(_mapRaw[y * _width + x] == 0)
     {
       return true;
     }
@@ -78,5 +78,26 @@ namespace ohmPf
     return _width * _resolution;
   }
 
+  Eigen::Matrix3d RosMap::getOrigin()
+  {
+    return _tfMapToMapOrigin;
+  }
 
-} /* namespace ohmPf */
+  void RosMap::getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax)
+  {
+    Eigen::MatrixXd rectInOrigin(3, 4);
+    rectInOrigin.col(0) << 0, 0, 1;
+    rectInOrigin.col(1) << getWith(), 0, 1;
+    rectInOrigin.col(2) << 0, getHeigh(), 1;
+    rectInOrigin.col(3) << getWith(), getHeigh(), 1;
+
+    rectInOrigin = _tfMapToMapOrigin * rectInOrigin;
+
+    xMax = rectInOrigin.row(0).maxCoeff();
+    xMin = rectInOrigin.row(0).minCoeff();
+    yMax = rectInOrigin.row(1).maxCoeff();
+    yMin = rectInOrigin.row(1).minCoeff();
+  }
+
+}
+/* namespace ohmPf */
