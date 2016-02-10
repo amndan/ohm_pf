@@ -62,8 +62,6 @@ namespace ohmPf
 
     _map->getMinEnclRect(xMin, yMin, xMax, yMax);
 
-    std::cout << "(xMax - xMin) - xMin" << (xMax - xMin) - xMin << "(xMax" << xMax << "xMin" << xMin << std::endl;
-
     // generate cloud
     std::vector<Sample_t> samples;
 

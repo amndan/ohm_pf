@@ -38,15 +38,15 @@ namespace ohmPf
   {
     PointInMapToOrigin(x, y);
 
-    x = std::floor(x / _resolution);
-    y = std::floor(y / _resolution);
+    int x_c = meterToCells(x);
+    int y_c = meterToCells(y);
 
-    if (x < 0 || y < 0 || x > _width || y > _height)
+    if ( !isInMapRange(x_c, y_c) ) // cause we are using the enclosing rect at initialisation there are values outside the map
     {
       return true;
     }
 
-    if(_mapRaw[y * _width + x] > IS_OCCUPIED_THRESHHOLD)
+    if(_mapRaw[y_c * _width + x_c] > IS_OCCUPIED_THRESHHOLD)
     {
       return true;
     }
@@ -54,6 +54,39 @@ namespace ohmPf
     {
       return false;
     }
+  }
+
+  bool RosMap::isInMapRange(int x, int y)
+  {
+    if(x < 0 || y < 0 || x > _width || y > _height)
+    {
+      return false;
+    }
+
+    return true;
+  }
+
+  int RosMap::meterToCells(double x)
+  {
+    assert(_resolution != 0);
+    int ret = std::floor(x / _resolution);
+    return ret;
+  }
+
+  double RosMap::getProbability(double x, double y)
+  {
+    PointInMapToOrigin(x, y);
+
+    int x_c = meterToCells(x);
+    int y_c = meterToCells(y);
+
+    assert(isInMapRange(x_c, y_c));
+
+    double prob = _mapRaw[y_c * _width + x_c] / 100.0;
+
+    assert(prob <= 1.0 && prob >= 0.0);
+
+    return prob;
   }
 
   void RosMap::PointInMapToOrigin(double& x, double& y)

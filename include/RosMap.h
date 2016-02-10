@@ -31,6 +31,7 @@ namespace ohmPf
     RosMap(const nav_msgs::OccupancyGrid& msg);
     virtual ~RosMap();
     bool isOccupied(double x, double y); // in meter
+    double getProbability(double x, double y); // in meter
     double getWith();
     double getHeigh();
     Eigen::Matrix3d getOrigin();
@@ -46,7 +47,9 @@ namespace ohmPf
     unsigned int _height; // cells
     Eigen::Matrix3d _tfMapToMapOrigin;
 
-    void PointInMapToOrigin(double& x, double& y);
+    void PointInMapToOrigin(double& x, double& y); // in meter
+    int meterToCells(double x);
+    bool isInMapRange(int x, int y);
 
 
   };
