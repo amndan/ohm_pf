@@ -19,6 +19,7 @@ typedef struct
   std::string topCeilCam;
   std::string topMap;
   std::string topMapSrv;
+  std::string topScan;
 } OhmPfNodeParams_t;
 
 } /* namespace ohmPf */

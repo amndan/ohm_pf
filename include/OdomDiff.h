@@ -26,7 +26,7 @@ namespace ohmPf
   public:
     OdomDiff(OdomDiffParams_t paramSet);
     virtual ~OdomDiff();
-    void updateFilter(Filter* filter);
+    void updateFilter(Filter* filter); // todo: integrate odom into filter; filter.setOdomModel; filter.updateWithOdom; odomModell.h --> abstract
     void setMeasurement(Eigen::Vector3d odom0, Eigen::Vector3d odom1);
     void addSingleMeasurement(Eigen::Vector3d odom);
   private:

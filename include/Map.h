@@ -18,6 +18,7 @@ namespace ohmPf
     Map(){}
     virtual ~Map(){}
     virtual bool isOccupied(double x, double y) = 0; //x, y in m
+    virtual double getProbability(double x, double y) = 0; // in meter
     virtual double getWith() = 0; // in meter
     virtual double getHeigh() = 0; // in meter
     virtual Eigen::Matrix3d getOrigin() = 0; // tf in meter

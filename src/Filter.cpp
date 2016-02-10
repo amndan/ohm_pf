@@ -30,6 +30,11 @@ namespace ohmPf
     return _sampleSet;
   }
 
+  Map* Filter::getMap()
+  {
+    return _map;
+  }
+
   bool Filter::isInitialized()
   {
     return _initialized;

@@ -31,6 +31,7 @@ namespace ohmPf
     void initWithMap(Map* map); // todo: init filter with map
     void updateWithMap();
     bool isInitialized();
+    Map* getMap();
 
   private:
     SampleSet* _sampleSet;

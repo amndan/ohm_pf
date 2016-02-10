@@ -23,7 +23,7 @@ namespace ohmPf
     tf::poseMsgToTF(msg.info.origin, tmp);
     _tfMapToMapOrigin = tfToEigenMatrix3x3(tmp);
 
-    calcProbMap(); // todo: just do that if neccesary
+    calcProbMap(); // todo: just do that if neccesary; handle getProb when no prob map is there
 
     //Eigen::Map< Matrix<int8_t, Eigen::Dynamic, Eigen::Dynamic> > mf(_mapRaw.data(), _width, _height);
     //_map = mf;
@@ -82,7 +82,7 @@ namespace ohmPf
 
     assert(isInMapRange(x_c, y_c));
 
-    double prob = _mapRaw[y_c * _width + x_c] / 100.0;
+    double prob = _probMap[y_c * _width + x_c] / 100.0;
 
     assert(prob <= 1.0 && prob >= 0.0);
 

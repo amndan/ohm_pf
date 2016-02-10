@@ -19,10 +19,12 @@ OhmPfNode::OhmPfNode() :
   _prvNh.param<std::string>("topCeilCam", _paramSet.topCeilCam, "ceilCamPoseArray");
   _prvNh.param<std::string>("topMap", _paramSet.topMap, "map");
   _prvNh.param<std::string>("topMapSrv", _paramSet.topMapSrv, "static_map");
+  _prvNh.param<std::string>("topScan", _paramSet.topScan, "/robot0/laser_0");
 
   _pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>("particleCloud", 1, true);
   _pubProbMap = _nh.advertise<nav_msgs::OccupancyGrid>("probMap", 1, true);
   _subOdometry = _nh.subscribe(_paramSet.topOdometry, 1, &OhmPfNode::calOdom, this);
+  _subScan = _nh.subscribe(_paramSet.topScan, 1, &OhmPfNode::calScan, this);
   _sub2dPoseEst = _nh.subscribe(_paramSet.top2dPoseEst, 1, &OhmPfNode::cal2dPoseEst, this);
   _subCeilCam = _nh.subscribe(_paramSet.topCeilCam, 1, &OhmPfNode::calCeilCam, this);
   _cliMapSrv = _nh.serviceClient<nav_msgs::GetMap>(_paramSet.topMapSrv);
@@ -32,6 +34,7 @@ OhmPfNode::OhmPfNode() :
   spawnOdom();
   spawnFilter();
   _ceilCam = new CeilCam();
+  _rosLaserPm = new RosLaserPM();
 
 }
 
@@ -214,6 +217,15 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
     _filter->updateWithMap();
     _filter->getSampleSet()->normalize();
     _filter->getSampleSet()->resample();
+  }
+}
+
+void OhmPfNode::calScan(const sensor_msgs::LaserScanConstPtr& msg)
+{
+  if(_filter->getMap() != NULL)
+  {
+  _rosLaserPm->setMeasurement(msg);
+  _rosLaserPm->updateFilter(*_filter);
   }
 }
 

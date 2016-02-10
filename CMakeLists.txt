@@ -144,6 +144,7 @@ add_executable(OhmPfNode
 	src/OdomDiff.cpp
 	src/CeilCam.cpp
 	src/RosMap.cpp
+	src/RosLaserPM.cpp
 )
 
 add_executable(CeilCamSimulator

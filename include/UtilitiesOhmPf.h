@@ -69,6 +69,20 @@ namespace ohmPf
     return tf;
   }
 
+  static Eigen::Matrix3d create3x3TransformationMatrix(double& x, double& y, double& theta)
+  {
+    Eigen::Matrix3d tf;
+
+    tf(0, 0) = std::cos(theta) + 0.0;
+    tf(0, 1) = -std::sin(theta) + 0.0;
+    tf(0, 2) = x + 0.0;
+    tf(1, 0) = std::sin(theta) + 0.0;
+    tf(1, 1) = std::cos(theta) + 0.0;
+    tf(1, 2) = y + 0.0;
+
+    return tf;
+  }
+
   static Eigen::Matrix3d tfToEigenMatrix3x3(const tf::Transform& tf)
   {
     Eigen::Matrix3d eigen(3, 3);
