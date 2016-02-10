@@ -5,6 +5,9 @@
  *      Author: amndan
  */
 
+#ifndef TESTING_ROSMAP_H_
+#define TESTING_ROSMAP_H_
+
 #include "nav_msgs/OccupancyGrid.h"
 #include "ros/types.h"
 #include "tf/transform_datatypes.h"
@@ -15,8 +18,7 @@
 #include "UtilitiesOhmPf.h"
 #include <cmath>
 
-#ifndef TESTING_ROSMAP_H_
-#define TESTING_ROSMAP_H_
+#define IS_OCCUPIED_THRESHHOLD 50
 
 using namespace Eigen;
 

@@ -46,13 +46,13 @@ namespace ohmPf
       return true;
     }
 
-    if(_mapRaw[y * _width + x] == 0)
+    if(_mapRaw[y * _width + x] > IS_OCCUPIED_THRESHHOLD)
     {
-      return false;
+      return true;
     }
     else
     {
-      return true;
+      return false;
     }
   }
 
@@ -114,7 +114,7 @@ namespace ohmPf
     {
       for(int j = 0; j < _height; j++)  //y
       {
-        if(_mapRaw[j * _width + i] != 0) // is occupied?
+        if(_mapRaw[j * _width + i] > IS_OCCUPIED_THRESHHOLD) // is occupied?
         {
           for(int k = -filterSize; k <= filterSize; k++) // x
           {
@@ -123,7 +123,6 @@ namespace ohmPf
               if( (i + k) >= 0 && (i + k) < _width && (j + l) >= 0 && (j + l) < _height)
               {
                 dist = std::sqrt(pow(k,2)+pow(l,2));
-
                 if(dist < maxDistance)
                 {
                   dist = (1.0 - dist / maxDistance) * 100.0; // normalize to [0;100]
