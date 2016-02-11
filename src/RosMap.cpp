@@ -58,7 +58,7 @@ namespace ohmPf
 
   bool RosMap::isInMapRange(int x, int y)
   {
-    if(x < 0 || y < 0 || x > _width || y > _height)
+    if(x < 0 || y < 0 || x >= _width || y >= _height)
     {
       return false;
     }
@@ -80,11 +80,18 @@ namespace ohmPf
     int x_c = meterToCells(x);
     int y_c = meterToCells(y);
 
-    assert(isInMapRange(x_c, y_c));
+    if(!isInMapRange(x_c, y_c))
+    {
+      return 0.0;
+    }
 
     double prob = _probMap[y_c * _width + x_c] / 100.0;
 
-    assert(prob <= 1.0 && prob >= 0.0);
+    if( !(prob <= 1.0 && prob >= 0.0) )
+    {
+      std::cout << prob << std::endl;
+      assert(prob <= 1.0 && prob >= 0.0); //debug
+    }
 
     return prob;
   }
@@ -137,25 +144,25 @@ namespace ohmPf
 
   void RosMap::calcProbMap()
   {
-    int maxDistance = 10; // in cells
+    int maxDistance = 40; // in cells todo: magic number
     int filterSize = std::ceil(1.0 * (double) maxDistance); // in cells
 
     _probMap = _mapRaw;
     double dist = 0.0;
 
-    for(int i = 0; i < _width; i++) // x
+    for(int i = 0; i < _width; i++) // x map
     {
-      for(int j = 0; j < _height; j++)  //y
+      for(int j = 0; j < _height; j++)  //y map
       {
         if(_mapRaw[j * _width + i] > IS_OCCUPIED_THRESHHOLD) // is occupied?
         {
-          for(int k = -filterSize; k <= filterSize; k++) // x
+          for(int k = -filterSize; k <= filterSize; k++) // x filter
           {
-            for(int l = -filterSize; l <= filterSize; l++)  //y
+            for(int l = -filterSize; l <= filterSize; l++)  //y filter
             {
               if( (i + k) >= 0 && (i + k) < _width && (j + l) >= 0 && (j + l) < _height)
               {
-                dist = std::sqrt(pow(k,2)+pow(l,2));
+                dist = std::sqrt(std::pow(k,2)+std::pow(l,2)); // precalculate that in future
                 if(dist < maxDistance)
                 {
                   dist = (1.0 - dist / maxDistance) * 100.0; // normalize to [0;100]
@@ -164,6 +171,10 @@ namespace ohmPf
               }
             }
           }
+        }
+        else if (_probMap[j * _width + i] == -1)
+        {
+          _probMap[j * _width + i] = 0;
         }
       }
     }

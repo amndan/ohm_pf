@@ -79,6 +79,9 @@ namespace ohmPf
     tf(1, 0) = std::sin(theta) + 0.0;
     tf(1, 1) = std::cos(theta) + 0.0;
     tf(1, 2) = y + 0.0;
+    tf(2, 0) = 0.0;
+    tf(2, 1) = 0.0;
+    tf(2, 2) = 1.0;
 
     return tf;
   }

@@ -20,6 +20,12 @@ OhmPfNode::OhmPfNode() :
   _prvNh.param<std::string>("topMap", _paramSet.topMap, "map");
   _prvNh.param<std::string>("topMapSrv", _paramSet.topMapSrv, "static_map");
   _prvNh.param<std::string>("topScan", _paramSet.topScan, "/robot0/laser_0");
+  int tmp;
+  _prvNh.param<int>("samplesMax", tmp, 5000);
+  _filterParams.samplesMax = (unsigned int) std::abs(tmp);
+  _prvNh.param<int>("samplesMin", tmp, 50);
+  _filterParams.samplesMin = (unsigned int) std::abs(tmp);
+
 
   _pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>("particleCloud", 1, true);
   _pubProbMap = _nh.advertise<nav_msgs::OccupancyGrid>("probMap", 1, true);
@@ -226,6 +232,8 @@ void OhmPfNode::calScan(const sensor_msgs::LaserScanConstPtr& msg)
   {
   _rosLaserPm->setMeasurement(msg);
   _rosLaserPm->updateFilter(*_filter);
+  _filter->getSampleSet()->resample();
+  printSampleSet(_filter->getSampleSet());
   }
 }
 

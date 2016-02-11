@@ -49,11 +49,10 @@ namespace ohmPf
         if(coordsTf(2,i) != 0)
         {
           prob = filter.getMap()->getProbability(coordsTf(0,i), coordsTf(1,i));
-          prob = 0.8 * prob + 0.2; // todo: magic numbers
+          prob = 0.2 * prob + 0.8; // todo: magic numbers
           probOfSample *= prob;
         }
       }
-
       it->weight = probOfSample;
     }
 
@@ -99,7 +98,7 @@ namespace ohmPf
 
     for(unsigned int i = 0; i < _paramSet.count; i++)
     {
-      if(ranges[i] <= _paramSet.rangeMax && ranges[i] >= _paramSet.rangeMin)
+      if( ranges[i] <= _paramSet.rangeMax && ranges[i] >= _paramSet.rangeMin &&  !std::isinf(ranges[i]) ) //todo: laserfilter
       {
         scanCoord(0,i) = ranges[i] * std::cos(_paramSet.angleMin + i * _paramSet.angleIncrement);
         scanCoord(1,i) = ranges[i] * std::sin(_paramSet.angleMin + i * _paramSet.angleIncrement);

@@ -19,6 +19,7 @@
 #include <cmath>
 
 #define IS_OCCUPIED_THRESHHOLD 50
+#define IS_UNKNOWN_CELL -1
 
 using namespace Eigen;
 
