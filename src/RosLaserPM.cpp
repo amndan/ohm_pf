@@ -30,42 +30,30 @@ namespace ohmPf
 
     Eigen::Matrix3Xd coords = rangesToCoordinates(_actualScan.ranges);
 
-    ros::Time t0;
-    ros::Time t1;
-    t0 = ros::Time::now();
-
-    t1 = ros::Time::now();
-    ros::Duration dur = t1 - t0;
-    std::cout << "calScan Duration: " << dur << std::endl;
-
     std::vector<Sample_t>* samples = filter.getSampleSet()->getSamples();
 
     std::cout << "samples count: " << samples->size() << std::endl;
 
-    double probOfSample = 1.0;
-    double prob = 1.0;
+    Eigen::Matrix3Xd coordsTf;
+    Eigen::Matrix3d tf;
+
+    ros::Time t0;
+    ros::Time t1;
+    t0 = ros::Time::now();
 
     for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it) // each sample
     {
       // transform scan to position of particle
-      Eigen::Matrix3d tf = create3x3TransformationMatrix(it->pose(0), it->pose(1), it->pose(2)); // todo: dont forget laser tf
-      Eigen::Matrix3Xd coordsTf = tf * coords;
+      create3x3TransformationMatrix(it->pose(0), it->pose(1), it->pose(2), tf); // todo: dont forget laser tf
+      coordsTf = tf * coords;
 
       // lookup probs
-
-      probOfSample = 1.0;
-
-      for(unsigned int i = 0; i < _paramSet.count; i++) // whole scan
-      {
-        if(coordsTf(2,i) != 0)
-        {
-          prob = filter.getMap()->getProbability(coordsTf(0,i), coordsTf(1,i));
-          prob = 0.2 * prob + 0.8; // todo: magic numbers
-          probOfSample *= prob;
-        }
-      }
-      it->weight = probOfSample;
+      it->weight = filter.getMap()->getProbability(coordsTf);
     }
+
+    t1 = ros::Time::now();
+    ros::Duration dur = t1 - t0;
+    std::cout << "calScan Duration: " << dur << std::endl;
 
 
     filter.getSampleSet()->normalize(); // todo: when to normalize?

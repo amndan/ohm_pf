@@ -33,6 +33,7 @@ namespace ohmPf
     virtual ~RosMap();
     bool isOccupied(double x, double y); // in meter
     double getProbability(double x, double y); // in meter
+    double getProbability(Eigen::Matrix3Xd& coords);
     double getWith();
     double getHeigh();
     Eigen::Matrix3d getOrigin();
@@ -49,6 +50,7 @@ namespace ohmPf
     Eigen::Matrix3d _tfMapToMapOrigin;
 
     void PointInMapToOrigin(double& x, double& y); // in meter
+    void PointInMapToOrigin(Eigen::Matrix3Xd& coords); // in meter
     int meterToCells(double x);
     bool isInMapRange(int x, int y);
 
