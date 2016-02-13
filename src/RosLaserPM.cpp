@@ -55,9 +55,6 @@ namespace ohmPf
     ros::Duration dur = t1 - t0;
     std::cout << "calScan Duration: " << dur << std::endl;
 
-
-    filter.getSampleSet()->normalize(); // todo: when to normalize?
-
     return;
 
   }
@@ -94,22 +91,27 @@ namespace ohmPf
   {
     assert(ranges.size() == _paramSet.count);
 
-    Eigen::Matrix3Xd scanCoord(3,_paramSet.count);
+    int subSampFact = 15; // todo: use parameter -> subsampling in laserFilter?
 
-    for(unsigned int i = 0; i < _paramSet.count; i++)
+    int iter = (int) std::floor(_paramSet.count / subSampFact);
+
+    Eigen::Matrix3Xd scanCoord(3,iter+1);
+
+    for(unsigned int i = 0, j = 0; i < _paramSet.count; i = i + subSampFact, j++)
     {
       if( ranges[i] <= _paramSet.rangeMax && ranges[i] >= _paramSet.rangeMin &&  !std::isinf(ranges[i]) ) //todo: laserfilter
       {
-        scanCoord(0,i) = ranges[i] * std::cos(_paramSet.angleMin + i * _paramSet.angleIncrement);
-        scanCoord(1,i) = ranges[i] * std::sin(_paramSet.angleMin + i * _paramSet.angleIncrement);
-        scanCoord(2,i) = 1;
+        scanCoord(0,j) = ranges[i] * std::cos(_paramSet.angleMin + i * _paramSet.angleIncrement);
+        scanCoord(1,j) = ranges[i] * std::sin(_paramSet.angleMin + i * _paramSet.angleIncrement);
+        scanCoord(2,j) = 1;
       }
       else
       {
-        scanCoord(0,i) = 0.0; // todo: perhaps use a mask here
-        scanCoord(1,i) = 0.0;
-        scanCoord(2,i) = 0.0;
+        scanCoord(0,j) = 0.0; // todo: perhaps use a mask here
+        scanCoord(1,j) = 0.0;
+        scanCoord(2,j) = 0.0;
       }
+
     }
     return scanCoord;
   }

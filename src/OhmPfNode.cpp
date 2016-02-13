@@ -186,7 +186,7 @@ void OhmPfNode::spawnOdom()
   //todo: get odom Params from Launchfile
   _odomDiffParams.a1 = 0.005;
   _odomDiffParams.a2 = 0.0;
-  _odomDiffParams.a3 = 15.0;
+  _odomDiffParams.a3 = 0.01;
   _odomDiffParams.a4 = 0.0;
 
   _odomDiff = new ohmPf::OdomDiff(_odomDiffParams);
@@ -229,6 +229,8 @@ void OhmPfNode::calScan(const sensor_msgs::LaserScanConstPtr& msg)
   {
   _rosLaserPm->setMeasurement(msg);
   _rosLaserPm->updateFilter(*_filter);
+  _filter->updateWithMap();
+  _filter->getSampleSet()->normalize();
   _filter->getSampleSet()->resample();
   printSampleSet(_filter->getSampleSet());
   }

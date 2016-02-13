@@ -15,7 +15,7 @@
         <arg name="topFixedFrame" value="map" />
         <arg name="topOdometry" value="/robot0/odom" />
         <arg name="top2dPoseEst" value="initialpose" />
-        <arg name="topCeilCam" value="ceilCamPoseArray_off" />
+        <arg name="topCeilCam" value="ceilCamPoseArray" />
         <arg name="topMap" value="map" />
         <arg name="topMapSrv" value="static_map" />
 	<arg name="samplesMax" value="5000" />
