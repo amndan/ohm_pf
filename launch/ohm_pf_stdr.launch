@@ -18,7 +18,7 @@
         <arg name="topCeilCam" value="ceilCamPoseArray_off" />
         <arg name="topMap" value="map" />
         <arg name="topMapSrv" value="static_map" />
-	<arg name="samplesMax" value="100000" />
+	<arg name="samplesMax" value="5000" />
 	<arg name="samplesMin" value="50" />
     </include>
 

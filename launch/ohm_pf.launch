@@ -14,7 +14,7 @@
     <arg name="samplesMin" default="50" />
     <!-- ******************* -->
 
-    <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" launch-prefix="xterm -e cgdb --args">
+    <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" launch-prefix="xterm -e cgdb -ex run --args">
         <param name="topFixedFrame" type="string" value="$(arg topFixedFrame)" />
         <param name="topOdometry" type="string" value="$(arg topOdometry)" />
         <param name="top2dPoseEst" type="string" value="$(arg top2dPoseEst)" />

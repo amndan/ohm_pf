@@ -54,7 +54,7 @@ private:
   ros::ServiceClient _cliMapSrv;
   ros::NodeHandle _nh;
   ros::NodeHandle _prvNh;
-  ros::Rate loopRate;
+  ros::Rate _loopRate;
   OhmPfNodeParams_t _paramSet;
   ohmPf::OdomDiffParams_t _odomDiffParams;
   ohmPf::OdomDiff* _odomDiff;

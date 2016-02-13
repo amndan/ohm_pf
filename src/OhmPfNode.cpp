@@ -11,7 +11,7 @@ namespace ohmPf
 {
 
 OhmPfNode::OhmPfNode() :
-    _nh(), _prvNh("~"), loopRate(25)
+    _nh(), _prvNh("~"), _loopRate(25)
 {
   _prvNh.param<std::string>("topFixedFrame", _paramSet.topFixedFrame, "map");
   _prvNh.param<std::string>("topOdometry", _paramSet.topOdometry, "/robot0/odom");
@@ -59,7 +59,7 @@ void OhmPfNode::spinOnce()
 {
   if(ros::ok())
   {
-    loopRate.sleep();
+    _loopRate.sleep();
     ros::spinOnce();
   }
   else
@@ -194,9 +194,6 @@ void OhmPfNode::spawnOdom()
 
 void OhmPfNode::spawnFilter()
 {
-  _filterParams.samplesMax = 5000;
-  _filterParams.samplesMin = 20;
-
   _filter = new ohmPf::Filter(_filterParams);
 }
 

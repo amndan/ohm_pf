@@ -27,9 +27,20 @@ namespace ohmPf
       initWithMeasurement();
     }
 
+
     Eigen::Matrix3Xd coords = rangesToCoordinates(_actualScan.ranges);
 
+    ros::Time t0;
+    ros::Time t1;
+    t0 = ros::Time::now();
+
+    t1 = ros::Time::now();
+    ros::Duration dur = t1 - t0;
+    std::cout << "calScan Duration: " << dur << std::endl;
+
     std::vector<Sample_t>* samples = filter.getSampleSet()->getSamples();
+
+    std::cout << "samples count: " << samples->size() << std::endl;
 
     double probOfSample = 1.0;
     double prob = 1.0;
@@ -37,7 +48,7 @@ namespace ohmPf
     for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it) // each sample
     {
       // transform scan to position of particle
-      Eigen::Matrix3d tf = create3x3TransformationMatrix(it->pose(0), it->pose(1), it->pose(2));
+      Eigen::Matrix3d tf = create3x3TransformationMatrix(it->pose(0), it->pose(1), it->pose(2)); // todo: dont forget laser tf
       Eigen::Matrix3Xd coordsTf = tf * coords;
 
       // lookup probs
@@ -55,6 +66,7 @@ namespace ohmPf
       }
       it->weight = probOfSample;
     }
+
 
     filter.getSampleSet()->normalize(); // todo: when to normalize?
 

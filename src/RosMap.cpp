@@ -144,7 +144,7 @@ namespace ohmPf
 
   void RosMap::calcProbMap()
   {
-    int maxDistance = 40; // in cells todo: magic number
+    int maxDistance = 5; // in cells todo: magic number
     int filterSize = std::ceil(1.0 * (double) maxDistance); // in cells
 
     _probMap = _mapRaw;
