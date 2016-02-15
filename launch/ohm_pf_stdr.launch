@@ -12,8 +12,9 @@
 
     <include file="$(find ohm_pf)/launch/ohm_pf.launch">
         <arg name="output" value="screen" />
-        <arg name="topFixedFrame" value="map" />
         <arg name="topOdometry" value="/robot0/odom" />
+        <arg name="tfFixedFrame" value="map" />
+        <arg name="tfBaseFootprintFrame" value="robot0" />
         <arg name="top2dPoseEst" value="initialpose" />
         <arg name="topCeilCam" value="ceilCamPoseArray" />
         <arg name="topMap" value="map" />

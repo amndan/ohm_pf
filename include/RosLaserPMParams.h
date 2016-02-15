@@ -19,6 +19,8 @@ typedef struct
   double angleMin;
   double angleMax;
   unsigned int count;
+  std::string tfLaserFrame;
+  std::string tfBaseFooprintFrame;
 } RosLaserPMParams_t;
 
 } /* namespace ohmPf */

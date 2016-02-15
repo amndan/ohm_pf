@@ -13,7 +13,8 @@ namespace ohmPf
 
 typedef struct
 {
-  std::string topFixedFrame;
+  std::string tfFixedFrame;
+  std::string tfBaseFootprintFrame;
   std::string topOdometry;
   std::string top2dPoseEst;
   std::string topCeilCam;

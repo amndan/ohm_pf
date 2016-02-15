@@ -13,13 +13,14 @@ namespace ohmPf
 OhmPfNode::OhmPfNode() :
     _nh(), _prvNh("~"), _loopRate(25)
 {
-  _prvNh.param<std::string>("topFixedFrame", _paramSet.topFixedFrame, "map");
-  _prvNh.param<std::string>("topOdometry", _paramSet.topOdometry, "/robot0/odom");
+  _prvNh.param<std::string>("tfFixedFrame", _paramSet.tfFixedFrame, "map");
+  _prvNh.param<std::string>("tfBaseFootprintFrame", _paramSet.tfBaseFootprintFrame, "base_footprint");
+  _prvNh.param<std::string>("topOdometry", _paramSet.topOdometry, "robot0/odom");
   _prvNh.param<std::string>("top2dPoseEst", _paramSet.top2dPoseEst, "initialpose");
   _prvNh.param<std::string>("topCeilCam", _paramSet.topCeilCam, "ceilCamPoseArray");
   _prvNh.param<std::string>("topMap", _paramSet.topMap, "map");
   _prvNh.param<std::string>("topMapSrv", _paramSet.topMapSrv, "static_map");
-  _prvNh.param<std::string>("topScan", _paramSet.topScan, "/robot0/laser_0");
+  _prvNh.param<std::string>("topScan", _paramSet.topScan, "robot0/laser_0");
   int tmp;
   _prvNh.param<int>("samplesMax", tmp, 5000);
   _filterParams.samplesMax = (unsigned int) std::abs(tmp);
@@ -40,7 +41,7 @@ OhmPfNode::OhmPfNode() :
   spawnOdom();
   spawnFilter();
   _ceilCam = new CeilCam();
-  _rosLaserPm = new RosLaserPM();
+  _rosLaserPm = new RosLaserPM(_paramSet.tfBaseFootprintFrame);
 
 }
 
@@ -75,7 +76,7 @@ void OhmPfNode::printSampleSet(SampleSet* sampleSet){
   geometry_msgs::PoseArray poseArray;
   geometry_msgs::Pose pose;
 
-  poseArray.header.frame_id = _paramSet.topFixedFrame;
+  poseArray.header.frame_id = _paramSet.tfFixedFrame;
 
   for(unsigned int i = 0; i < samples.size(); i++)
   {

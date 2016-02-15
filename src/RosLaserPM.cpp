@@ -10,9 +10,11 @@
 namespace ohmPf
 {
 
-  RosLaserPM::RosLaserPM()
+  RosLaserPM::RosLaserPM(std::string tfBaseFooprintFrame)
   {
     _initialized = false;
+
+    _paramSet.tfBaseFooprintFrame = tfBaseFooprintFrame;
   }
 
   RosLaserPM::~RosLaserPM()
@@ -45,7 +47,7 @@ namespace ohmPf
     {
       // transform scan to position of particle
       create3x3TransformationMatrix(it->pose(0), it->pose(1), it->pose(2), tf); // todo: dont forget laser tf
-      coordsTf = tf * coords;
+      coordsTf = tf * _tfBaseFootprintToLaser * coords;
 
       // lookup probs
       it->weight = filter.getMap()->getProbability(coordsTf);
@@ -72,6 +74,8 @@ namespace ohmPf
     _paramSet.rangeMax = (double) _actualScan.range_max;
     _paramSet.rangeMin = (double) _actualScan.range_min;
 
+    _paramSet.tfLaserFrame = _actualScan.header.frame_id;
+
     double angleRange = _paramSet.angleMax - _paramSet.angleMin;
 
     assert(angleRange > 0.0);
@@ -83,6 +87,18 @@ namespace ohmPf
 
     _paramSet.count = _actualScan.ranges.size();
     _paramSet.angleIncrement = std::abs(angleRange) / _paramSet.count;
+
+    tf::Transform tf;
+    tf::StampedTransform tmp;
+    tf::TransformListener tfListener;
+
+    tfListener.waitForTransform(_paramSet.tfBaseFooprintFrame, _paramSet.tfLaserFrame, ros::Time(0), ros::Duration(3.0));
+    assert(tfListener.canTransform(_paramSet.tfBaseFooprintFrame, _paramSet.tfLaserFrame, ros::Time(0)));
+    tfListener.lookupTransform(_paramSet.tfBaseFooprintFrame, _paramSet.tfLaserFrame, ros::Time(0), tmp);
+
+    tf = tmp; // stamped to not stamped
+
+    _tfBaseFootprintToLaser = tfToEigenMatrix3x3(tf);
 
     _initialized = true;
   }
