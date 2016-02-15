@@ -12,6 +12,7 @@
     <arg name="topMapSrv" default="static_map" />
     <arg name="samplesMax" default="5000" />
     <arg name="samplesMin" default="50" />
+    <arg name="topScan" default="/robot0/laser" />
     <!-- ******************* -->
 
     <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" launch-prefix="xterm -e cgdb -ex run --args">
@@ -23,6 +24,8 @@
         <param name="topMapSrv" type="string" value="$(arg topMapSrv)" />
         <param name="samplesMax" type="int" value="$(arg samplesMax)" />
         <param name="samplesMin" type="int" value="$(arg samplesMin)" />
+        <param name="topScan" type="string" value="$(arg topScan)" />
+
 
     </node>
 
