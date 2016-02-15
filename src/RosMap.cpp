@@ -46,7 +46,7 @@ bool RosMap::isOccupied(double x, double y)
     return true;
   }
 
-  if(_mapRaw[y_c * _width + x_c] > IS_OCCUPIED_THRESHHOLD)
+  if(_mapRaw[y_c * _width + x_c] > IS_OCCUPIED_THRESHHOLD || _mapRaw[y_c * _width + x_c] == -1)
   {
     return true;
   }

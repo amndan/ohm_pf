@@ -91,11 +91,11 @@ namespace ohmPf
   {
     assert(ranges.size() == _paramSet.count);
 
-    int subSampFact = 15; // todo: use parameter -> subsampling in laserFilter?
+    int subSampFact = 15; // todo: use parameter --> subsampling in laserFilter?
 
     int iter = (int) std::floor(_paramSet.count / subSampFact);
 
-    Eigen::Matrix3Xd scanCoord(3,iter+1);
+    Eigen::Matrix3Xd scanCoord(3,iter+1); // abs(5 / 2) = 2 --> 0 2 4 --> 2 + 1 = 3
 
     for(unsigned int i = 0, j = 0; i < _paramSet.count; i = i + subSampFact, j++)
     {
