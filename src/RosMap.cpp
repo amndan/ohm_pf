@@ -5,7 +5,7 @@
  *      Author: amndan
  */
 
-#include "RosMap.h"
+#include "../include/RosMap.h"
 
 namespace ohmPf
 {

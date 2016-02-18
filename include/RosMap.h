@@ -11,12 +11,12 @@
 #include "nav_msgs/OccupancyGrid.h"
 #include "ros/types.h"
 #include "tf/transform_datatypes.h"
-#include "Map.h"
 #include "Eigen/Dense"
 #include "assert.h"
 #include "iostream"
 #include "UtilitiesOhmPf.h"
 #include <cmath>
+#include "MapModel.h"
 
 #define IS_OCCUPIED_THRESHHOLD 50
 #define IS_UNKNOWN_CELL -1
@@ -26,7 +26,7 @@ using namespace Eigen;
 namespace ohmPf
 {
 
-  class RosMap : public Map
+  class RosMap : public MapModel
   {
   public:
     RosMap(const nav_msgs::OccupancyGrid& msg);

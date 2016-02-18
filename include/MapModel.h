@@ -1,5 +1,5 @@
 /*
- * Map.h
+ * MapModel.h
  *
  *  Created on: 13.01.2016
  *      Author: amndan
@@ -12,11 +12,11 @@
 
 namespace ohmPf
 {
-  class Map
+  class MapModel
   {
   public:
-    Map(){}
-    virtual ~Map(){}
+    MapModel(){}
+    virtual ~MapModel(){}
     virtual bool isOccupied(double x, double y) = 0; //x, y in m
     virtual double getProbability(double x, double y) = 0; // in meter
     virtual double getProbability(Eigen::Matrix3Xd& coords) = 0; // todo: coords has to be constant

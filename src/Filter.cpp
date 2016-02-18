@@ -30,7 +30,7 @@ namespace ohmPf
     return _sampleSet;
   }
 
-  Map* Filter::getMap()
+  MapModel* Filter::getMap()
   {
     return _map;
   }
@@ -54,7 +54,7 @@ namespace ohmPf
     _initialized = true;
   }
 
-  void Filter::initWithMap(Map* map)
+  void Filter::initWithMap(MapModel* map)
   {
     double xMin;
     double yMin;

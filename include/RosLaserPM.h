@@ -17,8 +17,9 @@
 #include "assert.h"
 #include "Eigen/Dense"
 #include <cmath>
+
+#include "MapModel.h"
 #include "UtilitiesOhmPf.h"
-#include "Map.h"
 
 namespace ohmPf
 {

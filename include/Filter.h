@@ -14,9 +14,9 @@
 #include "Sample.h"
 #include "GaussianPdf.h"
 #include <assert.h>
-#include "Map.h"
 #include "ros/time.h" // ros time can be used without ros environment -- compile with "-lboost_system"
 #include "ros/duration.h"
+#include "MapModel.h"
 
 namespace ohmPf
 {
@@ -28,14 +28,14 @@ namespace ohmPf
     virtual ~Filter();
     SampleSet* getSampleSet();
     void initWithPose(const Eigen::Vector3d& pose);
-    void initWithMap(Map* map); // todo: init filter with map
+    void initWithMap(MapModel* map); // todo: init filter with map
     void updateWithMap();
     bool isInitialized();
-    Map* getMap();
+    MapModel* getMap();
 
   private:
     SampleSet* _sampleSet;
-    Map* _map;
+    MapModel* _map;
     FilterParams_t _paramSet;
     bool _initialized;
   };

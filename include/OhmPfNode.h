@@ -22,8 +22,8 @@
 #include "FilterParams.h"
 #include "OdomDiff.h"
 #include "Filter.h"
-#include "RosMap.h"
 #include "RosLaserPM.h"
+#include "RosMap.h"
 
 
 
