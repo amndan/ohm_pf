@@ -141,7 +141,7 @@ void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
   }
 
   _odomDiff->addSingleMeasurement(measurement);
-  _odomDiff->updateFilter(_filter);
+  _odomDiff->updateFilter(*_filter);
   printSampleSet(_filter->getSampleSet());
 }
 
@@ -217,7 +217,7 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
     }
 
     _ceilCam->setMeasurement(measurement);
-    _ceilCam->updateFilter(_filter);
+    _ceilCam->updateFilter(*_filter);
     _filter->updateWithMap();
     _filter->getSampleSet()->normalize();
     _filter->getSampleSet()->resample();

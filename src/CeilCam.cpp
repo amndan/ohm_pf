@@ -26,10 +26,10 @@ namespace ohmPf
     _measurement = measurement;
   }
 
-  void CeilCam::updateFilter(Filter* filter)
+  void CeilCam::updateFilter(Filter& filter)
   {
     // todo: better implementation
-    std::vector<Sample_t>* samples = filter->getSampleSet()->getSamples();
+    std::vector<Sample_t>* samples = filter.getSampleSet()->getSamples();
     std::vector<double> probs(samples->size(), 0.0);
 
     for(std::vector<Eigen::Vector3d>::iterator it = _measurement.begin(); it != _measurement.end(); ++it)

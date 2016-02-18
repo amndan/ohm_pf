@@ -8,7 +8,7 @@
 #ifndef INCLUDE_ROSLASERPM_H_
 #define INCLUDE_ROSLASERPM_H_
 
-#include "LaserModel.h"
+#include "Sensor.h"
 #include "Filter.h"
 #include "sensor_msgs/LaserScan.h"
 #include "tf/transform_datatypes.h"
@@ -24,7 +24,7 @@
 namespace ohmPf
 {
 
-  class RosLaserPM : public LaserModel
+  class RosLaserPM : public Sensor
   {
   public:
     RosLaserPM(std::string tfBaseFooprintFrame);

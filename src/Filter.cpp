@@ -100,15 +100,7 @@ namespace ohmPf
       return;
     }
 
-    std::vector<Sample_t>* samples = _sampleSet->getSamples();
-
-    for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
-    {
-      if( _map->isOccupied( it->pose(0),it->pose(1) ) )
-      {
-        it->weight = 0.0;
-      }
-    }
+    _map->updateFilter(*this);
 
   }
 

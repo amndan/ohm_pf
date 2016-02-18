@@ -140,6 +140,19 @@ void RosMap::PointInMapToOrigin(double& x, double& y)
   return;
 }
 
+void RosMap::updateFilter(Filter& filter)
+{
+  std::vector<Sample_t>* samples = filter.getSampleSet()->getSamples();
+
+  for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
+  {
+    if(isOccupied(it->pose(0), it->pose(1)))
+    {
+      it->weight = 0.0;
+    }
+  }
+}
+
 void RosMap::PointInMapToOrigin(Eigen::Matrix3Xd& coords)
 {
   coords = _tfMapToMapOrigin.inverse() * coords;

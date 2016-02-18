@@ -17,6 +17,7 @@
 #include "UtilitiesOhmPf.h"
 #include <cmath>
 #include "MapModel.h"
+#include "Filter.h"
 
 #define IS_OCCUPIED_THRESHHOLD 50
 #define IS_UNKNOWN_CELL -1
@@ -40,6 +41,7 @@ namespace ohmPf
     void getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax);
     void calcProbMap();
     void getProbMap(nav_msgs::OccupancyGrid& msg);
+    void updateFilter(Filter& filter);
   private:
     std::vector<int8_t> _mapRaw;
     std::vector<int8_t> _probMap;

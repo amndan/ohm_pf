@@ -9,10 +9,12 @@
 #define SRC_MAP_H_
 
 #include "Eigen/Dense"
+#include "Sensor.h"
 
 namespace ohmPf
 {
-  class MapModel
+
+  class MapModel : public Sensor
   {
   public:
     MapModel(){}

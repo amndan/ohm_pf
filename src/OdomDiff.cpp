@@ -44,11 +44,11 @@ namespace ohmPf
       std::cout << __PRETTY_FUNCTION__ << "angle overflow; phi = " << pose(2) << std::endl;
   }
 
-  void OdomDiff::updateFilter(Filter* filter)
+  void OdomDiff::updateFilter(Filter& filter)
   {
     assert(_initialized);
 
-    std::vector<Sample_t>* samples = filter->getSampleSet()->getSamples();
+    std::vector<Sample_t>* samples = filter.getSampleSet()->getSamples();
 
     for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
     {
