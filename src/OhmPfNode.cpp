@@ -40,9 +40,12 @@ OhmPfNode::OhmPfNode() :
 
   spawnOdom();
   spawnFilter();
-  _ceilCam = new CeilCam();
-  _rosLaserPm = new RosLaserPM(_paramSet.tfBaseFootprintFrame);
 
+  _filter->setSensor(CEILCAM, new CeilCam());
+  _filter->setSensor(LASER, new RosLaserPM(_paramSet.tfBaseFootprintFrame));
+
+  _cumSumRot = 0.0;
+  _cumSumtrans = 0.0;
 }
 
 OhmPfNode::~OhmPfNode()
@@ -130,6 +133,7 @@ void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
   {
     ROS_INFO_STREAM("Received first odom message - initializing odom...");
     _odomDiff->addSingleMeasurement(measurement);
+    _lastOdomPose = measurement;
     _odomInitialized = true;
     ROS_INFO_STREAM("odom initialized");
 
@@ -143,6 +147,22 @@ void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
   _odomDiff->addSingleMeasurement(measurement);
   _odomDiff->updateFilter(*_filter);
   printSampleSet(_filter->getSampleSet());
+
+  Eigen::Vector3d diff = measurement - _lastOdomPose;
+  _cumSumtrans += std::sqrt(std::pow(diff(0) ,2) + std::pow(diff(1) ,2));
+  _cumSumRot += std::abs(diff(2));
+
+  if(_cumSumRot > 0.01 || _cumSumtrans > 0.1)
+  {
+    _filter->triggerOdomChangedSignificantly();
+    _cumSumRot = 0;
+    _cumSumtrans = 0;
+  }
+
+  std::cout << _cumSumtrans << " " << _cumSumRot << std::endl;
+
+  _lastOdomPose = measurement;
+
 }
 
 void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg)
@@ -224,25 +244,21 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
       measurement.push_back(pose);
     }
 
-    _ceilCam->setMeasurement(measurement);
-    _ceilCam->updateFilter(*_filter);
-    _filter->updateWithSensor(MAP);
-    _filter->getSampleSet()->normalize();
-    _filter->getSampleSet()->resample();
+    ((CeilCam&) _filter->getSensor(CEILCAM)).setMeasurement(measurement);
+    _filter->updateWithSensor(CEILCAM);
   }
 }
 
-void OhmPfNode::calScan(const sensor_msgs::LaserScanConstPtr& msg)
-{
-  if(&_filter->getSensor(MAP) != NULL)
+  void OhmPfNode::calScan(const sensor_msgs::LaserScanConstPtr& msg)
   {
-  _rosLaserPm->setMeasurement(msg);
-  _rosLaserPm->updateFilter(*_filter);
-  _filter->updateWithSensor(MAP);
-  _filter->getSampleSet()->normalize();
-  _filter->getSampleSet()->resample();
-  printSampleSet(_filter->getSampleSet());
+    if(&_filter->getSensor(MAP) != NULL)
+    {
+      RosLaserPM& laser = (RosLaserPM&)_filter->getSensor(LASER);
+      laser.setMeasurement(msg);
+      _filter->updateWithSensor(LASER);
+      //laser.updateFilter(*_filter); // todo: das sollte nur der filter können!?
+      printSampleSet(_filter->getSampleSet());
+    }
   }
-}
 
 } /* namespace ohmPf */

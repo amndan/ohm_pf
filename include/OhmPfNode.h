@@ -48,6 +48,7 @@ private:
   void spawnFilter();
   double _cumSumRot;
   double _cumSumtrans;
+  Eigen::Vector3d _lastOdomPose;
   ros::Publisher _pubSampleSet;
   ros::Publisher _pubProbMap;
   ros::Subscriber _subOdometry;
@@ -61,8 +62,6 @@ private:
   OhmPfNodeParams_t _paramSet;
   ohmPf::OdomDiffParams_t _odomDiffParams;
   ohmPf::OdomDiff* _odomDiff;
-  ohmPf::CeilCam* _ceilCam;
-  ohmPf::RosLaserPM* _rosLaserPm;
   ohmPf::Filter* _filter;
   ohmPf::FilterParams_t _filterParams;
 

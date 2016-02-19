@@ -98,7 +98,6 @@ namespace ohmPf
   {
     assert(sensorID < CNT_SENSORS);
 
-
     if(_sensors[sensorID] == NULL)
     {
       std::cout << __PRETTY_FUNCTION__ << "sensorID " <<  sensorID << " not available; skip update of filter" << std::endl;

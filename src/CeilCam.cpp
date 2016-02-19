@@ -43,7 +43,7 @@ namespace ohmPf
       for(std::vector<Sample_t>::iterator it2 = samples->begin(); it2 != samples->end(); ++it2)
       {
         int n = std::distance(samples->begin(), it2);
-        probs[n] = std::max(probs[n], getProbabilityFrom2Poses(*it, it2->pose, 0.1));
+        probs[n] = std::max(probs[n], getProbabilityFrom2Poses(*it, it2->pose, 2.0)); // todo: magic number
       }
     }
 
@@ -52,5 +52,9 @@ namespace ohmPf
       int n = std::distance(samples->begin(), it);
       it->weight = it->weight * probs[n];
     }
+
+    filter.updateWithSensor(MAP);
+    filter.getSampleSet()->normalize();
+    filter.getSampleSet()->resample();
   }
 } /* namespace ohmPf */

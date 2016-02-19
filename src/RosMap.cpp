@@ -130,7 +130,7 @@ namespace ohmPf
           prob = (double)_probMap[y * _width + x] / 100.0;  // todo: coords wird hier verändert -> das darf nicht sein!!
         }
 
-        prob = 0.1 * prob + 0.9;  // todo: magic numbers
+        prob = 0.001 * prob + 0.999;  // todo: magic numbers
         probOfCoords *= prob;
       }
     }

@@ -1,0 +1,36 @@
+<launch>
+    <arg name="output" default="screen" />
+
+    <node name="CeilCamSimulator" pkg="ohm_pf" type="CeilCamSimulator" output="$(arg output)" />
+
+    <node pkg="turtlebot_teleop" type="turtlebot_teleop_key" name="turtlebot_teleop_keyboard" output="$(arg output)" launch-prefix="xterm -e">
+        <param name="scale_linear" value="1.0" type="double" />
+        <param name="scale_angular" value="1.5" type="double" />
+        <remap from="turtlebot_teleop_keyboard/cmd_vel" to="robot0/cmd_vel" />
+    </node>
+
+    <include file="$(find ohm_pf)/launch/ohm_pf.launch">
+        <arg name="output" value="screen" />
+        <arg name="topOdometry" value="/robot0/odom" />
+        <arg name="tfFixedFrame" value="map" />
+        <arg name="tfBaseFootprintFrame" value="robot0" />
+        <arg name="top2dPoseEst" value="initialpose" />
+        <arg name="topCeilCam" value="ceilCamPoseArray_OFF" />
+        <arg name="topMap" value="map" />
+        <arg name="topMapSrv" value="static_map" />
+	<arg name="samplesMax" value="10000" />
+	<arg name="samplesMin" value="50" />
+    </include>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ohm_pf)/rviz/ohm_pf_stdr.rviz" />
+
+    <!-- stdr -->
+    <include file="$(find stdr_robot)/launch/robot_manager.launch" />
+    <node type="stdr_server_node" pkg="stdr_server" name="stdr_server" output="screen" args="$(find stdr_resources)/maps/robocup.yaml" />
+    <node pkg="tf" type="static_transform_publisher" name="world2map" args="0 0 0 0 0 0  world map 100" />
+    <!-- <include file="$(find stdr_gui)/launch/stdr_gui.launch" /> -->
+    <node pkg="stdr_robot" type="robot_handler" name="$(anon robot_spawn)" args="add $(find stdr_resources)/resources/robots/pandora_robot.yaml 6 6 0" />
+
+    <node name="mapServer" pkg="map_server" type="map_server" args="$(find stdr_resources)/maps/robocup.yaml" />
+
+</launch>
