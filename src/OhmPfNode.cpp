@@ -234,7 +234,7 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
 
 void OhmPfNode::calScan(const sensor_msgs::LaserScanConstPtr& msg)
 {
-  if(_filter->getMap() != NULL)
+  if(&_filter->getSensor(MAP) != NULL)
   {
   _rosLaserPm->setMeasurement(msg);
   _rosLaserPm->updateFilter(*_filter);

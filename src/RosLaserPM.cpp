@@ -50,7 +50,7 @@ namespace ohmPf
       coordsTf = tf * _tfBaseFootprintToLaser * coords;
 
       // lookup probs
-      it->weight = filter.getMap()->getProbability(coordsTf);
+      it->weight = ( (MapModel&) filter.getSensor(MAP) ).getProbability(coordsTf);
     }
 
     t1 = ros::Time::now();

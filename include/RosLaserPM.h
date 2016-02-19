@@ -17,7 +17,7 @@
 #include "assert.h"
 #include "Eigen/Dense"
 #include <cmath>
-
+#include "EnumSensor.h"
 #include "MapModel.h"
 #include "UtilitiesOhmPf.h"
 

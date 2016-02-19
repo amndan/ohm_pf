@@ -12,13 +12,15 @@ namespace ohmPf
 
   Filter::Filter(FilterParams_t paramSet)
   {
-    _map = NULL;
     _paramSet = paramSet;
     _sampleSet = NULL;
 
     for(int i = 0; i < CNT_SENSORS; i++)
     {
       _sensors[i] = NULL;
+      _sensorsInitialized[i] = false;
+      _sensorsUpdateDistance[i] = 0.5; // todo: magic number
+      _sensorsOdomChangedSignificantly[i] = true;
     }
 
     _initialized = false;
@@ -26,7 +28,7 @@ namespace ohmPf
 
   Filter::~Filter()
   {
-    delete _map;
+
   }
 
   SampleSet* Filter::getSampleSet()
@@ -48,11 +50,6 @@ namespace ohmPf
     _sampleSet = new SampleSet(samples);
   }
 
-  MapModel* Filter::getMap()
-  {
-    return _map;
-  }
-
   bool Filter::isInitialized()
   {
     return _initialized;
@@ -68,6 +65,7 @@ namespace ohmPf
       samples.push_back(GaussianPdf::getRandomSample(pose, 0.5, 0.2));
     }
 
+    delete _sampleSet;
     _sampleSet = new SampleSet(samples);
     _initialized = true;
   }
@@ -107,7 +105,11 @@ namespace ohmPf
       return;
     }
 
-    _sensors[sensorID]->updateFilter(*this);
+    if(_sensorsOdomChangedSignificantly[sensorID])
+    {
+      _sensors[sensorID]->updateFilter(*this);
+      _sensorsOdomChangedSignificantly[sensorID] = false; // no update til next sgnificant change in odom
+    }
 
     return;
   }
@@ -116,6 +118,14 @@ namespace ohmPf
   {
     assert(sensorID < CNT_SENSORS);
     _sensors[sensorID] = pSensor;
+  }
+
+  void Filter::triggerOdomChangedSignificantly()
+  {
+    for(int i = 0; i < CNT_SENSORS; i++)
+    {
+      _sensorsOdomChangedSignificantly[i] = true;
+    }
   }
 
 } /* namespace ohmPf */

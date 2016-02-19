@@ -46,6 +46,8 @@ private:
   void calScan(const sensor_msgs::LaserScanConstPtr& msg);
   void spawnOdom();
   void spawnFilter();
+  double _cumSumRot;
+  double _cumSumtrans;
   ros::Publisher _pubSampleSet;
   ros::Publisher _pubProbMap;
   ros::Subscriber _subOdometry;
