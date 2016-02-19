@@ -24,6 +24,7 @@
 #include "Filter.h"
 #include "RosLaserPM.h"
 #include "RosMap.h"
+#include "EnumSensor.h"
 
 
 

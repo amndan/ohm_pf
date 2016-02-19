@@ -12,15 +12,20 @@ namespace ohmPf
 
   Filter::Filter(FilterParams_t paramSet)
   {
-    _sampleSet = NULL;
     _map = NULL;
-    this->_paramSet = paramSet;
+    _paramSet = paramSet;
+    _sampleSet = NULL;
+
+    for(int i = 0; i < CNT_SENSORS; i++)
+    {
+      _sensors[i] = NULL;
+    }
+
     _initialized = false;
   }
 
   Filter::~Filter()
   {
-    delete _sampleSet;
     delete _map;
   }
 
@@ -28,6 +33,19 @@ namespace ohmPf
   {
     assert(_initialized);
     return _sampleSet;
+  }
+
+  Sensor& Filter::getSensor(int sensorID)
+  {
+    assert(sensorID < CNT_SENSORS);
+    return *_sensors[sensorID];
+  }
+
+  void Filter::setSamples(std::vector<Sample_t> samples)
+  {
+    // todo: check plausibility of sample set
+    delete _sampleSet;
+    _sampleSet = new SampleSet(samples);
   }
 
   MapModel* Filter::getMap()
@@ -54,54 +72,51 @@ namespace ohmPf
     _initialized = true;
   }
 
-  void Filter::initWithMap(MapModel* map)
+
+  FilterParams_t const * const Filter::getParamSet()
   {
-    double xMin;
-    double yMin;
-    double xMax;
-    double yMax;
-
-    delete _sampleSet;
-    delete _map;
-    _map = map;
-
-    _map->getMinEnclRect(xMin, yMin, xMax, yMax);
-
-    // generate cloud
-    std::vector<Sample_t> samples;
-
-    for(unsigned int i = 0; i < _paramSet.samplesMax; i++)
-    {
-      Sample_t sample;
-      sample.weight = 1.0;
-      sample.pose(2) = drand48() * 2 * M_PI - M_PI;
-      // todo: more efficient way here
-      do
-      {
-        sample.pose(0) = drand48() * (xMax - xMin) + xMin;
-        sample.pose(1) = drand48() * (yMax - yMin) + yMin;
-      }while( _map->isOccupied( sample.pose(0), sample.pose(1)) );
-      //todo: check if there is at least one field not occupied
-
-      samples.push_back(sample);
-    }
-
-    _sampleSet = new SampleSet(samples);
-    _initialized = true;
+    return &_paramSet;
   }
 
-  void Filter::updateWithMap()
+  void Filter::initWithSensor(int sensorID)
   {
-    //assert(_map != NULL);
+    assert(sensorID < CNT_SENSORS);
+    assert(_sensors[sensorID] != NULL);
 
-    if(_map == NULL)
+    if(_sensors[sensorID] == NULL)
     {
-      std::cout<< __PRETTY_FUNCTION__ << "no map available; skip map update of filter" << std::endl;
+      std::cout << __PRETTY_FUNCTION__ << "sensorID " <<  sensorID << " not available; skip map update of filter" << std::endl;
       return;
     }
 
-    _map->updateFilter(*this);
+    _sensors[sensorID]->initFilter(*this);
 
+    _initialized = true;
+
+    return;
+  }
+
+  void Filter::updateWithSensor(int sensorID)
+  {
+    assert(sensorID < CNT_SENSORS);
+
+
+    if(_sensors[sensorID] == NULL)
+    {
+      std::cout << __PRETTY_FUNCTION__ << "sensorID " <<  sensorID << " not available; skip update of filter" << std::endl;
+      return;
+    }
+
+    _sensors[sensorID]->updateFilter(*this);
+
+    return;
+  }
+
+  void Filter::setSensor(int sensorID, Sensor* pSensor)
+  {
+    assert(sensorID < CNT_SENSORS);
+    _sensors[sensorID] = pSensor;
   }
 
 } /* namespace ohmPf */
+

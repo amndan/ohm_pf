@@ -42,6 +42,7 @@ namespace ohmPf
     void calcProbMap();
     void getProbMap(nav_msgs::OccupancyGrid& msg);
     void updateFilter(Filter& filter);
+    void initFilter(Filter& filter);
   private:
     std::vector<int8_t> _mapRaw;
     std::vector<int8_t> _probMap;

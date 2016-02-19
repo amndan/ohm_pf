@@ -16,6 +16,12 @@ namespace ohmPf
 
   }
 
+  void CeilCam::initFilter(Filter& filter)
+  {
+    std::cout << "not yet implemented" << std::endl;
+    //todo:: imlement init filter here
+  }
+
   CeilCam::~CeilCam()
   {
     // TODO Auto-generated destructor stub

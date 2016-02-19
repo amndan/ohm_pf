@@ -132,4 +132,11 @@ namespace ohmPf
     return scanCoord;
   }
 
+  void RosLaserPM::initFilter(Filter& filter)
+  {
+    std::cout << "RosLaserPM can't init filter..." << std::endl;
+  }
+
 } /* namespace ohmPf */
+
+

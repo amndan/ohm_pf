@@ -83,6 +83,11 @@ namespace ohmPf
     _initialized = true;
   }
 
+  void OdomDiff::initFilter(Filter& filter)
+  {
+    std::cout << "odom can't init filter..." << std::endl;
+  }
+
   void OdomDiff::calcParameters()
     {
       _dRot1 = std::atan2(_odom1(1) - _odom0(1),_odom1(0) - _odom0(0)) - _odom0(2);

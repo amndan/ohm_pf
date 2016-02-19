@@ -30,6 +30,7 @@ namespace ohmPf
     RosLaserPM(std::string tfBaseFooprintFrame);
     virtual ~RosLaserPM();
     void updateFilter(Filter& filter);
+    void initFilter(Filter& filter);
     void setMeasurement(const sensor_msgs::LaserScanConstPtr& scanMsg);
 
 

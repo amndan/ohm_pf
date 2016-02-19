@@ -22,6 +22,7 @@ namespace ohmPf
   {
   public:
     void updateFilter(Filter& filter);
+    void initFilter(Filter& filter);
     void setMeasurement(std::vector<Eigen::Vector3d> measurement);
     CeilCam();
     virtual ~CeilCam();

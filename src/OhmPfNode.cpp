@@ -164,15 +164,23 @@ void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConst
     ROS_INFO("Map service called successfully");
     const nav_msgs::OccupancyGrid& map(srv_map.response.map);
 
-    RosMap* rosMap = new RosMap(map);
+    static RosMap* rosMap;
+    delete rosMap;
+    rosMap = new RosMap(map);
+
+
+
+    _filter->setSensor(MAP, rosMap);
 
     nav_msgs::OccupancyGrid probMapMsg;
     probMapMsg.header = map.header;
     probMapMsg.info = map.info;
-    rosMap->getProbMap(probMapMsg);
+    ((RosMap&) _filter->getSensor(MAP)).getProbMap(probMapMsg);
+    //rosMap->getProbMap(probMapMsg);
     _pubProbMap.publish(probMapMsg);
 
-    _filter->initWithMap(rosMap);
+    _filter->initWithSensor(MAP);
+
 
   }
   else
@@ -218,7 +226,7 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
 
     _ceilCam->setMeasurement(measurement);
     _ceilCam->updateFilter(*_filter);
-    _filter->updateWithMap();
+    _filter->updateWithSensor(MAP);
     _filter->getSampleSet()->normalize();
     _filter->getSampleSet()->resample();
   }
@@ -230,7 +238,7 @@ void OhmPfNode::calScan(const sensor_msgs::LaserScanConstPtr& msg)
   {
   _rosLaserPm->setMeasurement(msg);
   _rosLaserPm->updateFilter(*_filter);
-  _filter->updateWithMap();
+  _filter->updateWithSensor(MAP);
   _filter->getSampleSet()->normalize();
   _filter->getSampleSet()->resample();
   printSampleSet(_filter->getSampleSet());

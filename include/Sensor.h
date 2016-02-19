@@ -20,6 +20,7 @@ namespace ohmPf
   public:
     Sensor(){};
     virtual void updateFilter(Filter& filter) = 0;
+    virtual void initFilter(Filter& filter) = 0;
     virtual ~Sensor(){};
   };
 
