@@ -93,9 +93,8 @@ void SampleSet::resample()
   assert(_normalized);
   
   std::vector<double> weightsCumsum;
-  int countSamples = _countSamples;
 
-  weightsCumsum.reserve(countSamples);
+  weightsCumsum.reserve(_countSamples);
 
   for(std::vector<Sample_t>::iterator it = _samples.begin(); it != _samples.end(); ++it)
   {
@@ -107,29 +106,38 @@ void SampleSet::resample()
   std::partial_sum(weightsCumsum.begin(), weightsCumsum.end(), weightsCumsum.begin());
 
   std::vector<Sample_t> newSamples;
-  newSamples.reserve(countSamples);
+  newSamples.reserve(_countSamples);
 
   double rand;
+  //low variance resampling
+  unsigned int lowVarDist = _countSamples / 20; //TODO: magic numbers; add launchfile parameter!
+  unsigned int count = std::floor(_countSamples / lowVarDist);
 
-  for(unsigned int i = 0; i < countSamples; i++)
+  assert(count > 0);
+
+  for(unsigned int i = 0; i < _countSamples; )
   {
-    rand = drand48();
+    rand = drand48(); // rand [0;1] --> probs are normalized
     for(int j = 0; j < _countSamples; j++)
-    {
-      if(rand < weightsCumsum[j])
+    { 
+      if(rand < weightsCumsum[j]) // search for matching prob
       {
-        newSamples.push_back(_samples[j]);
-        addGaussianRandomness(newSamples[i]);
-        newSamples[i].weight = 1.0;
+        for(unsigned int k = 0; k < count && i < _countSamples; k++, i++ )
+        {
+          unsigned int index = (j + k * lowVarDist) % _countSamples; // prevent overflow
+          newSamples.push_back(_samples[index]);
+          addGaussianRandomness(newSamples[i]); //TODO: variance of gaussian randomness as launchfileparam
+          newSamples[i].weight = 1.0;
+        }
         break;
       }
     }
   }
+  
+  assert(_countSamples = newSamples.size());
 
   _samples = newSamples;
   _normalized = false;
-  _countSamples = countSamples;
-
 }
 
 } /* namespace ohmPf */
