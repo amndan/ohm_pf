@@ -25,7 +25,7 @@
 #include "RosLaserPM.h"
 #include "RosMap.h"
 #include "EnumSensor.h"
-
+#include "Resampler.h"
 
 
 namespace ohmPf
@@ -44,6 +44,7 @@ private:
   void cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg);
   void calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg);
   void calScan(const sensor_msgs::LaserScanConstPtr& msg);
+  void calResampleTimer(const ros::TimerEvent& event);
   void spawnOdom();
   void spawnFilter();
   double _cumSumRot;
@@ -59,6 +60,7 @@ private:
   ros::NodeHandle _nh;
   ros::NodeHandle _prvNh;
   ros::Rate _loopRate;
+  ros::Timer _resampleTimer;
   OhmPfNodeParams_t _paramSet;
   ohmPf::OdomDiffParams_t _odomDiffParams;
   ohmPf::OdomDiff* _odomDiff;

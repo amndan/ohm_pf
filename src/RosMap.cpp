@@ -1,7 +1,7 @@
 /*
  * RosMap.cpp
  *
- *  Created on: 13.01.2016
+ *  Created on: 10.01.2016
  *      Author: amndan
  */
 
@@ -90,7 +90,7 @@ namespace ohmPf
 
   bool RosMap::isInMapRange(int x, int y)
   {
-    if(x < 0 || y < 0 || x >= _width || y >= _height)
+    if(x < 0 || y < 0 || x >= (int) _width || y >= (int) _height)
     {
       return false;
     }
@@ -129,12 +129,10 @@ namespace ohmPf
         {
           prob = (double)_probMap[y * _width + x] / 100.0;  // todo: coords wird hier verändert -> das darf nicht sein!!
         }
-
-        prob = 0.001 * prob + 0.999;  // todo: magic numbers
+        prob = 0.2 * prob + 0.8;  // todo: magic numbers
         probOfCoords *= prob;
       }
     }
-
     return probOfCoords;
   }
 
@@ -224,17 +222,18 @@ namespace ohmPf
 
   void RosMap::calcProbMap()
   {
-    int maxDistance = 5;  // in cells todo: magic number
+    calcContourMap();
+    int maxDistance = 30;  // in cells todo: magic number
     int filterSize = std::ceil(1.0 * (double)maxDistance);  // in cells
 
-    _probMap = _mapRaw;
+    _probMap = _contourMap;
     double dist = 0.0;
 
     for(int i = 0; i < _width; i++)  // x map
     {
       for(int j = 0; j < _height; j++)  //y map
       {
-        if(_mapRaw[j * _width + i] > IS_OCCUPIED_THRESHHOLD)  // is occupied?
+        if(_contourMap[j * _width + i] > IS_OCCUPIED_THRESHHOLD)  // is occupied?
         {
           for(int k = -filterSize; k <= filterSize; k++)  // x filter
           {
@@ -260,6 +259,41 @@ namespace ohmPf
     }
     std::cout << __PRETTY_FUNCTION__ << " --> created prob map!" << std::endl;
   }
+
+  void RosMap::calcContourMap()
+  {
+    int filterSize = 1;  // in cells
+
+    _contourMap = _mapRaw;
+    bool edge = false;
+
+    for(int i = 0; i < _width; i++)  // x map
+    {
+      for(int j = 0; j < _height; j++)  //y map
+      {
+        if(_mapRaw[j * _width + i] == -1) continue;
+        edge = false;
+          for(int k = -filterSize; k <= filterSize; k++)  // x filter
+          {
+            for(int l = -filterSize; l <= filterSize; l++)  //y filter
+            {
+              if((i + k) >= 0 && (i + k) < _width && (j + l) >= 0 && (j + l) < _height)
+              {
+                edge = 
+                  edge | 
+                  (
+                    (_mapRaw[j * _width + i] > IS_OCCUPIED_THRESHHOLD) ^
+                    (_mapRaw[(j + l) * _width + (i + k)] > IS_OCCUPIED_THRESHHOLD)
+                  );
+              }
+            }
+          }
+        _contourMap[j * _width + i] = 100 * (int8_t) edge;
+      }
+    }
+    std::cout << __PRETTY_FUNCTION__ << " --> created contour map!" << std::endl;
+  }
+
 
   void RosMap::getProbMap(nav_msgs::OccupancyGrid& msg)
   {

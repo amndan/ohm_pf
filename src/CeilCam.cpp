@@ -54,7 +54,7 @@ namespace ohmPf
     }
 
     filter.updateWithSensor(MAP);
-    filter.getSampleSet()->normalize();
-    filter.getSampleSet()->resample();
+    //filter.getSampleSet()->normalize();
+    //filter.getSampleSet()->resample();
   }
 } /* namespace ohmPf */

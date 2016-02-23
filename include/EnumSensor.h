@@ -14,6 +14,7 @@
     CEILCAM,
     LASER,
     MAP,
+    RESAMPLER,
     CNT_SENSORS
   };
 

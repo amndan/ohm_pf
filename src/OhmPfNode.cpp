@@ -27,6 +27,8 @@ OhmPfNode::OhmPfNode() :
   _prvNh.param<int>("samplesMin", tmp, 50);
   _filterParams.samplesMin = (unsigned int) std::abs(tmp);
 
+  _resampleTimer = _nh.createTimer(ros::Duration(0.5), &OhmPfNode::calResampleTimer, this); 
+  //TODO: timer intervall from parameter
 
   _pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>("particleCloud", 1, true);
   _pubProbMap = _nh.advertise<nav_msgs::OccupancyGrid>("probMap", 1, true);
@@ -41,8 +43,9 @@ OhmPfNode::OhmPfNode() :
   spawnOdom();
   spawnFilter();
 
-  _filter->setSensor(CEILCAM, new CeilCam());
-  _filter->setSensor(LASER, new RosLaserPM(_paramSet.tfBaseFootprintFrame));
+  _filter->setSensor(CEILCAM, (Sensor*) new CeilCam());
+  _filter->setSensor(LASER, (Sensor*) new RosLaserPM(_paramSet.tfBaseFootprintFrame));
+  _filter->setSensor(RESAMPLER, (Sensor*) new Resampler());
 
   _cumSumRot = 0.0;
   _cumSumtrans = 0.0;
@@ -152,14 +155,12 @@ void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
   _cumSumtrans += std::sqrt(std::pow(diff(0) ,2) + std::pow(diff(1) ,2));
   _cumSumRot += std::abs(diff(2));
 
-  if(_cumSumRot > 0.01 || _cumSumtrans > 0.1)
+  if(_cumSumRot > 0.01 || _cumSumtrans > 0.01)
   {
     _filter->triggerOdomChangedSignificantly();
     _cumSumRot = 0;
     _cumSumtrans = 0;
   }
-
-  std::cout << _cumSumtrans << " " << _cumSumRot << std::endl;
 
   _lastOdomPose = measurement;
 
@@ -251,7 +252,7 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
 
   void OhmPfNode::calScan(const sensor_msgs::LaserScanConstPtr& msg)
   {
-    if(&_filter->getSensor(MAP) != NULL)
+    if(&_filter->getSensor(MAP) != NULL && &_filter->getSensor(LASER) != NULL)
     {
       RosLaserPM& laser = (RosLaserPM&)_filter->getSensor(LASER);
       laser.setMeasurement(msg);
@@ -260,5 +261,17 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
       printSampleSet(_filter->getSampleSet());
     }
   }
+
+  void OhmPfNode::calResampleTimer(const ros::TimerEvent& event)
+  {
+    if(_filter->isInitialized())
+    {
+      if(&_filter->getSensor(RESAMPLER) != NULL)
+      {
+        _filter->updateWithSensor(RESAMPLER);
+        printSampleSet(_filter->getSampleSet());
+      }
+    }
+  }  
 
 } /* namespace ohmPf */

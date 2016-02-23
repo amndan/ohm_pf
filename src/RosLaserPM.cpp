@@ -58,8 +58,8 @@ namespace ohmPf
     std::cout << "calScan Duration: " << dur << std::endl;
 
     filter.updateWithSensor(MAP);
-    filter.getSampleSet()->normalize();
-    filter.getSampleSet()->resample(); // todo: should we do that here??
+    //filter.getSampleSet()->normalize();
+    //filter.getSampleSet()->resample(); // todo: should we do that here??
 
     return;
 
@@ -111,7 +111,7 @@ namespace ohmPf
   {
     assert(ranges.size() == _paramSet.count);
 
-    int subSampFact = 15; // todo: use parameter --> subsampling in laserFilter?
+    int subSampFact = 3; // todo: use parameter --> subsampling in laserFilter?
 
     int iter = (int) std::floor(_paramSet.count / subSampFact);
 

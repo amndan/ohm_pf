@@ -11,6 +11,9 @@ find_package(catkin REQUIRED COMPONENTS
 	tf
 )
 
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS} -fopenmp -O2 -mtune=native -Wall")
+
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -145,6 +148,7 @@ add_executable(OhmPfNode
 	src/CeilCam.cpp
 	src/RosMap.cpp
 	src/RosLaserPM.cpp
+	src/Resampler.cpp
 )
 
 add_executable(CeilCamSimulator
