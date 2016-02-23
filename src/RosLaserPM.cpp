@@ -57,6 +57,7 @@ namespace ohmPf
     ros::Duration dur = t1 - t0;
     std::cout << "calScan Duration: " << dur << std::endl;
 
+    filter.getSampleSet()->boostWeights();
     filter.updateWithSensor(MAP);
     //filter.getSampleSet()->normalize();
     //filter.getSampleSet()->resample(); // todo: should we do that here??
