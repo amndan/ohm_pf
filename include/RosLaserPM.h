@@ -27,7 +27,7 @@ namespace ohmPf
   class RosLaserPM : public Sensor
   {
   public:
-    RosLaserPM(std::string tfBaseFooprintFrame);
+    RosLaserPM(RosLaserPMParams_t params);
     virtual ~RosLaserPM();
     void updateFilter(Filter& filter);
     void initFilter(Filter& filter);

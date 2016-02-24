@@ -26,7 +26,7 @@
 #include "RosMap.h"
 #include "EnumSensor.h"
 #include "Resampler.h"
-
+#include "RosLaserPMParams.h"
 
 namespace ohmPf
 {
@@ -63,10 +63,11 @@ private:
   ros::Timer _resampleTimer;
   OhmPfNodeParams_t _paramSet;
   ohmPf::OdomDiffParams_t _odomDiffParams;
+  ohmPf::RosLaserPMParams_t _rosLaserPMParams;
   ohmPf::OdomDiff* _odomDiff;
   ohmPf::Filter* _filter;
   ohmPf::FilterParams_t _filterParams;
-
+  unsigned int _maxDistanceProbMap;
   bool _odomInitialized;
 
   int odomCounter;

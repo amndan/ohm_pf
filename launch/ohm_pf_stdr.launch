@@ -11,16 +11,19 @@
     </node>
 
     <include file="$(find ohm_pf)/launch/ohm_pf.launch">
-        <arg name="output" value="screen" />
-        <arg name="topOdometry" value="/robot0/odom" />
-        <arg name="tfFixedFrame" value="map" />
-        <arg name="tfBaseFootprintFrame" value="robot0" />
-        <arg name="top2dPoseEst" value="initialpose" />
-        <arg name="topCeilCam" value="ceilCamPoseArray_OFF" />
-        <arg name="topMap" value="map" />
-        <arg name="topMapSrv" value="static_map" />
-	<arg name="samplesMax" value="10000" />
-	<arg name="samplesMin" value="50" />
+      <arg name="output" value="screen" />
+      <arg name="topOdometry" value="/robot0/odom" />
+      <arg name="tfFixedFrame" value="map" />
+      <arg name="tfBaseFootprintFrame" value="robot0" />
+      <arg name="top2dPoseEst" value="initialpose" />
+      <arg name="topCeilCam" value="ceilCamPoseArray_OFF" />
+      <arg name="topMap" value="map" />
+      <arg name="topMapSrv" value="static_map" />
+      <arg name="samplesMax" value="10000" />
+      <arg name="samplesMin" value="50" />
+      <arg name="maxDistanceProbMap" value="10" />
+      <arg name="subsamplingRateLaser" value="3" />
+      <arg name="resamplingIntervallFilter" value="0.5" />
     </include>
 
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ohm_pf)/rviz/ohm_pf_stdr.rviz" />

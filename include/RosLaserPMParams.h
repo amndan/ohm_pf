@@ -19,6 +19,8 @@ typedef struct
   double angleMin;
   double angleMax;
   unsigned int count;
+  unsigned int subsamplingRate;
+  double uncertainty; // range: [0 1[
   std::string tfLaserFrame;
   std::string tfBaseFooprintFrame;
 } RosLaserPMParams_t;

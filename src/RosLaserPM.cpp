@@ -10,11 +10,10 @@
 namespace ohmPf
 {
 
-  RosLaserPM::RosLaserPM(std::string tfBaseFooprintFrame)
+  RosLaserPM::RosLaserPM(RosLaserPMParams_t params)
   {
     _initialized = false;
-
-    _paramSet.tfBaseFooprintFrame = tfBaseFooprintFrame;
+    _paramSet = params;
   }
 
   RosLaserPM::~RosLaserPM()
@@ -50,7 +49,7 @@ namespace ohmPf
       coordsTf = tf * _tfBaseFootprintToLaser * coords;
 
       // lookup probs
-      it->weight = ( (MapModel&) filter.getSensor(MAP) ).getProbability(coordsTf);
+      it->weight = ( (MapModel&) filter.getSensor(MAP) ).getProbability(coordsTf, _paramSet.uncertainty);
     }
 
     t1 = ros::Time::now();

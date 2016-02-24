@@ -22,13 +22,17 @@ OhmPfNode::OhmPfNode() :
   _prvNh.param<std::string>("topMapSrv", _paramSet.topMapSrv, "static_map");
   _prvNh.param<std::string>("topScan", _paramSet.topScan, "robot0/laser_0");
   int tmp;
+  _prvNh.param<int>("maxDistanceProbMap", tmp, 10);
+  assert(tmp > 0);
+  _maxDistanceProbMap = (unsigned int) tmp;
+  _prvNh.param<int>("subsamplingRateLaser", tmp, 3);
+  assert(tmp > 0);
+  _rosLaserPMParams.subsamplingRate = (unsigned int) tmp;
   _prvNh.param<int>("samplesMax", tmp, 5000);
   _filterParams.samplesMax = (unsigned int) std::abs(tmp);
   _prvNh.param<int>("samplesMin", tmp, 50);
   _filterParams.samplesMin = (unsigned int) std::abs(tmp);
-
-  _resampleTimer = _nh.createTimer(ros::Duration(0.5), &OhmPfNode::calResampleTimer, this); 
-  //TODO: timer intervall from parameter
+  _prvNh.param<double>("resamplingIntervallFilter", _filterParams.resamplingIntervall, 0.5);
 
   _pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>("particleCloud", 1, true);
   _pubProbMap = _nh.advertise<nav_msgs::OccupancyGrid>("probMap", 1, true);
@@ -38,13 +42,18 @@ OhmPfNode::OhmPfNode() :
   _subCeilCam = _nh.subscribe(_paramSet.topCeilCam, 1, &OhmPfNode::calCeilCam, this);
   _cliMapSrv = _nh.serviceClient<nav_msgs::GetMap>(_paramSet.topMapSrv);
 
+
+  _rosLaserPMParams.tfBaseFooprintFrame = _paramSet.tfBaseFootprintFrame;
+
   _odomInitialized = false;
+
+  _resampleTimer = _nh.createTimer(ros::Duration(_filterParams.resamplingIntervall), &OhmPfNode::calResampleTimer, this); 
 
   spawnOdom();
   spawnFilter();
 
   _filter->setSensor(CEILCAM, (Sensor*) new CeilCam());
-  _filter->setSensor(LASER, (Sensor*) new RosLaserPM(_paramSet.tfBaseFootprintFrame));
+  _filter->setSensor(LASER, (Sensor*) new RosLaserPM(_rosLaserPMParams));
   _filter->setSensor(RESAMPLER, (Sensor*) new Resampler());
 
   _cumSumRot = 0.0;
@@ -187,7 +196,7 @@ void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConst
 
     static RosMap* rosMap;
     delete rosMap;
-    rosMap = new RosMap(map);
+    rosMap = new RosMap(map, _maxDistanceProbMap);
 
 
 

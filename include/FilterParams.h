@@ -15,6 +15,7 @@ typedef struct
 {
   unsigned int samplesMin;
   unsigned int samplesMax;
+  double resamplingIntervall;
 } FilterParams_t;
 
 } /* namespace ohmPf */

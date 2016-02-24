@@ -30,11 +30,11 @@ namespace ohmPf
   class RosMap : public MapModel
   {
   public:
-    RosMap(const nav_msgs::OccupancyGrid& msg);
+    RosMap(const nav_msgs::OccupancyGrid& msg, unsigned int maxDistanceProbMap);
     virtual ~RosMap();
     bool isOccupied(double x, double y); // in meter
     double getProbability(double x, double y); // in meter
-    double getProbability(Eigen::Matrix3Xd& coords);
+    double getProbability(Eigen::Matrix3Xd& coords, double pRand);
     double getWith();
     double getHeigh();
     Eigen::Matrix3d getOrigin();
@@ -59,7 +59,7 @@ namespace ohmPf
     int meterToCells(double x);
     bool isInMapRange(int x, int y);
 
-
+    unsigned int _maxDistanceProbMap; //TODO: in meter not in cells
   };
 
 } /* namespace ohmPf */

@@ -10,7 +10,7 @@
 namespace ohmPf
 {
 
-  RosMap::RosMap(const nav_msgs::OccupancyGrid& msg)
+  RosMap::RosMap(const nav_msgs::OccupancyGrid& msg, unsigned int maxDistanceProbMap)
   {
     // todo: clean variables
     _mapRaw = msg.data;
@@ -105,7 +105,7 @@ namespace ohmPf
     return ret;
   }
 
-  double RosMap::getProbability(Eigen::Matrix3Xd& coords)
+  double RosMap::getProbability(Eigen::Matrix3Xd& coords, double pRand)
   {
     PointInMapToOrigin(coords);
 
@@ -129,7 +129,7 @@ namespace ohmPf
         {
           prob = (double)_probMap[y * _width + x] / 100.0;  // todo: coords wird hier verändert -> das darf nicht sein!!
         }
-        prob = 0.2 * prob + 0.8;  // todo: magic numbers
+        prob = (1 - pRand) * prob + pRand;
         probOfCoords *= prob;
       }
     }
@@ -223,8 +223,8 @@ namespace ohmPf
   void RosMap::calcProbMap()
   {
     calcContourMap();
-    int maxDistance = 30;  // in cells todo: magic number
-    int filterSize = std::ceil(1.0 * (double)maxDistance);  // in cells
+    
+    int filterSize = std::ceil(1.0 * (double)_maxDistanceProbMap);  // in cells
 
     _probMap = _contourMap;
     double dist = 0.0;
@@ -242,9 +242,9 @@ namespace ohmPf
               if((i + k) >= 0 && (i + k) < _width && (j + l) >= 0 && (j + l) < _height)
               {
                 dist = std::sqrt(std::pow(k, 2) + std::pow(l, 2));  // precalculate that in future
-                if(dist < maxDistance)
+                if(dist < _maxDistanceProbMap)
                 {
-                  dist = (1.0 - dist / maxDistance) * 100.0;  // normalize to [0;100]
+                  dist = (1.0 - dist / _maxDistanceProbMap) * 100.0;  // normalize to [0;100]
                   _probMap[(j + l) * _width + (i + k)] = std::max((double)_probMap[(j + l) * _width + (i + k)], dist);
                 }
               }
