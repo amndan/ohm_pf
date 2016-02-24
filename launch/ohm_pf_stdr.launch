@@ -21,9 +21,10 @@
       <arg name="topMapSrv" value="static_map" />
       <arg name="samplesMax" value="10000" />
       <arg name="samplesMin" value="50" />
-      <arg name="maxDistanceProbMap" value="10" />
+      <arg name="maxDistanceProbMap" value="30" />
       <arg name="subsamplingRateLaser" value="3" />
-      <arg name="resamplingIntervallFilter" value="0.5" />
+      <arg name="resamplingIntervallFilter" value="3" />
+      <arg name="uncertaintyLaser" value="0.5" />
     </include>
 
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ohm_pf)/rviz/ohm_pf_stdr.rviz" />

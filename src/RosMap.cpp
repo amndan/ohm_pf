@@ -17,6 +17,7 @@ namespace ohmPf
     _resolution = msg.info.resolution;
     _width = msg.info.width;  // width is in map_origin_system
     _height = msg.info.height;  // height is in map_origin_system
+    _maxDistanceProbMap = maxDistanceProbMap;
     // todo: need getXmin() getXmax() functions for injecting particles over whole map
 
     tf::Transform tmp;

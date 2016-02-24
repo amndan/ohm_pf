@@ -33,6 +33,10 @@ OhmPfNode::OhmPfNode() :
   _prvNh.param<int>("samplesMin", tmp, 50);
   _filterParams.samplesMin = (unsigned int) std::abs(tmp);
   _prvNh.param<double>("resamplingIntervallFilter", _filterParams.resamplingIntervall, 0.5);
+  double dtmp;
+  _prvNh.param<double>("uncertaintyLaser",dtmp,  0.5);
+  assert(dtmp >= 0 && dtmp < 1.0);
+  _rosLaserPMParams.uncertainty = dtmp;
 
   _pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>("particleCloud", 1, true);
   _pubProbMap = _nh.advertise<nav_msgs::OccupancyGrid>("probMap", 1, true);
@@ -277,6 +281,10 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
     {
       if(&_filter->getSensor(RESAMPLER) != NULL)
       {
+        _filter->updateWithSensor(MAP); 
+        //TODO: we need a resampling method without LVS because after map
+        //update no particle should be on occupied cells; or map updates 
+        //not weights but whole particle set and seeds random particles
         _filter->updateWithSensor(RESAMPLER);
         printSampleSet(_filter->getSampleSet());
       }

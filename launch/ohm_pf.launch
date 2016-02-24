@@ -17,9 +17,10 @@
     <arg name="maxDistanceProbMap" default="10" />
     <arg name="subsamplingRateLaser" default="3" />
     <arg name="resamplingIntervallFilter" default="0.5" />
+    <arg name="uncertaintyLaser" default="0.5" />
     <!-- ******************* -->
 
-    <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" launch-prefix="xterm -e cgdb -ex run --args">
+    <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" launch-prefix="xterm -e cgdb -ex run  --args">
         <param name="tfFixedFrame" type="string" value="$(arg tfFixedFrame)" />
         <param name="tfBaseFootprintFrame" type="string" value="$(arg tfBaseFootprintFrame)" />
         <param name="topOdometry" type="string" value="$(arg topOdometry)" />
@@ -33,6 +34,7 @@
         <param name="maxDistanceProbMap" type="int" value="$(arg maxDistanceProbMap)" />
         <param name="subsamplingRateLaser" type="int" value="$(arg subsamplingRateLaser)" />
         <param name="resamplingIntervallFilter" type="double" value="$(arg resamplingIntervallFilter)" />
+        <param name="uncertaintyLaser" type="double" value="$(arg uncertaintyLaser)" />
 
 
     </node>
