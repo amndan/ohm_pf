@@ -5,10 +5,9 @@
  *      Author: amndan
  */
 
-#ifndef INCLUDE_ROSLASERPM_H_
-#define INCLUDE_ROSLASERPM_H_
+#ifndef INCLUDE_LASERUPDATER_H_
+#define INCLUDE_LASERUPDATER_H_
 
-#include "Sensor.h"
 #include "Filter.h"
 #include "sensor_msgs/LaserScan.h"
 #include "tf/transform_datatypes.h"
@@ -19,16 +18,17 @@
 #include <cmath>
 #include "EnumSensor.h"
 #include "MapModel.h"
+#include "Measurement.h"
 #include "UtilitiesOhmPf.h"
 
 namespace ohmPf
 {
 
-  class RosLaserPM : public Sensor
+  class LaserUpdater : public Measurement
   {
   public:
-    RosLaserPM(RosLaserPMParams_t params);
-    virtual ~RosLaserPM();
+    LaserUpdater(RosLaserPMParams_t params);
+    virtual ~LaserUpdater();
     void updateFilter(Filter& filter);
     void initFilter(Filter& filter);
     void setMeasurement(const sensor_msgs::LaserScanConstPtr& scanMsg);
@@ -46,4 +46,4 @@ namespace ohmPf
 
 } /* namespace ohmPf */
 
-#endif /* INCLUDE_ROSLASERPM_H_ */
+#endif /* INCLUDE_LASERUPDATER_H_ */

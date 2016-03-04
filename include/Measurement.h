@@ -1,12 +1,12 @@
 /*
- * Sensor.h
+ * ISensor.h
  *
  *  Created on: 18.02.2016
  *      Author: amndan
  */
 
-#ifndef INCLUDE_SENSOR_H_
-#define INCLUDE_SENSOR_H_
+#ifndef INCLUDE_MEASUREMENT_H_
+#define INCLUDE_MEASUREMENT_H_
 
 //#include "Filter.h"
 
@@ -15,15 +15,15 @@ namespace ohmPf
 
   class Filter;
 
-  class Sensor
+  class Measurement
   {
   public:
-    Sensor(){};
+    Measurement(){};
     virtual void updateFilter(Filter& filter) = 0;
     virtual void initFilter(Filter& filter) = 0;
-    virtual ~Sensor(){};
+    virtual ~Measurement(){};
   };
 
 } /* namespace ohmPf */
 
-#endif /* INCLUDE_SENSOR_H_ */
+#endif /* INCLUDE_MEASUREMENT_H_ */

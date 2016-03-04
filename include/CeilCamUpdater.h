@@ -10,22 +10,23 @@
 
 #include "Sample.h"
 #include "Filter.h"
-#include "Sensor.h"
 #include "GaussianPdf.h"
 #include "UtilitiesOhmPf.h"
 #include <cmath>
 
+#include "Measurement.h"
+
 namespace ohmPf
 {
 
-  class CeilCam : public Sensor
+  class CeilCamUpdater : public Measurement
   {
   public:
     void updateFilter(Filter& filter);
     void initFilter(Filter& filter);
     void setMeasurement(std::vector<Eigen::Vector3d> measurement);
-    CeilCam();
-    virtual ~CeilCam();
+    CeilCamUpdater();
+    virtual ~CeilCamUpdater();
   private:
     std::vector<Eigen::Vector3d> _measurement;
   };

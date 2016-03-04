@@ -1,0 +1,6 @@
+.cproject
+.project
+.ycm_extra_conf.pyc
+build/
+doc/uml/uml.pdf
+*~

@@ -27,11 +27,11 @@ using namespace Eigen;
 namespace ohmPf
 {
 
-  class RosMap : public MapModel
+  class MapUpdater : public MapModel
   {
   public:
-    RosMap(const nav_msgs::OccupancyGrid& msg, unsigned int maxDistanceProbMap);
-    virtual ~RosMap();
+    MapUpdater(const nav_msgs::OccupancyGrid& msg, unsigned int maxDistanceProbMap);
+    virtual ~MapUpdater();
     bool isOccupied(double x, double y); // in meter
     double getProbability(double x, double y); // in meter
     double getProbability(Eigen::Matrix3Xd& coords, double pRand);

@@ -15,16 +15,17 @@
 #include "geometry_msgs/PoseWithCovarianceStamped.h"
 #include "sensor_msgs/LaserScan.h"
 #include "tf/transform_datatypes.h"
+
+#include "CeilCamUpdater.h"
 #include "SampleSet.h"
 #include "OhmPfNodeParams.h"
 #include "OdomDiffParams.h"
-#include "CeilCam.h"
 #include "FilterParams.h"
-#include "OdomDiff.h"
 #include "Filter.h"
-#include "RosLaserPM.h"
-#include "RosMap.h"
 #include "EnumSensor.h"
+#include "LaserUpdater.h"
+#include "MapUpdater.h"
+#include "OdomUpdater.h"
 #include "Resampler.h"
 #include "RosLaserPMParams.h"
 
@@ -64,7 +65,7 @@ private:
   OhmPfNodeParams_t _paramSet;
   ohmPf::OdomDiffParams_t _odomDiffParams;
   ohmPf::RosLaserPMParams_t _rosLaserPMParams;
-  ohmPf::OdomDiff* _odomDiff;
+  ohmPf::OdomUpdater* _odomDiff;
   ohmPf::Filter* _filter;
   ohmPf::FilterParams_t _filterParams;
   unsigned int _maxDistanceProbMap;

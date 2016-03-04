@@ -18,8 +18,8 @@
 #include "ros/time.h" // ros time can be used without ros environment -- compile with "-lboost_system"
 #include "ros/duration.h"
 #include "MapModel.h"
-#include "Sensor.h"
 #include "EnumSensor.h"
+#include "Measurement.h"
 
 namespace ohmPf
 {
@@ -36,8 +36,8 @@ namespace ohmPf
     void updateWithSensor(int sensorID);
     bool isInitialized();
     FilterParams_t const * const getParamSet();
-    Sensor& getSensor(int sensorID);
-    void setSensor(int sensorID, Sensor* pSensor);
+    Measurement& getSensor(int sensorID);
+    void setSensor(int sensorID, Measurement* pSensor);
     void triggerOdomChangedSignificantly();
 
 
@@ -45,7 +45,7 @@ namespace ohmPf
     SampleSet* _sampleSet;
     FilterParams_t _paramSet;
     bool _initialized;
-    Sensor* _sensors[CNT_SENSORS];
+    Measurement* _sensors[CNT_SENSORS];
     bool _sensorsInitialized[CNT_SENSORS];
     double _sensorsUpdateDistance[CNT_SENSORS]; // todo: every sensor should have its own significant odom change threshold
     bool _sensorsOdomChangedSignificantly[CNT_SENSORS];

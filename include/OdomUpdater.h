@@ -9,24 +9,24 @@
 #define SRC_ODOMDIFF_H_
 
 #include "OdomDiffParams.h"
-#include "Sensor.h"
 #include "Filter.h"
 #include "Eigen/Dense"
 #include "GaussianPdf.h"
 #include <cmath>
 #include <iostream>
 
+#include "Measurement.h"
 #include "UtilitiesOhmPf.h"
 
 
 namespace ohmPf
 {
 
-  class OdomDiff : public Sensor
+  class OdomUpdater : public Measurement
   {
   public:
-    OdomDiff(OdomDiffParams_t paramSet);
-    virtual ~OdomDiff();
+    OdomUpdater(OdomDiffParams_t paramSet);
+    virtual ~OdomUpdater();
     void updateFilter(Filter& filter); // todo: integrate odom into filter; filter.setOdomModel; filter.updateWithOdom; odomModell.h --> abstract
     void initFilter(Filter& filter);
     void setMeasurement(Eigen::Vector3d odom0, Eigen::Vector3d odom1);

@@ -1,11 +1,12 @@
 #include "ros/ros.h"
+
+#include "../include/OdomUpdater.h"
 #include "OhmPfNode.h"
 #include "SampleSet.h"
 #include "GaussianPdf.h"
 #include "Filter.h"
 #include "Eigen/Dense"
 #include "OdomDiffParams.h"
-#include "OdomDiff.h"
 
 int main(int argc, char** argv)
 {
@@ -33,7 +34,7 @@ int main(int argc, char** argv)
   odomParams.a3 = 0.1;
   odomParams.a4 = 0;
 
-  ohmPf::OdomDiff* odom = new ohmPf::OdomDiff(odomParams);
+  ohmPf::OdomUpdater* odom = new ohmPf::OdomUpdater(odomParams);
 
   Eigen::Vector3d odom0;
   odom0(0) = 0;

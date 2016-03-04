@@ -10,13 +10,13 @@
 #define RESAMPLER_H_
 
 
-#include "Sensor.h"
 #include "Filter.h"
+#include "Measurement.h"
 
 namespace ohmPf
 {
 
-  class Resampler : public Sensor
+  class Resampler : public Measurement
   {
     public:
       Resampler();

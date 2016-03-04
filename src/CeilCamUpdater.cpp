@@ -5,34 +5,34 @@
  *      Author: amndan
  */
 
-#include "CeilCam.h"
+#include "../include/CeilCamUpdater.h"
 
 namespace ohmPf
 {
 
-  CeilCam::CeilCam()
+  CeilCamUpdater::CeilCamUpdater()
   {
     // TODO Auto-generated constructor stub
 
   }
 
-  void CeilCam::initFilter(Filter& filter)
+  void CeilCamUpdater::initFilter(Filter& filter)
   {
     std::cout << "not yet implemented" << std::endl;
     //todo:: imlement init filter here
   }
 
-  CeilCam::~CeilCam()
+  CeilCamUpdater::~CeilCamUpdater()
   {
     // TODO Auto-generated destructor stub
   }
 
-  void CeilCam::setMeasurement(std::vector<Eigen::Vector3d> measurement)
+  void CeilCamUpdater::setMeasurement(std::vector<Eigen::Vector3d> measurement)
   {
     _measurement = measurement;
   }
 
-  void CeilCam::updateFilter(Filter& filter)
+  void CeilCamUpdater::updateFilter(Filter& filter)
   {
     // todo: better implementation
     std::vector<Sample_t>* samples = filter.getSampleSet()->getSamples();

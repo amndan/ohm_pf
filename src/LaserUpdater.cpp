@@ -5,23 +5,23 @@
  *      Author: amndan
  */
 
-#include "RosLaserPM.h"
+#include "../include/LaserUpdater.h"
 
 namespace ohmPf
 {
 
-  RosLaserPM::RosLaserPM(RosLaserPMParams_t params)
+  LaserUpdater::LaserUpdater(RosLaserPMParams_t params)
   {
     _initialized = false;
     _paramSet = params;
   }
 
-  RosLaserPM::~RosLaserPM()
+  LaserUpdater::~LaserUpdater()
   {
     // TODO Auto-generated destructor stub
   }
 
-  void RosLaserPM::updateFilter(Filter& filter)
+  void LaserUpdater::updateFilter(Filter& filter)
   {
     if (!_initialized)
     {
@@ -65,12 +65,12 @@ namespace ohmPf
 
   }
 
-  void RosLaserPM::setMeasurement(const sensor_msgs::LaserScanConstPtr& scanMsg)
+  void LaserUpdater::setMeasurement(const sensor_msgs::LaserScanConstPtr& scanMsg)
   {
     _actualScan = *scanMsg;
   }
 
-  void RosLaserPM::initWithMeasurement()
+  void LaserUpdater::initWithMeasurement()
   {
     _paramSet.angleIncrement = (double) _actualScan.angle_increment;
     _paramSet.angleMax = (double) _actualScan.angle_max;
@@ -107,7 +107,7 @@ namespace ohmPf
     _initialized = true;
   }
 
-  Eigen::Matrix3Xd RosLaserPM::rangesToCoordinates(std::vector<float>& ranges)
+  Eigen::Matrix3Xd LaserUpdater::rangesToCoordinates(std::vector<float>& ranges)
   {
     assert(ranges.size() == _paramSet.count);
 
@@ -136,7 +136,7 @@ namespace ohmPf
     return scanCoord;
   }
 
-  void RosLaserPM::initFilter(Filter& filter)
+  void LaserUpdater::initFilter(Filter& filter)
   {
     std::cout << "RosLaserPM can't init filter..." << std::endl;
   }

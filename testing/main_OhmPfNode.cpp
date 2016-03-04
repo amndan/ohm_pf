@@ -1,11 +1,12 @@
 #include "ros/ros.h"
+
+#include "../include/OdomUpdater.h"
 #include "OhmPfNode.h"
 #include "SampleSet.h"
 #include "GaussianPdf.h"
 #include "Filter.h"
 #include "Eigen/Dense"
 #include "OdomDiffParams.h"
-#include "OdomDiff.h"
 
 int main(int argc, char** argv)
 {

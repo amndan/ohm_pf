@@ -5,24 +5,24 @@
  *      Author: amndan
  */
 
-#include "OdomDiff.h"
+#include "../include/OdomUpdater.h"
 
 namespace ohmPf
 {
 
-  OdomDiff::OdomDiff(OdomDiffParams_t paramSet)
+  OdomUpdater::OdomUpdater(OdomDiffParams_t paramSet)
   {
     _paramSet = paramSet;
     _initialized = false;
     _receivedFirstMeasurement = false;
   }
 
-  OdomDiff::~OdomDiff()
+  OdomUpdater::~OdomUpdater()
   {
     // TODO Auto-generated destructor stub
   }
 
-  void OdomDiff::updatePose(Eigen::Vector3d& pose)
+  void OdomUpdater::updatePose(Eigen::Vector3d& pose)
   {
     double sRot1;
     double sTrans;
@@ -44,7 +44,7 @@ namespace ohmPf
       std::cout << __PRETTY_FUNCTION__ << "angle overflow; phi = " << pose(2) << std::endl;
   }
 
-  void OdomDiff::updateFilter(Filter& filter)
+  void OdomUpdater::updateFilter(Filter& filter)
   {
     assert(_initialized);
 
@@ -56,7 +56,7 @@ namespace ohmPf
     }
   }
 
-  void OdomDiff::setMeasurement(Eigen::Vector3d odom0, Eigen::Vector3d odom1)
+  void OdomUpdater::setMeasurement(Eigen::Vector3d odom0, Eigen::Vector3d odom1)
   {
     _odom0 = odom0;
     _odom1 = odom1;
@@ -67,7 +67,7 @@ namespace ohmPf
     _receivedFirstMeasurement = true;
   }
 
-  void OdomDiff::addSingleMeasurement(Eigen::Vector3d odom)
+  void OdomUpdater::addSingleMeasurement(Eigen::Vector3d odom)
   {
     if(!_receivedFirstMeasurement)
     {
@@ -83,12 +83,12 @@ namespace ohmPf
     _initialized = true;
   }
 
-  void OdomDiff::initFilter(Filter& filter)
+  void OdomUpdater::initFilter(Filter& filter)
   {
     std::cout << "odom can't init filter..." << std::endl;
   }
 
-  void OdomDiff::calcParameters()
+  void OdomUpdater::calcParameters()
     {
       _dRot1 = std::atan2(_odom1(1) - _odom0(1),_odom1(0) - _odom0(0)) - _odom0(2);
       _dTrans = std::sqrt(pow(_odom1(0) - _odom0(0), 2) + pow(_odom1(1) - _odom0(1), 2));

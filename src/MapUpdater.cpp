@@ -5,12 +5,12 @@
  *      Author: amndan
  */
 
-#include "../include/RosMap.h"
+#include "../include/MapUpdater.h"
 
 namespace ohmPf
 {
 
-  RosMap::RosMap(const nav_msgs::OccupancyGrid& msg, unsigned int maxDistanceProbMap)
+  MapUpdater::MapUpdater(const nav_msgs::OccupancyGrid& msg, unsigned int maxDistanceProbMap)
   {
     // todo: clean variables
     _mapRaw = msg.data;
@@ -30,12 +30,12 @@ namespace ohmPf
     //_map = mf;
   }
 
-  RosMap::~RosMap()
+  MapUpdater::~MapUpdater()
   {
     // TODO Auto-generated destructor stub
   }
 
-  bool RosMap::isOccupied(double x, double y)
+  bool MapUpdater::isOccupied(double x, double y)
   {
     PointInMapToOrigin(x, y);
 
@@ -57,7 +57,7 @@ namespace ohmPf
     }
   }
 
-  void RosMap::initFilter(Filter& filter)
+  void MapUpdater::initFilter(Filter& filter)
   {
     double xMin;
     double yMin;
@@ -89,7 +89,7 @@ namespace ohmPf
     filter.setSamples(samples);
   }
 
-  bool RosMap::isInMapRange(int x, int y)
+  bool MapUpdater::isInMapRange(int x, int y)
   {
     if(x < 0 || y < 0 || x >= (int) _width || y >= (int) _height)
     {
@@ -99,14 +99,14 @@ namespace ohmPf
     return true;
   }
 
-  int RosMap::meterToCells(double x)
+  int MapUpdater::meterToCells(double x)
   {
     assert(_resolution != 0);
     int ret = std::floor(x / _resolution);
     return ret;
   }
 
-  double RosMap::getProbability(Eigen::Matrix3Xd& coords, double pRand)
+  double MapUpdater::getProbability(Eigen::Matrix3Xd& coords, double pRand)
   {
     PointInMapToOrigin(coords);
 
@@ -137,7 +137,7 @@ namespace ohmPf
     return probOfCoords;
   }
 
-  double RosMap::getProbability(double x, double y)
+  double MapUpdater::getProbability(double x, double y)
   {
     PointInMapToOrigin(x, y);
 
@@ -156,7 +156,7 @@ namespace ohmPf
     return prob;
   }
 
-  void RosMap::PointInMapToOrigin(double& x, double& y)
+  void MapUpdater::PointInMapToOrigin(double& x, double& y)
   {
     Eigen::Vector3d point;
     point(0) = x;
@@ -171,7 +171,7 @@ namespace ohmPf
     return;
   }
 
-  void RosMap::updateFilter(Filter& filter)
+  void MapUpdater::updateFilter(Filter& filter)
   {
     std::vector<Sample_t>* samples = filter.getSampleSet()->getSamples();
 
@@ -184,28 +184,28 @@ namespace ohmPf
     }
   }
 
-  void RosMap::PointInMapToOrigin(Eigen::Matrix3Xd& coords)
+  void MapUpdater::PointInMapToOrigin(Eigen::Matrix3Xd& coords)
   {
     coords = _tfMapToMapOrigin.inverse() * coords;
     return;
   }
 
-  double RosMap::getHeigh()
+  double MapUpdater::getHeigh()
   {
     return _height * _resolution;
   }
 
-  double RosMap::getWith()
+  double MapUpdater::getWith()
   {
     return _width * _resolution;
   }
 
-  Eigen::Matrix3d RosMap::getOrigin()
+  Eigen::Matrix3d MapUpdater::getOrigin()
   {
     return _tfMapToMapOrigin;
   }
 
-  void RosMap::getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax)
+  void MapUpdater::getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax)
   {
     Eigen::MatrixXd rectInOrigin(3, 4);
     rectInOrigin.col(0) << 0, 0, 1;
@@ -221,7 +221,7 @@ namespace ohmPf
     yMin = rectInOrigin.row(1).minCoeff();
   }
 
-  void RosMap::calcProbMap()
+  void MapUpdater::calcProbMap()
   {
     calcContourMap();
     
@@ -261,7 +261,7 @@ namespace ohmPf
     std::cout << __PRETTY_FUNCTION__ << " --> created prob map!" << std::endl;
   }
 
-  void RosMap::calcContourMap()
+  void MapUpdater::calcContourMap()
   {
     int filterSize = 1;  // in cells
 
@@ -296,7 +296,7 @@ namespace ohmPf
   }
 
 
-  void RosMap::getProbMap(nav_msgs::OccupancyGrid& msg)
+  void MapUpdater::getProbMap(nav_msgs::OccupancyGrid& msg)
   {
     msg.data = _probMap;
   }

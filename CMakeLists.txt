@@ -144,10 +144,10 @@ add_executable(OhmPfNode
 	src/SampleSet.cpp
 	src/GaussianPdf.cpp
 	src/Filter.cpp
-	src/OdomDiff.cpp
-	src/CeilCam.cpp
-	src/RosMap.cpp
-	src/RosLaserPM.cpp
+	src/OdomUpdater.cpp
+	src/CeilCamUpdater.cpp
+	src/MapUpdater.cpp
+	src/LaserUpdater.cpp
 	src/Resampler.cpp
 )
 

@@ -37,7 +37,7 @@ namespace ohmPf
     return _sampleSet;
   }
 
-  Sensor& Filter::getSensor(int sensorID)
+  Measurement& Filter::getSensor(int sensorID)
   {
     assert(sensorID < CNT_SENSORS);
     return *_sensors[sensorID];
@@ -113,7 +113,7 @@ namespace ohmPf
     return;
   }
 
-  void Filter::setSensor(int sensorID, Sensor* pSensor)
+  void Filter::setSensor(int sensorID, Measurement* pSensor)
   {
     assert(sensorID < CNT_SENSORS);
     _sensors[sensorID] = pSensor;

@@ -56,9 +56,9 @@ OhmPfNode::OhmPfNode() :
   spawnOdom();
   spawnFilter();
 
-  _filter->setSensor(CEILCAM, (Sensor*) new CeilCam());
-  _filter->setSensor(LASER, (Sensor*) new RosLaserPM(_rosLaserPMParams));
-  _filter->setSensor(RESAMPLER, (Sensor*) new Resampler());
+  _filter->setSensor(CEILCAM, (Measurement*) new CeilCamUpdater());
+  _filter->setSensor(LASER, (Measurement*) new LaserUpdater(_rosLaserPMParams));
+  _filter->setSensor(RESAMPLER, (Measurement*) new Resampler());
 
   _cumSumRot = 0.0;
   _cumSumtrans = 0.0;
@@ -198,9 +198,9 @@ void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConst
     ROS_INFO("Map service called successfully");
     const nav_msgs::OccupancyGrid& map(srv_map.response.map);
 
-    static RosMap* rosMap;
+    static MapUpdater* rosMap;
     delete rosMap;
-    rosMap = new RosMap(map, _maxDistanceProbMap);
+    rosMap = new MapUpdater(map, _maxDistanceProbMap);
 
 
 
@@ -209,7 +209,7 @@ void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConst
     nav_msgs::OccupancyGrid probMapMsg;
     probMapMsg.header = map.header;
     probMapMsg.info = map.info;
-    ((RosMap&) _filter->getSensor(MAP)).getProbMap(probMapMsg);
+    ((MapUpdater&) _filter->getSensor(MAP)).getProbMap(probMapMsg);
     //rosMap->getProbMap(probMapMsg);
     _pubProbMap.publish(probMapMsg);
 
@@ -232,7 +232,7 @@ void OhmPfNode::spawnOdom()
   _odomDiffParams.a3 = 0.01;
   _odomDiffParams.a4 = 0.0;
 
-  _odomDiff = new ohmPf::OdomDiff(_odomDiffParams);
+  _odomDiff = new ohmPf::OdomUpdater(_odomDiffParams);
 }
 
 void OhmPfNode::spawnFilter()
@@ -258,7 +258,7 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
       measurement.push_back(pose);
     }
 
-    ((CeilCam&) _filter->getSensor(CEILCAM)).setMeasurement(measurement);
+    ((CeilCamUpdater&) _filter->getSensor(CEILCAM)).setMeasurement(measurement);
     _filter->updateWithSensor(CEILCAM);
   }
 }
@@ -267,7 +267,7 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
   {
     if(&_filter->getSensor(MAP) != NULL && &_filter->getSensor(LASER) != NULL)
     {
-      RosLaserPM& laser = (RosLaserPM&)_filter->getSensor(LASER);
+      LaserUpdater& laser = (LaserUpdater&)_filter->getSensor(LASER);
       laser.setMeasurement(msg);
       _filter->updateWithSensor(LASER);
       //laser.updateFilter(*_filter); // todo: das sollte nur der filter können!?
