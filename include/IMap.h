@@ -1,5 +1,5 @@
 /*
- * MapModel.h
+ * IMap.h
  *
  *  Created on: 13.01.2016
  *      Author: amndan
@@ -9,16 +9,14 @@
 #define SRC_MAP_H_
 
 #include "Eigen/Dense"
-#include "Measurement.h"
 
 namespace ohmPf
 {
-
-  class MapModel : public Measurement
+  class IMap
   {
   public:
-    MapModel(){}
-    virtual ~MapModel(){}
+    IMap(){}
+    virtual ~IMap(){}
     virtual bool isOccupied(double x, double y) = 0; //x, y in m
     virtual double getProbability(double x, double y) = 0; // in meter
     virtual double getProbability(Eigen::Matrix3Xd& coords, double uncertainty) = 0; // todo: coords has to be constant

@@ -24,10 +24,10 @@
 #include "Filter.h"
 #include "EnumSensor.h"
 #include "LaserUpdater.h"
-#include "MapUpdater.h"
 #include "OdomUpdater.h"
 #include "Resampler.h"
 #include "RosLaserPMParams.h"
+#include "ROSMap.h"
 
 namespace ohmPf
 {

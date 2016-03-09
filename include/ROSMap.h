@@ -16,7 +16,7 @@
 #include "iostream"
 #include "UtilitiesOhmPf.h"
 #include <cmath>
-#include "MapModel.h"
+#include "IMap.h"
 #include "Filter.h"
 
 #define IS_OCCUPIED_THRESHHOLD 50
@@ -27,11 +27,11 @@ using namespace Eigen;
 namespace ohmPf
 {
 
-  class MapUpdater : public MapModel
+  class ROSMap : public IMap
   {
   public:
-    MapUpdater(const nav_msgs::OccupancyGrid& msg, unsigned int maxDistanceProbMap);
-    virtual ~MapUpdater();
+    ROSMap(const nav_msgs::OccupancyGrid& msg, unsigned int maxDistanceProbMap);
+    virtual ~ROSMap();
     bool isOccupied(double x, double y); // in meter
     double getProbability(double x, double y); // in meter
     double getProbability(Eigen::Matrix3Xd& coords, double pRand);
@@ -42,8 +42,8 @@ namespace ohmPf
     void calcProbMap();
     void calcContourMap();
     void getProbMap(nav_msgs::OccupancyGrid& msg);
-    void updateFilter(Filter& filter);
-    void initFilter(Filter& filter);
+    //void updateFilter(Filter& filter);
+    //void initFilter(Filter& filter);
   private:
     std::vector<int8_t> _mapRaw;
     std::vector<int8_t> _probMap; 

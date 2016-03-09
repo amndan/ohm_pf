@@ -5,12 +5,12 @@
  *      Author: amndan
  */
 
-#include "../include/MapUpdater.h"
+#include "../include/ROSMap.h"
 
 namespace ohmPf
 {
 
-  MapUpdater::MapUpdater(const nav_msgs::OccupancyGrid& msg, unsigned int maxDistanceProbMap)
+  ROSMap::ROSMap(const nav_msgs::OccupancyGrid& msg, unsigned int maxDistanceProbMap)
   {
     // todo: clean variables
     _mapRaw = msg.data;
@@ -30,12 +30,12 @@ namespace ohmPf
     //_map = mf;
   }
 
-  MapUpdater::~MapUpdater()
+  ROSMap::~ROSMap()
   {
     // TODO Auto-generated destructor stub
   }
 
-  bool MapUpdater::isOccupied(double x, double y)
+  bool ROSMap::isOccupied(double x, double y)
   {
     PointInMapToOrigin(x, y);
 
@@ -57,39 +57,39 @@ namespace ohmPf
     }
   }
 
-  void MapUpdater::initFilter(Filter& filter)
-  {
-    double xMin;
-    double yMin;
-    double xMax;
-    double yMax;
+//  void ROSMap::initFilter(Filter& filter)
+//  {
+//    double xMin;
+//    double yMin;
+//    double xMax;
+//    double yMax;
+//
+//    getMinEnclRect(xMin, yMin, xMax, yMax);
+//
+//    // generate cloud
+//    std::vector<Sample_t> samples;
+//
+//    for(unsigned int i = 0; i < filter.getParamSet()->samplesMax; i++)
+//    {
+//      Sample_t sample;
+//      sample.weight = 1.0;
+//      sample.pose(2) = drand48() * 2 * M_PI - M_PI;
+//      // todo: more efficient way here
+//      do
+//      {
+//        sample.pose(0) = drand48() * (xMax - xMin) + xMin;
+//        sample.pose(1) = drand48() * (yMax - yMin) + yMin;
+//      }
+//      while(isOccupied(sample.pose(0), sample.pose(1)));
+//      //todo: check if there is at least one field not occupied
+//
+//      samples.push_back(sample);
+//    }
+//
+//    filter.setSamples(samples);
+//  }
 
-    getMinEnclRect(xMin, yMin, xMax, yMax);
-
-    // generate cloud
-    std::vector<Sample_t> samples;
-
-    for(unsigned int i = 0; i < filter.getParamSet()->samplesMax; i++)
-    {
-      Sample_t sample;
-      sample.weight = 1.0;
-      sample.pose(2) = drand48() * 2 * M_PI - M_PI;
-      // todo: more efficient way here
-      do
-      {
-        sample.pose(0) = drand48() * (xMax - xMin) + xMin;
-        sample.pose(1) = drand48() * (yMax - yMin) + yMin;
-      }
-      while(isOccupied(sample.pose(0), sample.pose(1)));
-      //todo: check if there is at least one field not occupied
-
-      samples.push_back(sample);
-    }
-
-    filter.setSamples(samples);
-  }
-
-  bool MapUpdater::isInMapRange(int x, int y)
+  bool ROSMap::isInMapRange(int x, int y)
   {
     if(x < 0 || y < 0 || x >= (int) _width || y >= (int) _height)
     {
@@ -99,14 +99,14 @@ namespace ohmPf
     return true;
   }
 
-  int MapUpdater::meterToCells(double x)
+  int ROSMap::meterToCells(double x)
   {
     assert(_resolution != 0);
     int ret = std::floor(x / _resolution);
     return ret;
   }
 
-  double MapUpdater::getProbability(Eigen::Matrix3Xd& coords, double pRand)
+  double ROSMap::getProbability(Eigen::Matrix3Xd& coords, double pRand)
   {
     PointInMapToOrigin(coords);
 
@@ -137,7 +137,7 @@ namespace ohmPf
     return probOfCoords;
   }
 
-  double MapUpdater::getProbability(double x, double y)
+  double ROSMap::getProbability(double x, double y)
   {
     PointInMapToOrigin(x, y);
 
@@ -156,7 +156,7 @@ namespace ohmPf
     return prob;
   }
 
-  void MapUpdater::PointInMapToOrigin(double& x, double& y)
+  void ROSMap::PointInMapToOrigin(double& x, double& y)
   {
     Eigen::Vector3d point;
     point(0) = x;
@@ -171,41 +171,41 @@ namespace ohmPf
     return;
   }
 
-  void MapUpdater::updateFilter(Filter& filter)
-  {
-    std::vector<Sample_t>* samples = filter.getSampleSet()->getSamples();
+//  void ROSMap::updateFilter(Filter& filter)
+//  {
+//    std::vector<Sample_t>* samples = filter.getSampleSet()->getSamples();
+//
+//    for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
+//    {
+//      if(isOccupied(it->pose(0), it->pose(1)))
+//      {
+//        it->weight = 0.0;
+//      }
+//    }
+//  }
 
-    for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
-    {
-      if(isOccupied(it->pose(0), it->pose(1)))
-      {
-        it->weight = 0.0;
-      }
-    }
-  }
-
-  void MapUpdater::PointInMapToOrigin(Eigen::Matrix3Xd& coords)
+  void ROSMap::PointInMapToOrigin(Eigen::Matrix3Xd& coords)
   {
     coords = _tfMapToMapOrigin.inverse() * coords;
     return;
   }
 
-  double MapUpdater::getHeigh()
+  double ROSMap::getHeigh()
   {
     return _height * _resolution;
   }
 
-  double MapUpdater::getWith()
+  double ROSMap::getWith()
   {
     return _width * _resolution;
   }
 
-  Eigen::Matrix3d MapUpdater::getOrigin()
+  Eigen::Matrix3d ROSMap::getOrigin()
   {
     return _tfMapToMapOrigin;
   }
 
-  void MapUpdater::getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax)
+  void ROSMap::getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax)
   {
     Eigen::MatrixXd rectInOrigin(3, 4);
     rectInOrigin.col(0) << 0, 0, 1;
@@ -221,7 +221,7 @@ namespace ohmPf
     yMin = rectInOrigin.row(1).minCoeff();
   }
 
-  void MapUpdater::calcProbMap()
+  void ROSMap::calcProbMap()
   {
     calcContourMap();
     
@@ -261,7 +261,7 @@ namespace ohmPf
     std::cout << __PRETTY_FUNCTION__ << " --> created prob map!" << std::endl;
   }
 
-  void MapUpdater::calcContourMap()
+  void ROSMap::calcContourMap()
   {
     int filterSize = 1;  // in cells
 
@@ -296,7 +296,7 @@ namespace ohmPf
   }
 
 
-  void MapUpdater::getProbMap(nav_msgs::OccupancyGrid& msg)
+  void ROSMap::getProbMap(nav_msgs::OccupancyGrid& msg)
   {
     msg.data = _probMap;
   }
