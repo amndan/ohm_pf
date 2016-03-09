@@ -39,10 +39,10 @@
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="147.6772735785953" width="159.36578595317724" x="-4.682892976588619" y="251.16136321070235"/>
+          <y:Geometry height="157.36087510060764" width="158.2898302285092" x="-4.682892976588619" y="251.16136321070238"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="144.6005859375" x="7.382600007838619" y="3.0">LaserMeasurement<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="144.6005859375" x="6.8446221455046015" y="3.0">LaserMeasurement<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -53,7 +53,8 @@
             <y:AttributeLabel>ranges
 increment
 phiMin
-phiMax</y:AttributeLabel>
+phiMax
+tfBfLaser</y:AttributeLabel>
             <y:MethodLabel>setMeasurement()
 getRanges()
 ...</y:MethodLabel>
@@ -166,7 +167,7 @@ phi</y:AttributeLabel>
           </y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
             <y:AttributeLabel>IUpdateFilterMap
-IOdomMeasurement
+OdomMeasurement
 IOdomQuantifier
 updater[]
 distances[]</y:AttributeLabel>
@@ -212,7 +213,7 @@ updateForce()</y:MethodLabel>
             </y:ModelParameter>
           </y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
-            <y:AttributeLabel>ICeilCamMeasurement</y:AttributeLabel>
+            <y:AttributeLabel>CeilCamMeasurement</y:AttributeLabel>
             <y:MethodLabel>update()</y:MethodLabel>
           </y:UML>
         </y:UMLClassNode>
@@ -234,7 +235,7 @@ updateForce()</y:MethodLabel>
           </y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
             <y:AttributeLabel>IMap
-ILaserMeasurement
+LaserMeasurement
 ILaserQuantifier
 OCSFlag</y:AttributeLabel>
             <y:MethodLabel>update()
@@ -999,7 +1000,7 @@ setSamples() = 0</y:MethodLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="79.68289297658862" sy="-0.0" tx="-83.10258835758839" ty="-0.0"/>
+          <y:Path sx="79.1449151142546" sy="-0.0" tx="-83.10258835758839" ty="-0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="white_delta"/>
           <y:BendStyle smoothed="false"/>
@@ -1010,7 +1011,7 @@ setSamples() = 0</y:MethodLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="66.0190721649485" tx="0.0" ty="73.83863678929765">
+          <y:Path sx="0.0" sy="66.0190721649485" tx="0.0" ty="78.6804375503038">
             <y:Point x="1200.0" y="1600.0"/>
             <y:Point x="75.0" y="1600.0"/>
           </y:Path>
