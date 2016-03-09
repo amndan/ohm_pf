@@ -30,7 +30,6 @@ public:
   int getCountSamples() const;
   void normalize();
   bool isNormalized() const;
-  void resample();
   void boostWeights();
 private:
   std::vector<Sample_t> _samples;
