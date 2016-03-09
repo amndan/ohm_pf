@@ -222,10 +222,10 @@ updateForce()</y:MethodLabel>
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="106.32371134020605" width="148.41773195876294" x="1125.7911340206185" y="1271.838144329897"/>
+          <y:Geometry height="132.03814432989702" width="139.00969072164935" x="1125.7911340206185" y="1271.838144329897"/>
           <y:Fill color="#FF6600" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="103.404296875" x="22.50671754188147" y="3.0">LaserUpdater<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="103.404296875" x="17.802696923324675" y="3.0">LaserUpdater<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -235,8 +235,10 @@ updateForce()</y:MethodLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
             <y:AttributeLabel>IMap
 ILaserMeasurement
-ILaserQuantifier</y:AttributeLabel>
-            <y:MethodLabel>update()</y:MethodLabel>
+ILaserQuantifier
+OCSFlag</y:AttributeLabel>
+            <y:MethodLabel>update()
+setOCSTrue()</y:MethodLabel>
           </y:UML>
         </y:UMLClassNode>
       </data>
@@ -289,10 +291,10 @@ printSampleSet() = 0</y:MethodLabel>
       <data key="d4"/>
       <data key="d6">
         <y:UMLClassNode>
-          <y:Geometry height="147.96255396420213" width="153.47408832740177" x="1123.2629558362992" y="951.018723017899"/>
+          <y:Geometry height="118.4758121926883" width="133.30020618556694" x="1123.2629558362992" y="951.018723017899"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="102.6171875" x="25.428450413700887" y="3.0">FilterUpdater<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="102.6171875" x="15.341509342783468" y="3.0">FilterUpdater<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -301,11 +303,9 @@ printSampleSet() = 0</y:MethodLabel>
           </y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
             <y:AttributeLabel>IFilter&amp;
-timestamp
-OCSFlag</y:AttributeLabel>
+timestamp</y:AttributeLabel>
             <y:MethodLabel>update() = 0
 getStamp()
-setOCSTrue()
 initialize()</y:MethodLabel>
           </y:UML>
         </y:UMLClassNode>
@@ -635,7 +635,6 @@ setSamples() = 0</y:MethodLabel>
     </node>
     <node id="n28">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="66.59292371134023" width="224.66711752577316" x="112.66644123711342" y="616.7035381443299"/>
@@ -651,6 +650,30 @@ setSamples() = 0</y:MethodLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
             <y:AttributeLabel/>
             <y:MethodLabel>registerUpdater(sensor, distance)</y:MethodLabel>
+          </y:UML>
+        </y:UMLClassNode>
+      </data>
+    </node>
+    <node id="n29">
+      <data key="d4"/>
+      <data key="d5"/>
+      <data key="d6">
+        <y:UMLClassNode>
+          <y:Geometry height="85.74271844660188" width="119.33357942762882" x="1270.972509233285" y="1464.5315533980583"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="81.5302734375" x="18.90165299506441" y="25.96875">IOCSClient
+<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="-0.03703090122767855" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="Interface" use3DEffect="true">
+            <y:AttributeLabel/>
+            <y:MethodLabel>setOCSTrue() = 0
+</y:MethodLabel>
           </y:UML>
         </y:UMLClassNode>
       </data>
@@ -688,7 +711,7 @@ setSamples() = 0</y:MethodLabel>
     <edge id="e3" source="n9" target="n24">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="74.20886597938147" sy="-0.0" tx="-87.754854368932" ty="-0.0"/>
+          <y:Path sx="69.50484536082466" sy="-0.0" tx="-87.754854368932" ty="-0.0"/>
           <y:LineStyle color="#000000" type="dashed" width="1.0"/>
           <y:Arrows source="white_diamond" target="plain"/>
           <y:BendStyle smoothed="false"/>
@@ -698,7 +721,7 @@ setSamples() = 0</y:MethodLabel>
     <edge id="e4" source="n9" target="n15">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-74.20886597938147" sy="-0.0" tx="78.87135922330094" ty="-0.0"/>
+          <y:Path sx="-69.50484536082466" sy="-0.0" tx="78.87135922330094" ty="-0.0"/>
           <y:LineStyle color="#000000" type="dashed" width="1.0"/>
           <y:Arrows source="white_diamond" target="plain"/>
           <y:BendStyle smoothed="false"/>
@@ -825,7 +848,7 @@ setSamples() = 0</y:MethodLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="-73.98127698210101" tx="0.0" ty="49.19511308177357"/>
+          <y:Path sx="0.0" sy="-59.23790609634409" tx="0.0" ty="49.19511308177357"/>
           <y:LineStyle color="#000000" type="dashed" width="1.0"/>
           <y:Arrows source="white_diamond" target="plain"/>
           <y:BendStyle smoothed="false"/>
@@ -836,7 +859,7 @@ setSamples() = 0</y:MethodLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="37.413849368797855" tx="-76.73704416370083" ty="-25.0">
+          <y:Path sx="0.0" sy="37.413849368797855" tx="-66.65010309278341" ty="-20.017870910323737">
             <y:Point x="1000.0" y="1000.0"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
@@ -849,7 +872,7 @@ setSamples() = 0</y:MethodLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="-53.16185567010302" tx="0.0" ty="73.98127698210106"/>
+          <y:Path sx="0.0" sy="-66.0190721649485" tx="0.0" ty="59.23790609634415"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="white_delta"/>
           <y:BendStyle smoothed="false"/>
@@ -860,7 +883,7 @@ setSamples() = 0</y:MethodLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-69.50484536082467" sy="-25.0" tx="-25.0" ty="-73.98127698210101">
+          <y:Path sx="-69.50484536082467" sy="-25.0" tx="-21.713796712902035" ty="-59.23790609634409">
             <y:Point x="375.0" y="625.0"/>
             <y:Point x="375.0" y="225.0"/>
             <y:Point x="1175.0" y="225.0"/>
@@ -875,7 +898,7 @@ setSamples() = 0</y:MethodLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="66.65010309278352" sy="-0.0" tx="-25.0" ty="73.98127698210106">
+          <y:Path sx="66.65010309278352" sy="-0.0" tx="-21.713796712902035" ty="59.23790609634415">
             <y:Point x="1175.0" y="1175.0"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
@@ -899,7 +922,7 @@ setSamples() = 0</y:MethodLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-82.80938144329912" sy="-0.0" tx="76.73704416370083" ty="-0.0"/>
+          <y:Path sx="-82.80938144329912" sy="-0.0" tx="66.65010309278341" ty="-0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="white_delta"/>
           <y:BendStyle smoothed="false"/>
@@ -921,7 +944,7 @@ setSamples() = 0</y:MethodLabel>
       <data key="d8"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="91.02524271844663" sy="-0.0" tx="-76.73704416370083" ty="-0.0"/>
+          <y:Path sx="91.02524271844663" sy="-0.0" tx="-66.65010309278341" ty="-0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="white_delta"/>
           <y:BendStyle smoothed="false"/>
@@ -930,7 +953,6 @@ setSamples() = 0</y:MethodLabel>
     </edge>
     <edge id="e25" source="n3" target="n4">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="-51.63484347826102" tx="0.0" ty="39.09797990297989"/>
@@ -942,7 +964,6 @@ setSamples() = 0</y:MethodLabel>
     </edge>
     <edge id="e26" source="n6" target="n3">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="-66.01907216494851" tx="0.0" ty="51.63484347826102"/>
@@ -954,7 +975,6 @@ setSamples() = 0</y:MethodLabel>
     </edge>
     <edge id="e27" source="n8" target="n2">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-75.1314968814969" sy="-0.0" tx="86.45379392569828" ty="-0.0"/>
@@ -966,7 +986,6 @@ setSamples() = 0</y:MethodLabel>
     </edge>
     <edge id="e28" source="n2" target="n4">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-86.45379392569828" sy="-0.0" tx="83.10258835758839" ty="-0.0"/>
@@ -978,7 +997,6 @@ setSamples() = 0</y:MethodLabel>
     </edge>
     <edge id="e29" source="n1" target="n4">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="79.68289297658862" sy="-0.0" tx="-83.10258835758839" ty="-0.0"/>
@@ -990,10 +1008,9 @@ setSamples() = 0</y:MethodLabel>
     </edge>
     <edge id="e30" source="n9" target="n1">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="53.16185567010302" tx="0.0" ty="73.83863678929765">
+          <y:Path sx="0.0" sy="66.0190721649485" tx="0.0" ty="73.83863678929765">
             <y:Point x="1200.0" y="1600.0"/>
             <y:Point x="75.0" y="1600.0"/>
           </y:Path>
@@ -1005,7 +1022,6 @@ setSamples() = 0</y:MethodLabel>
     </edge>
     <edge id="e31" source="n0" target="n21">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="57.0" sy="-0.0" tx="-57.0" ty="-0.0"/>
@@ -1017,10 +1033,21 @@ setSamples() = 0</y:MethodLabel>
     </edge>
     <edge id="e32" source="n6" target="n28">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-69.50484536082467" sy="-0.0" tx="112.33355876288658" ty="-0.0"/>
+          <y:LineStyle color="#000000" type="dashed" width="1.0"/>
+          <y:Arrows source="none" target="white_delta"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e33" source="n9" target="n29">
+      <data key="d8"/>
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="dashed" width="1.0"/>
           <y:Arrows source="none" target="white_delta"/>
           <y:BendStyle smoothed="false"/>

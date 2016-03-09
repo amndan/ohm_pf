@@ -18,8 +18,8 @@ namespace ohmPf
   public:
     IFilter(){};
     virtual ~IFilter(){};
-    std::vector<Sample_t>* getSamples() = 0;
-    void setSamples(std::vector<Sample_t> samples) = 0;
+    virtual std::vector<Sample_t>* getSamples() = 0;
+    virtual void setSamples(std::vector<Sample_t> samples) = 0;
   };
 
 } /* namespace ohmPf */
