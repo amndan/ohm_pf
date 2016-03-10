@@ -11,6 +11,8 @@
 #include "FilterUpdater.h"
 #include "IMap.h"
 #include "ILaserMeasurement.h"
+#include "ILaserQuanifier.h"
+
 
 namespace ohmPf
 {
@@ -26,7 +28,7 @@ namespace ohmPf
   private:
     IMap* _map;
     ILaserMeasurement* _measurement;
-    //ILaserQuantifier _quantifier;
+    ILaserQuantifier _quantifier;
   };
 
 } /* namespace ohmPf */

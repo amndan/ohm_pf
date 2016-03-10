@@ -545,7 +545,7 @@ getStamp() = 0</y:MethodLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="85.74271844660188" width="175.50970873786412" x="112.24514563106794" y="357.12864077669906"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="123.20263671875" x="26.153536009557058" y="25.96875">ILaserQuantifier<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -653,7 +653,7 @@ setSamples() = 0</y:MethodLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="85.74271844660188" width="119.33357942762882" x="815.3332102861856" y="357.12864077669906"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="81.5302734375" x="18.90165299506441" y="25.96875">IOCSClient
 <y:LabelModel>
