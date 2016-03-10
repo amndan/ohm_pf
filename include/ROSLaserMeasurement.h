@@ -5,26 +5,40 @@
  *      Author: amndan
  */
 
-#ifndef SRC_LASERMEASUREMENT_H_
-#define SRC_LASERMEASUREMENT_H_
+#ifndef SRC_ROSLASERMEASUREMENT_H_
+#define SRC_ROSLASERMEASUREMENT_H_
 
-#include "Measurement.h"
 #include "sensor_msgs/LaserScan.h"
 #include "Eigen/Dense"
 #include "UtilitiesOhmPf.h"
 #include "tf/transform_datatypes.h"
+#include "tf/transform_listener.h"
 #include "assert.h"
+#include <ros/time.h>
+#include "ILaserMeasurement.h"
 
 namespace ohmPf
 {
 
-  class LaserMeasurement : Measurement
+  class ROSLaserMeasurement : public ILaserMeasurement
   {
   public:
-    LaserMeasurement();
-    virtual ~LaserMeasurement();
+    ROSLaserMeasurement();
+    virtual ~ROSLaserMeasurement();
     void initWithMeasurement(sensor_msgs::LaserScanConstPtr scan, std::string tfBaseFootprintFrame);
     void setMeasurement(sensor_msgs::LaserScanConstPtr scan);
+    ros::Time getStamp();
+    double getAngleIncrement();
+    double getRangeMax();
+    double getRangeMin();
+    double getAngleMin();
+    double getAngleMax();
+    unsigned int getCount();
+    std::vector<float> getRanges();
+    double getUncertainty();
+    Eigen::Matrix3d getTfBaseFootprintToLaser();
+    bool isInitialized();
+
   private:
     double _angleIncrement;
     double _rangeMax;
@@ -37,6 +51,7 @@ namespace ohmPf
     Eigen::Matrix3d _tfBaseFootprintToLaser;
     bool _initialized;
     std::vector<float> _ranges;
+    ros::Time _stamp;
   };
 
 } /* namespace ohmPf */

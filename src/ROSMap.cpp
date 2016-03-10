@@ -17,6 +17,7 @@ namespace ohmPf
     _resolution = msg.info.resolution;
     _width = msg.info.width;  // width is in map_origin_system
     _height = msg.info.height;  // height is in map_origin_system
+    _stamp = msg.header.stamp;
     _maxDistanceProbMap = maxDistanceProbMap;
     // todo: need getXmin() getXmax() functions for injecting particles over whole map
 
@@ -30,9 +31,15 @@ namespace ohmPf
     //_map = mf;
   }
 
+
   ROSMap::~ROSMap()
   {
     // TODO Auto-generated destructor stub
+  }
+
+  ros::Time ROSMap::getStamp()
+  {
+    return _stamp;
   }
 
   bool ROSMap::isOccupied(double x, double y)

@@ -10,8 +10,8 @@
 #define RESAMPLER_H_
 
 
+#include "../include/IMeasurement.h"
 #include "Filter.h"
-#include "Measurement.h"
 
 namespace ohmPf
 {

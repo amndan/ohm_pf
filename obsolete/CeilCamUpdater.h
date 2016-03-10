@@ -14,7 +14,7 @@
 #include "UtilitiesOhmPf.h"
 #include <cmath>
 
-#include "Measurement.h"
+#include "../include/IMeasurement.h"
 
 namespace ohmPf
 {

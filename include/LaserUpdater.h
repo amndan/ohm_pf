@@ -9,6 +9,8 @@
 #define INCLUDE_LASERUPDATER_H_
 
 #include "FilterUpdater.h"
+#include "IMap.h"
+#include "ILaserMeasurement.h"
 
 namespace ohmPf
 {
@@ -22,9 +24,9 @@ namespace ohmPf
     void initFilter();
 
   private:
-    IMap _map;
-    ILaserMeasurement _measurement;
-    ILaserQuantifier _quantifier;
+    IMap* _map;
+    ILaserMeasurement* _measurement;
+    //ILaserQuantifier _quantifier;
   };
 
 } /* namespace ohmPf */

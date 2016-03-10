@@ -14,10 +14,10 @@
 namespace ohmPf
 {
 
-  class Filter : public IFilter
+  class Filter// : public IFilter
   {
   public:
-    Filter();
+    Filter(std::vector<Sample_t> samples);
     virtual ~Filter();
     std::vector<Sample_t>* getSamples();
     void setSamples(std::vector<Sample_t> samples);

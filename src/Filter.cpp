@@ -10,25 +10,25 @@
 namespace ohmPf
 {
 
-  Filter::Filter()
-  {
-    // TODO Auto-generated constructor stub
+Filter::Filter(std::vector<Sample_t> samples) :
+    _sampleSet(samples)
+{
 
-  }
+}
 
-  Filter::~Filter()
-  {
-    // TODO Auto-generated destructor stub
-  }
+Filter::~Filter()
+{
+  // TODO Auto-generated destructor stub
+}
 
-  std::vector<Sample_t>* Filter::getSamples()
-  {
-    return _sampleSet.getSamples();
-  }
+std::vector<Sample_t>* Filter::getSamples()
+{
+  return _sampleSet.getSamples();
+}
 
-  void Filter::setSamples(std::vector<Sample_t> samples)
-  {
-    _sampleSet.setSamples(samples);
-  }
+void Filter::setSamples(std::vector<Sample_t> samples)
+{
+  _sampleSet.setSamples(samples);
+}
 
 } /* namespace ohmPf */

@@ -18,6 +18,7 @@
 #include <cmath>
 #include "IMap.h"
 #include "Filter.h"
+#include <ros/time.h>
 
 #define IS_OCCUPIED_THRESHHOLD 50
 #define IS_UNKNOWN_CELL -1
@@ -42,6 +43,7 @@ namespace ohmPf
     void calcProbMap();
     void calcContourMap();
     void getProbMap(nav_msgs::OccupancyGrid& msg);
+    ros::Time getStamp();
     //void updateFilter(Filter& filter);
     //void initFilter(Filter& filter);
   private:
@@ -60,6 +62,7 @@ namespace ohmPf
     bool isInMapRange(int x, int y);
 
     unsigned int _maxDistanceProbMap; //TODO: in meter not in cells
+    ros::Time _stamp;
   };
 
 } /* namespace ohmPf */

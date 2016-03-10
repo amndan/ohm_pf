@@ -9,6 +9,7 @@
 #define SRC_IFILTER_H_
 
 #include <vector>
+#include "Sample.h"
 
 namespace ohmPf
 {

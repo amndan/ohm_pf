@@ -9,6 +9,7 @@
 #define SRC_MAP_H_
 
 #include "Eigen/Dense"
+#include <ros/time.h>
 
 namespace ohmPf
 {
@@ -25,6 +26,8 @@ namespace ohmPf
     virtual Eigen::Matrix3d getOrigin() = 0; // tf in meter
     virtual void getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax) = 0; // in meter
     virtual void calcProbMap() = 0;
+    virtual ros::Time getStamp() = 0;
+
   };
 } /* namespace ohmPf */
 

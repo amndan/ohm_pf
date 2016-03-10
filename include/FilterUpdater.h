@@ -9,6 +9,7 @@
 #define SRC_FILTERUPDATER_H_
 
 #include "IFilter.h"
+#include <ros/time.h>
 
 namespace ohmPf
 {
@@ -19,9 +20,12 @@ namespace ohmPf
     FilterUpdater(){};
     virtual ~FilterUpdater(){};
     virtual void update() = 0;
+    ros::Time getStamp();
 
   private:
     IFilter* _filter;
+    ros::Time _stamp;
+
 
   };
 

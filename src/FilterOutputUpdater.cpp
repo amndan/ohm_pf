@@ -12,7 +12,7 @@ namespace ohmPf
 
   FilterOutputUpdater::FilterOutputUpdater(IFilterOutput& filterOutput)
   {
-    _filterOutput = filterOutput;
+    _filterOutput = &filterOutput;
   }
 
   FilterOutputUpdater::~FilterOutputUpdater()

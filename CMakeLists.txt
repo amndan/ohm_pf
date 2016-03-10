@@ -138,21 +138,16 @@ include_directories(
 #	src/SampleSet.cpp
 #)
 
-add_executable(OhmPfNode 
-	testing/main_OhmPfNode.cpp	
-	src/OhmPfNode.cpp 
-	src/SampleSet.cpp
-	src/GaussianPdf.cpp
-	src/Filter.cpp
-	src/OdomUpdater.cpp
-	src/CeilCamUpdater.cpp
-	src/MapUpdater.cpp
-	src/LaserUpdater.cpp
-	src/Resampler.cpp
-)
-
 add_executable(CeilCamSimulator
     testing/CeilCamSimulator.cpp 
+    src/ROSLaserMeasurement.cpp
+    src/GaussianPdf.cpp
+    src/Filter.cpp
+    src/FilterOutputUpdater.cpp
+    src/FilterUpdater.cpp
+    src/ROSMap.cpp
+    #src/LaserUpdater.cpp
+    src/SampleSet.cpp
 )
 
 
@@ -161,9 +156,6 @@ add_executable(CeilCamSimulator
 # add_dependencies(ohm_pf_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(OhmPfNode
- ${catkin_LIBRARIES}
-)
 
 target_link_libraries(CeilCamSimulator
  ${catkin_LIBRARIES}
