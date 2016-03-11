@@ -9,6 +9,10 @@
 
 namespace ohmPf
 {
+  FilterUpdater::FilterUpdater(IFilter* filter)
+  {
+    _filter = filter;
+  }
 
   ros::Time FilterUpdater::getStamp()
   {

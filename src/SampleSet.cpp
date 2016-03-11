@@ -49,42 +49,4 @@ int SampleSet::getCountSamples() const
   return _countSamples;
 }
 
-void SampleSet::boostWeights()
-{ 
-  for(unsigned int i = 0; i < _samples.size(); i++)
-  {
-    _samples[i].weight = std::pow(_samples[i].weight, 1.0/3.0); 
-    // TODO: magic numbers; 3rd sqrt leads to slower convergence
-    // should be done in resampling step, not at normalization!
-    // the more often it is done the slower the convergence
-  }
-}
-
-void SampleSet::normalize()
-{
-  if (!_normalized)
-  {
-    double sumWeight = 0.0;
-    
-    for(unsigned int i = 0; i < _samples.size(); i++)
-    {
-      sumWeight += _samples[i].weight;
-    }
-
-    assert(sumWeight != 0); // todo: debug why sumweight can be 0
-
-    for(unsigned int i = 0; i < _samples.size(); i++)
-    {
-      _samples[i].weight /= sumWeight;
-    }
-
-    _normalized = true;
-  }
-}
-
-bool SampleSet::isNormalized() const
-{
-  return _normalized;
-}
-
 } /* namespace ohmPf */

@@ -10,6 +10,7 @@
 
 #include "ILaserMeasurement.h"
 #include "IMap.h"
+#include "IFilter.h"
 
 namespace ohmPf
 {
@@ -17,9 +18,9 @@ namespace ohmPf
 class ILaserQuantifier
 {
 public:
-  ILaserQuantifier();
-  virtual ~ILaserQuantifier();
-  virtual void calculate(ILaserMeasurement& measurement, IMap& map) = 0;
+  ILaserQuantifier(){};
+  virtual ~ILaserQuantifier(){};
+  virtual void calculate(IFilter& filter, ILaserMeasurement& measurement, IMap& map) = 0;
 };
 
 } /* namespace ohmPf */

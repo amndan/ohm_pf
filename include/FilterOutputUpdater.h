@@ -10,6 +10,7 @@
 
 #include "FilterUpdater.h"
 #include "IFilterOutput.h"
+#include "IFilter.h"
 
 
 namespace ohmPf
@@ -18,7 +19,7 @@ namespace ohmPf
   class FilterOutputUpdater : public FilterUpdater
   {
   public:
-    FilterOutputUpdater(IFilterOutput& filterOutput);
+    FilterOutputUpdater(IFilterOutput* filterOutput, IFilter* filter);
     virtual ~FilterOutputUpdater();
     void update();
   private:

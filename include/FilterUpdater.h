@@ -17,16 +17,14 @@ namespace ohmPf
   class FilterUpdater
   {
   public:
-    FilterUpdater(){};
+    FilterUpdater(IFilter* filter);
     virtual ~FilterUpdater(){};
     virtual void update() = 0;
     ros::Time getStamp();
 
-  private:
+  protected:
     IFilter* _filter;
     ros::Time _stamp;
-
-
   };
 
 } /* namespace ohmPf */

@@ -20,6 +20,34 @@
 namespace ohmPf
 {
 
+  static void boostWeights(std::vector<Sample_t>& samples)
+  {
+    for(unsigned int i = 0; i < samples.size(); i++)
+    {
+      samples[i].weight = std::pow(samples[i].weight, 1.0/3.0);
+      // TODO: magic numbers; 3rd sqrt leads to slower convergence
+      // should be done in resampling step, not at normalization!
+      // the more often it is done the slower the convergence
+    }
+  }
+
+  static void normalize(std::vector<Sample_t>& samples)
+  {
+      double sumWeight = 0.0;
+
+      for(unsigned int i = 0; i < samples.size(); i++)
+      {
+        sumWeight += samples[i].weight;
+      }
+
+      assert(sumWeight != 0); // todo: debug why sumweight can be 0
+
+      for(unsigned int i = 0; i < samples.size(); i++)
+      {
+        samples[i].weight /= sumWeight;
+      }
+  }
+
   static void correctAngleOverflow(double& angle)
   {
     angle = std::fmod(angle, 2 * M_PI);

@@ -18,7 +18,7 @@
 namespace ohmPf
 {
 
-class SampleSet
+class SampleSet // TOSO: eventually we dont need this class; we access samples through the filter class
 {
 public:
   SampleSet(std::vector<Sample_t> samples);
@@ -28,9 +28,7 @@ public:
   void setSamples(std::vector<Sample_t> samples);
 
   int getCountSamples() const;
-  void normalize();
-  bool isNormalized() const;
-  void boostWeights();
+
 private:
   std::vector<Sample_t> _samples;
   int _countSamples;

@@ -147,8 +147,9 @@ add_executable(CeilCamSimulator
     src/FilterOutputUpdater.cpp
     src/FilterUpdater.cpp
     src/ROSMap.cpp
-    #src/LaserUpdater.cpp
+    src/LaserUpdater.cpp
     src/SampleSet.cpp
+    src/LaserProbMapMethod.cpp
 )
 
 
