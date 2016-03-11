@@ -174,7 +174,7 @@ distances[]</y:AttributeLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="86.17876114282467" width="133.30020618556705" x="1608.3498969072166" y="181.91061942858767"/>
-          <y:Fill color="#FFCC99" transparent="false"/>
+          <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="94.39697265625" x="19.451616764658525" y="3.0">MapUpdater<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -217,7 +217,7 @@ updateForce()</y:MethodLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="132.03814432989702" width="139.00969072164935" x="605.4951546391753" y="333.9809278350515"/>
-          <y:Fill color="#FFCC99" transparent="false"/>
+          <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="103.404296875" x="17.802696923324675" y="3.0">LaserUpdater<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -524,7 +524,7 @@ getStamp() = 0</y:MethodLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="63.53398058252424" width="163.66504854368935" x="118.16747572815535" y="518.2330097087379"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="124.64990234375" x="19.507573099969676" y="3.0">ProbMapMethod<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -566,7 +566,7 @@ getStamp() = 0</y:MethodLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="102.48570541415211" width="173.07578218248102" x="1588.4621089087595" y="-1.2428527070760538"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="132.0576171875" x="20.50908249749051" y="25.96875">IUpdateFilterMap<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -673,7 +673,6 @@ setSamples() = 0</y:MethodLabel>
     </node>
     <node id="n30">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="28.0" width="190.29113402061853" x="454.85443298969085" y="1436.0"/>
@@ -695,7 +694,6 @@ setSamples() = 0</y:MethodLabel>
     </node>
     <node id="n31">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="28.0" width="190.29113402061853" x="229.85443298969074" y="1386.0"/>
@@ -717,7 +715,6 @@ setSamples() = 0</y:MethodLabel>
     </node>
     <node id="n32">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="28.0" width="190.29113402061853" x="329.85443298969074" y="586.0"/>
@@ -739,7 +736,6 @@ setSamples() = 0</y:MethodLabel>
     </node>
     <node id="n33">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="28.0" width="100.0" x="1222.0500894845366" y="1248.504922886597"/>
@@ -1152,7 +1148,6 @@ setSamples() = 0</y:MethodLabel>
     </edge>
     <edge id="e34" source="n30" target="n3">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-95.14556701030926" sy="0.0" tx="79.96750865772512" ty="0.0"/>
@@ -1164,7 +1159,6 @@ setSamples() = 0</y:MethodLabel>
     </edge>
     <edge id="e35" source="n31" target="n2">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="-14.0" tx="0.0" ty="49.42137372350135"/>
@@ -1176,7 +1170,6 @@ setSamples() = 0</y:MethodLabel>
     </edge>
     <edge id="e36" source="n32" target="n1">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="95.14556701030926" sy="0.0" tx="-77.46037903178035" ty="0.0"/>

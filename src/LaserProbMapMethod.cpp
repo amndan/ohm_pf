@@ -53,7 +53,7 @@ namespace ohmPf
     return scanCoord;
   }
 
-  void LaserProbMapMethod::calculate(IFilter& filter, ILaserMeasurement& measurement, IMap& map)
+  void LaserProbMapMethod::calculate(IFilter& filter, ILaserMeasurement& measurement, IMap& map, IUpdateFilterMap& updateFilterMap)
   {
     Eigen::Matrix3Xd coords = rangesToCoordinates(measurement);
 
@@ -83,8 +83,8 @@ namespace ohmPf
     std::cout << "calScan Duration: " << dur << std::endl;
 
     boostWeights(*samples);
-
-    //filter.updateWithSensor(MAP); // TOD: here comes IUpdateFIlterMap Interface
+    updateFilterMap.update();
+    normalize(*samples);
     //filter.getSampleSet()->normalize();
     //filter.getSampleSet()->resample(); // todo: should we do that here??
   }

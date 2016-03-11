@@ -22,7 +22,7 @@ namespace ohmPf
   public:
     LaserProbMapMethod();
     virtual ~LaserProbMapMethod();
-    void calculate(IFilter& filter, ILaserMeasurement& measurement, IMap& map);
+    void calculate(IFilter& filter, ILaserMeasurement& measurement, IMap& map, IUpdateFilterMap& updateFilterMap);
   private:
     Eigen::Matrix3Xd rangesToCoordinates(ILaserMeasurement& measurement);
   };
