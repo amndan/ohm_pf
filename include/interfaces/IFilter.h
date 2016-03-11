@@ -10,6 +10,7 @@
 
 #include <vector>
 #include "Sample.h"
+#include "SampleSet.h"
 
 namespace ohmPf
 {
@@ -23,6 +24,7 @@ namespace ohmPf
     virtual void setSamples(std::vector<Sample_t> samples) = 0;
     virtual unsigned int getSamplesMin() = 0;
     virtual unsigned int getSamplesMax() = 0;
+    virtual SampleSet* getSampleSet() = 0;
   };
 
 } /* namespace ohmPf */

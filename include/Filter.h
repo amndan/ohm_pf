@@ -14,7 +14,7 @@
 namespace ohmPf
 {
 
-  class Filter// : public IFilter
+  class Filter : public IFilter
   {
   public:
     Filter(std::vector<Sample_t> samples, unsigned int samplesMin, unsigned int samplesMax);
@@ -23,6 +23,7 @@ namespace ohmPf
     void setSamples(std::vector<Sample_t> samples);
     unsigned int getSamplesMin();
     unsigned int getSamplesMax();
+    SampleSet* getSampleSet();
   private:
     SampleSet _sampleSet;
     unsigned int _samplesMin;

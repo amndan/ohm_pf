@@ -27,6 +27,11 @@ public:
   std::vector<Sample_t>* getSamples();
   void setSamples(std::vector<Sample_t> samples);
 
+  void boostWeights();
+  void normalize();
+
+  bool isNormalized();
+
   int getCountSamples() const;
 
 private:

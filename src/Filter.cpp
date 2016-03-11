@@ -40,6 +40,12 @@ namespace ohmPf
     return _sampleSet.getSamples();
   }
 
+
+  SampleSet* Filter::getSampleSet()
+  {
+    return &_sampleSet;
+  }
+
   void Filter::setSamples(std::vector<Sample_t> samples)
   {
     _sampleSet.setSamples(samples);
