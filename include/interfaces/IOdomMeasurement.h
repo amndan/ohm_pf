@@ -9,6 +9,7 @@
 #define SRC_IODOMMEASUREMENT_H_
 
 #include "IMeasurement.h"
+#include "Eigen/Dense"
 
 namespace ohmPf
 {
@@ -22,6 +23,7 @@ namespace ohmPf
     virtual double getX() = 0;
     virtual double getY() = 0;
     virtual double getPhi() = 0;
+    virtual Eigen::Vector3d getMeasurement() = 0;
   };
 
 } /* namespace ohmPf */

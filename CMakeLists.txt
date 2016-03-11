@@ -152,6 +152,7 @@ add_executable(CeilCamSimulator
     src/LaserProbMapMethod.cpp
     src/MapUpdater.cpp
     src/ROSOdomMeasurement.cpp
+    src/OdomDiff.cpp
 )
 
 
