@@ -62,7 +62,7 @@
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="98.84274744700241" width="173.98569094418008" x="238.00715452790996" y="1225.5786262764989"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="168.5439453125" x="2.720872815840039" y="25.96875">ICeilCamMeasurement<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -697,7 +697,7 @@ setSamples() = 0</y:MethodLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="28.0" width="190.29113402061853" x="229.85443298969074" y="1386.0"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="194.13134765625" x="-1.9201068178157357" y="3.0">ROSCeilCamMeasurement<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>

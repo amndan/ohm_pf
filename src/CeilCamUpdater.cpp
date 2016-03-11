@@ -10,16 +10,11 @@
 namespace ohmPf
 {
 
-  CeilCamUpdater::CeilCamUpdater()
+  CeilCamUpdater::CeilCamUpdater(IFilter* filter, ICeilCamMeasurement* measurement, IUpdateFilterMap* updateFilterMap) :
+      FilterUpdater(filter)
   {
-    // TODO Auto-generated constructor stub
-
-  }
-
-  void CeilCamUpdater::initFilter(Filter& filter)
-  {
-    std::cout << "not yet implemented" << std::endl;
-    //todo:: imlement init filter here
+    _measurement = measurement;
+    _updateFilterMap = updateFilterMap;
   }
 
   CeilCamUpdater::~CeilCamUpdater()
@@ -27,18 +22,14 @@ namespace ohmPf
     // TODO Auto-generated destructor stub
   }
 
-  void CeilCamUpdater::setMeasurement(std::vector<Eigen::Vector3d> measurement)
-  {
-    _measurement = measurement;
-  }
-
-  void CeilCamUpdater::updateFilter(Filter& filter)
+  void CeilCamUpdater::update()
   {
     // todo: better implementation
-    std::vector<Sample_t>* samples = filter.getSampleSet()->getSamples();
+    std::vector<Sample_t>* samples = _filter->getSamples();
     std::vector<double> probs(samples->size(), 0.0);
 
-    for(std::vector<Eigen::Vector3d>::iterator it = _measurement.begin(); it != _measurement.end(); ++it)
+    // at first find maximum weight eg minimum distance for each sample
+    for(std::vector<Eigen::Vector3d>::iterator it = _measurement->getPoses().begin(); it != _measurement->getPoses().end(); ++it)
     {
       for(std::vector<Sample_t>::iterator it2 = samples->begin(); it2 != samples->end(); ++it2)
       {
@@ -47,13 +38,14 @@ namespace ohmPf
       }
     }
 
+    // then multiply weights with old weights
     for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
     {
       int n = std::distance(samples->begin(), it);
       it->weight = it->weight * probs[n];
     }
 
-    filter.updateWithSensor(MAP);
+    _updateFilterMap->update();
     //filter.getSampleSet()->normalize();
     //filter.getSampleSet()->resample();
   }
