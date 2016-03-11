@@ -154,6 +154,7 @@ add_executable(CeilCamSimulator
     src/ROSOdomMeasurement.cpp
     src/OdomDiff.cpp
     src/OdomUpdater.cpp
+    src/ROSCeilCamMeasurement.cpp
 )
 
 

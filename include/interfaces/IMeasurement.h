@@ -18,7 +18,7 @@ namespace ohmPf
   public:
     IMeasurement(){};
     virtual ~IMeasurement(){};
-    virtual ros::Time getStamp() = 0;
+    virtual ros::Time getStamp() = 0; // TODO: should do this not virtual and relate to this class
   };
 
 } /* namespace ohmPf */
