@@ -14,8 +14,8 @@ namespace ohmPf
 class IOCSClient
 {
 public:
-  IOCSClient();
-  virtual ~IOCSClient();
+  IOCSClient(){};
+  virtual ~IOCSClient(){};
   virtual void setOCSFlagTrue() = 0;
 };
 

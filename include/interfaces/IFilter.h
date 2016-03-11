@@ -21,6 +21,8 @@ namespace ohmPf
     virtual ~IFilter(){};
     virtual std::vector<Sample_t>* getSamples() = 0;
     virtual void setSamples(std::vector<Sample_t> samples) = 0;
+    virtual unsigned int getSamplesMin() = 0;
+    virtual unsigned int getSamplesMax() = 0;
   };
 
 } /* namespace ohmPf */

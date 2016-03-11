@@ -11,6 +11,8 @@
 #include "FilterUpdater.h"
 #include "IFilter.h"
 #include "IMap.h"
+#include "UtilitiesOhmPf.h"
+#include "Eigen/Dense"
 
 namespace ohmPf
 {
@@ -20,10 +22,12 @@ namespace ohmPf
   public:
     MapUpdater(IFilter* filter, IMap* map);
     virtual ~MapUpdater();
+    void initFilter();
     void update();
     void updateForce();
   private:
     IMap* _map;
+    void getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax);
 
   };
 

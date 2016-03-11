@@ -31,6 +31,11 @@ namespace ohmPf
     //_map = mf;
   }
 
+  Eigen::Matrix3d ROSMap::getTfMapToMapOrigin()
+  {
+    return _tfMapToMapOrigin;
+  }
+
 
   ROSMap::~ROSMap()
   {

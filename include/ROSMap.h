@@ -44,6 +44,7 @@ namespace ohmPf
     void calcContourMap();
     void getProbMap(nav_msgs::OccupancyGrid& msg);
     ros::Time getStamp();
+    Eigen::Matrix3d getTfMapToMapOrigin();
     //void updateFilter(Filter& filter);
     //void initFilter(Filter& filter);
   private:

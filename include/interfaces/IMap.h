@@ -27,6 +27,7 @@ namespace ohmPf
     virtual void getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax) = 0; // in meter
     virtual void calcProbMap() = 0;
     virtual ros::Time getStamp() = 0;
+    virtual Eigen::Matrix3d getTfMapToMapOrigin() = 0;
 
   };
 } /* namespace ohmPf */

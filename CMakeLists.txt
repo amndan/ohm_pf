@@ -150,6 +150,7 @@ add_executable(CeilCamSimulator
     src/LaserUpdater.cpp
     src/SampleSet.cpp
     src/LaserProbMapMethod.cpp
+    src/MapUpdater.cpp
 )
 
 
