@@ -1,0 +1,4 @@
+
+g++ -c  myClass.cpp -o myClass.o // to build the hidden class
+
+g++ myClass.o main.cpp -o main // to build/run main without knowing the hidden class
