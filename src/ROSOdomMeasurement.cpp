@@ -21,7 +21,7 @@ namespace ohmPf
     // TODO Auto-generated destructor stub
   }
 
-  void ROSOdomMeasurement::setMeasurement(nav_msgs::OdometryConstPtr& msgs)
+  void ROSOdomMeasurement::setMeasurement(const nav_msgs::OdometryConstPtr& msgs)
   {
     _measurement(0) = msgs->pose.pose.position.x;
     _measurement(1) = msgs->pose.pose.position.y;

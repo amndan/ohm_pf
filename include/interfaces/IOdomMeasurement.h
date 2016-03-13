@@ -19,7 +19,6 @@ namespace ohmPf
   public:
     IOdomMeasurement(){};
     virtual ~IOdomMeasurement(){};
-    virtual bool isInitialized() = 0;
     virtual double getX() = 0;
     virtual double getY() = 0;
     virtual double getPhi() = 0;

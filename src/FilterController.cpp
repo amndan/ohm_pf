@@ -25,6 +25,7 @@ FilterController::FilterController(FilterParams_t params)
   _filter = NULL;
 
   _filter = new Filter(params);
+  _resampler = new LVResampler();
 }
 
 FilterController::~FilterController()

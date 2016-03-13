@@ -20,7 +20,7 @@ ROSLaserMeasurement::~ROSLaserMeasurement()
   // TODO Auto-generated destructor stub
 }
 
-void ROSLaserMeasurement::initWithMeasurement(sensor_msgs::LaserScanConstPtr scan, std::string tfBaseFootprintFrame)
+void ROSLaserMeasurement::initWithMeasurement(const sensor_msgs::LaserScanConstPtr& scan, std::string tfBaseFootprintFrame)
 {
   _angleIncrement = (double)scan->angle_increment;
   _angleMax = (double)scan->angle_max;

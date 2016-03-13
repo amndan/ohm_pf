@@ -139,8 +139,9 @@ include_directories(
 #	src/SampleSet.cpp
 #)
 
-add_executable(CeilCamSimulator
-    testing/CeilCamSimulator.cpp 
+add_executable(OhmPfNode
+    testing/main_OhmPfNode.cpp
+    src/OhmPfNode.cpp 
     src/ROSLaserMeasurement.cpp
     src/GaussianPdf.cpp
     src/Filter.cpp
@@ -168,7 +169,7 @@ add_executable(CeilCamSimulator
 
 ## Specify libraries to link a library or executable target against
 
-target_link_libraries(CeilCamSimulator
+target_link_libraries(OhmPfNode
  ${catkin_LIBRARIES}
 )
 #############

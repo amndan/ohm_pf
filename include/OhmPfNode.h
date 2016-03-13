@@ -15,19 +15,21 @@
 #include "geometry_msgs/PoseWithCovarianceStamped.h"
 #include "sensor_msgs/LaserScan.h"
 #include "tf/transform_datatypes.h"
-
-#include "CeilCamUpdater.h"
-#include "SampleSet.h"
+#include "assert.h"
 #include "OhmPfNodeParams.h"
-#include "OdomDiffParams.h"
-#include "FilterParams.h"
-#include "Filter.h"
-#include "EnumSensor.h"
-#include "LaserUpdater.h"
-#include "OdomUpdater.h"
-#include "Resampler.h"
 #include "RosLaserPMParams.h"
+
+#include "interfaces/IFilterController.h"
+#include "FilterParams.h"
+#include "ROSOdomMeasurement.h"
+#include "interfaces/IMap.h"
 #include "ROSMap.h"
+#include "ROSLaserMeasurement.h"
+#include "interfaces/ILaserMeasurement.h"
+#include "ROSFilterOutput.h"
+#include "interfaces/IFilterOutput.h"
+
+
 
 namespace ohmPf
 {
@@ -39,14 +41,12 @@ public:
   virtual ~OhmPfNode();
   void spin();
   void spinOnce();
-  void printSampleSet(SampleSet* sampleSet);
 private:
   void calOdom(const nav_msgs::OdometryConstPtr& msg);
   void cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg);
   void calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg);
   void calScan(const sensor_msgs::LaserScanConstPtr& msg);
   void calResampleTimer(const ros::TimerEvent& event);
-  void spawnOdom();
   void spawnFilter();
   double _cumSumRot;
   double _cumSumtrans;
@@ -63,13 +63,17 @@ private:
   ros::Rate _loopRate;
   ros::Timer _resampleTimer;
   OhmPfNodeParams_t _paramSet;
-  ohmPf::OdomDiffParams_t _odomDiffParams;
-  ohmPf::RosLaserPMParams_t _rosLaserPMParams;
-  ohmPf::OdomUpdater* _odomDiff;
-  ohmPf::Filter* _filter;
-  ohmPf::FilterParams_t _filterParams;
+  OdomDiffParams_t _odomDiffParams;
+  RosLaserPMParams_t _rosLaserPMParams;
+  FilterParams_t _filterParams;
   unsigned int _maxDistanceProbMap;
   bool _odomInitialized;
+  bool _laserInitialized;
+  IFilterController* _filterController;
+  ROSOdomMeasurement* _odomMeasurement;
+  ROSMap* _map;
+  ROSLaserMeasurement* _laserMeasurement;
+  ROSFilterOutput* _filterOutput;
 
   int odomCounter;
 };

@@ -19,7 +19,7 @@
 namespace ohmPf
 {
 
-  class ROSFilterOutput : IFilterOutput
+  class ROSFilterOutput : public IFilterOutput
   {
   public:
     ROSFilterOutput(std::string fixedFrame);

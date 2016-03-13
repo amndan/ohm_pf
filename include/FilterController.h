@@ -24,6 +24,7 @@
 #include "OdomDiffParams.h"
 #include "assert.h"
 #include "LaserProbMapMethod.h"
+#include "LVResampler.h"
 
 namespace ohmPf
 {

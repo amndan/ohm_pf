@@ -49,16 +49,12 @@ OhmPfNode::OhmPfNode() :
 
   _rosLaserPMParams.tfBaseFooprintFrame = _paramSet.tfBaseFootprintFrame;
 
-  _odomInitialized = false;
-
   _resampleTimer = _nh.createTimer(ros::Duration(_filterParams.resamplingIntervall), &OhmPfNode::calResampleTimer, this); 
 
-  spawnOdom();
   spawnFilter();
 
-  _filter->setSensor(CEILCAM, (Measurement*) new CeilCamUpdater());
-  _filter->setSensor(LASER, (Measurement*) new LaserUpdater(_rosLaserPMParams));
-  _filter->setSensor(RESAMPLER, (Measurement*) new Resampler());
+  _laserInitialized = false;
+  _odomInitialized = false;
 
   _cumSumRot = 0.0;
   _cumSumtrans = 0.0;
@@ -66,8 +62,7 @@ OhmPfNode::OhmPfNode() :
 
 OhmPfNode::~OhmPfNode()
 {
-  delete _odomDiff;
-  delete _filter;
+
 }
 
 void OhmPfNode::spin()
@@ -88,58 +83,9 @@ void OhmPfNode::spinOnce()
   }
 }
 
-void OhmPfNode::printSampleSet(SampleSet* sampleSet){
-  std::vector<Sample_t> samples;
-  samples = *(sampleSet->getSamples());
-
-  geometry_msgs::PoseArray poseArray;
-  geometry_msgs::Pose pose;
-
-  poseArray.header.frame_id = _paramSet.tfFixedFrame;
-
-  for(unsigned int i = 0; i < samples.size(); i++)
-  {
-    pose.position.x = samples[i].pose(0);
-    pose.position.y = samples[i].pose(1);
-    pose.position.z = 0.0;
-    tf::quaternionTFToMsg(tf::createQuaternionFromYaw( samples[i].pose(2) ), pose.orientation);
-    poseArray.poses.push_back(pose);
-  }
-  _pubSampleSet.publish(poseArray);
-}
 
 void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
 {
-  //#######################
-
-//  odomCounter++;
-//  if (odomCounter > 10)
-//  {
-//    odomCounter = 0;
-//    double dist;
-//
-//    std::vector<Sample_t>* samples = _filter->getSampleSet()->getSamples();
-//
-//    for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
-//    {
-//      dist = std::sqrt( std::pow(it->pose(0) - msg->pose.pose.position.x,2) + //...
-//          std::pow(it->pose(1) - msg->pose.pose.position.y,2)) +
-//          std::pow(it->pose(2) - tf::getYaw(msg->pose.pose.orientation),2);
-//
-//      it->weight = it->weight * GaussianPdf::getProbability(0.0, 2, dist);
-//    }
-//
-//    _filter->getSampleSet()->normalize();
-//    _filter->getSampleSet()->resample();
-//    printSampleSet(_filter->getSampleSet());
-//
-//    ROS_INFO_STREAM("resampled with odom!");
-//
-//  }
-
-  //#######################
-
-
   Eigen::Vector3d measurement;
   measurement(0) = msg->pose.pose.position.x;
   measurement(1) = msg->pose.pose.position.y;
@@ -148,21 +94,32 @@ void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
   if(!_odomInitialized)
   {
     ROS_INFO_STREAM("Received first odom message - initializing odom...");
-    _odomDiff->addSingleMeasurement(measurement);
-    _lastOdomPose = measurement;
-    _odomInitialized = true;
-    ROS_INFO_STREAM("odom initialized");
+    //todo: get odom Params from Launchfile
+    _odomDiffParams.a1 = 0.005;
+    _odomDiffParams.a2 = 0.0;
+    _odomDiffParams.a3 = 0.01;
+    _odomDiffParams.a4 = 0.0;
 
-    //todo remove init from here
-    _filter->initWithPose(measurement);
-    printSampleSet(_filter->getSampleSet());
+    _odomMeasurement = new ROSOdomMeasurement();
+    _odomMeasurement->setMeasurement(msg);
 
-    return;
+    if(_filterController->setOdomMeasurement(_odomMeasurement, _odomDiffParams))
+    {
+      _odomInitialized = true;
+      // DEBUG
+      _lastOdomPose = measurement;
+      _odomInitialized = true;
+      ROS_INFO_STREAM("odom initialized");
+      return;
+    }
+    else
+    {
+      exit(EXIT_FAILURE);
+    }
   }
 
-  _odomDiff->addSingleMeasurement(measurement);
-  _odomDiff->updateFilter(*_filter);
-  printSampleSet(_filter->getSampleSet());
+  _odomMeasurement->setMeasurement(msg);
+  _filterController->updateOdom();
 
   Eigen::Vector3d diff = measurement - _lastOdomPose;
   _cumSumtrans += std::sqrt(std::pow(diff(0) ,2) + std::pow(diff(1) ,2));
@@ -170,7 +127,7 @@ void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
 
   if(_cumSumRot > 0.01 || _cumSumtrans > 0.01)
   {
-    _filter->triggerOdomChangedSignificantly();
+    //_filter->triggerOdomChangedSignificantly();
     _cumSumRot = 0;
     _cumSumtrans = 0;
   }
@@ -181,15 +138,6 @@ void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
 
 void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg)
 {
-//  Eigen::Vector3d measurement;
-//  measurement(0) = msg->pose.pose.position.x;
-//  measurement(1) = msg->pose.pose.position.y;
-//  measurement(2) = tf::getYaw(msg->pose.pose.orientation);
-//
-//  //_filter->initWithPose(measurement);
-//  _filter->initWithMap();
-//  printSampleSet(_filter->getSampleSet());
-
   // todo: integrate into gl service
   nav_msgs::GetMap srv_map;
 
@@ -198,23 +146,20 @@ void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConst
     ROS_INFO("Map service called successfully");
     const nav_msgs::OccupancyGrid& map(srv_map.response.map);
 
-    static MapUpdater* rosMap;
-    delete rosMap;
-    rosMap = new MapUpdater(map, _maxDistanceProbMap);
 
 
+    delete _map;
 
-    _filter->setSensor(MAP, rosMap);
+    _map = new ROSMap(map, _maxDistanceProbMap);
+    _filterController->setMap(_map);
+    _filterController->initFilterMap();
 
-    nav_msgs::OccupancyGrid probMapMsg;
-    probMapMsg.header = map.header;
-    probMapMsg.info = map.info;
-    ((MapUpdater&) _filter->getSensor(MAP)).getProbMap(probMapMsg);
-    //rosMap->getProbMap(probMapMsg);
-    _pubProbMap.publish(probMapMsg);
-
-    _filter->initWithSensor(MAP);
-
+//    nav_msgs::OccupancyGrid probMapMsg;
+//    probMapMsg.header = map.header;
+//    probMapMsg.info = map.info;
+//    ((MapUpdater&) _filter->getSensor(MAP)).getProbMap(probMapMsg);
+//    //rosMap->getProbMap(probMapMsg);
+//    _pubProbMap.publish(probMapMsg);
 
   }
   else
@@ -224,71 +169,67 @@ void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConst
   }
 }
 
-void OhmPfNode::spawnOdom()
-{
-  //todo: get odom Params from Launchfile
-  _odomDiffParams.a1 = 0.005;
-  _odomDiffParams.a2 = 0.0;
-  _odomDiffParams.a3 = 0.01;
-  _odomDiffParams.a4 = 0.0;
-
-  _odomDiff = new ohmPf::OdomUpdater(_odomDiffParams);
-}
 
 void OhmPfNode::spawnFilter()
 {
-  _filter = new ohmPf::Filter(_filterParams);
+  _filterController = IFilterController::createFilter(_filterParams);
+
+  _filterOutput = new ROSFilterOutput(_paramSet.tfFixedFrame);
+  assert(_filterController->setFilterOutput(_filterOutput));
+
 }
 
 void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
 {
-  if (_filter->isInitialized())
-  {
-    std::vector<Eigen::Vector3d> measurement;
-
-    // todo: why do i need this conversation?
-    std::vector<geometry_msgs::Pose> vec = msg->poses;
-
-    for(std::vector<geometry_msgs::Pose>::iterator it = vec.begin(); it != vec.end(); ++it)
-    {
-      Eigen::Vector3d pose;
-      pose(0) = it->position.x;
-      pose(1) = it->position.y;
-      pose(2) = tf::getYaw(it->orientation);
-      measurement.push_back(pose);
-    }
-
-    ((CeilCamUpdater&) _filter->getSensor(CEILCAM)).setMeasurement(measurement);
-    _filter->updateWithSensor(CEILCAM);
-  }
+//  if (_filter->isInitialized())
+//  {
+//    std::vector<Eigen::Vector3d> measurement;
+//
+//    // todo: why do i need this conversation?
+//    std::vector<geometry_msgs::Pose> vec = msg->poses;
+//
+//    for(std::vector<geometry_msgs::Pose>::iterator it = vec.begin(); it != vec.end(); ++it)
+//    {
+//      Eigen::Vector3d pose;
+//      pose(0) = it->position.x;
+//      pose(1) = it->position.y;
+//      pose(2) = tf::getYaw(it->orientation);
+//      measurement.push_back(pose);
+//    }
+//
+//    ((CeilCamUpdater&) _filter->getSensor(CEILCAM)).setMeasurement(measurement);
+//    _filter->updateWithSensor(CEILCAM);
+//  }
 }
 
   void OhmPfNode::calScan(const sensor_msgs::LaserScanConstPtr& msg)
   {
-    if(&_filter->getSensor(MAP) != NULL && &_filter->getSensor(LASER) != NULL)
+    if(!_laserInitialized)
     {
-      LaserUpdater& laser = (LaserUpdater&)_filter->getSensor(LASER);
-      laser.setMeasurement(msg);
-      _filter->updateWithSensor(LASER);
-      //laser.updateFilter(*_filter); // todo: das sollte nur der filter können!?
-      printSampleSet(_filter->getSampleSet());
+      _laserMeasurement = new ROSLaserMeasurement();
+      _laserMeasurement->initWithMeasurement(msg, _rosLaserPMParams.tfBaseFooprintFrame);
+      if( _filterController->setLaserMeasurement(_laserMeasurement) )
+      {
+        _laserInitialized = true;
+        return;
+      }
+      return;
+    }
+    else
+    {
+      _laserMeasurement->setMeasurement(msg);
+      _filterController->updateLaser();
     }
   }
 
   void OhmPfNode::calResampleTimer(const ros::TimerEvent& event)
   {
-    if(_filter->isInitialized())
-    {
-      if(&_filter->getSensor(RESAMPLER) != NULL)
-      {
-        _filter->updateWithSensor(MAP); 
-        //TODO: we need a resampling method without LVS because after map
-        //update no particle should be on occupied cells; or map updates 
-        //not weights but whole particle set and seeds random particles
-        _filter->updateWithSensor(RESAMPLER);
-        printSampleSet(_filter->getSampleSet());
-      }
-    }
+    //TODO: we need a resampling method without LVS because after map
+    //update no particle should be on occupied cells; or map updates
+    //not weights but whole particle set and seeds random particles
+    _filterController->resample();
+    _filterController->updateOutput();
+
   }  
 
 } /* namespace ohmPf */

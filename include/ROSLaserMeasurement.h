@@ -25,7 +25,7 @@ namespace ohmPf
   public:
     ROSLaserMeasurement();
     virtual ~ROSLaserMeasurement();
-    void initWithMeasurement(sensor_msgs::LaserScanConstPtr scan, std::string tfBaseFootprintFrame);
+    void initWithMeasurement(const sensor_msgs::LaserScanConstPtr& scan, std::string tfBaseFootprintFrame);
     void setMeasurement(sensor_msgs::LaserScanConstPtr scan);
     ros::Time getStamp();
     double getAngleIncrement();

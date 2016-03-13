@@ -28,7 +28,7 @@ namespace ohmPf
     double getPhi();
     Eigen::Vector3d getMeasurement();
     ros::Time getStamp();
-    void setMeasurement(nav_msgs::OdometryConstPtr& msgs);
+    void setMeasurement(const nav_msgs::OdometryConstPtr& msgs);
 
   private:
     ros::Time _stamp;
