@@ -1,6 +1,6 @@
 
 #include <iostream>
-#include "myClass.h"
+#include "../myClass.h"
 
 
 class myClass : public IMyClass
@@ -17,5 +17,11 @@ class myClass : public IMyClass
     };
 };
 
-IMyClass* g_myClass = new myClass();
+IMyClass* IMyClass::create()
+{
+  return new myClass();
+}
+
+
+//IMyClass* g_myClass = new myClass();
 
