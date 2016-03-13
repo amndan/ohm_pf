@@ -9,6 +9,12 @@
 #define SRC_ROSFILTEROUTPUT_H_
 
 #include "IFilterOutput.h"
+#include "ros/ros.h"
+#include "geometry_msgs/PoseArray.h"
+#include "Sample.h"
+#include "tf/transform_datatypes.h"
+#include <vector>
+#include <string>
 
 namespace ohmPf
 {
@@ -16,10 +22,13 @@ namespace ohmPf
   class ROSFilterOutput : IFilterOutput
   {
   public:
-    ROSFilterOutput();
+    ROSFilterOutput(std::string fixedFrame);
     virtual ~ROSFilterOutput();
     void actualizeTF();
-    void printSampleSet();
+    void printSampleSet(std::vector<Sample_t>& samples); // TODO: saples must be const here
+  private:
+    ros::Publisher _pubPoseArray;
+    std::string _fixedFrame;
   };
 
 } /* namespace ohmPf */

@@ -10,10 +10,11 @@
 namespace ohmPf
 {
 
-  ROSFilterOutput::ROSFilterOutput()
+  ROSFilterOutput::ROSFilterOutput(std::string fixedFrame)
   {
-    // TODO Auto-generated constructor stub
-
+    ros::NodeHandle nh = ros::NodeHandle();
+    _pubPoseArray = nh.advertise<geometry_msgs::PoseArray>("particleCloud", 1, true);
+    _fixedFrame = fixedFrame;
   }
 
   ROSFilterOutput::~ROSFilterOutput()
@@ -26,26 +27,22 @@ namespace ohmPf
 
   }
 
-  void ROSFilterOutput::printSampleSet()
+  void ROSFilterOutput::printSampleSet(std::vector<Sample_t>&  samples)
   {
+    geometry_msgs::PoseArray poseArray;
+    geometry_msgs::Pose pose;
 
-//    std::vector<Sample_t> samples;
-//    samples = *(sampleSet->getSamples());
-//
-//    geometry_msgs::PoseArray poseArray;
-//    geometry_msgs::Pose pose;
-//
-//    poseArray.header.frame_id = _paramSet.tfFixedFrame;
-//
-//    for(unsigned int i = 0; i < samples.size(); i++)
-//    {
-//      pose.position.x = samples[i].pose(0);
-//      pose.position.y = samples[i].pose(1);
-//      pose.position.z = 0.0;
-//      tf::quaternionTFToMsg(tf::createQuaternionFromYaw( samples[i].pose(2) ), pose.orientation);
-//      poseArray.poses.push_back(pose);
-//    }
-//    _pubSampleSet.publish(poseArray);
+    poseArray.header.frame_id = _fixedFrame;
+
+    for(unsigned int i = 0; i < samples.size(); i++)
+    {
+      pose.position.x = samples[i].pose(0);
+      pose.position.y = samples[i].pose(1);
+      pose.position.z = 0.0;
+      tf::quaternionTFToMsg(tf::createQuaternionFromYaw( samples[i].pose(2) ), pose.orientation);
+      poseArray.poses.push_back(pose);
+    }
+    _pubPoseArray.publish(poseArray);
 
   }
 

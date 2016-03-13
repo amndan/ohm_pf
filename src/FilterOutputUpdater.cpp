@@ -23,7 +23,7 @@ namespace ohmPf
   void FilterOutputUpdater::update()
   {
     _filterOutput->actualizeTF();
-    _filterOutput->printSampleSet();
+    _filterOutput->printSampleSet(*(_filter->getSamples()));
   }
 
 } /* namespace ohmPf */

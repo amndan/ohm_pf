@@ -157,6 +157,7 @@ add_executable(CeilCamSimulator
     src/ROSCeilCamMeasurement.cpp
     src/CeilCamUpdater.cpp
     src/LVResampler.cpp
+    src/ROSFilterOutput.cpp
 )
 
 

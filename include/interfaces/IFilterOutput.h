@@ -8,6 +8,9 @@
 #ifndef SRC_IFILTEROUTPUT_H_
 #define SRC_IFILTEROUTPUT_H_
 
+#include "Sample.h"
+#include <vector>
+
 namespace ohmPf
 {
 
@@ -17,7 +20,7 @@ namespace ohmPf
     IFilterOutput(){};
     virtual ~IFilterOutput(){};
     virtual void actualizeTF() = 0;
-    virtual void printSampleSet() = 0;
+    virtual void printSampleSet(std::vector<Sample_t>& samples) = 0;
   };
 
 } /* namespace ohmPf */
