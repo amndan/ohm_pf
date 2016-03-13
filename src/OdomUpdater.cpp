@@ -10,13 +10,12 @@
 namespace ohmPf
 {
 
-  OdomUpdater::OdomUpdater(Filter* filter, IOdomQuantifier* quantifier, IOdomMeasurement* measurement, IUpdateFilterMap* updateFilterMap) :
+  OdomUpdater::OdomUpdater(Filter* filter, IOdomQuantifier* quantifier, IOdomMeasurement* measurement) :
       FilterUpdater(filter)
   {
     _OCSFlag = true;
     _quantifier = quantifier;
     _measurement = measurement;
-    _updateFilterMap = updateFilterMap;
   }
 
   OdomUpdater::~OdomUpdater()
@@ -28,7 +27,7 @@ namespace ohmPf
   {
     //TODO: here comes the ocs management?
 
-    _quantifier->calculate(*_filter, *_measurement, *_updateFilterMap);
+    _quantifier->calculate(*_filter, *_measurement);
     // perhaps create function _quantifier.getCumultativeOdom() and sum it up for each client
   }
 

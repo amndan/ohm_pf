@@ -13,12 +13,11 @@
 #include "IMap.h"
 #include "UtilitiesOhmPf.h"
 #include "Eigen/Dense"
-#include "IUpdateFilterMap.h"
 
 namespace ohmPf
 {
 
-  class MapUpdater : public FilterUpdater, public IUpdateFilterMap
+  class MapUpdater : public FilterUpdater
   {
   public:
     MapUpdater(Filter* filter, IMap* map);

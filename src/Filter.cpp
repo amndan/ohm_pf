@@ -10,14 +10,11 @@
 namespace ohmPf
 {
 
-  Filter::Filter(std::vector<Sample_t> samples, unsigned int samplesMin, unsigned int samplesMax) :
-      _sampleSet(samples)
+  Filter::Filter(FilterParams_t params) :
+      _sampleSet(params.samplesMax)
   {
-    assert(samplesMin > 1);
-    assert(samplesMin <= samplesMax);
-
-    _samplesMax = samplesMax;
-    _samplesMin = samplesMin;
+    _samplesMax = params.samplesMax;
+    _samplesMin = params.samplesMin;
   }
 
   Filter::~Filter()

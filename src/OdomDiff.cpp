@@ -22,8 +22,7 @@ namespace ohmPf
     // TODO Auto-generated destructor stub
   }
 
-  void OdomDiff::calculate(Filter& filter, IOdomMeasurement& measurement, IUpdateFilterMap& updateFilterMap)
-  // TODO: updateFilterMap not used here; could use it in Future
+  void OdomDiff::calculate(Filter& filter, IOdomMeasurement& measurement)
   {
     if(!_receivedFirstMeasurement)
     {

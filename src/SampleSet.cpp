@@ -10,11 +10,25 @@
 namespace ohmPf
 {
 
-  SampleSet::SampleSet(std::vector<Sample_t> samples)
+  SampleSet::SampleSet(unsigned int numSamples)
   {
-    _samples = samples;
-    _countSamples = samples.size();
+    Sample_t sample;
+    sample.pose(0) = 0;
+    sample.pose(1) = 0;
+    sample.pose(2) = 0;
+    sample.weight = 0;
+
+    _samples.clear();
+
+    for(unsigned int i = 0; i < numSamples; i++)
+    {
+      _samples.push_back(sample);
+    }
+
+    _countSamples = (int) numSamples;
     _normalized = false;
+
+    // initialize seed
     srand48(std::time(NULL));
   }
 

@@ -53,7 +53,7 @@ namespace ohmPf
     return scanCoord;
   }
 
-  void LaserProbMapMethod::calculate(Filter& filter, ILaserMeasurement& measurement, IMap& map, IUpdateFilterMap& updateFilterMap)
+  void LaserProbMapMethod::calculate(Filter& filter, ILaserMeasurement& measurement, IMap& map, MapUpdater* updateFilterMap)
   {
     Eigen::Matrix3Xd coords = rangesToCoordinates(measurement);
 
@@ -84,7 +84,7 @@ namespace ohmPf
 
 
     filter.getSampleSet()->boostWeights();
-    updateFilterMap.update();
+    if(updateFilterMap != NULL) updateFilterMap->update();
     filter.getSampleSet()->normalize();
     //filter.getSampleSet()->normalize();
     //filter.getSampleSet()->resample(); // todo: should we do that here??

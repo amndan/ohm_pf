@@ -10,9 +10,9 @@
 
 #include "FilterUpdater.h"
 #include "ICeilCamMeasurement.h"
-#include "IUpdateFilterMap.h"
 #include "GaussianPdf.h"
 #include "UtilitiesOhmPf.h"
+#include "MapUpdater.h"
 
 namespace ohmPf
 {
@@ -20,12 +20,12 @@ namespace ohmPf
   class CeilCamUpdater : public FilterUpdater
   {
   public:
-    CeilCamUpdater(Filter* filter, ICeilCamMeasurement* measurement, IUpdateFilterMap* updateFilterMap);
+    CeilCamUpdater(Filter* filter, ICeilCamMeasurement* measurement, MapUpdater* updateFilterMap);
     virtual ~CeilCamUpdater();
     void update();
   private:
     ICeilCamMeasurement* _measurement;
-    IUpdateFilterMap* _updateFilterMap;
+    MapUpdater* _updateFilterMap;
   };
 
 } /* namespace ohmPf */

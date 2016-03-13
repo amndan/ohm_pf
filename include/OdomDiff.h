@@ -24,7 +24,7 @@ namespace ohmPf
   public:
     OdomDiff(OdomDiffParams_t paramSet);
     virtual ~OdomDiff();
-    void calculate(Filter& filter, IOdomMeasurement& measurement, IUpdateFilterMap& updateFilterMap);
+    void calculate(Filter& filter, IOdomMeasurement& measurement);
   private:
     void updatePose(Eigen::Vector3d& pose);
     void updateFilter(Filter& filter);

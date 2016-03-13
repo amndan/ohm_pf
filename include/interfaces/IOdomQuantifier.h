@@ -8,7 +8,6 @@
 #ifndef SRC_IODOMQUANTIFIER_H_
 #define SRC_IODOMQUANTIFIER_H_
 
-#include "IUpdateFilterMap.h"
 #include "IOdomMeasurement.h"
 #include "Filter.h"
 
@@ -20,7 +19,7 @@ namespace ohmPf
   public:
     IOdomQuantifier(){};
     virtual ~IOdomQuantifier(){};
-    virtual void calculate(Filter& filter, IOdomMeasurement& measurement, IUpdateFilterMap& updateFilterMap) = 0;
+    virtual void calculate(Filter& filter, IOdomMeasurement& measurement) = 0;
 
   };
 

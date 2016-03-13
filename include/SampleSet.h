@@ -18,10 +18,10 @@
 namespace ohmPf
 {
 
-class SampleSet // TOSO: eventually we dont need this class; we access samples through the filter class
+class SampleSet // TODO: eventually we dont need this class; we access samples through the filter class
 {
 public:
-  SampleSet(std::vector<Sample_t> samples);
+  SampleSet(unsigned int numSamples);
   virtual ~SampleSet();
 
   std::vector<Sample_t>* getSamples();

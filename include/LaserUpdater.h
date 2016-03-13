@@ -13,7 +13,7 @@
 #include "ILaserMeasurement.h"
 #include "ILaserQuantifier.h"
 #include "IOCSClient.h"
-#include "IUpdateFilterMap.h"
+#include "MapUpdater.h"
 
 
 namespace ohmPf
@@ -22,7 +22,7 @@ namespace ohmPf
   class LaserUpdater : public FilterUpdater, public IOCSClient
   {
   public:
-    LaserUpdater(Filter* filter, IMap* map, ILaserMeasurement* measurement, ILaserQuantifier* quantifier, IUpdateFilterMap* updateFilterMap);
+    LaserUpdater(Filter* filter, IMap* map, ILaserMeasurement* measurement, ILaserQuantifier* quantifier, MapUpdater* updateFilterMap);
     virtual ~LaserUpdater();
     void update();
     void setOCSFlagTrue();
@@ -31,7 +31,7 @@ namespace ohmPf
     IMap* _map;
     ILaserMeasurement* _measurement;
     ILaserQuantifier* _quantifier;
-    IUpdateFilterMap* _updateFilterMap;
+    MapUpdater* _updateFilterMap;
     bool _OCSFlag;
   };
 

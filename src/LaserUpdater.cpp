@@ -10,7 +10,7 @@
 namespace ohmPf
 {
 
-  LaserUpdater::LaserUpdater(Filter* filter, IMap* map, ILaserMeasurement* measurement, ILaserQuantifier* quantifier, IUpdateFilterMap* updateFilterMap) :
+  LaserUpdater::LaserUpdater(Filter* filter, IMap* map, ILaserMeasurement* measurement, ILaserQuantifier* quantifier, MapUpdater* updateFilterMap) :
       FilterUpdater(filter)
   {
     _map = map;
@@ -29,7 +29,7 @@ namespace ohmPf
   {
     if (_OCSFlag == true)
     {
-      _quantifier->calculate(*_filter, *_measurement, *_map, *_updateFilterMap);
+      _quantifier->calculate(*_filter, *_measurement, *_map, _updateFilterMap);
       _OCSFlag = false;
     }
   }

@@ -9,6 +9,7 @@
 #define SRC_FILTER_H_
 
 #include "SampleSet.h"
+#include "FilterParams.h"
 
 namespace ohmPf
 {
@@ -16,7 +17,7 @@ namespace ohmPf
   class Filter
   {
   public:
-    Filter(std::vector<Sample_t> samples, unsigned int samplesMin, unsigned int samplesMax);
+    Filter(FilterParams_t params);
     virtual ~Filter();
     std::vector<Sample_t>* getSamples();
     void setSamples(std::vector<Sample_t> samples);
