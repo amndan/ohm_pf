@@ -11,7 +11,7 @@
 #include "ILaserQuantifier.h"
 #include "IMap.h"
 #include "ILaserMeasurement.h"
-#include "IFilter.h"
+#include "Filter.h"
 #include "UtilitiesOhmPf.h"
 #include "Eigen/Dense"
 
@@ -22,7 +22,7 @@ namespace ohmPf
   public:
     LaserProbMapMethod();
     virtual ~LaserProbMapMethod();
-    void calculate(IFilter& filter, ILaserMeasurement& measurement, IMap& map, IUpdateFilterMap& updateFilterMap);
+    void calculate(Filter& filter, ILaserMeasurement& measurement, IMap& map, IUpdateFilterMap& updateFilterMap);
   private:
     Eigen::Matrix3Xd rangesToCoordinates(ILaserMeasurement& measurement);
   };

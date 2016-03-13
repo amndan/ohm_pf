@@ -22,7 +22,7 @@ namespace ohmPf
     // TODO Auto-generated destructor stub
   }
 
-  void OdomDiff::calculate(IFilter& filter, IOdomMeasurement& measurement, IUpdateFilterMap& updateFilterMap)
+  void OdomDiff::calculate(Filter& filter, IOdomMeasurement& measurement, IUpdateFilterMap& updateFilterMap)
   // TODO: updateFilterMap not used here; could use it in Future
   {
     if(!_receivedFirstMeasurement)
@@ -60,7 +60,7 @@ namespace ohmPf
       std::cout << __PRETTY_FUNCTION__ << "angle overflow; phi = " << pose(2) << std::endl;
   }
 
-  void OdomDiff::updateFilter(IFilter& filter)
+  void OdomDiff::updateFilter(Filter& filter)
   {
     assert(_initialized);
 

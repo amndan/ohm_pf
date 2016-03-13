@@ -10,7 +10,7 @@
 namespace ohmPf
 {
 
-  MapUpdater::MapUpdater(IFilter* filter, IMap* map) :
+  MapUpdater::MapUpdater(Filter* filter, IMap* map) :
       FilterUpdater(filter)
   {
     _map = map;

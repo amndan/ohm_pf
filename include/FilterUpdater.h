@@ -8,8 +8,8 @@
 #ifndef SRC_FILTERUPDATER_H_
 #define SRC_FILTERUPDATER_H_
 
-#include "IFilter.h"
 #include <ros/time.h>
+#include "Filter.h"
 
 namespace ohmPf
 {
@@ -17,13 +17,13 @@ namespace ohmPf
   class FilterUpdater
   {
   public:
-    FilterUpdater(IFilter* filter);
+    FilterUpdater(Filter* filter);
     virtual ~FilterUpdater(){};
     virtual void update() = 0;
     ros::Time getStamp();
 
   protected:
-    IFilter* _filter;
+    Filter* _filter;
     ros::Time _stamp;
   };
 

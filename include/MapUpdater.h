@@ -9,7 +9,7 @@
 #define SRC_MAPUPDATER_H_
 
 #include "FilterUpdater.h"
-#include "IFilter.h"
+#include "Filter.h"
 #include "IMap.h"
 #include "UtilitiesOhmPf.h"
 #include "Eigen/Dense"
@@ -21,7 +21,7 @@ namespace ohmPf
   class MapUpdater : public FilterUpdater, public IUpdateFilterMap
   {
   public:
-    MapUpdater(IFilter* filter, IMap* map);
+    MapUpdater(Filter* filter, IMap* map);
     virtual ~MapUpdater();
     void initFilter();
     void update();

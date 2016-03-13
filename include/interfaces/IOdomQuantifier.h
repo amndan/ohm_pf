@@ -10,7 +10,7 @@
 
 #include "IUpdateFilterMap.h"
 #include "IOdomMeasurement.h"
-#include "IFilter.h"
+#include "Filter.h"
 
 namespace ohmPf
 {
@@ -20,7 +20,7 @@ namespace ohmPf
   public:
     IOdomQuantifier(){};
     virtual ~IOdomQuantifier(){};
-    virtual void calculate(IFilter& filter, IOdomMeasurement& measurement, IUpdateFilterMap& updateFilterMap) = 0;
+    virtual void calculate(Filter& filter, IOdomMeasurement& measurement, IUpdateFilterMap& updateFilterMap) = 0;
 
   };
 

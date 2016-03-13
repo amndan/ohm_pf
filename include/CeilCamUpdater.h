@@ -20,7 +20,7 @@ namespace ohmPf
   class CeilCamUpdater : public FilterUpdater
   {
   public:
-    CeilCamUpdater(IFilter* filter, ICeilCamMeasurement* measurement, IUpdateFilterMap* updateFilterMap);
+    CeilCamUpdater(Filter* filter, ICeilCamMeasurement* measurement, IUpdateFilterMap* updateFilterMap);
     virtual ~CeilCamUpdater();
     void update();
   private:

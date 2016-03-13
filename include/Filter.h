@@ -8,13 +8,12 @@
 #ifndef SRC_FILTER_H_
 #define SRC_FILTER_H_
 
-#include "IFilter.h"
 #include "SampleSet.h"
 
 namespace ohmPf
 {
 
-  class Filter : public IFilter
+  class Filter
   {
   public:
     Filter(std::vector<Sample_t> samples, unsigned int samplesMin, unsigned int samplesMax);

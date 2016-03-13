@@ -8,7 +8,7 @@
 #ifndef SRC_IRESAMPLER_H_
 #define SRC_IRESAMPLER_H_
 
-#include "IFilter.h"
+#include "Filter.h"
 
 namespace ohmPf
 {
@@ -18,7 +18,7 @@ namespace ohmPf
   public:
     IResampler(){};
     virtual ~IResampler(){};
-    virtual void resample(IFilter* filter) = 0;
+    virtual void resample(Filter* filter) = 0;
   };
 
 } /* namespace ohmPf */

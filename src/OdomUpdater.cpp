@@ -10,7 +10,7 @@
 namespace ohmPf
 {
 
-  OdomUpdater::OdomUpdater(IFilter* filter, IOdomQuantifier* quantifier, IOdomMeasurement* measurement, IUpdateFilterMap* updateFilterMap) :
+  OdomUpdater::OdomUpdater(Filter* filter, IOdomQuantifier* quantifier, IOdomMeasurement* measurement, IUpdateFilterMap* updateFilterMap) :
       FilterUpdater(filter)
   {
     _OCSFlag = true;

@@ -22,7 +22,7 @@ namespace ohmPf
   class LaserUpdater : public FilterUpdater, public IOCSClient
   {
   public:
-    LaserUpdater(IFilter* filter, IMap* map, ILaserMeasurement* measurement, ILaserQuantifier* quantifier, IUpdateFilterMap* updateFilterMap);
+    LaserUpdater(Filter* filter, IMap* map, ILaserMeasurement* measurement, ILaserQuantifier* quantifier, IUpdateFilterMap* updateFilterMap);
     virtual ~LaserUpdater();
     void update();
     void setOCSFlagTrue();

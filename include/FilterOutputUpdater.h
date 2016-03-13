@@ -9,8 +9,8 @@
 #define SRC_FILTEROUTPUTUPDATER_H_
 
 #include "FilterUpdater.h"
+#include "Filter.h"
 #include "IFilterOutput.h"
-#include "IFilter.h"
 
 
 namespace ohmPf
@@ -19,7 +19,7 @@ namespace ohmPf
   class FilterOutputUpdater : public FilterUpdater
   {
   public:
-    FilterOutputUpdater(IFilterOutput* filterOutput, IFilter* filter);
+    FilterOutputUpdater(IFilterOutput* filterOutput, Filter* filter);
     virtual ~FilterOutputUpdater();
     void update();
   private:

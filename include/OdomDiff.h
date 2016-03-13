@@ -10,7 +10,7 @@
 
 #include "IOdomQuantifier.h"
 #include "assert.h"
-#include "IFilter.h"
+#include "Filter.h"
 #include "UtilitiesOhmPf.h"
 #include "GaussianPdf.h"
 #include "OdomDiffParams.h"
@@ -24,10 +24,10 @@ namespace ohmPf
   public:
     OdomDiff(OdomDiffParams_t paramSet);
     virtual ~OdomDiff();
-    void calculate(IFilter& filter, IOdomMeasurement& measurement, IUpdateFilterMap& updateFilterMap);
+    void calculate(Filter& filter, IOdomMeasurement& measurement, IUpdateFilterMap& updateFilterMap);
   private:
     void updatePose(Eigen::Vector3d& pose);
-    void updateFilter(IFilter& filter);
+    void updateFilter(Filter& filter);
     void processMeasurement(Eigen::Vector3d odom);
     void calcParameters();
 

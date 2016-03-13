@@ -53,7 +53,7 @@ namespace ohmPf
     return scanCoord;
   }
 
-  void LaserProbMapMethod::calculate(IFilter& filter, ILaserMeasurement& measurement, IMap& map, IUpdateFilterMap& updateFilterMap)
+  void LaserProbMapMethod::calculate(Filter& filter, ILaserMeasurement& measurement, IMap& map, IUpdateFilterMap& updateFilterMap)
   {
     Eigen::Matrix3Xd coords = rangesToCoordinates(measurement);
 

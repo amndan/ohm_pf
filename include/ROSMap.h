@@ -17,7 +17,6 @@
 #include "UtilitiesOhmPf.h"
 #include <cmath>
 #include "IMap.h"
-#include "Filter.h"
 #include <ros/time.h>
 
 #define IS_OCCUPIED_THRESHHOLD 50
@@ -45,8 +44,7 @@ namespace ohmPf
     void getProbMap(nav_msgs::OccupancyGrid& msg);
     ros::Time getStamp();
     Eigen::Matrix3d getTfMapToMapOrigin();
-    //void updateFilter(Filter& filter);
-    //void initFilter(Filter& filter);
+
   private:
     std::vector<int8_t> _mapRaw;
     std::vector<int8_t> _probMap; 

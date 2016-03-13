@@ -21,7 +21,7 @@ namespace ohmPf
     // TODO Auto-generated destructor stub
   }
 
-  void LVResampler::resample(IFilter* filter)
+  void LVResampler::resample(Filter* filter)
   {
     SampleSet* set = filter->getSampleSet();
     std::vector<Sample_t>* samples = set->getSamples();

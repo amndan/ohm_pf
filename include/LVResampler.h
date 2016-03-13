@@ -9,7 +9,7 @@
 #define INCLUDE_LVRESAMPLER_H_
 
 #include "IResampler.h"
-#include "IFilter.h"
+#include "Filter.h"
 #include "assert.h"
 
 namespace ohmPf
@@ -20,7 +20,7 @@ namespace ohmPf
   public:
     LVResampler();
     virtual ~LVResampler();
-    void resample(IFilter* filter);
+    void resample(Filter* filter);
   };
 
 } /* namespace ohmPf */

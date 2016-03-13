@@ -9,7 +9,7 @@
 #define SRC_ODOMUPDATER_H_
 
 #include "FilterUpdater.h"
-#include "IFilter.h"
+#include "Filter.h"
 #include "IOCSClient.h"
 #include "IOdomQuantifier.h"
 #include "IOdomMeasurement.h"
@@ -21,7 +21,7 @@ namespace ohmPf
   class OdomUpdater : public FilterUpdater, public IOCSClient
   {
   public:
-    OdomUpdater(IFilter* filter, IOdomQuantifier* quantifier, IOdomMeasurement* measurement, IUpdateFilterMap* updateFilterMap);
+    OdomUpdater(Filter* filter, IOdomQuantifier* quantifier, IOdomMeasurement* measurement, IUpdateFilterMap* updateFilterMap);
     virtual ~OdomUpdater();
     void update();
     void setOCSFlagTrue();
