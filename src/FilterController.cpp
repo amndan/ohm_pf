@@ -73,6 +73,7 @@ bool FilterController::setFilterOutput(IFilterOutput* output)
   if (output != NULL)
   {
     _filterOutput = output;
+    _outputUpdater = new FilterOutputUpdater(_filterOutput, _filter);
     return true;
   }
   std::cout << __PRETTY_FUNCTION__ << "--> no NULL pointer here!" << std::endl;
@@ -93,8 +94,15 @@ bool FilterController::updateOdom()
 
 bool FilterController::updateOutput()
 {
-  assert(_outputUpdater != NULL);
-  _outputUpdater->update();
+  if(_outputUpdater != NULL)
+  {
+    _outputUpdater->update();
+  }
+  else
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> no NULL pointer here!" << std::endl;
+  }
+
 }
 
 bool FilterController::resample()

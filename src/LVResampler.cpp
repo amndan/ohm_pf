@@ -28,7 +28,7 @@ namespace ohmPf
     unsigned int cnt = set->getCountSamples();
 
     // todo: use a more intelligent way to do this
-    assert(set->isNormalized());
+    if(!set->isNormalized()) set->normalize();
 
     std::vector<double> weightsCumsum;
 

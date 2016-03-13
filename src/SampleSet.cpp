@@ -16,7 +16,7 @@ namespace ohmPf
     sample.pose(0) = 0;
     sample.pose(1) = 0;
     sample.pose(2) = 0;
-    sample.weight = 0;
+    sample.weight = 1;
 
     _samples.clear();
 

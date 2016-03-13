@@ -25,6 +25,7 @@
 #include "assert.h"
 #include "LaserProbMapMethod.h"
 #include "LVResampler.h"
+#include "FilterUpdater.h"
 
 namespace ohmPf
 {

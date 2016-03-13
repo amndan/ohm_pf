@@ -120,6 +120,7 @@ void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
 
   _odomMeasurement->setMeasurement(msg);
   _filterController->updateOdom();
+  _filterController->updateOutput();
 
   Eigen::Vector3d diff = measurement - _lastOdomPose;
   _cumSumtrans += std::sqrt(std::pow(diff(0) ,2) + std::pow(diff(1) ,2));
@@ -204,22 +205,22 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
 
   void OhmPfNode::calScan(const sensor_msgs::LaserScanConstPtr& msg)
   {
-    if(!_laserInitialized)
-    {
-      _laserMeasurement = new ROSLaserMeasurement();
-      _laserMeasurement->initWithMeasurement(msg, _rosLaserPMParams.tfBaseFooprintFrame);
-      if( _filterController->setLaserMeasurement(_laserMeasurement) )
-      {
-        _laserInitialized = true;
-        return;
-      }
-      return;
-    }
-    else
-    {
-      _laserMeasurement->setMeasurement(msg);
-      _filterController->updateLaser();
-    }
+//    if(!_laserInitialized)
+//    {
+//      _laserMeasurement = new ROSLaserMeasurement();
+//      _laserMeasurement->initWithMeasurement(msg, _rosLaserPMParams.tfBaseFooprintFrame);
+//      if( _filterController->setLaserMeasurement(_laserMeasurement) )
+//      {
+//        _laserInitialized = true;
+//        return;
+//      }
+//      return;
+//    }
+//    else
+//    {
+//      _laserMeasurement->setMeasurement(msg);
+//      _filterController->updateLaser();
+//    }
   }
 
   void OhmPfNode::calResampleTimer(const ros::TimerEvent& event)
