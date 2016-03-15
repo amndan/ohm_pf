@@ -26,7 +26,12 @@ namespace ohmPf
   {
     std::vector<float> ranges = measurement.getRanges();
 
-    assert(ranges.size() == measurement.getCount());
+    if(ranges.size() != measurement.getCount())
+    {
+      std::cout << ranges.size() << "|" << measurement.getCount() << std::endl;
+    }
+      assert(ranges.size() == measurement.getCount());
+
 
     int subSampFact = 3;  // todo: use parameter --> subsampling in laserFilter?
 
@@ -48,8 +53,8 @@ namespace ohmPf
         scanCoord(1, j) = 0.0;
         scanCoord(2, j) = 0.0;
       }
-
     }
+
     return scanCoord;
   }
 
@@ -59,14 +64,8 @@ namespace ohmPf
 
     std::vector<Sample_t>* samples = filter.getSamples();
 
-    std::cout << "samples count: " << samples->size() << std::endl;
-
     Eigen::Matrix3Xd coordsTf;
     Eigen::Matrix3d tf;
-
-    ros::Time t0;
-    ros::Time t1;
-    t0 = ros::Time::now();
 
     for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)  // each sample
     {
@@ -78,14 +77,10 @@ namespace ohmPf
       it->weight = map.getProbability(coordsTf, measurement.getUncertainty());
     }
 
-    t1 = ros::Time::now();
-    ros::Duration dur = t1 - t0;
-    std::cout << "calScan Duration: " << dur << std::endl;
-
-
     filter.getSampleSet()->boostWeights();
     if(updateFilterMap != NULL) updateFilterMap->update();
     filter.getSampleSet()->normalize();
+
     //filter.getSampleSet()->normalize();
     //filter.getSampleSet()->resample(); // todo: should we do that here??
   }

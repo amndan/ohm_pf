@@ -10,9 +10,10 @@
 namespace ohmPf
 {
 
-ROSLaserMeasurement::ROSLaserMeasurement()
+ROSLaserMeasurement::ROSLaserMeasurement(double uncertainty)
 {
   _initialized = false;
+  _uncertainty = uncertainty; // todo: from launchfile
 }
 
 ROSLaserMeasurement::~ROSLaserMeasurement()

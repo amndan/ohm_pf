@@ -23,7 +23,7 @@ namespace ohmPf
   class ROSLaserMeasurement : public ILaserMeasurement
   {
   public:
-    ROSLaserMeasurement();
+    ROSLaserMeasurement(double uncertainty);
     virtual ~ROSLaserMeasurement();
     void initWithMeasurement(const sensor_msgs::LaserScanConstPtr& scan, std::string tfBaseFootprintFrame);
     void setMeasurement(sensor_msgs::LaserScanConstPtr scan);

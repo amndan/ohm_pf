@@ -37,7 +37,8 @@ bool FilterController::setMap(IMap* map)
 {
   if(map != NULL)
   {
-  _mapUpdater = new MapUpdater(_filter, map);
+  _map = map;
+  _mapUpdater = new MapUpdater(_filter, _map);
   return true;
   }
   std::cout << __PRETTY_FUNCTION__ << "--> no NULL pointer here!" << std::endl;

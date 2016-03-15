@@ -12,6 +12,8 @@ namespace ohmPf
 
   SampleSet::SampleSet(unsigned int numSamples)
   {
+    assert(numSamples > 2);
+
     Sample_t sample;
     sample.pose(0) = 0;
     sample.pose(1) = 0;

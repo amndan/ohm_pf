@@ -58,6 +58,8 @@ OhmPfNode::OhmPfNode() :
 
   _cumSumRot = 0.0;
   _cumSumtrans = 0.0;
+
+  _map = NULL;
 }
 
 OhmPfNode::~OhmPfNode()
@@ -147,13 +149,18 @@ void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConst
     ROS_INFO("Map service called successfully");
     const nav_msgs::OccupancyGrid& map(srv_map.response.map);
 
+    if(_map == NULL)
+    {
+      _map = new ROSMap(map, _maxDistanceProbMap);
+      _filterController->setMap(_map);
+      _filterController->initFilterMap();
+    }
+    else
+    {
+      *_map = ROSMap(map, _maxDistanceProbMap);
+      _filterController->initFilterMap();
+    }
 
-
-    delete _map;
-
-    _map = new ROSMap(map, _maxDistanceProbMap);
-    _filterController->setMap(_map);
-    _filterController->initFilterMap();
 
 //    nav_msgs::OccupancyGrid probMapMsg;
 //    probMapMsg.header = map.header;
@@ -205,9 +212,10 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
 
   void OhmPfNode::calScan(const sensor_msgs::LaserScanConstPtr& msg)
   {
+
     if(!_laserInitialized)
     {
-      _laserMeasurement = new ROSLaserMeasurement();
+      _laserMeasurement = new ROSLaserMeasurement(_rosLaserPMParams.uncertainty);
       _laserMeasurement->initWithMeasurement(msg, _rosLaserPMParams.tfBaseFooprintFrame);
       if( _filterController->setLaserMeasurement(_laserMeasurement) )
       {

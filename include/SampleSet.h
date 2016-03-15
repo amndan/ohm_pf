@@ -14,6 +14,7 @@
 #include <numeric>
 #include <ctime>
 #include "UtilitiesOhmPf.h"
+#include "assert.h"
 
 namespace ohmPf
 {
