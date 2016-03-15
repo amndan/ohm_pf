@@ -205,22 +205,22 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
 
   void OhmPfNode::calScan(const sensor_msgs::LaserScanConstPtr& msg)
   {
-//    if(!_laserInitialized)
-//    {
-//      _laserMeasurement = new ROSLaserMeasurement();
-//      _laserMeasurement->initWithMeasurement(msg, _rosLaserPMParams.tfBaseFooprintFrame);
-//      if( _filterController->setLaserMeasurement(_laserMeasurement) )
-//      {
-//        _laserInitialized = true;
-//        return;
-//      }
-//      return;
-//    }
-//    else
-//    {
-//      _laserMeasurement->setMeasurement(msg);
-//      _filterController->updateLaser();
-//    }
+    if(!_laserInitialized)
+    {
+      _laserMeasurement = new ROSLaserMeasurement();
+      _laserMeasurement->initWithMeasurement(msg, _rosLaserPMParams.tfBaseFooprintFrame);
+      if( _filterController->setLaserMeasurement(_laserMeasurement) )
+      {
+        _laserInitialized = true;
+        return;
+      }
+      return;
+    }
+    else
+    {
+      _laserMeasurement->setMeasurement(msg);
+      _filterController->updateLaser();
+    }
   }
 
   void OhmPfNode::calResampleTimer(const ros::TimerEvent& event)

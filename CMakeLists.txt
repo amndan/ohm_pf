@@ -139,8 +139,7 @@ include_directories(
 #	src/SampleSet.cpp
 #)
 
-add_executable(OhmPfNode
-    testing/main_OhmPfNode.cpp
+add_library(OhmPf STATIC
     src/OhmPfNode.cpp 
     src/ROSLaserMeasurement.cpp
     src/GaussianPdf.cpp
@@ -160,6 +159,10 @@ add_executable(OhmPfNode
     src/LVResampler.cpp
     src/ROSFilterOutput.cpp
     src/FilterController.cpp
+    )
+
+add_executable(OhmPfNode
+    testing/main_OhmPfNode.cpp
 )
 
 
@@ -169,8 +172,14 @@ add_executable(OhmPfNode
 
 ## Specify libraries to link a library or executable target against
 
+# just need this because of ros in lib --> remove ros from lib!
+target_link_libraries(OhmPf
+ ${catkin_LIBRARIES}
+)
+
 target_link_libraries(OhmPfNode
  ${catkin_LIBRARIES}
+ OhmPf
 )
 #############
 ## Install ##

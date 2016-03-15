@@ -39,8 +39,8 @@ void ROSLaserMeasurement::initWithMeasurement(const sensor_msgs::LaserScanConstP
 
   //assert(scan->ranges.size() == count);
 
-  count = scan->ranges.size();
-  _angleIncrement = std::abs(angleRange) / count;
+  _count = scan->ranges.size();
+  _angleIncrement = std::abs(angleRange) / _count;
 
   tf::Transform tf;
   tf::StampedTransform tmp;
