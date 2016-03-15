@@ -140,29 +140,29 @@ include_directories(
 #)
 
 add_library(OhmPf STATIC
-    src/OhmPfNode.cpp 
-    src/ROSLaserMeasurement.cpp
     src/GaussianPdf.cpp
     src/Filter.cpp
     src/FilterOutputUpdater.cpp
     src/FilterUpdater.cpp
-    src/ROSMap.cpp
     src/LaserUpdater.cpp
     src/SampleSet.cpp
     src/LaserProbMapMethod.cpp
     src/MapUpdater.cpp
-    src/ROSOdomMeasurement.cpp
     src/OdomDiff.cpp
     src/OdomUpdater.cpp
-    src/ROSCeilCamMeasurement.cpp
     src/CeilCamUpdater.cpp
     src/LVResampler.cpp
-    src/ROSFilterOutput.cpp
     src/FilterController.cpp
-    )
+)
 
 add_executable(OhmPfNode
-    testing/main_OhmPfNode.cpp
+    src/main_OhmPfNode.cpp
+    src/OhmPfNode.cpp 
+    src/ROSLaserMeasurement.cpp
+    src/ROSMap.cpp
+    src/ROSOdomMeasurement.cpp
+    src/ROSCeilCamMeasurement.cpp
+    src/ROSFilterOutput.cpp
 )
 
 

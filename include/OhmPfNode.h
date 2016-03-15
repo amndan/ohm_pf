@@ -22,14 +22,9 @@
 #include "interfaces/IFilterController.h"
 #include "FilterParams.h"
 #include "ROSOdomMeasurement.h"
-#include "interfaces/IMap.h"
 #include "ROSMap.h"
 #include "ROSLaserMeasurement.h"
-#include "interfaces/ILaserMeasurement.h"
 #include "ROSFilterOutput.h"
-#include "interfaces/IFilterOutput.h"
-
-
 
 namespace ohmPf
 {
