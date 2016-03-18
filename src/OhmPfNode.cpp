@@ -244,7 +244,7 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
     else
     {
       _laserMeasurement->setMeasurement(msg);
-      //_filterController->updateLaser();
+      _filterController->updateLaser();
     }
   }
 

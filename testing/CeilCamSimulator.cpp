@@ -51,8 +51,8 @@ void calOdom(const nav_msgs::OdometryConstPtr& msg)
     poseArray.header.stamp = ros::Time::now();
 
     geometry_msgs::Pose pose;
-    pose.position.x = msg->pose.pose.position.x + drand48() * 1;
-    pose.position.y = msg->pose.pose.position.y + drand48() * 1;
+    pose.position.x = msg->pose.pose.position.x + drand48() * 0.0;
+    pose.position.y = msg->pose.pose.position.y + drand48() * 0.0;
     pose.orientation = msg->pose.pose.orientation;
 
     poseArray.poses.push_back(pose);

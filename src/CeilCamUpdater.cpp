@@ -34,9 +34,10 @@ namespace ohmPf
     {
       for(int k = 0; k < samples->size(); k++)
       {
-        probs[k] = std::max(probs[k], getProbabilityFrom2Poses(poses[i], samples->at(i).pose, 2.0));  // todo: magic number
+        probs[k] = std::max(probs[k], getProbabilityFrom2Poses(poses[i], samples->at(k).pose, 2.0));  // todo: magic number
       }
     }
+
 
 //    // at first find maximum weight eg minimum distance for each sample
 //    for(std::vector<Eigen::Vector3d>::iterator it = _measurement->getPoses().begin(); it != _measurement->getPoses().end(); ++it)

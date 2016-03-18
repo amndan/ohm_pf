@@ -34,9 +34,9 @@ namespace ohmPf
 
     weightsCumsum.reserve(countSamples);
 
-    for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
+    for(int i = 0; i < samples->size(); i++)
     {
-      weightsCumsum.push_back(it->weight);
+      weightsCumsum.push_back(samples->at(i).weight);
     }
 
     //std::cout << "stabw:" << getStabw(weightsCumsum) << std::endl;
