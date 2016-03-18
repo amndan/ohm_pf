@@ -13,6 +13,7 @@
 #include "IOCSClient.h"
 #include "IOdomQuantifier.h"
 #include "IOdomMeasurement.h"
+#include "OCSObserver.h"
 
 namespace ohmPf
 {
@@ -20,11 +21,12 @@ namespace ohmPf
   class OdomUpdater : public FilterUpdater, public IOCSClient
   {
   public:
-    OdomUpdater(Filter* filter, IOdomQuantifier* quantifier, IOdomMeasurement* measurement);
+    OdomUpdater(Filter* filter, IOdomQuantifier* quantifier, IOdomMeasurement* measurement, OCSObserver* ocsObserver);
     virtual ~OdomUpdater();
     void update();
     void setOCSFlagTrue();
   private:
+    OCSObserver* _ocsObserver;
     IOdomQuantifier* _quantifier;
     IOdomMeasurement* _measurement;
     bool _OCSFlag;

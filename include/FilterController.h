@@ -26,6 +26,7 @@
 #include "LaserProbMapMethod.h"
 #include "LVResampler.h"
 #include "FilterUpdater.h"
+#include "OCSObserver.h"
 
 namespace ohmPf
 {
@@ -54,6 +55,7 @@ private:
   IFilterOutput* _filterOutput;
 
   OdomUpdater* _odomUpdater;
+  OCSObserver* _ocsObserver;
   LaserUpdater* _laserUpdater;
   FilterOutputUpdater* _outputUpdater;
   MapUpdater* _mapUpdater;

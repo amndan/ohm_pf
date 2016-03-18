@@ -153,6 +153,7 @@ add_library(OhmPf STATIC
     src/CeilCamUpdater.cpp
     src/LVResampler.cpp
     src/FilterController.cpp
+    src/OCSObserver.cpp
 )
 
 add_executable(OhmPfNode

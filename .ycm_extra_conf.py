@@ -64,7 +64,9 @@ flags = [
 '-I',
 '/opt/ros/indigo/include',
 '-I',
-'./include'
+'./include',
+'-I',
+'./include/interfaces'
 ]
 
 

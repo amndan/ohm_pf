@@ -18,6 +18,7 @@ FilterController::FilterController(FilterParams_t params)
   _filterOutput = NULL;
 
   _odomUpdater = NULL;
+  _ocsObserver = NULL;
   _laserUpdater = NULL;
   _outputUpdater = NULL;
   _mapUpdater = NULL;
@@ -26,6 +27,7 @@ FilterController::FilterController(FilterParams_t params)
 
   _filter = new Filter(params);
   _resampler = new LVResampler();
+  _ocsObserver = new OCSObserver();
 }
 
 FilterController::~FilterController()
@@ -49,7 +51,7 @@ bool FilterController::setOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams
 {
   if(odom != NULL)
   {
-  _odomUpdater = new OdomUpdater(_filter, new OdomDiff(params), odom);
+  _odomUpdater = new OdomUpdater(_filter, new OdomDiff(params), odom, _ocsObserver);
   return true;
   }
   std::cout << __PRETTY_FUNCTION__ << "--> no NULL pointer here!" << std::endl;
@@ -66,6 +68,7 @@ bool FilterController::setLaserMeasurement(ILaserMeasurement* laser)
   else
   {
     _laserUpdater = new LaserUpdater(_filter, _map, laser, new LaserProbMapMethod(), _mapUpdater);
+    _ocsObserver->registerClient(_laserUpdater, 1.0);
     return true;
   }
 }
