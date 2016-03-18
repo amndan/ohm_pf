@@ -25,6 +25,7 @@
 #include "ROSMap.h"
 #include "ROSLaserMeasurement.h"
 #include "ROSFilterOutput.h"
+#include "ROSCeilCamMeasurement.h"
 
 namespace ohmPf
 {
@@ -64,11 +65,13 @@ private:
   unsigned int _maxDistanceProbMap;
   bool _odomInitialized;
   bool _laserInitialized;
+  bool _ceilCamInitialized;
   IFilterController* _filterController;
   ROSOdomMeasurement* _odomMeasurement;
   ROSMap* _map;
   ROSLaserMeasurement* _laserMeasurement;
   ROSFilterOutput* _filterOutput;
+  ROSCeilCamMeasurement* _ceilCamMeasurement;
 
   int odomCounter;
 };

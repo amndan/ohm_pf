@@ -20,6 +20,7 @@ FilterController::FilterController(FilterParams_t params)
   _odomUpdater = NULL;
   _ocsObserver = NULL;
   _laserUpdater = NULL;
+  _ceilCamUpdater = NULL;
   _outputUpdater = NULL;
   _mapUpdater = NULL;
   _resampler = NULL;
@@ -72,6 +73,21 @@ bool FilterController::setLaserMeasurement(ILaserMeasurement* laser)
     return true;
   }
 }
+
+bool FilterController::setCeilCamMeasurement(ICeilCamMeasurement* ceilCam)
+{
+  if(_mapUpdater == NULL)
+    {
+      std::cout << __PRETTY_FUNCTION__ << "--> please init map before init ceilCam" << std::endl;
+      return false;
+    }
+    else
+    {
+      _ceilCamUpdater = new CeilCamUpdater(_filter, ceilCam, _mapUpdater);
+      return true;
+    }
+}
+
 bool FilterController::setFilterOutput(IFilterOutput* output)
 {
   if (output != NULL)
@@ -88,6 +104,12 @@ bool FilterController::updateLaser()
 {
   assert(_laserUpdater != NULL);
   _laserUpdater->update();
+}
+
+bool FilterController::updateCeilCam()
+{
+  assert(_ceilCamUpdater != NULL);
+  _ceilCamUpdater->update();
 }
 
 bool FilterController::updateOdom()

@@ -28,25 +28,48 @@ namespace ohmPf
     std::vector<Sample_t>* samples = _filter->getSamples();
     std::vector<double> probs(samples->size(), 0.0);
 
-    // at first find maximum weight eg minimum distance for each sample
-    for(std::vector<Eigen::Vector3d>::iterator it = _measurement->getPoses().begin(); it != _measurement->getPoses().end(); ++it)
+    std::vector<Eigen::Vector3d> poses = _measurement->getPoses();
+
+    for(int i = 0; i < poses.size(); i++)
     {
-      for(std::vector<Sample_t>::iterator it2 = samples->begin(); it2 != samples->end(); ++it2)
+      for(int k = 0; k < samples->size(); k++)
       {
-        int n = std::distance(samples->begin(), it2);
-        probs[n] = std::max(probs[n], getProbabilityFrom2Poses(*it, it2->pose, 2.0)); // todo: magic number
+        probs[k] = std::max(probs[k], getProbabilityFrom2Poses(poses[i], samples->at(i).pose, 2.0));  // todo: magic number
       }
     }
 
+//    // at first find maximum weight eg minimum distance for each sample
+//    for(std::vector<Eigen::Vector3d>::iterator it = _measurement->getPoses().begin(); it != _measurement->getPoses().end(); ++it)
+//    {
+//      for(std::vector<Sample_t>::iterator it2 = samples->begin(); it2 != samples->end(); ++it2)
+//      {
+//        std::cout << "loop"  << std::endl;
+//
+//        probs[n] = std::max(probs[n], getProbabilityFrom2Poses(*it, it2->pose, 2.0)); // todo: magic number
+//      }
+//    }
+//
+
     // then multiply weights with old weights
-    for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
+    for(int k = 0; k < samples->size(); k++)
     {
-      int n = std::distance(samples->begin(), it);
-      it->weight = it->weight * probs[n];
+      samples->at(k).weight *= probs.at(k);
     }
 
+//    // then multiply weights with old weights
+//    for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
+//    {
+//      int n = std::distance(samples->begin(), it);
+//      it->weight = it->weight * probs[n];
+//    }
+//
+//
+//    _filter->getSampleSet()->normalize();
+//    //_updateFilterMap->update();
     _updateFilterMap->update();
-    //filter.getSampleSet()->normalize();
-    //filter.getSampleSet()->resample();
+    _filter->getSampleSet()->normalize();
+
+//    //filter.getSampleSet()->resample();
+
   }
 } /* namespace ohmPf */

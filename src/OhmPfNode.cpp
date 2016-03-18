@@ -185,10 +185,27 @@ void OhmPfNode::spawnFilter()
   _filterOutput = new ROSFilterOutput(_paramSet.tfFixedFrame);
   assert(_filterController->setFilterOutput(_filterOutput));
 
+  _ceilCamMeasurement = new ROSCeilCamMeasurement();
+
 }
 
 void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
 {
+  if(!_ceilCamInitialized)
+  {
+    if(_filterController->setCeilCamMeasurement(_ceilCamMeasurement))
+    {
+      _ceilCamInitialized = true;
+    }
+    else
+    {
+      return;
+    }
+  }
+
+  _ceilCamMeasurement->setMeasurement(msg);
+  _filterController->updateCeilCam();
+
 //  if (_filter->isInitialized())
 //  {
 //    std::vector<Eigen::Vector3d> measurement;
@@ -215,7 +232,7 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
 
     if(!_laserInitialized)
     {
-      _laserMeasurement = new ROSLaserMeasurement(_rosLaserPMParams.uncertainty);
+      _laserMeasurement = new ROSLaserMeasurement(_rosLaserPMParams.uncertainty); // TODO:  this should be done in constructor!
       _laserMeasurement->initWithMeasurement(msg, _rosLaserPMParams.tfBaseFooprintFrame);
       if( _filterController->setLaserMeasurement(_laserMeasurement) )
       {
@@ -227,7 +244,7 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
     else
     {
       _laserMeasurement->setMeasurement(msg);
-      _filterController->updateLaser();
+      //_filterController->updateLaser();
     }
   }
 

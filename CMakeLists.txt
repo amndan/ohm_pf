@@ -166,6 +166,10 @@ add_executable(OhmPfNode
     src/ROSFilterOutput.cpp
 )
 
+add_executable(CeilCamSimulator
+    testing/CeilCamSimulator.cpp 
+)
+
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -175,6 +179,10 @@ add_executable(OhmPfNode
 
 # just need this because of ros in lib --> remove ros from lib!
 target_link_libraries(OhmPf
+ ${catkin_LIBRARIES}
+)
+
+target_link_libraries(CeilCamSimulator
  ${catkin_LIBRARIES}
 )
 

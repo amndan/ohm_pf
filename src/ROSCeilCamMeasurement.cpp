@@ -31,7 +31,7 @@ namespace ohmPf
     return _probs;
   }
 
-  void ROSCeilCamMeasurement::setMeasurement(geometry_msgs::PoseArrayConstPtr& msgs)
+  void ROSCeilCamMeasurement::setMeasurement(const geometry_msgs::PoseArrayConstPtr& msgs)
   {
     _poses.clear();
     _probs.clear();

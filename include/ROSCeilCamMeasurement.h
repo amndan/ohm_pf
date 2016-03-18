@@ -23,7 +23,7 @@ namespace ohmPf
     virtual ~ROSCeilCamMeasurement();
     std::vector<Eigen::Vector3d> getPoses();
     std::vector<double> getProbabilities();
-    void setMeasurement(geometry_msgs::PoseArrayConstPtr& msgs);
+    void setMeasurement(const geometry_msgs::PoseArrayConstPtr& msgs);
     ros::Time getStamp();
   private:
     std::vector<Eigen::Vector3d> _poses;

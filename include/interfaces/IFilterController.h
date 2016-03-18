@@ -14,6 +14,7 @@
 #include "IMap.h"
 #include "FilterParams.h"
 #include "OdomDiffParams.h"
+#include "ICeilCamMeasurement.h"
 
 namespace ohmPf
 {
@@ -29,9 +30,11 @@ public:
   virtual bool setMap(IMap* map) = 0;
   virtual bool setOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams_t params) = 0; // TODO: odom params and not odom diff params
   virtual bool setLaserMeasurement(ILaserMeasurement* laser) = 0;
+  virtual bool setCeilCamMeasurement(ICeilCamMeasurement* ceilCam) = 0;
   virtual bool setFilterOutput(IFilterOutput* output) = 0;
 
   virtual bool updateLaser() = 0;
+  virtual bool updateCeilCam() = 0;
   virtual bool updateOdom() = 0;
   virtual bool updateOutput() = 0;
   virtual bool resample() = 0;

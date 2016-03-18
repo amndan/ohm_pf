@@ -27,6 +27,7 @@
 #include "LVResampler.h"
 #include "FilterUpdater.h"
 #include "OCSObserver.h"
+#include "CeilCamUpdater.h"
 
 namespace ohmPf
 {
@@ -40,12 +41,14 @@ public:
   bool setMap(IMap* map);
   bool setOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams_t params);
   bool setLaserMeasurement(ILaserMeasurement* laser);
+  bool setCeilCamMeasurement(ICeilCamMeasurement* ceilCam);
   bool setFilterOutput(IFilterOutput* output);
 
   bool updateLaser();
   bool updateOdom();
   bool updateOutput();
   bool resample();
+  bool updateCeilCam();
   bool initFilterMap();
 
 private:
@@ -57,6 +60,7 @@ private:
   OdomUpdater* _odomUpdater;
   OCSObserver* _ocsObserver;
   LaserUpdater* _laserUpdater;
+  CeilCamUpdater* _ceilCamUpdater;
   FilterOutputUpdater* _outputUpdater;
   MapUpdater* _mapUpdater;
   IResampler* _resampler;
