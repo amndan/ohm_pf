@@ -66,6 +66,7 @@ namespace ohmPf
 //
 //    _filter->getSampleSet()->normalize();
 //    //_updateFilterMap->update();
+    _filter->getSampleSet()->normalize();
     _updateFilterMap->update();
     _filter->getSampleSet()->normalize();
 

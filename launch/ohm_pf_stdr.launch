@@ -16,14 +16,14 @@
       <arg name="tfFixedFrame" value="map" />
       <arg name="tfBaseFootprintFrame" value="robot0" />
       <arg name="top2dPoseEst" value="initialpose" />
-      <arg name="topCeilCam" value="ceilCamPoseArray_OFF" />
+      <arg name="topCeilCam" value="ceilCamPoseArray" />
       <arg name="topMap" value="map" />
       <arg name="topMapSrv" value="static_map" />
       <arg name="samplesMax" value="10000" />
       <arg name="samplesMin" value="50" />
       <arg name="maxDistanceProbMap" value="30" />
       <arg name="subsamplingRateLaser" value="3" />
-      <arg name="resamplingIntervallFilter" value="3" />
+      <arg name="resamplingIntervallFilter" value="1" />
       <arg name="uncertaintyLaser" value="0.5" />
     </include>
 
