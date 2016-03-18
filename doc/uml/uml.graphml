@@ -569,7 +569,7 @@ setSamples()</y:MethodLabel>
           <y:Geometry height="66.59292371134023" width="224.66711752577316" x="1562.6664412371133" y="316.70353814432985"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="105.81640625" x="59.42535563788658" y="3.0">IOCSObserver<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="100.9794921875" x="61.84381266913658" y="3.0">OCSObserver<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1109,7 +1109,6 @@ updateFilterOutput() = 0</y:MethodLabel>
     </edge>
     <edge id="e32" source="n11" target="n24">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="5.6843418860808015E-14" sy="-59.23790609634415" tx="0.0" ty="37.68932038834953"/>
@@ -1121,7 +1120,6 @@ updateFilterOutput() = 0</y:MethodLabel>
     </edge>
     <edge id="e33" source="n5" target="n6">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="-66.01907216494848" tx="-66.65010309278352" ty="0.0">
@@ -1140,7 +1138,6 @@ updateFilterOutput() = 0</y:MethodLabel>
     </edge>
     <edge id="e34" source="n18" target="n6">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-31.82505154639179" sy="35.692227972828164" tx="-31.825051546391762" ty="-43.089380571412335"/>
@@ -1152,7 +1149,6 @@ updateFilterOutput() = 0</y:MethodLabel>
     </edge>
     <edge id="e35" source="n8" target="n6">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-69.50484536082467" sy="-33.754768041237185" tx="-31.825051546391762" ty="43.089380571412335">

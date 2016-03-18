@@ -27,6 +27,7 @@ namespace ohmPf
     void update();
     void setOCSFlagTrue();
 
+
   private:
     IMap* _map;
     ILaserMeasurement* _measurement;

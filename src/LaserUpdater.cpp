@@ -30,7 +30,7 @@ namespace ohmPf
     if (_OCSFlag == true)
     {
       _quantifier->calculate(*_filter, *_measurement, *_map, _updateFilterMap);
-      //_OCSFlag = false;
+      _OCSFlag = false;
     }
   }
 
