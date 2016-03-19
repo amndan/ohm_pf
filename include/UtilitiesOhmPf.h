@@ -36,14 +36,26 @@ namespace ohmPf
       * M_PI, double weightPhi = 0.5)
   {
     assert(weightPhi >= 0.0 && weightPhi <= 1.0);
-
-    double distPos = std::sqrt(std::pow(measurement(0) - sample(0), 2) + std::pow(measurement(1) - sample(1), 2));
-
+    
+    double px = GaussianPdf::getProbability(measurement(0), sigmaPos, sample(0));
+    double py = GaussianPdf::getProbability(measurement(1), sigmaPos, sample(1));
     double pPhi = GaussianPdf::getProbability(measurement(2), sigmaPhi, sample(2));
-    double pPos = GaussianPdf::getProbability(0.0, sigmaPos, distPos);
 
-    return (1 - weightPhi) * pPos + weightPhi * pPhi;
+    return px * py * pPhi; 
   }
+
+//  static double getProbabilityFrom2Poses(const Eigen::Vector3d& measurement, const Eigen::Vector3d& sample, double sigmaPos = 0.5, double sigmaPhi = 0.5
+//      * M_PI, double weightPhi = 0.5)
+//  {
+//    assert(weightPhi >= 0.0 && weightPhi <= 1.0);
+//
+//    double distPos = std::sqrt(std::pow(measurement(0) - sample(0), 2) + std::pow(measurement(1) - sample(1), 2));
+//
+//    double pPhi = GaussianPdf::getProbability(measurement(2), sigmaPhi, sample(2));
+//    double pPos = GaussianPdf::getProbability(0.0, sigmaPos, distPos);
+//
+//    return (1 - weightPhi) * pPos + weightPhi * pPhi;
+//  }
 
   static void addGaussianRandomness(Sample_t& sample, double sigmaPos = 0.05, double sigmaPhi = 10 / 180 * M_PI)
   {
