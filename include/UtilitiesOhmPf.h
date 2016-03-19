@@ -33,10 +33,8 @@ namespace ohmPf
   }
 
   static double getProbabilityFrom2Poses(const Eigen::Vector3d& measurement, const Eigen::Vector3d& sample, double sigmaPos = 0.5, double sigmaPhi = 0.5
-      * M_PI, double weightPhi = 0.5)
+      * M_PI)
   {
-    assert(weightPhi >= 0.0 && weightPhi <= 1.0);
-    
     double px = GaussianPdf::getProbability(measurement(0), sigmaPos, sample(0));
     double py = GaussianPdf::getProbability(measurement(1), sigmaPos, sample(1));
     double pPhi = GaussianPdf::getProbability(measurement(2), sigmaPhi, sample(2));
