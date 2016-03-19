@@ -44,9 +44,6 @@ private:
   void calScan(const sensor_msgs::LaserScanConstPtr& msg);
   void calResampleTimer(const ros::TimerEvent& event);
   void spawnFilter();
-  double _cumSumRot;
-  double _cumSumtrans;
-  Eigen::Vector3d _lastOdomPose;
   ros::Publisher _pubSampleSet;
   ros::Publisher _pubProbMap;
   ros::Subscriber _subOdometry;

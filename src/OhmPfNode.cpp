@@ -56,9 +56,6 @@ OhmPfNode::OhmPfNode() :
   _laserInitialized = false;
   _odomInitialized = false;
 
-  _cumSumRot = 0.0;
-  _cumSumtrans = 0.0;
-
   _map = NULL;
 }
 
@@ -88,55 +85,26 @@ void OhmPfNode::spinOnce()
 
 void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
 {
-  Eigen::Vector3d measurement;
-  measurement(0) = msg->pose.pose.position.x;
-  measurement(1) = msg->pose.pose.position.y;
-  measurement(2) = tf::getYaw(msg->pose.pose.orientation);
-
   if(!_odomInitialized)
   {
     ROS_INFO_STREAM("Received first odom message - initializing odom...");
-    //todo: get odom Params from Launchfile
-    _odomDiffParams.a1 = 0.005;
-    _odomDiffParams.a2 = 0.0;
-    _odomDiffParams.a3 = 0.01;
-    _odomDiffParams.a4 = 0.0;
-
-    _odomMeasurement = new ROSOdomMeasurement();
     _odomMeasurement->setMeasurement(msg);
 
     if(_filterController->setOdomMeasurement(_odomMeasurement, _odomDiffParams))
     {
-      _odomInitialized = true;
-      // DEBUG
-      _lastOdomPose = measurement;
       _odomInitialized = true;
       ROS_INFO_STREAM("odom initialized");
       return;
     }
     else
     {
-      exit(EXIT_FAILURE);
+      return;
     }
   }
 
   _odomMeasurement->setMeasurement(msg);
   _filterController->updateOdom();
   _filterController->updateOutput();
-
-  Eigen::Vector3d diff = measurement - _lastOdomPose;
-  _cumSumtrans += std::sqrt(std::pow(diff(0) ,2) + std::pow(diff(1) ,2));
-  _cumSumRot += std::abs(diff(2));
-
-  if(_cumSumRot > 0.01 || _cumSumtrans > 0.01)
-  {
-    //_filter->triggerOdomChangedSignificantly();
-    _cumSumRot = 0;
-    _cumSumtrans = 0;
-  }
-
-  _lastOdomPose = measurement;
-
 }
 
 void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg)
@@ -155,7 +123,7 @@ void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConst
       _filterController->setMap(_map);
       _filterController->initFilterMap();
     }
-    else
+    else //TODO: need routine for global localization withot reprocessing map
     {
       *_map = ROSMap(map, _maxDistanceProbMap);
       _filterController->initFilterMap();
@@ -187,6 +155,14 @@ void OhmPfNode::spawnFilter()
 
   _ceilCamMeasurement = new ROSCeilCamMeasurement();
 
+  //todo: get odom Params from Launchfile
+  _odomDiffParams.a1 = 0.005;
+  _odomDiffParams.a2 = 0.0;
+  _odomDiffParams.a3 = 0.01;
+  _odomDiffParams.a4 = 0.0;
+  _odomMeasurement = new ROSOdomMeasurement();
+
+  _laserMeasurement = new ROSLaserMeasurement(_rosLaserPMParams.uncertainty);
 }
 
 void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
@@ -206,25 +182,6 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
   _ceilCamMeasurement->setMeasurement(msg);
   _filterController->updateCeilCam();
 
-//  if (_filter->isInitialized())
-//  {
-//    std::vector<Eigen::Vector3d> measurement;
-//
-//    // todo: why do i need this conversation?
-//    std::vector<geometry_msgs::Pose> vec = msg->poses;
-//
-//    for(std::vector<geometry_msgs::Pose>::iterator it = vec.begin(); it != vec.end(); ++it)
-//    {
-//      Eigen::Vector3d pose;
-//      pose(0) = it->position.x;
-//      pose(1) = it->position.y;
-//      pose(2) = tf::getYaw(it->orientation);
-//      measurement.push_back(pose);
-//    }
-//
-//    ((CeilCamUpdater&) _filter->getSensor(CEILCAM)).setMeasurement(measurement);
-//    _filter->updateWithSensor(CEILCAM);
-//  }
 }
 
   void OhmPfNode::calScan(const sensor_msgs::LaserScanConstPtr& msg)
@@ -232,14 +189,16 @@ void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)
 
     if(!_laserInitialized)
     {
-      _laserMeasurement = new ROSLaserMeasurement(_rosLaserPMParams.uncertainty); // TODO:  this should be done in constructor!
       _laserMeasurement->initWithMeasurement(msg, _rosLaserPMParams.tfBaseFooprintFrame);
       if( _filterController->setLaserMeasurement(_laserMeasurement) )
       {
         _laserInitialized = true;
         return;
       }
-      return;
+      else
+      {
+        return;
+      }
     }
     else
     {
