@@ -26,6 +26,7 @@ namespace ohmPf
   private:
     ICeilCamMeasurement* _measurement;
     MapUpdater* _updateFilterMap;
+    void injectSamples();
   };
 
 } /* namespace ohmPf */

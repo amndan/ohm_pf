@@ -22,6 +22,46 @@ namespace ohmPf
     // TODO Auto-generated destructor stub
   }
 
+
+  void CeilCamUpdater::injectSamples()
+  {
+    std::vector<Sample_t>* samples = _filter->getSamples();
+
+    double weightAvg = 0;
+
+    for(int i = 0; i < samples->size(); i++)
+    {
+      weightAvg += samples->at(i).weight;
+    }
+    weightAvg /= samples->size();
+
+    double maxWeight = weightAvg / 3.0;
+    int countNewSamples = 0;
+
+    for(int i = 0; i < samples->size(); i++)
+    {
+      if(samples->at(i).weight < maxWeight)
+      {
+        samples->erase(samples->begin() + i - 1);
+        countNewSamples++;
+      }
+    }
+
+    while(countNewSamples > 0)
+    {
+      for(int i = 0; i < _measurement->getPoses().size(); i++)
+      {
+        Sample_t newSample;
+        newSample.weight = weightAvg;
+        newSample.pose = _measurement->getPoses().at(i);
+        addGaussianRandomness(newSample, 0.5, 10 / 180 * M_PI);
+        samples->push_back(newSample);
+        countNewSamples--;
+        if(countNewSamples <= 0) break;
+      }
+    }
+  }
+
   void CeilCamUpdater::update()
   {
     // todo: better implementation
@@ -67,6 +107,9 @@ namespace ohmPf
 //
 //    _filter->getSampleSet()->normalize();
 //    //_updateFilterMap->update();
+
+    injectSamples();
+
     _filter->getSampleSet()->normalize();
     _updateFilterMap->update();
     _filter->getSampleSet()->normalize();
