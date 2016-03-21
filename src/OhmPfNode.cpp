@@ -13,6 +13,7 @@ namespace ohmPf
 OhmPfNode::OhmPfNode() :
     _nh(), _prvNh("~"), _loopRate(25)
 {
+  _filterParams
   _prvNh.param<std::string>("tfFixedFrame", _paramSet.tfFixedFrame, "map");
   _prvNh.param<std::string>("tfBaseFootprintFrame", _paramSet.tfBaseFootprintFrame, "base_footprint");
   _prvNh.param<std::string>("topOdometry", _paramSet.topOdometry, "robot0/odom");
@@ -21,6 +22,7 @@ OhmPfNode::OhmPfNode() :
   _prvNh.param<std::string>("topMap", _paramSet.topMap, "map");
   _prvNh.param<std::string>("topMapSrv", _paramSet.topMapSrv, "static_map");
   _prvNh.param<std::string>("topScan", _paramSet.topScan, "robot0/laser_0");
+  _prvNh.param<std::string>("resamplingMethod", _filterParams.resamplingMethod, "STD");
   int tmp;
   _prvNh.param<int>("maxDistanceProbMap", tmp, 10);
   assert(tmp > 0);

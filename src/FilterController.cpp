@@ -27,7 +27,21 @@ FilterController::FilterController(FilterParams_t params)
   _filter = NULL;
 
   _filter = new Filter(params);
-  _resampler = new LVResampler();
+
+  if(params.resamplingMethod == "STD")
+  {
+    _resampler = new STDResampler();
+  }
+  else if(params.resamplingMethod == "LV")
+  {
+    _resampler = new LVResampler();
+  }
+  else
+  {
+    std::cout << "Unknown resampler method! --> exit" << std::endl;
+    exit(EXIT_FAILURE);
+  }
+
   _ocsObserver = new OCSObserver();
 }
 

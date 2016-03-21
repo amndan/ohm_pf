@@ -8,6 +8,8 @@
 #ifndef INCLUDE_FilterParams_H_
 #define INCLUDE_FilterParams_H_
 
+#include <string>
+
 namespace ohmPf
 {
 
@@ -16,6 +18,7 @@ typedef struct
   unsigned int samplesMin;
   unsigned int samplesMax;
   double resamplingIntervall;
+  std::string resamplingMethod;
 } FilterParams_t;
 
 } /* namespace ohmPf */

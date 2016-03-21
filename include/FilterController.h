@@ -25,6 +25,7 @@
 #include "assert.h"
 #include "LaserProbMapMethod.h"
 #include "LVResampler.h"
+#include "STDResampler.h"
 #include "FilterUpdater.h"
 #include "OCSObserver.h"
 #include "CeilCamUpdater.h"

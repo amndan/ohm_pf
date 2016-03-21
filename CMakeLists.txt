@@ -154,6 +154,7 @@ add_library(OhmPf STATIC
     src/LVResampler.cpp
     src/FilterController.cpp
     src/OCSObserver.cpp
+    src/STDResampler.cpp
 )
 
 add_executable(OhmPfNode

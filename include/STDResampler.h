@@ -1,12 +1,12 @@
 /*
- * LowVarianceResampler.h
+ * DefaultResampler.h
  *
  *  Created on: 11.03.2016
  *      Author: amndan
  */
 
-#ifndef INCLUDE_LVRESAMPLER_H_
-#define INCLUDE_LVRESAMPLER_H_
+#ifndef INCLUDE_STDRESAMPLER_H_
+#define INCLUDE_STDRESAMPLER_H_
 
 #include "IResampler.h"
 #include "Filter.h"
@@ -15,14 +15,14 @@
 namespace ohmPf
 {
 
-  class LVResampler : public IResampler
+  class STDResampler : public IResampler
   {
   public:
-    LVResampler();
-    virtual ~LVResampler();
+    STDResampler();
+    virtual ~STDResampler();
     void resample(Filter* filter);
   };
 
 } /* namespace ohmPf */
 
-#endif /* INCLUDE_LVRESAMPLER_H_ */
+#endif /* INCLUDE_STDRESAMPLER_H_ */
