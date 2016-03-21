@@ -13,7 +13,6 @@ namespace ohmPf
 OhmPfNode::OhmPfNode() :
     _nh(), _prvNh("~"), _loopRate(25)
 {
-  _filterParams
   _prvNh.param<std::string>("tfFixedFrame", _paramSet.tfFixedFrame, "map");
   _prvNh.param<std::string>("tfBaseFootprintFrame", _paramSet.tfBaseFootprintFrame, "base_footprint");
   _prvNh.param<std::string>("topOdometry", _paramSet.topOdometry, "robot0/odom");
