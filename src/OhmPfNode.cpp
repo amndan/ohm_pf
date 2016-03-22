@@ -157,10 +157,10 @@ void OhmPfNode::spawnFilter()
   _ceilCamMeasurement = new ROSCeilCamMeasurement();
 
   //todo: get odom Params from Launchfile
-  _odomDiffParams.a1 = 0.005;
-  _odomDiffParams.a2 = 0.0;
-  _odomDiffParams.a3 = 0.01;
-  _odomDiffParams.a4 = 0.0;
+  _odomDiffParams.a1 = 0.005; // rot error from rot motion
+  _odomDiffParams.a2 = 20; // rot error from trans motion
+  _odomDiffParams.a3 = 0.01; // trans error from trans motion
+  _odomDiffParams.a4 = 0.0; // trans error from rot motion
   _odomMeasurement = new ROSOdomMeasurement();
 
   _laserMeasurement = new ROSLaserMeasurement(_rosLaserPMParams.uncertainty);

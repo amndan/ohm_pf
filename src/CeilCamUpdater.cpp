@@ -11,7 +11,7 @@ namespace ohmPf
 {
 
   CeilCamUpdater::CeilCamUpdater(Filter* filter, ICeilCamMeasurement* measurement, MapUpdater* updateFilterMap) :
-      FilterUpdater(filter)
+          FilterUpdater(filter)
   {
     _measurement = measurement;
     _updateFilterMap = updateFilterMap;
@@ -38,14 +38,23 @@ namespace ohmPf
     double maxWeight = weightAvg / 3.0;
     int countNewSamples = 0;
 
-    for(int i = 0; i < samples->size(); i++)
+    for(std::vector<Sample_t>::iterator iter = samples->begin(); iter < samples->end(); iter++)
     {
-      if(samples->at(i).weight < maxWeight)
+      if(iter->weight < maxWeight)
       {
-        samples->erase(samples->begin() + i - 1);
+        samples->erase(iter);
         countNewSamples++;
       }
     }
+
+//    for(int i = 0; i < samples->size(); i++)
+//    {
+//      if(samples->at(i).weight < maxWeight)
+//      {
+//        samples->erase(samples->begin() + i);
+//        countNewSamples++;
+//      }
+//    }
 
     while(countNewSamples > 0)
     {
@@ -79,17 +88,17 @@ namespace ohmPf
     }
 
 
-//    // at first find maximum weight eg minimum distance for each sample
-//    for(std::vector<Eigen::Vector3d>::iterator it = _measurement->getPoses().begin(); it != _measurement->getPoses().end(); ++it)
-//    {
-//      for(std::vector<Sample_t>::iterator it2 = samples->begin(); it2 != samples->end(); ++it2)
-//      {
-//        std::cout << "loop"  << std::endl;
-//
-//        probs[n] = std::max(probs[n], getProbabilityFrom2Poses(*it, it2->pose, 2.0)); // todo: magic number
-//      }
-//    }
-//
+    //    // at first find maximum weight eg minimum distance for each sample
+    //    for(std::vector<Eigen::Vector3d>::iterator it = _measurement->getPoses().begin(); it != _measurement->getPoses().end(); ++it)
+    //    {
+    //      for(std::vector<Sample_t>::iterator it2 = samples->begin(); it2 != samples->end(); ++it2)
+    //      {
+    //        std::cout << "loop"  << std::endl;
+    //
+    //        probs[n] = std::max(probs[n], getProbabilityFrom2Poses(*it, it2->pose, 2.0)); // todo: magic number
+    //      }
+    //    }
+    //
 
     // then multiply weights with old weights
     for(int k = 0; k < samples->size(); k++)
@@ -97,16 +106,16 @@ namespace ohmPf
       samples->at(k).weight *= probs.at(k);
     }
 
-//    // then multiply weights with old weights
-//    for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
-//    {
-//      int n = std::distance(samples->begin(), it);
-//      it->weight = it->weight * probs[n];
-//    }
-//
-//
-//    _filter->getSampleSet()->normalize();
-//    //_updateFilterMap->update();
+    //    // then multiply weights with old weights
+    //    for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
+    //    {
+    //      int n = std::distance(samples->begin(), it);
+    //      it->weight = it->weight * probs[n];
+    //    }
+    //
+    //
+    //    _filter->getSampleSet()->normalize();
+    //    //_updateFilterMap->update();
 
     injectSamples();
 
@@ -114,7 +123,7 @@ namespace ohmPf
     _updateFilterMap->update();
     _filter->getSampleSet()->normalize();
 
-//    //filter.getSampleSet()->resample();
+    //    //filter.getSampleSet()->resample();
 
   }
 } /* namespace ohmPf */

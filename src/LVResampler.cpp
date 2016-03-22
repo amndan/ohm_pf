@@ -50,7 +50,7 @@ namespace ohmPf
 
     double rand;
     //low variance resampling
-    unsigned int lowVarDist = cnt / 100;  //TODO: magic numbers; add launchfile parameter!
+    unsigned int lowVarDist = cnt / 3;  //TODO: magic numbers; add launchfile parameter!
     unsigned int count = std::floor(cnt / lowVarDist);
 
     assert(count > 0);
