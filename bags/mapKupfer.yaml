@@ -1,0 +1,7 @@
+image: mapKupfer.pgm
+resolution: 0.080000
+origin: [-163.840000, -163.840000, 0.0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+
