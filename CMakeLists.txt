@@ -4,8 +4,14 @@ project(ohm_pf)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
+find_package(Boost REQUIRED COMPONENTS 
+	date_time 
+	system 
+	thread
+)
+
 find_package(catkin REQUIRED COMPONENTS
-  roscpp
+	roscpp
 	nav_msgs
 	geometry_msgs
 	tf
@@ -118,9 +124,11 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-  ${catkin_INCLUDE_DIRS}
+	${catkin_INCLUDE_DIRS}
+	${Boost_INCLUDE_DIRS}
 	include/
-        include/interfaces
+	include/interfaces
+	include/Time
 )
 
 ## Declare a C++ library
@@ -157,6 +165,12 @@ add_library(OhmPf STATIC
     src/STDResampler.cpp
 )
 
+add_library(rostime STATIC
+	src/Time/duration.cpp
+	src/Time/rate.cpp
+	src/Time/time.cpp
+)
+
 add_executable(OhmPfNode
     src/main_OhmPfNode.cpp
     src/OhmPfNode.cpp 
@@ -179,6 +193,12 @@ add_executable(CeilCamSimulator
 ## Specify libraries to link a library or executable target against
 
 # just need this because of ros in lib --> remove ros from lib!
+target_link_libraries(rostime ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+
+#if(NOT APPLE)
+#  target_link_libraries(rostime ${RT_LIBRARY})
+#endif()
+
 target_link_libraries(OhmPf
  ${catkin_LIBRARIES}
 )
@@ -190,6 +210,7 @@ target_link_libraries(CeilCamSimulator
 target_link_libraries(OhmPfNode
  ${catkin_LIBRARIES}
  OhmPf
+ rostime
 )
 #############
 ## Install ##
