@@ -11,6 +11,8 @@
 #include "FilterUpdater.h"
 #include "Filter.h"
 #include "IFilterOutput.h"
+#include "Eigen/Dense"
+#include "assert.h"
 
 
 namespace ohmPf
@@ -24,6 +26,7 @@ namespace ohmPf
     void update();
   private:
     IFilterOutput* _filterOutput;
+    Eigen::Vector3d updateTf();
   };
 
 } /* namespace ohmPf */

@@ -10,6 +10,7 @@
 
 #include "Sample.h"
 #include <vector>
+#include "Eigen/Dense"
 
 namespace ohmPf
 {
@@ -19,7 +20,7 @@ namespace ohmPf
   public:
     IFilterOutput(){};
     virtual ~IFilterOutput(){};
-    virtual void actualizeTF() = 0;
+    virtual void actualizeTF(Eigen::Vector3d pose) = 0;
     virtual void printSampleSet(std::vector<Sample_t>& samples) = 0;
   };
 

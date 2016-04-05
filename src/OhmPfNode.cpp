@@ -15,6 +15,7 @@ OhmPfNode::OhmPfNode() :
 {
   _prvNh.param<std::string>("tfFixedFrame", _paramSet.tfFixedFrame, "map");
   _prvNh.param<std::string>("tfBaseFootprintFrame", _paramSet.tfBaseFootprintFrame, "base_footprint");
+  _prvNh.param<std::string>("tfOutputFrame", _paramSet.tfOutputFrame, "ohm_pf_output");
   _prvNh.param<std::string>("topOdometry", _paramSet.topOdometry, "robot0/odom");
   _prvNh.param<std::string>("top2dPoseEst", _paramSet.top2dPoseEst, "initialpose");
   _prvNh.param<std::string>("topCeilCam", _paramSet.topCeilCam, "ceilCamPoseArray");
@@ -149,7 +150,7 @@ void OhmPfNode::spawnFilter()
 {
   _filterController = IFilterController::createFilter(_filterParams);
 
-  _filterOutput = new ROSFilterOutput(_paramSet.tfFixedFrame);
+  _filterOutput = new ROSFilterOutput(_paramSet.tfFixedFrame, _paramSet.tfOutputFrame);
   assert(_filterController->setFilterOutput(_filterOutput));
 
   _ceilCamMeasurement = new ROSCeilCamMeasurement();

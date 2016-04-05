@@ -10,11 +10,12 @@
 namespace ohmPf
 {
 
-  ROSFilterOutput::ROSFilterOutput(std::string fixedFrame)
+  ROSFilterOutput::ROSFilterOutput(std::string fixedFrame, std::string outputFrame) : _tfBroadcaster()
   {
     ros::NodeHandle nh = ros::NodeHandle();
     _pubPoseArray = nh.advertise<geometry_msgs::PoseArray>("particleCloud", 1, true);
     _fixedFrame = fixedFrame;
+    _outputFrame = outputFrame;
   }
 
   ROSFilterOutput::~ROSFilterOutput()
@@ -22,9 +23,12 @@ namespace ohmPf
     // TODO Auto-generated destructor stub
   }
 
-  void ROSFilterOutput::actualizeTF()
+  void ROSFilterOutput::actualizeTF(Eigen::Vector3d pose)
   {
-
+    tf::Transform tf;
+    tf.setOrigin( tf::Vector3(pose(0), pose(1), 0.0) );
+    tf.setRotation( tf::createQuaternionFromYaw( pose(2) ) );
+    _tfBroadcaster.sendTransform(tf::StampedTransform(tf, ros::Time::now(), _fixedFrame, _outputFrame));
   }
 
   void ROSFilterOutput::printSampleSet(std::vector<Sample_t>&  samples)

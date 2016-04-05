@@ -20,9 +20,30 @@ namespace ohmPf
     // TODO Auto-generated destructor stub
   }
 
+  Eigen::Vector3d FilterOutputUpdater::updateTf()
+  {
+    if(!_filter->getSampleSet()->isNormalized())
+    {
+      _filter->getSampleSet()->normalize();
+    } // TODO: implement better routine for that
+
+    Eigen::Vector3d pose;
+    pose.setZero();
+
+    std::vector<Sample_t>* samples = _filter->getSamples();
+
+    for(unsigned int i = 0; i < samples->size(); i++)
+    {
+      pose += samples->at(i).pose * samples->at(i).weight;
+    }
+
+    //pose *= 1.0 / (double) samples->size();
+    return pose;
+  }
+
   void FilterOutputUpdater::update()
   {
-    _filterOutput->actualizeTF();
+    _filterOutput->actualizeTF(updateTf());
     _filterOutput->printSampleSet(*(_filter->getSamples()));
   }
 
