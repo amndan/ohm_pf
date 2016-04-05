@@ -23,6 +23,7 @@
       <arg name="subsamplingRateLaser" value="3" />
       <arg name="resamplingIntervallFilter" value="1" />
       <arg name="uncertaintyLaser" value="0.5" />
+      <arg name="resamplingMethod" default="LV" />
     </include>
 
     <node name="mapServer" pkg="map_server" type="map_server" args="$(find ohm_pf)/bags/mapKupfer.yaml" />

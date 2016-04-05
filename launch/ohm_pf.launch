@@ -18,6 +18,7 @@
     <arg name="subsamplingRateLaser" default="3" />
     <arg name="resamplingIntervallFilter" default="0.5" />
     <arg name="uncertaintyLaser" default="0.5" />
+    <arg name="resamplingMethod" default="STD" />
     <!-- ******************* -->
 
     <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" launch-prefix="xterm -e cgdb -ex run  --args">
@@ -28,6 +29,7 @@
         <param name="topCeilCam" type="string" value="$(arg topCeilCam)" />
         <param name="topMap" type="string" value="$(arg topMap)" />
         <param name="topMapSrv" type="string" value="$(arg topMapSrv)" />
+        <param name="resamplingMethod" type="string" value="$(arg resamplingMethod)" />
         <param name="samplesMax" type="int" value="$(arg samplesMax)" />
         <param name="samplesMin" type="int" value="$(arg samplesMin)" />
         <param name="topScan" type="string" value="$(arg topScan)" />
