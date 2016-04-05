@@ -37,6 +37,8 @@ namespace ohmPf
       pose += samples->at(i).pose * samples->at(i).weight;
     }
 
+    pose(2) = getMeanOfAngles(*samples);
+
     //pose *= 1.0 / (double) samples->size();
     return pose;
   }

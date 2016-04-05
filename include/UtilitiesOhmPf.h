@@ -20,7 +20,21 @@
 namespace ohmPf
 {
 
+  static double getMeanOfAngles(const std::vector<Sample_t>& samples)
+  {
+    //https://en.wikipedia.org/wiki/Mean_of_circular_quantities
+    //mean = atan2(sum(sin(alpha)), sum(cos(alpha)))
+    double sumSin = 0;
+    double sumCos = 0;
 
+    for(unsigned int i = 0; i < samples.size(); i++)
+    {
+      sumSin += std::sin(samples.at(i).pose(2));
+      sumCos += std::cos(samples.at(i).pose(2));
+    }
+
+    return std::atan2(sumSin, sumCos);
+  }
 
   static void correctAngleOverflow(double& angle)
   {

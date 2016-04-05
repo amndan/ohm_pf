@@ -16,6 +16,7 @@ typedef struct
   std::string tfFixedFrame;
   std::string tfBaseFootprintFrame;
   std::string tfOutputFrame;
+  std::string tfOdomFrame;
   std::string topOdometry;
   std::string top2dPoseEst;
   std::string topClickedPoint;

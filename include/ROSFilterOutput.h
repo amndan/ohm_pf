@@ -15,9 +15,11 @@
 #include "Sample.h"
 #include "tf/transform_datatypes.h"
 #include <tf/transform_broadcaster.h>
+#include <tf/transform_listener.h>
 #include <vector>
 #include <string>
 #include "Eigen/Dense"
+#include "OhmPfNodeParams.h"
 
 namespace ohmPf
 {
@@ -25,15 +27,15 @@ namespace ohmPf
   class ROSFilterOutput : public IFilterOutput
   {
   public:
-    ROSFilterOutput(std::string fixedFrame, std::string outputFrame);
+    ROSFilterOutput(OhmPfNodeParams_t paramSet);
     virtual ~ROSFilterOutput();
     void actualizeTF(Eigen::Vector3d pose);
     void printSampleSet(std::vector<Sample_t>& samples); // TODO: saples must be const here
   private:
     ros::Publisher _pubPoseArray;
-    std::string _fixedFrame;
-    std::string _outputFrame;
+    OhmPfNodeParams_t _paramSet;
     tf::TransformBroadcaster _tfBroadcaster;
+    tf::TransformListener _tfListener;
   };
 
 } /* namespace ohmPf */
