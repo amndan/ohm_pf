@@ -130,13 +130,11 @@ void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConst
       _filterController->initFilterMap();
     }
 
-
-//    nav_msgs::OccupancyGrid probMapMsg;
-//    probMapMsg.header = map.header;
-//    probMapMsg.info = map.info;
-//    ((MapUpdater&) _filter->getSensor(MAP)).getProbMap(probMapMsg);
-//    //rosMap->getProbMap(probMapMsg);
-//    _pubProbMap.publish(probMapMsg);
+    nav_msgs::OccupancyGrid probMapMsg;
+    probMapMsg.header = map.header;
+    probMapMsg.info = map.info;
+    _map->getProbMap(probMapMsg);
+    _pubProbMap.publish(probMapMsg);
 
   }
   else

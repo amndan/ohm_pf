@@ -107,7 +107,7 @@ getphi() = 0</y:MethodLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="88.98907042117514" width="165.618762886598" x="242.19061855670088" y="905.5054647894124"/>
-          <y:Fill color="#C0C0C0" transparent="false"/>
+          <y:Fill color="#99CC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="153.91259765625" x="5.853082615174003" y="3.0">FilterOutputUpdater<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -128,7 +128,7 @@ getphi() = 0</y:MethodLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="132.03814432989697" width="139.00969072164935" x="1605.4951546391753" y="108.98092783505149"/>
-          <y:Fill color="#C0C0C0" transparent="false"/>
+          <y:Fill color="#99CC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="106.21630859375" x="16.396691063949675" y="3.0">OdomUpdater<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -153,7 +153,7 @@ distances[]</y:AttributeLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="86.17876114282467" width="133.30020618556705" x="183.34989690721648" y="306.91061942858767"/>
-          <y:Fill color="#C0C0C0" transparent="false"/>
+          <y:Fill color="#99CC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="94.39697265625" x="19.451616764658525" y="3.0">MapUpdater<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -196,7 +196,7 @@ updateForce()</y:MethodLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="132.03814432989702" width="139.00969072164935" x="530.4951546391753" y="683.9809278350515"/>
-          <y:Fill color="#C0C0C0" transparent="false"/>
+          <y:Fill color="#99CC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="103.404296875" x="17.802696923324675" y="3.0">LaserUpdater<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -289,7 +289,7 @@ initialize()</y:MethodLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="100.54854368932047" width="157.74271844660194" x="1296.128640776699" y="499.72572815533977"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="64.0361328125" x="46.85329281705097" y="3.0">TSDMap<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -356,7 +356,7 @@ getStamp() = 0</y:MethodLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="61.19171254128713" width="102.76607947152428" x="1398.6169602642378" y="-5.595856270643594"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="85.14208984375" x="8.81199481388714" y="3.0">OdomOmni<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -440,7 +440,7 @@ getStamp() = 0</y:MethodLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="62.0" width="114.0" x="-7.0" y="319.0"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="111.021484375" x="1.4892578125" y="3.0">KLDResampler<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -482,7 +482,7 @@ getStamp() = 0</y:MethodLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="63.53398058252424" width="163.66504854368935" x="868.1674757281553" y="943.2330097087379"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="134.67919921875" x="14.492924662469676" y="3.0">ProbBeamMethod<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -567,7 +567,7 @@ setSamples()</y:MethodLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="66.59292371134023" width="224.66711752577316" x="1562.6664412371133" y="316.70353814432985"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="100.9794921875" x="61.84381266913658" y="3.0">OCSObserver<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -674,7 +674,7 @@ setSamples()</y:MethodLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="200.9113402061855" width="176.8494845360824" x="961.5752577319588" y="199.54432989690724"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#FFFF99" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="116.658203125" x="30.0956407055412" y="3.0">FilterController<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -705,7 +705,7 @@ updateFilterOutput()</y:MethodLabel>
       <data key="d6">
         <y:UMLClassNode>
           <y:Geometry height="138.03565360824734" width="164.55356701030922" x="967.7232164948454" y="-19.017826804123672"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:Fill color="#FFFF99" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="121.4951171875" x="21.52922491140461" y="25.96875">IFilterController<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
