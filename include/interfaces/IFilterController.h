@@ -15,6 +15,7 @@
 #include "FilterParams.h"
 #include "OdomDiffParams.h"
 #include "ICeilCamMeasurement.h"
+#include "Eigen/Dense"
 
 namespace ohmPf
 {
@@ -39,6 +40,7 @@ public:
   virtual bool updateOutput() = 0;
   virtual bool resample() = 0;
   virtual bool initFilterMap() = 0;
+  virtual bool initFilterPose(Eigen::Vector3d pose, double sigTrans, double sigPhi) = 0;
 };
 
 } /* namespace ohmPf */

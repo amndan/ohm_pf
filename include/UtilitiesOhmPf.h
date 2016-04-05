@@ -37,7 +37,7 @@ namespace ohmPf
   {
     double px = GaussianPdf::getProbability(measurement(0), sigmaPos, sample(0));
     double py = GaussianPdf::getProbability(measurement(1), sigmaPos, sample(1));
-    double pPhi = GaussianPdf::getProbability(measurement(2), sigmaPhi, sample(2));
+    double pPhi = GaussianPdf::getProbability(measurement(2), sigmaPhi, sample(2)); //TODO: need angle overflow here?
 
     return px * py * pPhi; 
   }

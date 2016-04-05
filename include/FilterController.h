@@ -29,6 +29,7 @@
 #include "FilterUpdater.h"
 #include "OCSObserver.h"
 #include "CeilCamUpdater.h"
+#include "Eigen/Dense"
 
 namespace ohmPf
 {
@@ -51,6 +52,7 @@ public:
   bool resample();
   bool updateCeilCam();
   bool initFilterMap();
+  bool initFilterPose(Eigen::Vector3d pose, double sigTrans, double sigPhi);
 
 private:
   IMap* _map;

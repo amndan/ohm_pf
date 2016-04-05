@@ -40,6 +40,7 @@ public:
 private:
   void calOdom(const nav_msgs::OdometryConstPtr& msg);
   void cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg);
+  void calClickedPoint(const geometry_msgs::PointStampedConstPtr& msg);
   void calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg);
   void calScan(const sensor_msgs::LaserScanConstPtr& msg);
   void calResampleTimer(const ros::TimerEvent& event);
@@ -50,6 +51,7 @@ private:
   ros::Subscriber _subCeilCam;
   ros::Subscriber _subScan;
   ros::Subscriber _sub2dPoseEst;
+  ros::Subscriber _subClickedPoint;
   ros::ServiceClient _cliMapSrv;
   ros::NodeHandle _nh;
   ros::NodeHandle _prvNh;

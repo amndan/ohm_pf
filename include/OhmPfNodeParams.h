@@ -18,6 +18,7 @@ typedef struct
   std::string tfOutputFrame;
   std::string topOdometry;
   std::string top2dPoseEst;
+  std::string topClickedPoint;
   std::string topCeilCam;
   std::string topMap;
   std::string topMapSrv;

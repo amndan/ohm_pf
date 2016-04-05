@@ -18,6 +18,7 @@ OhmPfNode::OhmPfNode() :
   _prvNh.param<std::string>("tfOutputFrame", _paramSet.tfOutputFrame, "ohm_pf_output");
   _prvNh.param<std::string>("topOdometry", _paramSet.topOdometry, "robot0/odom");
   _prvNh.param<std::string>("top2dPoseEst", _paramSet.top2dPoseEst, "initialpose");
+  _prvNh.param<std::string>("topClickedPoint", _paramSet.topClickedPoint, "clicked_point");
   _prvNh.param<std::string>("topCeilCam", _paramSet.topCeilCam, "ceilCamPoseArray");
   _prvNh.param<std::string>("topMap", _paramSet.topMap, "map");
   _prvNh.param<std::string>("topMapSrv", _paramSet.topMapSrv, "static_map");
@@ -45,6 +46,7 @@ OhmPfNode::OhmPfNode() :
   _subOdometry = _nh.subscribe(_paramSet.topOdometry, 1, &OhmPfNode::calOdom, this);
   _subScan = _nh.subscribe(_paramSet.topScan, 1, &OhmPfNode::calScan, this);
   _sub2dPoseEst = _nh.subscribe(_paramSet.top2dPoseEst, 1, &OhmPfNode::cal2dPoseEst, this);
+  _subClickedPoint = _nh.subscribe(_paramSet.topClickedPoint, 1, &OhmPfNode::calClickedPoint, this);
   _subCeilCam = _nh.subscribe(_paramSet.topCeilCam, 1, &OhmPfNode::calCeilCam, this);
   _cliMapSrv = _nh.serviceClient<nav_msgs::GetMap>(_paramSet.topMapSrv);
 
@@ -111,6 +113,16 @@ void OhmPfNode::calOdom(const nav_msgs::OdometryConstPtr& msg)
 
 void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg)
 {
+  Eigen::Vector3d pose;
+  pose(0) = msg->pose.pose.position.x;
+  pose(1) = msg->pose.pose.position.y;
+  pose(2) = tf::getYaw(msg->pose.pose.orientation);
+
+  _filterController->initFilterPose(pose, 3, M_PI / 180 * 10);
+}
+
+void OhmPfNode::calClickedPoint(const geometry_msgs::PointStampedConstPtr& msg)
+{
   // todo: integrate into gl service
   nav_msgs::GetMap srv_map;
 
@@ -163,6 +175,7 @@ void OhmPfNode::spawnFilter()
   _odomMeasurement = new ROSOdomMeasurement();
 
   _laserMeasurement = new ROSLaserMeasurement(_rosLaserPMParams.uncertainty);
+
 }
 
 void OhmPfNode::calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg)

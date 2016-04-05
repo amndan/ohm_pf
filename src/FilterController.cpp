@@ -157,6 +157,27 @@ bool FilterController::initFilterMap()
   _mapUpdater->initFilter();
 }
 
+bool FilterController::initFilterPose(Eigen::Vector3d pose, double sigTrans, double sigPhi)
+{
+  assert(_filter->getSamplesMax() != 0);
+
+  std::vector<Sample_t> samples;
+
+  for(unsigned int i = 0; i < _filter->getSamplesMax(); i++)
+  {
+    Sample_t sample;
+    sample.pose = pose;
+    sample.weight = 1.0 / (double) _filter->getSamplesMax();
+    addGaussianRandomness(sample, sigTrans, sigPhi);
+    samples.push_back(sample);
+  }
+
+  _filter->setSamples(samples);
+  _filter->getSampleSet()->normalize();
+
+  return true;
+}
+
 // factory method
 IFilterController* IFilterController::createFilter(FilterParams_t params)
 {

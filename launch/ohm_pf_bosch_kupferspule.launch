@@ -13,7 +13,7 @@
       <arg name="tfFixedFrame" value="map" />
       <arg name="tfBaseFootprintFrame" value="base_footprint" />
       <arg name="top2dPoseEst" value="initialpose" />
-      <arg name="topCeilCam" value="pub_PoseTopic" />
+      <arg name="topCeilCam" value="pub_PoseTopic_OFF" />
       <arg name="topScan" default="filtered_scan" />
       <arg name="topMap" value="map" />
       <arg name="topMapSrv" value="static_map" />
@@ -23,7 +23,7 @@
       <arg name="subsamplingRateLaser" value="3" />
       <arg name="resamplingIntervallFilter" value="1" />
       <arg name="uncertaintyLaser" value="0.5" />
-      <arg name="resamplingMethod" default="LV" />
+      <arg name="resamplingMethod" default="STD" />
     </include>
 
     <node name="mapServer" pkg="map_server" type="map_server" args="$(find ohm_pf)/bags/mapKupfer.yaml" />
@@ -45,6 +45,6 @@
 
   <node pkg="rosbag" type="play" name="bagPlayer" args="--clock -s 15 -r 1.0 $(find ohm_pf)/bags/boschKupferspuleCeilCam.bag"/>
 
-  <node pkg="rviz" type="rviz" name="rviz"/>
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find ohm_pf)/rviz/ohm_pf_stdr.rviz"/>
 
 </launch>
