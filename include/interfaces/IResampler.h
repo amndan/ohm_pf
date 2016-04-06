@@ -9,11 +9,12 @@
 #define SRC_IRESAMPLER_H_
 
 #include "Filter.h"
+#include "IOCSClient.h"
 
 namespace ohmPf
 {
 
-  class IResampler
+  class IResampler : public IOCSClient
   {
   public:
     IResampler(){};

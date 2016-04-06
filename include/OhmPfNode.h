@@ -45,6 +45,7 @@ private:
   void calScan(const sensor_msgs::LaserScanConstPtr& msg);
   void calResampleTimer(const ros::TimerEvent& event);
   void spawnFilter();
+  void waitForMap();
   ros::Publisher _pubSampleSet;
   ros::Publisher _pubProbMap;
   ros::Subscriber _subOdometry;

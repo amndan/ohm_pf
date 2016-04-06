@@ -23,60 +23,68 @@ namespace ohmPf
 
   void LVResampler::resample(Filter* filter)
   {
-
-    SampleSet* set = filter->getSampleSet();
-    std::vector<Sample_t>* samples = set->getSamples();
-    unsigned int cnt = set->getCountSamples();
-
-    // todo: use a more intelligent way to do this
-    if(!set->isNormalized())
-      set->normalize();
-
-    std::vector<double> weightsCumsum;
-
-    weightsCumsum.reserve(cnt);
-
-    for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
+    if(_OCSFlag == true)
     {
-      weightsCumsum.push_back(it->weight);
-    }
+      SampleSet* set = filter->getSampleSet();
+      std::vector<Sample_t>* samples = set->getSamples();
+      unsigned int cnt = set->getCountSamples();
 
-    //std::cout << "stabw:" << getStabw(weightsCumsum) << std::endl;
+      // todo: use a more intelligent way to do this
+      if(!set->isNormalized())
+        set->normalize();
 
-    std::partial_sum(weightsCumsum.begin(), weightsCumsum.end(), weightsCumsum.begin());
+      std::vector<double> weightsCumsum;
 
-    std::vector<Sample_t> newSamples;
-    newSamples.reserve(cnt);
+      weightsCumsum.reserve(cnt);
 
-    double rand;
-    //low variance resampling
-    unsigned int lowVarDist = cnt / 3;  //TODO: magic numbers; add launchfile parameter!
-    unsigned int count = std::floor(cnt / lowVarDist);
-
-    assert(count > 0);
-
-    for(unsigned int i = 0; i < cnt;)
-    {
-      rand = drand48();  // rand [0;1] --> probs are normalized
-      for(int j = 0; j < cnt; j++)
+      for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
       {
-        if(rand < weightsCumsum[j])  // search for matching prob
+        weightsCumsum.push_back(it->weight);
+      }
+
+      //std::cout << "stabw:" << getStabw(weightsCumsum) << std::endl;
+
+      std::partial_sum(weightsCumsum.begin(), weightsCumsum.end(), weightsCumsum.begin());
+
+      std::vector<Sample_t> newSamples;
+      newSamples.reserve(cnt);
+
+      double rand;
+      //low variance resampling
+      unsigned int lowVarDist = cnt / 3;  //TODO: magic numbers; add launchfile parameter!
+      unsigned int count = std::floor(cnt / lowVarDist);
+
+      assert(count > 0);
+
+      for(unsigned int i = 0; i < cnt;)
+      {
+        rand = drand48();  // rand [0;1] --> probs are normalized
+        for(int j = 0; j < cnt; j++)
         {
-          for(unsigned int k = 0; k < count && i < cnt; k++, i++)
+          if(rand < weightsCumsum[j])  // search for matching prob
           {
-            unsigned int index = (j + k * lowVarDist) % cnt;  // prevent overflow
-            newSamples.push_back(samples->at(index));
-            addGaussianRandomness(newSamples[i]);  //TODO: variance of gaussian randomness as launchfileparam
-            newSamples[i].weight = 1.0;
+            for(unsigned int k = 0; k < count && i < cnt; k++, i++)
+            {
+              unsigned int index = (j + k * lowVarDist) % cnt;  // prevent overflow
+              newSamples.push_back(samples->at(index));
+              addGaussianRandomness(newSamples[i]);  //TODO: variance of gaussian randomness as launchfileparam
+              newSamples[i].weight = 1.0;
+            }
+            break;
           }
-          break;
         }
       }
-    }
 
-    assert(cnt == newSamples.size());
-    set->setSamples(newSamples);
-    set->normalize();
+      assert(cnt == newSamples.size());
+      set->setSamples(newSamples);
+      set->normalize();
+      _OCSFlag = false;
+    }
+  }
+
+  void LVResampler::setOCSFlagTrue()
+  {
+    _OCSFlag = true;
   }
 
 } /* namespace ohmPf */

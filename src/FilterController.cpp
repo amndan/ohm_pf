@@ -27,6 +27,7 @@ FilterController::FilterController(FilterParams_t params)
   _filter = NULL;
 
   _filter = new Filter(params);
+  _ocsObserver = new OCSObserver();
 
   if(params.resamplingMethod == "STD")
   {
@@ -42,7 +43,9 @@ FilterController::FilterController(FilterParams_t params)
     exit(EXIT_FAILURE);
   }
 
-  _ocsObserver = new OCSObserver();
+  _ocsObserver->registerClient(_resampler, 0.2);
+
+
 }
 
 FilterController::~FilterController()
@@ -83,7 +86,7 @@ bool FilterController::setLaserMeasurement(ILaserMeasurement* laser)
   else
   {
     _laserUpdater = new LaserUpdater(_filter, _map, laser, new LaserProbMapMethod(), _mapUpdater);
-    _ocsObserver->registerClient(_laserUpdater, 1.0);
+    _ocsObserver->registerClient(_laserUpdater, 0.2);
     return true;
   }
 }

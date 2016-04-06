@@ -29,7 +29,6 @@ namespace ohmPf
   {
     if (_OCSFlag == true)
     {
-      std::cout << "laser update" << std::endl;
       _quantifier->calculate(*_filter, *_measurement, *_map, _updateFilterMap);
       _OCSFlag = false;
     }

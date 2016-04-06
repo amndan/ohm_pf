@@ -23,50 +23,57 @@ namespace ohmPf
 
   void STDResampler::resample(Filter* filter)
   {
-    SampleSet* set = filter->getSampleSet();
-    std::vector<Sample_t>* samples = set->getSamples();
-    unsigned int countSamples = set->getCountSamples();
-
-    // todo: use a more intelligent way to do this
-    if(!set->isNormalized()) set->normalize();
-
-    std::vector<double> weightsCumsum;
-
-    weightsCumsum.reserve(countSamples);
-
-    for(int i = 0; i < samples->size(); i++)
+    if(_OCSFlag == true)
     {
-      weightsCumsum.push_back(samples->at(i).weight);
-    }
+      SampleSet* set = filter->getSampleSet();
+      std::vector<Sample_t>* samples = set->getSamples();
+      unsigned int countSamples = set->getCountSamples();
 
-    //std::cout << "stabw:" << getStabw(weightsCumsum) << std::endl;
+      // todo: use a more intelligent way to do this
+      if(!set->isNormalized()) set->normalize();
 
-    std::partial_sum(weightsCumsum.begin(), weightsCumsum.end(), weightsCumsum.begin());
+      std::vector<double> weightsCumsum;
 
-    std::vector<Sample_t> newSamples;
-    newSamples.reserve(countSamples);
+      weightsCumsum.reserve(countSamples);
 
-    double rand;
-
-    for(unsigned int i = 0; i < countSamples; i++)
-    {
-      rand = drand48();
-      for(int j = 0; j < countSamples; j++)
+      for(int i = 0; i < samples->size(); i++)
       {
-        if(rand < weightsCumsum[j])
+        weightsCumsum.push_back(samples->at(i).weight);
+      }
+
+      //std::cout << "stabw:" << getStabw(weightsCumsum) << std::endl;
+
+      std::partial_sum(weightsCumsum.begin(), weightsCumsum.end(), weightsCumsum.begin());
+
+      std::vector<Sample_t> newSamples;
+      newSamples.reserve(countSamples);
+
+      double rand;
+
+      for(unsigned int i = 0; i < countSamples; i++)
+      {
+        rand = drand48();
+        for(int j = 0; j < countSamples; j++)
         {
-          newSamples.push_back(samples->at(j));
-          addGaussianRandomness(newSamples[i]);
-          newSamples[i].weight = 1.0;
-          break;
+          if(rand < weightsCumsum[j])
+          {
+            newSamples.push_back(samples->at(j));
+            addGaussianRandomness(newSamples[i]);
+            newSamples[i].weight = 1.0;
+            break;
+          }
         }
       }
+
+      *samples = newSamples;
+      set->normalize();
+      _OCSFlag = false;
     }
+  }
 
-    *samples = newSamples;
-    set->normalize();
-
-
+  void STDResampler::setOCSFlagTrue()
+  {
+    _OCSFlag = true;
   }
 
 } /* namespace ohmPf */

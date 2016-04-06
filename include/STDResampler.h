@@ -11,6 +11,7 @@
 #include "IResampler.h"
 #include "Filter.h"
 #include "assert.h"
+#include "IOCSClient.h"
 
 namespace ohmPf
 {
@@ -21,6 +22,9 @@ namespace ohmPf
     STDResampler();
     virtual ~STDResampler();
     void resample(Filter* filter);
+    void setOCSFlagTrue();
+  private:
+    bool _OCSFlag;
   };
 
 } /* namespace ohmPf */

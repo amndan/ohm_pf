@@ -62,11 +62,42 @@ OhmPfNode::OhmPfNode() :
   _odomInitialized = false;
 
   _map = NULL;
+
+  waitForMap();
 }
 
 OhmPfNode::~OhmPfNode()
 {
 
+}
+
+void OhmPfNode::waitForMap()
+{
+  // todo: integrate into gl service
+  nav_msgs::GetMap srv_map;
+
+  ROS_INFO("Try to call map service...");
+
+  while(!_cliMapSrv.call(srv_map))
+  {
+    ros::Duration(0.5).sleep();
+    ROS_INFO("No map available --> keep waiting for map...");
+  }
+
+  ROS_INFO("Map service called successfully");
+  const nav_msgs::OccupancyGrid& map(srv_map.response.map);
+
+  assert(_map == NULL);
+
+  _map = new ROSMap(map, _maxDistanceProbMap);
+  _filterController->setMap(_map);
+  _filterController->initFilterMap();
+
+  nav_msgs::OccupancyGrid probMapMsg;
+  probMapMsg.header = map.header;
+  probMapMsg.info = map.info;
+  _map->getProbMap(probMapMsg);
+  _pubProbMap.publish(probMapMsg);
 }
 
 void OhmPfNode::spin()
@@ -119,43 +150,12 @@ void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConst
   pose(1) = msg->pose.pose.position.y;
   pose(2) = tf::getYaw(msg->pose.pose.orientation);
 
-  _filterController->initFilterPose(pose, 3, M_PI / 180 * 10);
+  _filterController->initFilterPose(pose, 1.0, M_PI / 180 * 10);
 }
 
 void OhmPfNode::calClickedPoint(const geometry_msgs::PointStampedConstPtr& msg)
 {
-  // todo: integrate into gl service
-  nav_msgs::GetMap srv_map;
-
-  if (_cliMapSrv.call(srv_map))
-  {
-    ROS_INFO("Map service called successfully");
-    const nav_msgs::OccupancyGrid& map(srv_map.response.map);
-
-    if(_map == NULL)
-    {
-      _map = new ROSMap(map, _maxDistanceProbMap);
-      _filterController->setMap(_map);
-      _filterController->initFilterMap();
-    }
-    else //TODO: need routine for global localization withot reprocessing map
-    {
-      *_map = ROSMap(map, _maxDistanceProbMap);
-      _filterController->initFilterMap();
-    }
-
-    nav_msgs::OccupancyGrid probMapMsg;
-    probMapMsg.header = map.header;
-    probMapMsg.info = map.info;
-    _map->getProbMap(probMapMsg);
-    _pubProbMap.publish(probMapMsg);
-
-  }
-  else
-  {
-    ROS_ERROR("Failed to call map service");
-    return;
-  }
+  _filterController->initFilterMap();
 }
 
 
