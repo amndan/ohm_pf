@@ -6,6 +6,7 @@
     <arg name="output" default="screen" />
     <arg name="tfFixedFrame" default="map" />
     <arg name="tfBaseFootprintFrame" default="base_footpint" />
+    <arg name="tfOdomFrame" default="odom" />
     <arg name="topOdometry" default="/robot0/odom" />
     <arg name="top2dPoseEst" default="initialpose" />
     <arg name="topCeilCam" default="ceilCamPoseArray" />
@@ -19,16 +20,23 @@
     <arg name="resamplingIntervallFilter" default="0.5" />
     <arg name="uncertaintyLaser" default="0.5" />
     <arg name="resamplingMethod" default="STD" />
+    <arg name="initX" default="0.0" />
+    <arg name="initY" default="0.0" />
+    <arg name="initPhi" default="0.0" />
+    <arg name="initSigmaTrans" default="0.5" />
+    <arg name="initSigmaRot" default="0.2" />
+    <arg name="initMode" default="GL" />
     <!-- ******************* -->
 
     <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" launch-prefix="xterm -e cgdb -ex run  --args">
         <param name="tfFixedFrame" type="string" value="$(arg tfFixedFrame)" />
         <param name="tfBaseFootprintFrame" type="string" value="$(arg tfBaseFootprintFrame)" />
+        <param name="tfOdomFrame" type="string" value="$(arg tfOdomFrame)" />
         <param name="topOdometry" type="string" value="$(arg topOdometry)" />
         <param name="top2dPoseEst" type="string" value="$(arg top2dPoseEst)" />
         <param name="topCeilCam" type="string" value="$(arg topCeilCam)" />
         <param name="topMap" type="string" value="$(arg topMap)" />
-        <param name="topMapSrv" type="string" value="$(arg topMapSrv)" />
+        <param name="uncertaintyLaser" type="double" value="$(arg uncertaintyLaser)" />
         <param name="resamplingMethod" type="string" value="$(arg resamplingMethod)" />
         <param name="samplesMax" type="int" value="$(arg samplesMax)" />
         <param name="samplesMin" type="int" value="$(arg samplesMin)" />
@@ -38,6 +46,12 @@
         <param name="resamplingIntervallFilter" type="double" value="$(arg resamplingIntervallFilter)" />
         <param name="uncertaintyLaser" type="double" value="$(arg uncertaintyLaser)" />
 
+        <param name="initX" type="double" value="$(arg initX)" />
+        <param name="initY" type="double" value="$(arg initY)" />
+        <param name="initPhi" type="double" value="$(arg initPhi)" />
+        <param name="initSigmaTrans" type="double" value="$(arg initSigmaTrans)" />
+        <param name="initSigmaRot" type="double" value="$(arg initSigmaRot)" />
+        <param name="initMode" type="string" value="$(arg initMode)" />
 
     </node>
 

@@ -8,6 +8,8 @@
 #ifndef INCLUDE_OHMPFNODEPARAMS_H_
 #define INCLUDE_OHMPFNODEPARAMS_H_
 
+#include "Eigen/Dense"
+
 namespace ohmPf
 {
 
@@ -24,8 +26,15 @@ typedef struct
   std::string topMap;
   std::string topMapSrv;
   std::string topScan;
+  std::string initMode;
+  Eigen::Vector3d initPose;
+  double initSigmaTrans;
+  double initSigmaRot;
+
+
 } OhmPfNodeParams_t;
 
 } /* namespace ohmPf */
 
 #endif /* INCLUDE_OHMPFNODEPARAMS_H_ */
+
