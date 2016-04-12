@@ -5,7 +5,7 @@
     <!-- extern parameters -->
     <arg name="output" default="screen" />
     <arg name="tfFixedFrame" default="map" />
-    <arg name="tfBaseFootprintFrame" default="base_footpint" />
+    <arg name="tfBaseFootprintFrame" default="base_footprint" />
     <arg name="tfOdomFrame" default="odom" />
     <arg name="topOdometry" default="/robot0/odom" />
     <arg name="top2dPoseEst" default="initialpose" />
