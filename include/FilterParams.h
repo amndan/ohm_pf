@@ -19,6 +19,9 @@ typedef struct
   unsigned int samplesMax;
   double resamplingIntervall;
   std::string resamplingMethod;
+  double OCSThresholdLaser;
+  double OCSThresholdOdom;
+  double OCSThresholdResampler;
 } FilterParams_t;
 
 } /* namespace ohmPf */

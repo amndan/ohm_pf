@@ -14,16 +14,16 @@ namespace ohmPf
       _nh(), _prvNh("~"), _loopRate(25)
   {
     _prvNh.param<std::string>("tfFixedFrame", _paramSet.tfFixedFrame, "map");
-    _prvNh.param<std::string>("tfBaseFootprintFrame", _paramSet.tfBaseFootprintFrame, "base_footprint");
+    _prvNh.param<std::string>("tfBaseFootprintFrame", _paramSet.tfBaseFootprintFrame, "base_footprint_ekf");
     _prvNh.param<std::string>("tfOutputFrame", _paramSet.tfOutputFrame, "ohm_pf_output");
     _prvNh.param<std::string>("tfOdomFrame", _paramSet.tfOdomFrame, "odom");
-    _prvNh.param<std::string>("topOdometry", _paramSet.topOdometry, "robot0/odom");
+    _prvNh.param<std::string>("topOdometry", _paramSet.topOdometry, "wheelodom");
     _prvNh.param<std::string>("top2dPoseEst", _paramSet.top2dPoseEst, "initialpose");
     _prvNh.param<std::string>("topClickedPoint", _paramSet.topClickedPoint, "clicked_point");
     _prvNh.param<std::string>("topCeilCam", _paramSet.topCeilCam, "ceilCamPoseArray");
     _prvNh.param<std::string>("topMap", _paramSet.topMap, "map");
     _prvNh.param<std::string>("topMapSrv", _paramSet.topMapSrv, "static_map");
-    _prvNh.param<std::string>("topScan", _paramSet.topScan, "robot0/laser_0");
+    _prvNh.param<std::string>("topScan", _paramSet.topScan, "filtered_scan");
     _prvNh.param<std::string>("resamplingMethod", _filterParams.resamplingMethod, "STD");
     int tmp;
     _prvNh.param<int>("maxDistanceProbMap", tmp, 10);
@@ -45,6 +45,10 @@ namespace ohmPf
     _prvNh.param<double>("initX", _paramSet.initPose(0), 0.0);
     _prvNh.param<double>("initY", _paramSet.initPose(1), 0.0);
     _prvNh.param<double>("initPhi", _paramSet.initPose(2), 0.0);
+
+    _prvNh.param<double>("OCSThresholdLaser", _filterParams.OCSThresholdLaser, 0.2);
+    _prvNh.param<double>("OCSThresholdOdom", _filterParams.OCSThresholdOdom, 0.001);
+    _prvNh.param<double>("OCSThresholdResampler", _filterParams.OCSThresholdResampler, 0.2);
 
     _prvNh.param<double>("initSigmaTrans", _paramSet.initSigmaTrans, 0.5);
     _prvNh.param<double>("initSigmaRot", _paramSet.initSigmaRot, 180 / M_PI * 10);

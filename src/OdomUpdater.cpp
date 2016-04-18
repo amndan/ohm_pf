@@ -27,9 +27,12 @@ namespace ohmPf
   void OdomUpdater::update()
   {
     _ocsObserver->update(_measurement);
-    // if ocs true...
+
+    if(_OCSFlag == true)
+    {
     _quantifier->calculate(*_filter, *_measurement);
-    // perhaps create function _quantifier.getCumultativeOdom() and sum it up for each client
+    _OCSFlag = false;
+    }
   }
 
   void OdomUpdater::setOCSFlagTrue()

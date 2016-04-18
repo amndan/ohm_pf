@@ -26,6 +26,9 @@
     <arg name="initSigmaTrans" default="0.5" />
     <arg name="initSigmaRot" default="0.2" />
     <arg name="initMode" default="GL" />
+    <arg name="OCSThresholdLaser" default="0.2" />
+    <arg name="OCSThresholdOdom" default="0.001" />
+    <arg name="OCSThresholdResampler" default="0.2" />
     <!-- ******************* -->
 
     <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" launch-prefix="xterm -e cgdb -ex run  --args">
@@ -52,7 +55,10 @@
         <param name="initSigmaTrans" type="double" value="$(arg initSigmaTrans)" />
         <param name="initSigmaRot" type="double" value="$(arg initSigmaRot)" />
         <param name="initMode" type="string" value="$(arg initMode)" />
-
+        
+        <param name="OCSThresholdLaser" type="double" value="$(arg OCSThresholdLaser)" />
+        <param name="OCSThresholdOdom" type="double" value="$(arg OCSThresholdOdom)" />
+        <param name="OCSThresholdResampler" type="double" value="$(arg OCSThresholdResampler)" />
     </node>
 
 </launch>

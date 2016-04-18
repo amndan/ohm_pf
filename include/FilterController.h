@@ -59,6 +59,7 @@ private:
   IOdomMeasurement* _odomMeasurement;
   ILaserMeasurement* _laserMeasurement;
   IFilterOutput* _filterOutput;
+  FilterParams_t _filterParams;
 
   OdomUpdater* _odomUpdater;
   OCSObserver* _ocsObserver;
