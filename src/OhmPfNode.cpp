@@ -13,16 +13,16 @@ namespace ohmPf
   OhmPfNode::OhmPfNode() :
       _nh(), _prvNh("~"), _loopRate(25)
   {
-    _prvNh.param<std::string>("tfFixedFrame", _paramSet.tfFixedFrame, "map");
+    _prvNh.param<std::string>("tfFixedFrame", _paramSet.tfFixedFrame, "/map");
     _prvNh.param<std::string>("tfBaseFootprintFrame", _paramSet.tfBaseFootprintFrame, "base_footprint_ekf");
     _prvNh.param<std::string>("tfOutputFrame", _paramSet.tfOutputFrame, "ohm_pf_output");
     _prvNh.param<std::string>("tfOdomFrame", _paramSet.tfOdomFrame, "odom");
     _prvNh.param<std::string>("topOdometry", _paramSet.topOdometry, "wheelodom");
-    _prvNh.param<std::string>("top2dPoseEst", _paramSet.top2dPoseEst, "initialpose");
-    _prvNh.param<std::string>("topClickedPoint", _paramSet.topClickedPoint, "clicked_point");
+    _prvNh.param<std::string>("top2dPoseEst", _paramSet.top2dPoseEst, "/initialpose");
+    _prvNh.param<std::string>("topClickedPoint", _paramSet.topClickedPoint, "/clicked_point");
     _prvNh.param<std::string>("topCeilCam", _paramSet.topCeilCam, "ceilCamPoseArray");
-    _prvNh.param<std::string>("topMap", _paramSet.topMap, "map");
-    _prvNh.param<std::string>("topMapSrv", _paramSet.topMapSrv, "static_map");
+    _prvNh.param<std::string>("topMap", _paramSet.topMap, "/map");
+    _prvNh.param<std::string>("topMapSrv", _paramSet.topMapSrv, "/static_map");
     _prvNh.param<std::string>("topScan", _paramSet.topScan, "filtered_scan");
     _prvNh.param<std::string>("resamplingMethod", _filterParams.resamplingMethod, "STD");
     int tmp;
@@ -98,6 +98,7 @@ namespace ohmPf
     while(!_cliMapSrv.call(srv_map))
     {
       ros::Duration(0.5).sleep();
+      ROS_INFO("%s", _paramSet.topMapSrv.c_str());
       ROS_INFO("No map available --> keep waiting for map...");
     }
 
