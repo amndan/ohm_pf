@@ -1,6 +1,10 @@
+<?xml version="1.0"?>
+
 <launch>
 
-    <arg name="output" default="screen" />
+   
+
+    <arg name="output" value="screen" />
 
     <node name="CeilCamSimulator" pkg="ohm_pf" type="CeilCamSimulator" output="$(arg output)" />
 
@@ -11,20 +15,32 @@
     </node>
 
     <include file="$(find ohm_pf)/launch/ohm_pf.launch">
-      <arg name="output" value="screen" />
-      <arg name="topOdometry" value="/robot0/odom" />
-      <arg name="tfFixedFrame" value="map" />
-      <arg name="tfBaseFootprintFrame" value="robot0" />
-      <arg name="top2dPoseEst" value="initialpose" />
-      <arg name="topCeilCam" value="ceilCamPoseArray" />
-      <arg name="topMap" value="map" />
-      <arg name="topMapSrv" value="static_map" />
-      <arg name="samplesMax" value="10000" />
-      <arg name="samplesMin" value="50" />
-      <arg name="maxDistanceProbMap" value="30" />
-      <arg name="subsamplingRateLaser" value="3" />
-      <arg name="resamplingIntervallFilter" value="1" />
-      <arg name="uncertaintyLaser" value="0.5" />
+    <arg name="output" value="screen" />
+    <arg name="tfFixedFrame" value="pfMap" />
+    <arg name="tfBaseFootprintFrame" value="robot0" />
+    <arg name="tfOdomFrame" value="world" />
+    <arg name="topOdometry" value="/robot0/odom" />
+    <arg name="top2dPoseEst" value="initialpose" />
+    <arg name="topCeilCam" value="ceilCamPoseArray_OFF" />
+    <arg name="topMap" value="map" />
+    <arg name="topMapSrv" value="static_map" />
+    <arg name="samplesMax" value="5000" />
+    <arg name="samplesMin" value="50" />
+    <arg name="topScan" value="/robot0/laser_0" />
+    <arg name="maxDistanceProbMap" value="10" />
+    <arg name="subsamplingRateLaser" value="3" />
+    <arg name="resamplingIntervallFilter" value="0.5" />
+    <arg name="uncertaintyLaser" value="0.5" />
+    <arg name="resamplingMethod" value="STD" />
+    <arg name="initX" value="0.0" />
+    <arg name="initY" value="0.0" />
+    <arg name="initPhi" value="0.0" />
+    <arg name="initSigmaTrans" value="0.5" />
+    <arg name="initSigmaRot" value="0.2" />
+    <arg name="initMode" value="GL" />
+    <arg name="OCSThresholdLaser" value="0.2" />
+    <arg name="OCSThresholdOdom" value="0.001" />
+    <arg name="OCSThresholdResampler" value="0.2" />
     </include>
 
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ohm_pf)/rviz/ohm_pf_stdr.rviz" />
@@ -34,8 +50,10 @@
     <node type="stdr_server_node" pkg="stdr_server" name="stdr_server" output="screen" args="$(find stdr_resources)/maps/sparse_obstacles.yaml" />
     <node pkg="tf" type="static_transform_publisher" name="world2map" args="0 0 0 0 0 0  world map 100" />
     <!-- <include file="$(find stdr_gui)/launch/stdr_gui.launch" /> -->
-    <node pkg="stdr_robot" type="robot_handler" name="$(anon robot_spawn)" args="add $(find stdr_resources)/resources/robots/pandora_robot.yaml 2 2 0" />
+    <node pkg="stdr_robot" type="robot_handler" name="$(anon robot_spawn)" args="add $(find ohm_pf)/launch/pandora_robot_2_scanner.yaml 2 2 0" />
 
-    <node name="mapServer" pkg="map_server" type="map_server" args="$(find stdr_resources)/maps/sparse_obstacles.yaml" />
+    <node name="mapServer" pkg="map_server" type="map_server" args="$(find stdr_resources)/maps/sparse_obstacles.yaml">
+	<param name="frame_id" type="string" value="pfMap"/>
+    </node>
 
 </launch>

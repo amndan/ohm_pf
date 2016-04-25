@@ -82,18 +82,25 @@ namespace ohmPf
   void SampleSet::normalize()
   {
     double sumWeight = 0.0;
+    double countInv = 1.0 / _samples.size();
 
     for(unsigned int i = 0; i < _samples.size(); i++)
     {
       sumWeight += _samples[i].weight;
     }
 
-    assert(sumWeight != 0);  // todo: debug why sumweight can be 0
-
-    for(unsigned int i = 0; i < _samples.size(); i++)
-    {
-      _samples[i].weight /= sumWeight;
-    }
+	if (sumWeight != 0) // e.g. if map update while sample cloud is outside the map
+	{
+		for (unsigned int i = 0; i < _samples.size(); i++) {
+			_samples[i].weight /= sumWeight;
+		}
+	}
+	else
+	{
+		for (unsigned int i = 0; i < _samples.size(); i++) {
+			_samples[i].weight = countInv;
+		}
+	}
 
     _normalized = true;
   }
