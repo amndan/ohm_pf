@@ -13,6 +13,7 @@
 #include "IFilterOutput.h"
 #include "Eigen/Dense"
 #include "assert.h"
+#include "UtilitiesOhmPf.h"
 
 
 namespace ohmPf

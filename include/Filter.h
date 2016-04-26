@@ -10,6 +10,7 @@
 
 #include "SampleSet.h"
 #include "FilterParams.h"
+#include "FilterState.h"
 
 namespace ohmPf
 {
@@ -24,10 +25,12 @@ namespace ohmPf
     unsigned int getSamplesMin();
     unsigned int getSamplesMax();
     SampleSet* getSampleSet();
+    FilterState_t* getFilterState();
   private:
     SampleSet _sampleSet;
     unsigned int _samplesMin;
     unsigned int _samplesMax;
+    FilterState_t _filterState;
   };
 
 } /* namespace ohmPf */

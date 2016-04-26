@@ -78,6 +78,7 @@ namespace ohmPf
       assert(cnt == newSamples.size());
       set->setSamples(newSamples);
       set->normalize();
+
       _OCSFlag = false;
     }
   }

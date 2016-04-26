@@ -11,6 +11,7 @@
 #include "Sample.h"
 #include <vector>
 #include "Eigen/Dense"
+#include "FilterState.h"
 
 namespace ohmPf
 {
@@ -21,6 +22,7 @@ namespace ohmPf
     IFilterOutput(){};
     virtual ~IFilterOutput(){};
     virtual void actualizeTF(Eigen::Vector3d pose) = 0;
+    virtual void actualizeState(FilterState_t state) = 0;
     virtual void printSampleSet(std::vector<Sample_t>& samples) = 0;
   };
 

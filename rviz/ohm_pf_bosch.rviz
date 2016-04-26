@@ -5,6 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /Map1
         - /Axes1
         - /LaserScan1
       Splitter Ratio: 0.5
@@ -54,31 +55,15 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        base_footprint_ekf:
+          Value: true
+        laser:
+          Value: true
         map:
           Value: true
-        map_static:
+        odom:
           Value: true
         ohm_pf_output:
-          Value: true
-        pfMap:
-          Value: true
-        robot0:
-          Value: true
-        robot0_laser_0:
-          Value: true
-        robot0_laser_1:
-          Value: true
-        robot0_sonar_0:
-          Value: true
-        robot0_sonar_1:
-          Value: true
-        robot0_sonar_2:
-          Value: true
-        robot0_sonar_3:
-          Value: true
-        robot0_sonar_4:
-          Value: true
-        world:
           Value: true
       Marker Scale: 1
       Name: TF
@@ -86,27 +71,13 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        pfMap:
+        map:
+          odom:
+            base_footprint_ekf:
+              laser:
+                {}
           ohm_pf_output:
             {}
-          world:
-            map:
-              map_static:
-                robot0:
-                  robot0_laser_0:
-                    {}
-                  robot0_laser_1:
-                    {}
-                  robot0_sonar_0:
-                    {}
-                  robot0_sonar_1:
-                    {}
-                  robot0_sonar_2:
-                    {}
-                  robot0_sonar_3:
-                    {}
-                  robot0_sonar_4:
-                    {}
       Update Interval: 0
       Value: true
     - Alpha: 0.7
@@ -163,7 +134,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.1
       Style: Flat Squares
-      Topic: /robot0/laser_0
+      Topic: /filtered_scan
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -177,7 +148,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: pfMap
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
@@ -206,11 +177,11 @@ Visualization Manager:
         Value: false
       Name: Current View
       Near Clip Distance: 0.01
-      Scale: 53.8393
+      Scale: 31.1401
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 9.43784
-      Y: 7.427
+      X: 11.7222
+      Y: -0.242636
     Saved: ~
 Window Geometry:
   Displays:

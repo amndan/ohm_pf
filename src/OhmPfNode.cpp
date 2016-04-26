@@ -20,6 +20,8 @@ namespace ohmPf
     _prvNh.param<std::string>("topOdometry", _paramSet.topOdometry, "wheelodom");
     _prvNh.param<std::string>("top2dPoseEst", _paramSet.top2dPoseEst, "/initialpose");
     _prvNh.param<std::string>("topClickedPoint", _paramSet.topClickedPoint, "/clicked_point");
+    _prvNh.param<std::string>("topParticleCloud", _paramSet.topParticleCloud, "particlecloud");
+    _prvNh.param<std::string>("topProbPose", _paramSet.topProbPose, "/probPose");
     _prvNh.param<std::string>("topCeilCam", _paramSet.topCeilCam, "ceilCamPoseArray");
     _prvNh.param<std::string>("topMap", _paramSet.topMap, "/map");
     _prvNh.param<std::string>("topMapSrv", _paramSet.topMapSrv, "/static_map");

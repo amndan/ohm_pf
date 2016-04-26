@@ -67,6 +67,7 @@ namespace ohmPf
 
       *samples = newSamples;
       set->normalize();
+
       _OCSFlag = false;
     }
   }

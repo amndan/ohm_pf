@@ -12,9 +12,10 @@ namespace ohmPf
                             // here comes filter params...
   ROSFilterOutput::ROSFilterOutput(OhmPfNodeParams_t paramSet) : _tfBroadcaster(), _tfListener()
   {
+	_paramSet = paramSet;
     ros::NodeHandle nh = ros::NodeHandle();
-    _pubPoseArray = nh.advertise<geometry_msgs::PoseArray>("particleCloud", 1, true);
-    _paramSet = paramSet;
+    _pubPoseArray = nh.advertise<geometry_msgs::PoseArray>(_paramSet.topParticleCloud, 1, true);
+    _pubProbPose = nh.advertise<std_msgs::Float32>(_paramSet.topProbPose, 1, true);
   }
 
   ROSFilterOutput::~ROSFilterOutput()
@@ -74,7 +75,13 @@ namespace ohmPf
       poseArray.poses.push_back(pose);
     }
     _pubPoseArray.publish(poseArray);
+  }
 
+  void ROSFilterOutput::actualizeState(FilterState_t state)
+  {
+    std_msgs::Float32 msg;
+    msg.data = state.probPose;
+	  _pubProbPose.publish(msg);
   }
 
 } /* namespace ohmPf */

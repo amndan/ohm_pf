@@ -26,6 +26,8 @@ typedef struct
   std::string topMap;
   std::string topMapSrv;
   std::string topScan;
+  std::string topParticleCloud;
+  std::string topProbPose;
   std::string initMode;
   Eigen::Vector3d initPose;
   double initSigmaTrans;

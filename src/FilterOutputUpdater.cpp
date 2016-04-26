@@ -43,10 +43,20 @@ namespace ohmPf
     return pose;
   }
 
+
+
   void FilterOutputUpdater::update()
   {
     _filterOutput->actualizeTF(updateTf());
     _filterOutput->printSampleSet(*(_filter->getSamples()));
+
+    // update prob of samples TODO: this one should go elsewhere
+    // filter state is more than prob; its sample count etc. updating this values should not happen here
+    _filter->getFilterState()->probPose = getQualityOfSamples(*(_filter->getSamples()));
+
+    _filterOutput->actualizeState(*(_filter->getFilterState()));
+
+
   }
 
 } /* namespace ohmPf */

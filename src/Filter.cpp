@@ -15,6 +15,8 @@ namespace ohmPf
   {
     _samplesMax = params.samplesMax;
     _samplesMin = params.samplesMin;
+
+    _filterState.probPose = 0.0;
   }
 
   Filter::~Filter()
@@ -46,6 +48,11 @@ namespace ohmPf
   void Filter::setSamples(std::vector<Sample_t> samples)
   {
     _sampleSet.setSamples(samples);
+  }
+
+  FilterState_t* Filter::getFilterState()
+  {
+	  return &_filterState;
   }
 
 } /* namespace ohmPf */

@@ -8,14 +8,16 @@
     <arg name="tfBaseFootprintFrame" default="base_footprint" />
     <arg name="tfOdomFrame" default="odom" />
     <arg name="tfOutputFrame" default="ohm_pf_output" />
-    <arg name="topOdometry" default="/robot0/odom" />
+    <arg name="topOdometry" default="robot0/odom" />
     <arg name="top2dPoseEst" default="initialpose" />
     <arg name="topCeilCam" default="ceilCamPoseArray" />
+    <arg name="topParticleCloud" default="particlecloud" />
+    <arg name="topProbPose" default="probPose" />
     <arg name="topMap" default="map" />
     <arg name="topMapSrv" default="static_map" />
     <arg name="samplesMax" default="5000" />
     <arg name="samplesMin" default="50" />
-    <arg name="topScan" default="/robot0/laser_0" />
+    <arg name="topScan" default="robot0/laser_0" />
     <arg name="maxDistanceProbMap" default="10" />
     <arg name="subsamplingRateLaser" default="3" />
     <arg name="resamplingIntervallFilter" default="0.5" />
@@ -40,6 +42,8 @@
         <param name="topOdometry" type="string" value="$(arg topOdometry)" />
         <param name="top2dPoseEst" type="string" value="$(arg top2dPoseEst)" />
         <param name="topCeilCam" type="string" value="$(arg topCeilCam)" />
+        <param name="topParticleCloud" type="string" value="$(arg topParticleCloud)" />
+        <param name="topProbPose" type="string" value="$(arg topProbPose)" />
         <param name="topMap" type="string" value="$(arg topMap)" />
         <param name="uncertaintyLaser" type="double" value="$(arg uncertaintyLaser)" />
         <param name="resamplingMethod" type="string" value="$(arg resamplingMethod)" />
