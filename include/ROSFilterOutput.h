@@ -40,6 +40,7 @@ namespace ohmPf
     OhmPfNodeParams_t _paramSet;
     tf::TransformBroadcaster _tfBroadcaster;
     tf::TransformListener _tfListener;
+    int _skipParticleForGui;
   };
 
 } /* namespace ohmPf */

@@ -48,6 +48,8 @@ namespace ohmPf
     _prvNh.param<double>("initY", _paramSet.initPose(1), 0.0);
     _prvNh.param<double>("initPhi", _paramSet.initPose(2), 0.0);
 
+    _prvNh.param<int>("skipParticleForGui", _paramSet.skipParticleForGui, 0);
+
     _prvNh.param<double>("OCSThresholdLaser", _filterParams.OCSThresholdLaser, 0.2);
     _prvNh.param<double>("OCSThresholdOdom", _filterParams.OCSThresholdOdom, 0.001);
     _prvNh.param<double>("OCSThresholdResampler", _filterParams.OCSThresholdResampler, 0.2);

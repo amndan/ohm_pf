@@ -28,6 +28,7 @@
         <arg name="initSigmaTrans" value="0.5" />
         <arg name="initSigmaRot" value="0.2" />
         <arg name="initMode" value="POSE" />
+        <arg name="skipParticleForGui" value="100" />
     </include>
 
     <node name="mapServer" pkg="map_server" type="map_server" args="$(find ohm_pf)/bags/mapKupfer.yaml" />

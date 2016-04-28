@@ -16,6 +16,9 @@ namespace ohmPf
     ros::NodeHandle nh = ros::NodeHandle();
     _pubPoseArray = nh.advertise<geometry_msgs::PoseArray>(_paramSet.topParticleCloud, 1, true);
     _pubProbPose = nh.advertise<std_msgs::Float32>(_paramSet.topProbPose, 1, true);
+
+    _skipParticleForGui = std::abs(paramSet.skipParticleForGui);
+    // TODO: we schould separate the pub gui output from the resampling step
   }
 
   ROSFilterOutput::~ROSFilterOutput()
@@ -66,7 +69,7 @@ namespace ohmPf
 
     poseArray.header.frame_id = _paramSet.tfFixedFrame;
 
-    for(unsigned int i = 0; i < samples.size(); i++)
+    for(unsigned int i = 0; i < samples.size(); i = i + 1 + _skipParticleForGui)
     {
       pose.position.x = samples[i].pose(0);
       pose.position.y = samples[i].pose(1);

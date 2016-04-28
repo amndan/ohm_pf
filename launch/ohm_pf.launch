@@ -32,6 +32,7 @@
     <arg name="OCSThresholdLaser" default="0.2" />
     <arg name="OCSThresholdOdom" default="0.001" />
     <arg name="OCSThresholdResampler" default="0.2" />
+    <arg name="skipParticleForGui" default="0" />
     <!-- ******************* -->
     
     <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" >
@@ -54,6 +55,7 @@
         <param name="subsamplingRateLaser" type="int" value="$(arg subsamplingRateLaser)" />
         <param name="resamplingIntervallFilter" type="double" value="$(arg resamplingIntervallFilter)" />
         <param name="uncertaintyLaser" type="double" value="$(arg uncertaintyLaser)" />
+        <param name="skipParticleForGui" type="int" value="$(arg skipParticleForGui)" />
 
         <param name="initX" type="double" value="$(arg initX)" />
         <param name="initY" type="double" value="$(arg initY)" />

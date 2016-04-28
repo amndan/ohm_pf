@@ -32,6 +32,7 @@ typedef struct
   Eigen::Vector3d initPose;
   double initSigmaTrans;
   double initSigmaRot;
+  int skipParticleForGui;
 
 
 } OhmPfNodeParams_t;
