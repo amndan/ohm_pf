@@ -6,7 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /Axes1
-        - /LaserScan1
       Splitter Ratio: 0.5
     Tree Height: 747
   - Class: rviz/Selection
@@ -116,6 +115,7 @@ Visualization Manager:
       Enabled: true
       Name: Map
       Topic: /map
+      Unreliable: false
       Value: true
     - Arrow Length: 0.5
       Class: rviz/PoseArray
@@ -123,6 +123,7 @@ Visualization Manager:
       Enabled: true
       Name: PoseArray
       Topic: /ceilCamPoseArray
+      Unreliable: false
       Value: true
     - Arrow Length: 0.01
       Class: rviz/PoseArray
@@ -130,6 +131,7 @@ Visualization Manager:
       Enabled: true
       Name: PoseArray
       Topic: /particleCloud
+      Unreliable: false
       Value: true
     - Class: rviz/Axes
       Enabled: true
@@ -164,6 +166,7 @@ Visualization Manager:
       Size (m): 0.1
       Style: Flat Squares
       Topic: /robot0/laser_0
+      Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -173,6 +176,37 @@ Visualization Manager:
       Enabled: true
       Name: PoseArray
       Topic: /particlecloud
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/LaserScan
+      Color: 255; 255; 127
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: LaserScan
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.1
+      Style: Flat Squares
+      Topic: /robot0/laser_1
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
       Value: true
   Enabled: true
   Global Options:

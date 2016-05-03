@@ -26,7 +26,7 @@
     <arg name="topMapSrv" value="static_map" />
     <arg name="samplesMax" value="5000" />
     <arg name="samplesMin" value="50" />
-    <arg name="topScan" value="/robot0/laser_0" />
+    <arg name="topScan" value="/robot0/laser_0;/robot0/laser_1" />
     <arg name="maxDistanceProbMap" value="10" />
     <arg name="subsamplingRateLaser" value="3" />
     <arg name="resamplingIntervallFilter" value="0.5" />
