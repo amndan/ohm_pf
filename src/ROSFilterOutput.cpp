@@ -70,7 +70,7 @@ namespace ohmPf
     poseStamped.pose.position.x = pose(0);
     poseStamped.pose.position.y = pose(1);
     poseStamped.pose.position.z = 0.0;
-
+    _pubPose.publish(poseStamped);
   }
 
   void ROSFilterOutput::printSampleSet(std::vector<Sample_t>&  samples)
