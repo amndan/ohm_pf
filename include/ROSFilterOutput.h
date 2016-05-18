@@ -36,6 +36,7 @@ namespace ohmPf
     void actualizeState(FilterState_t state);
   private:
     ros::Publisher _pubPoseArray;
+    ros::Publisher _pubPose;
     ros::Publisher _pubProbPose;
     OhmPfNodeParams_t _paramSet;
     tf::TransformBroadcaster _tfBroadcaster;

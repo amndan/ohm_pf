@@ -16,6 +16,7 @@ namespace ohmPf
     ros::NodeHandle nh = ros::NodeHandle();
     _pubPoseArray = nh.advertise<geometry_msgs::PoseArray>(_paramSet.topParticleCloud, 1, true);
     _pubProbPose = nh.advertise<std_msgs::Float32>(_paramSet.topProbPose, 1, true);
+    _pubPose = nh.advertise<geometry_msgs::PoseStamped>("pose", 1, true); // TODO: launchfile param
 
     _skipParticleForGui = std::abs(paramSet.skipParticleForGui);
     // TODO: we schould separate the pub gui output from the resampling step
@@ -60,6 +61,16 @@ namespace ohmPf
 
     _tfBroadcaster.sendTransform(tf::StampedTransform(tf_map_pf, now, _paramSet.tfFixedFrame, _paramSet.tfOutputFrame));
     _tfBroadcaster.sendTransform(tf::StampedTransform(map_odom, now, _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
+
+    //pose publisher
+    geometry_msgs::PoseStamped poseStamped;
+    poseStamped.header.frame_id =  _paramSet.tfFixedFrame;
+    poseStamped.header.stamp = now;
+    tf::quaternionTFToMsg(tf::createQuaternionFromYaw( pose(2) ), poseStamped.pose.orientation);
+    poseStamped.pose.position.x = pose(0);
+    poseStamped.pose.position.y = pose(1);
+    poseStamped.pose.position.z = 0.0;
+
   }
 
   void ROSFilterOutput::printSampleSet(std::vector<Sample_t>&  samples)
