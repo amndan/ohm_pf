@@ -52,8 +52,6 @@ namespace ohmPf
     pose(1) += sTrans * std::sin(pose(2) + sRot1);
     pose(2) += sRot1 + sRot2;
 
-	std::cout << "R1 " << _dRot1 << " R2 " << _dRot2 << " T1 " << _dTrans << std::endl; 
-	
     correctAngleOverflow(pose(2));
 
     //debug
