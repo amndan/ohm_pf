@@ -52,6 +52,8 @@ namespace ohmPf
     pose(1) += sTrans * std::sin(pose(2) + sRot1);
     pose(2) += sRot1 + sRot2;
 
+	std::cout << "R1 " << _dRot1 << " R2 " << _dRot2 << " T1 " << _dTrans << std::endl; 
+	
     correctAngleOverflow(pose(2));
 
     //debug
@@ -84,7 +86,16 @@ namespace ohmPf
   {
     _dRot1 = std::atan2(_odom1(1) - _odom0(1), _odom1(0) - _odom0(0)) - _odom0(2);
     _dTrans = std::sqrt(pow(_odom1(0) - _odom0(0), 2) + pow(_odom1(1) - _odom0(1), 2));
+
+    if(std::abs(_dRot1) > M_PI/2) // if more than 90 deg robot moves backwards
+    {
+      _dRot1 += M_PI;
+      correctAngleOverflow(_dRot1);
+      _dTrans *= -1;
+    }
+
     _dRot2 = _odom1(2) - _odom0(2) - _dRot1;
   }
+
 
 } /* namespace ohmPf */
