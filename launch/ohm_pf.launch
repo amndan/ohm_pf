@@ -34,8 +34,8 @@
     <arg name="OCSThresholdResampler" default="0.2" />
     <arg name="skipParticleForGui" default="0" />
     <!-- ******************* -->
-    
-    <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" launch-prefix="xterm -e cgdb -ex run --args" >
+    <!-- For Debugging: <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" launch-prefix="xterm -e cgdb -ex run -->  <!--args": append this; xml comment problem here -->
+    <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" >
         <param name="tfFixedFrame" type="string" value="$(arg tfFixedFrame)" />
         <param name="tfBaseFootprintFrame" type="string" value="$(arg tfBaseFootprintFrame)" />
         <param name="tfOdomFrame" type="string" value="$(arg tfOdomFrame)" />
