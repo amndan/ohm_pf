@@ -38,6 +38,7 @@ namespace ohmPf
     ros::Publisher _pubPoseArray;
     ros::Publisher _pubPose;
     ros::Publisher _pubProbPose;
+    ros::Publisher _pubVarWeights;
     OhmPfNodeParams_t _paramSet;
     tf::TransformBroadcaster _tfBroadcaster;
     tf::TransformListener _tfListener;

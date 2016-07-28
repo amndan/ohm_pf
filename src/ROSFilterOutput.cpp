@@ -16,6 +16,7 @@ namespace ohmPf
     ros::NodeHandle nh = ros::NodeHandle();
     _pubPoseArray = nh.advertise<geometry_msgs::PoseArray>(_paramSet.topParticleCloud, 1, true);
     _pubProbPose = nh.advertise<std_msgs::Float32>(_paramSet.topProbPose, 1, true);
+    _pubVarWeights = nh.advertise<std_msgs::Float32>("varWeights", 1, true);
     _pubPose = nh.advertise<geometry_msgs::PoseStamped>("pose", 1, true); // TODO: launchfile param
 
     _skipParticleForGui = std::abs(paramSet.skipParticleForGui);
@@ -94,8 +95,12 @@ namespace ohmPf
   void ROSFilterOutput::actualizeState(FilterState_t state)
   {
     std_msgs::Float32 msg;
+
     msg.data = state.probPose;
 	  _pubProbPose.publish(msg);
+
+    msg.data = state.varWeights;
+    _pubVarWeights.publish(msg);
   }
 
 } /* namespace ohmPf */

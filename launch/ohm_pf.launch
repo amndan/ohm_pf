@@ -8,7 +8,7 @@
     <arg name="tfBaseFootprintFrame" default="base_footprint" />
     <arg name="tfOdomFrame" default="odom" />
     <arg name="tfOutputFrame" default="ohm_pf_output" />
-    <arg name="topOdometry" default="robot0/odom" />
+    <arg name="topOdometry" default="odom" />
     <arg name="top2dPoseEst" default="initialpose" />
     <arg name="topCeilCam" default="ceilCamPoseArray" />
     <arg name="topParticleCloud" default="particlecloud" />
@@ -17,7 +17,7 @@
     <arg name="topMapSrv" default="static_map" />
     <arg name="samplesMax" default="5000" />
     <arg name="samplesMin" default="50" />
-    <arg name="topScan" default="robot0/laser_0" />
+    <arg name="topScan" default="base_scan" />
     <arg name="maxDistanceProbMap" default="10" />
     <arg name="subsamplingRateLaser" default="3" />
     <arg name="resamplingIntervallFilter" default="0.5" />

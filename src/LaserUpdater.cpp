@@ -30,6 +30,8 @@ namespace ohmPf
     if (_OCSFlag == true)
     {
       _quantifier->calculate(*_filter, *_measurement, *_map, _updateFilterMap);
+      _filter->getSampleSet()->normalize();
+      _filter->getFilterState()->varWeights = getStabwOfSamplesWeights(*(_filter->getSamples()));
       _OCSFlag = false;
     }
   }

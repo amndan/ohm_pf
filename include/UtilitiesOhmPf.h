@@ -109,6 +109,18 @@ static double getStabwOfSamples(const std::vector<Sample_t>& samples)
   return std::sqrt( pow(stabwX, 2) + pow(stabwY, 2) );
 }
 
+static double getStabwOfSamplesWeights(const std::vector<Sample_t>& samples)
+{
+  std::vector<double> x;
+
+  for(unsigned int i = 0; i < samples.size(); i++)
+  {
+    x.push_back(samples[i].weight);
+  }
+
+  return getStabw(x);;
+}
+
 static double getQualityOfSamples(const std::vector<Sample_t>& samples)
 {
   double stabw = getStabwOfSamples(samples);

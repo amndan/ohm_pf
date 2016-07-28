@@ -14,6 +14,7 @@ namespace ohmPf
 typedef struct
 {
   double probPose;
+  double varWeights;
   //double countSamples;
 } FilterState_t;
 
