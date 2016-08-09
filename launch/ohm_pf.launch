@@ -46,6 +46,7 @@
         <param name="topParticleCloud" type="string" value="$(arg topParticleCloud)" />
         <param name="topProbPose" type="string" value="$(arg topProbPose)" />
         <param name="topMap" type="string" value="$(arg topMap)" />
+        <param name="topMapSrv" type="string" value="$(arg topMapSrv)" />
         <param name="uncertaintyLaser" type="double" value="$(arg uncertaintyLaser)" />
         <param name="resamplingMethod" type="string" value="$(arg resamplingMethod)" />
         <param name="samplesMax" type="int" value="$(arg samplesMax)" />
@@ -54,7 +55,6 @@
         <param name="maxDistanceProbMap" type="int" value="$(arg maxDistanceProbMap)" />
         <param name="subsamplingRateLaser" type="int" value="$(arg subsamplingRateLaser)" />
         <param name="resamplingIntervallFilter" type="double" value="$(arg resamplingIntervallFilter)" />
-        <param name="uncertaintyLaser" type="double" value="$(arg uncertaintyLaser)" />
         <param name="skipParticleForGui" type="int" value="$(arg skipParticleForGui)" />
 
         <param name="initX" type="double" value="$(arg initX)" />

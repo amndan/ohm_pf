@@ -59,7 +59,7 @@ namespace ohmPf
 
     _prvNh.param<std::string>("initMode", _paramSet.initMode, "GL");
 
-    _pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>("particleCloud", 1, true);
+    //_pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>(_paramSet.topParticleCloud, 1, true); // tob: published in ROSFilterOutput
     _pubProbMap = _nh.advertise<nav_msgs::OccupancyGrid>("probMap", 1, true);
     _subOdometry = _nh.subscribe(_paramSet.topOdometry, 1, &OhmPfNode::calOdom, this);
     _subScan = _nh.subscribe(_paramSet.topScan, 1, &OhmPfNode::calScan, this);
