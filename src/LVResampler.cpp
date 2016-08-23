@@ -12,13 +12,7 @@ namespace ohmPf
 
   LVResampler::LVResampler()
   {
-    // TODO Auto-generated constructor stub
-
-  }
-
-  LVResampler::~LVResampler()
-  {
-    // TODO Auto-generated destructor stub
+    /// @todo init ocs flag here
   }
 
   void LVResampler::resample(Filter* filter)

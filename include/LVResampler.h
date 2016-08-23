@@ -16,16 +16,38 @@
 namespace ohmPf
 {
 
-  class LVResampler : public IResampler
-  {
-  public:
-    LVResampler();
-    virtual ~LVResampler();
-    void resample(Filter* filter);
-    void setOCSFlagTrue();
-  private:
-    bool _OCSFlag;
-  };
+/**
+ * @brief Implementation of a low variance resampler algorithm.
+ */
+class LVResampler : public IResampler
+{
+public:
+  /**
+   * @brief Constructor
+   */
+  LVResampler();
+
+  /**
+   * @brief Deconstructor (empty)
+   */
+  virtual ~LVResampler(){};
+
+  /**
+   * @brief Resampling function.
+   * @param filter Filter instance --> Holds the particles to be resampled
+   */
+  void resample(Filter* filter);
+
+  /**
+   * @brief OCS flag management.
+   * @todo Do we use OCS flag here?
+   */
+  void setOCSFlagTrue();
+
+private:
+
+  bool _OCSFlag;
+};
 
 } /* namespace ohmPf */
 

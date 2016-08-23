@@ -14,13 +14,31 @@
 namespace ohmPf
 {
 
-  class IResampler : public IOCSClient
-  {
-  public:
-    IResampler(){};
-    virtual ~IResampler(){};
-    virtual void resample(Filter* filter) = 0;
-  };
+/**
+ * @brief Interface class for a resampling algorithm.
+ * Inherits from IOCSClient to provide OCS functionality.
+ */
+class IResampler : public IOCSClient
+{
+public:
+
+  /**
+   * @brief interface constructor (empty).
+   */
+  IResampler(){};
+
+  /**
+   *  @brief interface destructor (empty).
+   */
+  virtual ~IResampler(){};
+
+  /**
+   * @brief Abstract resampling function.
+   * Resamples the particlecloud of the given filter instance.
+   * @param filter pointer to a filter instance
+   */
+  virtual void resample(Filter* filter) = 0;
+};
 
 } /* namespace ohmPf */
 
