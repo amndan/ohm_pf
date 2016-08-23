@@ -9,6 +9,8 @@
 #define SRC_OHMPFNODE_H_
 
 #include "ros/ros.h"
+#include <iostream>
+#include <sstream>
 #include "geometry_msgs/PoseArray.h"
 #include "nav_msgs/Odometry.h"
 #include "nav_msgs/GetMap.h"
@@ -42,15 +44,16 @@ private:
   void cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg);
   void calClickedPoint(const geometry_msgs::PointStampedConstPtr& msg);
   void calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg);
-  void calScan(const sensor_msgs::LaserScanConstPtr& msg);
+  void calScan(const sensor_msgs::LaserScanConstPtr& msg, const std::string topic);
   void calResampleTimer(const ros::TimerEvent& event);
   void spawnFilter();
   void waitForMap();
+  void parseLaserTopics(std::string topic);
   ros::Publisher _pubSampleSet;
   ros::Publisher _pubProbMap;
   ros::Subscriber _subOdometry;
   ros::Subscriber _subCeilCam;
-  ros::Subscriber _subScan;
+  std::vector<ros::Subscriber> _subScans;
   ros::Subscriber _sub2dPoseEst;
   ros::Subscriber _subClickedPoint;
   ros::ServiceClient _cliMapSrv;
@@ -64,12 +67,12 @@ private:
   FilterParams_t _filterParams;
   unsigned int _maxDistanceProbMap;
   bool _odomInitialized;
-  bool _laserInitialized;
+  std::vector<bool> _lasersInitialized;
   bool _ceilCamInitialized;
   IFilterController* _filterController;
   ROSOdomMeasurement* _odomMeasurement;
   ROSMap* _map;
-  ROSLaserMeasurement* _laserMeasurement;
+  std::vector<ROSLaserMeasurement*> _laserMeasurements;
   ROSFilterOutput* _filterOutput;
   ROSCeilCamMeasurement* _ceilCamMeasurement;
 

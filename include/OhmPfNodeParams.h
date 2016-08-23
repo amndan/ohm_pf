@@ -25,7 +25,7 @@ typedef struct
   std::string topCeilCam;
   std::string topMap;
   std::string topMapSrv;
-  std::string topScan;
+  std::vector<std::string> topScans;
   std::string topParticleCloud;
   std::string topProbPose;
   std::string initMode;

@@ -30,6 +30,7 @@
 #include "OCSObserver.h"
 #include "CeilCamUpdater.h"
 #include "Eigen/Dense"
+#include "LaserProbMapMethod.h"
 
 namespace ohmPf
 {
@@ -42,11 +43,16 @@ public:
 
   bool setMap(IMap* map);
   bool setOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams_t params);
+
   bool setLaserMeasurement(ILaserMeasurement* laser);
+  bool setLaserMeasurement(ILaserMeasurement* laser, unsigned int laserId);
+
   bool setCeilCamMeasurement(ICeilCamMeasurement* ceilCam);
   bool setFilterOutput(IFilterOutput* output);
 
   bool updateLaser();
+  bool updateLaser(unsigned int laserId);
+
   bool updateOdom();
   bool updateOutput();
   bool resample();
@@ -57,18 +63,19 @@ public:
 private:
   IMap* _map;
   IOdomMeasurement* _odomMeasurement;
-  ILaserMeasurement* _laserMeasurement;
+  std::vector<ILaserMeasurement*> _laserMeasurements;
   IFilterOutput* _filterOutput;
   FilterParams_t _filterParams;
 
   OdomUpdater* _odomUpdater;
   OCSObserver* _ocsObserver;
-  LaserUpdater* _laserUpdater;
+  std::vector<LaserUpdater*> _laserUpdaters;
   CeilCamUpdater* _ceilCamUpdater;
   FilterOutputUpdater* _outputUpdater;
   MapUpdater* _mapUpdater;
   IResampler* _resampler;
   Filter* _filter;
+  LaserProbMapMethod* _laserQuantifier;
 };
 
 } /* namespace ohmPf */

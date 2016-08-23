@@ -33,8 +33,6 @@ namespace ohmPf
     // map_odom = map_ohmPf * odom_bf.inverse() --> pose correction from map to odom frame
     // map_odom = map_ohmPf * bf_odom
 
-    ros::Time now(ros::Time::now());
-
     tf::StampedTransform tmpTransform;
 
     // TODO: better solution here!
@@ -58,6 +56,8 @@ namespace ohmPf
     tf_map_pf.setRotation( tf::createQuaternionFromYaw( pose(2) ) );
 
     tf::Transform map_odom = tf_map_pf * tf_bf_odom;
+
+    ros::Time now(ros::Time::now());
 
     _tfBroadcaster.sendTransform(tf::StampedTransform(tf_map_pf, now, _paramSet.tfFixedFrame, _paramSet.tfOutputFrame));
     _tfBroadcaster.sendTransform(tf::StampedTransform(map_odom, now, _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));

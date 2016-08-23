@@ -165,7 +165,7 @@ add_library(OhmPf STATIC
     src/STDResampler.cpp
 )
 
-add_library(rostime STATIC
+add_library(rostimeohmpf STATIC
 	src/Time/duration.cpp
 	src/Time/rate.cpp
 	src/Time/time.cpp
@@ -193,7 +193,7 @@ add_executable(CeilCamSimulator
 ## Specify libraries to link a library or executable target against
 
 # just need this because of ros in lib --> remove ros from lib!
-target_link_libraries(rostime ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(rostimeohmpf ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
 #if(NOT APPLE)
 #  target_link_libraries(rostime ${RT_LIBRARY})
@@ -210,7 +210,7 @@ target_link_libraries(CeilCamSimulator
 target_link_libraries(OhmPfNode
  ${catkin_LIBRARIES}
  OhmPf
- rostime
+ rostimeohmpf
 )
 #############
 ## Install ##

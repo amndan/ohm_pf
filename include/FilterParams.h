@@ -22,6 +22,7 @@ typedef struct
   double OCSThresholdLaser;
   double OCSThresholdOdom;
   double OCSThresholdResampler;
+  unsigned int countLasers;
 } FilterParams_t;
 
 } /* namespace ohmPf */

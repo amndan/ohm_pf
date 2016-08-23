@@ -10,23 +10,26 @@
 namespace ohmPf
 {
 
-FilterController::FilterController(FilterParams_t params)
+FilterController::FilterController(FilterParams_t params) :
+    _laserMeasurements(params.countLasers, NULL),
+    _laserUpdaters(params.countLasers, NULL)
 {
+  _filterParams = params;
+
   _map = NULL;
   _odomMeasurement = NULL;
-  _laserMeasurement = NULL;
   _filterOutput = NULL;
 
   _odomUpdater = NULL;
   _ocsObserver = NULL;
-  _laserUpdater = NULL;
   _ceilCamUpdater = NULL;
   _outputUpdater = NULL;
   _mapUpdater = NULL;
   _resampler = NULL;
   _filter = NULL;
 
-  _filterParams = params;
+  _laserQuantifier = new LaserProbMapMethod;
+
   _filter = new Filter(_filterParams);
   _ocsObserver = new OCSObserver();
 
@@ -78,8 +81,10 @@ bool FilterController::setOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams
   return false;
 }
 
-bool FilterController::setLaserMeasurement(ILaserMeasurement* laser)
+bool FilterController::setLaserMeasurement(ILaserMeasurement* laser, unsigned int laserId)
 {
+  assert(laserId < _filterParams.countLasers);
+
   if(_mapUpdater == NULL)
   {
     std::cout << __PRETTY_FUNCTION__ << "--> please init map before init laser" << std::endl;
@@ -87,10 +92,15 @@ bool FilterController::setLaserMeasurement(ILaserMeasurement* laser)
   }
   else
   {
-    _laserUpdater = new LaserUpdater(_filter, _map, laser, new LaserProbMapMethod(), _mapUpdater);
-    _ocsObserver->registerClient(_laserUpdater, _filterParams.OCSThresholdLaser);
+    _laserUpdaters.at(laserId) = new LaserUpdater(_filter, _map, laser, _laserQuantifier, _mapUpdater);
+    _ocsObserver->registerClient(_laserUpdaters.at(laserId), _filterParams.OCSThresholdLaser);
     return true;
   }
+}
+
+bool FilterController::setLaserMeasurement(ILaserMeasurement* laser)
+{
+  return setLaserMeasurement(laser, 0);
 }
 
 bool FilterController::setCeilCamMeasurement(ICeilCamMeasurement* ceilCam)
@@ -119,10 +129,16 @@ bool FilterController::setFilterOutput(IFilterOutput* output)
   return false;
 }
 
+bool FilterController::updateLaser(unsigned int laserId)
+{
+  assert(laserId < _filterParams.countLasers);
+  _laserUpdaters.at(laserId)->update();
+  return 0; // TODO: error handling
+}
+
 bool FilterController::updateLaser()
 {
-  assert(_laserUpdater != NULL);
-  _laserUpdater->update();
+  return updateLaser(0);
 }
 
 bool FilterController::updateCeilCam()

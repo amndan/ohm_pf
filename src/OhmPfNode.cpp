@@ -13,6 +13,7 @@ namespace ohmPf
   OhmPfNode::OhmPfNode() :
       _nh(), _prvNh("~"), _loopRate(25)
   {
+    std::string rawLaserTopicString;
     _prvNh.param<std::string>("tfFixedFrame", _paramSet.tfFixedFrame, "/map");
     _prvNh.param<std::string>("tfBaseFootprintFrame", _paramSet.tfBaseFootprintFrame, "base_footprint_ekf");
     _prvNh.param<std::string>("tfOutputFrame", _paramSet.tfOutputFrame, "ohm_pf_output");
@@ -25,24 +26,27 @@ namespace ohmPf
     _prvNh.param<std::string>("topCeilCam", _paramSet.topCeilCam, "ceilCamPoseArray");
     _prvNh.param<std::string>("topMap", _paramSet.topMap, "/map");
     _prvNh.param<std::string>("topMapSrv", _paramSet.topMapSrv, "/static_map");
-    _prvNh.param<std::string>("topScan", _paramSet.topScan, "filtered_scan");
+    _prvNh.param<std::string>("topScan", rawLaserTopicString, "filtered_scan");
+
     _prvNh.param<std::string>("resamplingMethod", _filterParams.resamplingMethod, "STD");
-    int tmp;
-    _prvNh.param<int>("maxDistanceProbMap", tmp, 10);
-    assert(tmp > 0);
-    _maxDistanceProbMap = (unsigned int)tmp;
-    _prvNh.param<int>("subsamplingRateLaser", tmp, 3);
-    assert(tmp > 0);
-    _rosLaserPMParams.subsamplingRate = (unsigned int)tmp;
-    _prvNh.param<int>("samplesMax", tmp, 5000);
-    _filterParams.samplesMax = (unsigned int)std::abs(tmp);
-    _prvNh.param<int>("samplesMin", tmp, 50);
-    _filterParams.samplesMin = (unsigned int)std::abs(tmp);
+    int itmp;
+    _prvNh.param<int>("maxDistanceProbMap", itmp, 10);
+    assert(itmp > 0);
+    _maxDistanceProbMap = (unsigned int)itmp;
+    _prvNh.param<int>("subsamplingRateLaser", itmp, 3);
+    assert(itmp > 0);
+    _rosLaserPMParams.subsamplingRate = (unsigned int)itmp;
+    _prvNh.param<int>("samplesMax", itmp, 5000);
+    _filterParams.samplesMax = (unsigned int)std::abs(itmp);
+    _prvNh.param<int>("samplesMin", itmp, 50);
+    _filterParams.samplesMin = (unsigned int)std::abs(itmp);
     _prvNh.param<double>("resamplingIntervallFilter", _filterParams.resamplingIntervall, 0.5);
     double dtmp;
     _prvNh.param<double>("uncertaintyLaser", dtmp, 0.5);
     assert(dtmp >= 0 && dtmp < 1.0);
     _rosLaserPMParams.uncertainty = dtmp;
+
+    _filterParams.countLasers = 2; // TODO: launchfile Parameter
 
     _prvNh.param<double>("initX", _paramSet.initPose(0), 0.0);
     _prvNh.param<double>("initY", _paramSet.initPose(1), 0.0);
@@ -62,7 +66,6 @@ namespace ohmPf
     //_pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>(_paramSet.topParticleCloud, 1, true); // tob: published in ROSFilterOutput
     _pubProbMap = _nh.advertise<nav_msgs::OccupancyGrid>("probMap", 1, true);
     _subOdometry = _nh.subscribe(_paramSet.topOdometry, 1, &OhmPfNode::calOdom, this);
-    _subScan = _nh.subscribe(_paramSet.topScan, 1, &OhmPfNode::calScan, this);
     _sub2dPoseEst = _nh.subscribe(_paramSet.top2dPoseEst, 1, &OhmPfNode::cal2dPoseEst, this);
     _subClickedPoint = _nh.subscribe(_paramSet.topClickedPoint, 1, &OhmPfNode::calClickedPoint, this);
     _subCeilCam = _nh.subscribe(_paramSet.topCeilCam, 1, &OhmPfNode::calCeilCam, this);
@@ -72,9 +75,11 @@ namespace ohmPf
 
     _resampleTimer = _nh.createTimer(ros::Duration(_filterParams.resamplingIntervall), &OhmPfNode::calResampleTimer, this);
 
+    parseLaserTopics(rawLaserTopicString);
     spawnFilter();
 
-    _laserInitialized = false;
+    _lasersInitialized = std::vector<bool>(_paramSet.topScans.size(), false);
+
     _odomInitialized = false;
 
     _map = NULL;
@@ -85,6 +90,36 @@ namespace ohmPf
     {
       _filterController->initFilterPose(_paramSet.initPose, _paramSet.initSigmaTrans, _paramSet.initSigmaRot);
     }
+  }
+
+  void OhmPfNode::parseLaserTopics(std::string topic)
+  {
+    std::istringstream ss(topic);
+    std::string token;
+    unsigned int nScanners = 0;
+
+    while(std::getline(ss, token, ';')) {
+        _paramSet.topScans.push_back(token);
+        nScanners++;
+    }
+
+    for(unsigned int i = 0; i < nScanners; i++)
+    {
+      _subScans.push_back(
+          _nh.subscribe<sensor_msgs::LaserScan>(
+            _paramSet.topScans.at(i),
+            1,
+            boost::bind(
+                &OhmPfNode::calScan,
+                this,
+                _1,
+                _paramSet.topScans.at(i)))
+      );
+      std::cout << "scannerNr: "<< i << std::endl;
+      _laserMeasurements.push_back(new ROSLaserMeasurement(_rosLaserPMParams.uncertainty));
+    }
+
+
   }
 
   OhmPfNode::~OhmPfNode()
@@ -193,13 +228,11 @@ namespace ohmPf
     _ceilCamMeasurement = new ROSCeilCamMeasurement();
 
     //todo: get odom Params from Launchfile
-    _odomDiffParams.a1 = 0.005;  // rot error from rot motion
-    _odomDiffParams.a2 = 20;  // rot error from trans motion
+    _odomDiffParams.a1 = 0.01;  // rot error from rot motion
+    _odomDiffParams.a2 = 20.0;  // rot error from trans motion
     _odomDiffParams.a3 = 0.01;  // trans error from trans motion
-    _odomDiffParams.a4 = 0.0;  // trans error from rot motion
+    _odomDiffParams.a4 = 0.001;  // trans error from rot motion
     _odomMeasurement = new ROSOdomMeasurement();
-
-    _laserMeasurement = new ROSLaserMeasurement(_rosLaserPMParams.uncertainty);
 
   }
 
@@ -220,15 +253,26 @@ namespace ohmPf
     _filterController->updateCeilCam();
   }
 
-  void OhmPfNode::calScan(const sensor_msgs::LaserScanConstPtr& msg)
+  void OhmPfNode::calScan(const sensor_msgs::LaserScanConstPtr& msg, const std::string topic)
   {
+    unsigned int i = 0;
 
-    if(!_laserInitialized)
+    // determine laserId from topic
+    while(i < _paramSet.topScans.size())
     {
-      _laserMeasurement->initWithMeasurement(msg, _rosLaserPMParams.tfBaseFooprintFrame);
-      if(_filterController->setLaserMeasurement(_laserMeasurement))
+      if(!topic.compare(_paramSet.topScans.at(i)))
       {
-        _laserInitialized = true;
+        break;
+      }
+      i++;
+    }
+
+    if(!_lasersInitialized.at(i))
+    {
+      _laserMeasurements.at(i)->initWithMeasurement(msg, _rosLaserPMParams.tfBaseFooprintFrame);
+      if(_filterController->setLaserMeasurement(_laserMeasurements.at(i), i))
+      {
+        _lasersInitialized.at(i) = true;
         return;
       }
       else
@@ -238,8 +282,8 @@ namespace ohmPf
     }
     else
     {
-      _laserMeasurement->setMeasurement(msg);
-      _filterController->updateLaser();
+      _laserMeasurements.at(i)->setMeasurement(msg);
+      _filterController->updateLaser(i);
     }
   }
 
