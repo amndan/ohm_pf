@@ -106,6 +106,12 @@ bool FilterController::setLaserMeasurement(ILaserMeasurement* laser, unsigned in
     return false;
   }
 
+  if(laser == NULL)
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> no NULL pointer here!" << std::endl;
+    return false;
+  }
+
   if(_mapUpdater == NULL)
   {
     std::cout << __PRETTY_FUNCTION__ << "--> please init map before init laser" << std::endl;
@@ -125,82 +131,132 @@ bool FilterController::setLaserMeasurement(ILaserMeasurement* laser, unsigned in
 
 bool FilterController::setCeilCamMeasurement(ICeilCamMeasurement* ceilCam)
 {
+  // wrong input
+  if(ceilCam == NULL)
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> no NULL pointer here!" << std::endl;
+    return false;
+  }
+
+  // no map inizialized
   if(_mapUpdater == NULL)
-    {
-      std::cout << __PRETTY_FUNCTION__ << "--> please init map before init ceilCam" << std::endl;
-      return false;
-    }
-    else
-    {
-      _ceilCamUpdater = new CeilCamUpdater(_filter, ceilCam, _mapUpdater);
-      return true;
-    }
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> please init map before init ceilCam" << std::endl;
+    return false;
+  }
+
+  // ceilcam already initialized
+  if(_ceilCamUpdater != NULL)
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> cannot init multible ceil cam updater" << std::endl;
+    return false;
+  }
+
+  // everything ok...
+  _ceilCamUpdater = new CeilCamUpdater(_filter, ceilCam, _mapUpdater);
+  return true;
 }
 
 bool FilterController::setFilterOutput(IFilterOutput* output)
 {
-  if (output != NULL)
+  if(output == NULL)
   {
-    _filterOutput = output;
-    _outputUpdater = new FilterOutputUpdater(_filterOutput, _filter);
-    return true;
+    std::cout << __PRETTY_FUNCTION__ << "--> no NULL pointer here!" << std::endl;
+    return false;
   }
-  std::cout << __PRETTY_FUNCTION__ << "--> no NULL pointer here!" << std::endl;
-  return false;
+
+  if(_filterOutput != NULL)
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> cannot init multible filter outputs" << std::endl;
+    return false;
+  }
+
+  _filterOutput = output;
+  _outputUpdater = new FilterOutputUpdater(_filterOutput, _filter);
+  return true;
 }
 
 bool FilterController::updateLaser(unsigned int laserId)
 {
-  assert(laserId < _filterParams.countLasers);
-  _laserUpdaters.at(laserId)->update();
-  return 0; // TODO: error handling
-}
+  if(laserId >= _filterParams.countLasers)
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> laser id must be less than count lasers" << std::endl;
+    return false;
+  }
 
-bool FilterController::updateLaser()
-{
-  return updateLaser(0);
+  _laserUpdaters.at(laserId)->update();
+
+  return true;
 }
 
 bool FilterController::updateCeilCam()
 {
-  assert(_ceilCamUpdater != NULL);
+  if(_ceilCamUpdater == NULL)
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> must set ceil cam measurement before update ceil cam" << std::endl;
+    return false;
+  }
+
   _ceilCamUpdater->update();
+
+  return true;
 }
 
 bool FilterController::updateOdom()
 {
-  assert(_odomUpdater != NULL);
+  if(_odomUpdater == NULL)
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> must set odom measurement before update odom" << std::endl;
+    return false;
+  }
+
   _odomUpdater->update();
+
+  return true;
 }
 
 bool FilterController::updateOutput()
 {
-  if(_outputUpdater != NULL)
+
+  if(_outputUpdater == NULL)
   {
-    _outputUpdater->update();
+    std::cout << __PRETTY_FUNCTION__ << "--> must set filter output before update output" << std::endl;
+    return false;
   }
-  else
-  {
-    std::cout << __PRETTY_FUNCTION__ << "--> no NULL pointer here!" << std::endl;
-  }
+
+  _outputUpdater->update();
+
+  return true;
 
 }
 
 bool FilterController::resample()
 {
-  assert(_resampler != NULL);
   _resampler->resample(_filter);
+  return true;
 }
 
 bool FilterController::initFilterMap()
 {
-  assert(_mapUpdater != NULL);
+
+  if(_mapUpdater == NULL)
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> must set filter map befor init filter with map" << std::endl;
+    return false;
+  }
+
   _mapUpdater->initFilter();
+
+  return true;
 }
 
 bool FilterController::initFilterPose(Eigen::Vector3d pose, double sigTrans, double sigPhi)
 {
-  assert(_filter->getSamplesMax() != 0);
+  if(_filter->getSamplesMax() == 0)
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> cannot init filter wich filters samples max of 0" << std::endl;
+    return false;
+  }
 
   std::vector<Sample_t> samples;
 

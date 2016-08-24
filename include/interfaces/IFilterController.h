@@ -33,8 +33,6 @@ public:
   virtual bool setLaserMeasurement(ILaserMeasurement* laser, unsigned int laserId) = 0;
   virtual bool setCeilCamMeasurement(ICeilCamMeasurement* ceilCam) = 0;
   virtual bool setFilterOutput(IFilterOutput* output) = 0;
-
-  virtual bool updateLaser() = 0;
   virtual bool updateLaser(unsigned int laserId) = 0;
   virtual bool updateCeilCam() = 0;
   virtual bool updateOdom() = 0;

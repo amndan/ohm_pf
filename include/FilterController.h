@@ -83,18 +83,73 @@ public:
    */
   bool setLaserMeasurement(ILaserMeasurement* laser, unsigned int laserId = 0);
 
+  /**
+   * @brief connect a ceil cam measurement to the filter.
+   * @param ceilCam Pointer to a ceil cam measurement object
+   * which is implementing the ICeilCamMeasurement interface
+   * @return return true if ceil cam measurement connected properly
+   */
   bool setCeilCamMeasurement(ICeilCamMeasurement* ceilCam);
+
+  /**
+   * @brief connect a filter output interface to the filter
+   * @param output filter output mechanism which is implementing
+   * a IFilterOutput interface
+   * @return returns true if filter output has been connected successfully
+   */
   bool setFilterOutput(IFilterOutput* output);
 
-  bool updateLaser();
-  bool updateLaser(unsigned int laserId);
+  /**
+   * @brief Updates the filter with the actual laser measurement
+   * connected with setLaserMeasurement()
+   * Updates the filter if OCS flag for measurement is set to true.
+   * If not Function returns true but filter will not be updated.
+   * @return returns true if filter is properly initialized to handle measurement
+   */
+  bool updateLaser(unsigned int laserId = 0);
+
+  /**
+   * @brief updates the filter with the actual odom measurement
+   * connected with setOdomMeasurement()
+   * Updates the filter if OCS flag for measurement is set to true.
+   * If not Function returns true but filter will not be updated.
+   * @return returns true if filter is properly initialized to handle measurement
+   */
   bool updateOdom();
+
+  /**
+   * @brief updates the output object of the filter
+   * which has been connected with setFilterOutput()
+   * @return returns true if filter output was properly set
+   */
   bool updateOutput();
+
+  /**
+   * @brief updates the filter with the actual ceil cam measurement
+   * which has been connected with setCeilCamMeasurement()
+   * @return returns true if ceil cam is sucessfully initialized
+   */
   bool updateCeilCam();
 
+  /**
+   * @brief resamples the filter if OCS flag is active
+   * @return returns true
+   */
   bool resample();
 
+  /**
+   * @brief initializes/reinitializes the filters particles with its map data
+   * @return returns true if map is available
+   */
   bool initFilterMap();
+
+  /**
+   * @brief initializes/reinitializes the filters particles with a pose in map frame
+   * @param pose pose in map frame to init filter
+   * @param sigTrans translational standard deviation in m
+   * @param sigPhi rotational standard deviation in rad
+   * @return returns true if initialization was successfully
+   */
   bool initFilterPose(Eigen::Vector3d pose, double sigTrans, double sigPhi);
 
 private:
