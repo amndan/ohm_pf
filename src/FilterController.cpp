@@ -52,55 +52,75 @@ FilterController::FilterController(FilterParams_t params) :
 
 }
 
-FilterController::~FilterController()
-{
-  // TODO Auto-generated destructor stub
-}
 
 bool FilterController::setMap(IMap* map)
 {
-  if(map != NULL)
+  // input map is NULL
+  if(map == NULL)
   {
+    std::cout << __PRETTY_FUNCTION__ << "--> no NULL pointer here!" << std::endl;
+    return false;
+  }
+
+  // map is already set
+  if(_map != NULL)
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> Cannot set multible maps!" << std::endl;
+    return false;
+  }
+
+  // everything ok...
   _map = map;
   _mapUpdater = new MapUpdater(_filter, _map);
   return true;
-  }
-  std::cout << __PRETTY_FUNCTION__ << "--> no NULL pointer here!" << std::endl;
-  return false;
+
 }
 
 bool FilterController::setOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams_t params)
 {
-  if(odom != NULL)
+  // input pointer is NULL
+  if(odom == NULL)
   {
+    std::cout << __PRETTY_FUNCTION__ << "--> no NULL pointer here!" << std::endl;
+    return false;
+  }
+
+  // odom measurement already set
+  if(_odomUpdater != NULL)
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> cannot set multible odom measurements!" << std::endl;
+    return false;
+  }
+
+  // everything ok...
   _odomUpdater = new OdomUpdater(_filter, new OdomDiff(params), odom, _ocsObserver);
   _ocsObserver->registerClient(_odomUpdater, _filterParams.OCSThresholdOdom);
   return true;
-  }
-  std::cout << __PRETTY_FUNCTION__ << "--> no NULL pointer here!" << std::endl;
-  return false;
 }
 
 bool FilterController::setLaserMeasurement(ILaserMeasurement* laser, unsigned int laserId)
 {
-  assert(laserId < _filterParams.countLasers);
+  if(laserId >= _filterParams.countLasers)
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> laser id must be less than count lasers" << std::endl;
+    return false;
+  }
 
   if(_mapUpdater == NULL)
   {
     std::cout << __PRETTY_FUNCTION__ << "--> please init map before init laser" << std::endl;
     return false;
   }
-  else
-  {
-    _laserUpdaters.at(laserId) = new LaserUpdater(_filter, _map, laser, _laserQuantifier, _mapUpdater);
-    _ocsObserver->registerClient(_laserUpdaters.at(laserId), _filterParams.OCSThresholdLaser);
-    return true;
-  }
-}
 
-bool FilterController::setLaserMeasurement(ILaserMeasurement* laser)
-{
-  return setLaserMeasurement(laser, 0);
+  if(_laserUpdaters.at(laserId) != NULL)
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> cannot set multible laser measurements for one id" << std::endl;
+    return false;
+  }
+
+  _laserUpdaters.at(laserId) = new LaserUpdater(_filter, _map, laser, _laserQuantifier, _mapUpdater);
+  _ocsObserver->registerClient(_laserUpdaters.at(laserId), _filterParams.OCSThresholdLaser);
+  return true;
 }
 
 bool FilterController::setCeilCamMeasurement(ICeilCamMeasurement* ceilCam)

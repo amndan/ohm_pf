@@ -35,28 +35,65 @@
 namespace ohmPf
 {
 
+/**
+ * @brief The Filter controller is the manager of the classes of ohmPf package.
+ * He provides access to the hidden implementation of libOhmPf
+ * via a its interface IFilterController. Via a factory method the user
+ * creates the filter instance.
+ */
 class FilterController : public IFilterController
 {
 public:
+  /**
+   * @brief Constructor
+   * @param params A filter params structure.
+   */
   FilterController(FilterParams_t params);
-  virtual ~FilterController();
 
+  /**
+   * @brief Destructor (empty)
+   */
+  virtual ~FilterController(){};
+
+  /**
+   * @brief Sets a reference to the filters map. The used map has to implement the
+   * IMap interface. The filter needs a map to initialize itself.
+   * @param map A pointer to a Map instance implementing the IMap interface.
+   * @return returns true if map is successfully set.
+   */
   bool setMap(IMap* map);
+
+  /**
+   * @brief Connect an odometry measurement to the Filter.
+   * @param odom Pointer to an odometry measurement implementation implementing
+   * IOdomMeasurement interface.
+   * @param params Odometry parameter structure.
+   * @todo Overload this function with e.g. OdomOmniParams for omnidirectional robots
+   * @return returns true if odom measurement has been correctly connected
+   */
   bool setOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams_t params);
 
-  bool setLaserMeasurement(ILaserMeasurement* laser);
-  bool setLaserMeasurement(ILaserMeasurement* laser, unsigned int laserId);
+  /**
+   * @brief Connect a single laser measurement to the filter
+   * @param laser pointer to a laser measurement instance which is
+   * implementing a ILaserMeasurement interface
+   * @param laserId For multible laser setup user must give different laser
+   * ids for different laser measurements.
+   * @return returns true if laser measurement has been connected successfully
+   */
+  bool setLaserMeasurement(ILaserMeasurement* laser, unsigned int laserId = 0);
 
   bool setCeilCamMeasurement(ICeilCamMeasurement* ceilCam);
   bool setFilterOutput(IFilterOutput* output);
 
   bool updateLaser();
   bool updateLaser(unsigned int laserId);
-
   bool updateOdom();
   bool updateOutput();
-  bool resample();
   bool updateCeilCam();
+
+  bool resample();
+
   bool initFilterMap();
   bool initFilterPose(Eigen::Vector3d pose, double sigTrans, double sigPhi);
 
@@ -66,7 +103,6 @@ private:
   std::vector<ILaserMeasurement*> _laserMeasurements;
   IFilterOutput* _filterOutput;
   FilterParams_t _filterParams;
-
   OdomUpdater* _odomUpdater;
   OCSObserver* _ocsObserver;
   std::vector<LaserUpdater*> _laserUpdaters;
