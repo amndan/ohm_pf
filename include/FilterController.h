@@ -59,6 +59,7 @@ public:
    * @brief Sets a reference to the filters map. The used map has to implement the
    * IMap interface. The filter needs a map to initialize itself.
    * @param map A pointer to a Map instance implementing the IMap interface.
+   * This could be e.g. ROSMap.
    * @return returns true if map is successfully set.
    */
   bool setMap(IMap* map);
@@ -66,7 +67,7 @@ public:
   /**
    * @brief Connect an odometry measurement to the Filter.
    * @param odom Pointer to an odometry measurement implementation implementing
-   * IOdomMeasurement interface.
+   * IOdomMeasurement interface e.g. ROSOdomMeasurement.
    * @param params Odometry parameter structure.
    * @todo Overload this function with e.g. OdomOmniParams for omnidirectional robots
    * @return returns true if odom measurement has been correctly connected
@@ -76,7 +77,7 @@ public:
   /**
    * @brief Connect a single laser measurement to the filter
    * @param laser pointer to a laser measurement instance which is
-   * implementing a ILaserMeasurement interface
+   * implementing a ILaserMeasurement interface e.g. ROSLaserMeasurement.
    * @param laserId For multible laser setup user must give different laser
    * ids for different laser measurements.
    * @return returns true if laser measurement has been connected successfully
@@ -86,7 +87,7 @@ public:
   /**
    * @brief connect a ceil cam measurement to the filter.
    * @param ceilCam Pointer to a ceil cam measurement object
-   * which is implementing the ICeilCamMeasurement interface
+   * which is implementing the ICeilCamMeasurement interface e.g. ROSCeilCamMeasurement.
    * @return return true if ceil cam measurement connected properly
    */
   bool setCeilCamMeasurement(ICeilCamMeasurement* ceilCam);
@@ -94,7 +95,7 @@ public:
   /**
    * @brief connect a filter output interface to the filter
    * @param output filter output mechanism which is implementing
-   * a IFilterOutput interface
+   * a IFilterOutput interface e.g. ROSFilterOutput.
    * @return returns true if filter output has been connected successfully
    */
   bool setFilterOutput(IFilterOutput* output);

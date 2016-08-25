@@ -27,7 +27,7 @@ public:
   /**
    * @brief Constructor initializes CeilCamUpdater class.
    * @param filter pointer to The filter Instance to be updated.
-   * @param measurement pointer to the CeilCamMeasurement container
+   * @param measurement pointer to an ICeilCamMeasurement e.g. ROSCeilCamMeasurement.
    * The measurement itself gets actualized from outside this class.
    * After actualizing the measurement, update() should be called by the user.
    * @param updateFilterMap pointer to a map updater to trigger a map update for the filter
