@@ -14,9 +14,4 @@ namespace ohmPf
     _filter = filter;
   }
 
-  ros::Time FilterUpdater::getStamp()
-  {
-    return _stamp;
-  }
-
 } /* namespace ohmPf */

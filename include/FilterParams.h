@@ -13,6 +13,9 @@
 namespace ohmPf
 {
 
+/**
+ * @brief structure for holding filter parameters.
+ */
 typedef struct
 {
   unsigned int samplesMin;
