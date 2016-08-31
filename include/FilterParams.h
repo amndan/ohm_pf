@@ -9,6 +9,7 @@
 #define INCLUDE_FilterParams_H_
 
 #include <string>
+#include "LaserProbMapParams.h"
 
 namespace ohmPf
 {
@@ -26,6 +27,7 @@ typedef struct
   double OCSThresholdOdom;
   double OCSThresholdResampler;
   unsigned int countLasers;
+  LaserProbMapParams_t laserProbMapParams;
 } FilterParams_t;
 
 } /* namespace ohmPf */

@@ -45,6 +45,9 @@ namespace ohmPf
     _prvNh.param<double>("uncertaintyLaser", dtmp, 0.5);
     assert(dtmp >= 0 && dtmp < 1.0);
     _rosLaserPMParams.uncertainty = dtmp;
+    _prvNh.param<double>("minimumValidScanRaysFactor", _filterParams.laserProbMapParams.minValidRaysFactor, 0.5);
+    _prvNh.param<int>("subsamplingRateLaser", itmp, 3);
+    _filterParams.laserProbMapParams.subsamplingLaser = (unsigned int) itmp;
 
     _filterParams.countLasers = 2; // TODO: launchfile Parameter
 
