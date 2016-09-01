@@ -10,26 +10,20 @@
 namespace ohmPf
 {
 
-LaserProbMapMethod::LaserProbMapMethod(LaserProbMapParams_t params)
+LaserProbMapMethod::LaserProbMapMethod( double minValidRaysFactor )
 {
-  _params = params;
 
-  if(params.subsamplingLaser <= 1)
-  {
-    std::cout << __PRETTY_FUNCTION__ << "--> subsampling rate of laser must be > 1. Subsampling under 2 is not"
-        "yet implementet. Requestet subsampling factor is: " << _params.subsamplingLaser << std::endl;
-
-    std::cout << __PRETTY_FUNCTION__ << "--> Will proceed with subsampling factor of 3" << std::endl;
-    _params.subsamplingLaser = 3;
-  }
-
-  if(_params.minValidRaysFactor > 1.0 || _params.minValidRaysFactor <= 0.0)
+  if(minValidRaysFactor > 1.0 || minValidRaysFactor <= 0.0)
   {
     std::cout << __PRETTY_FUNCTION__ << "--> minValidRaysFactor must be in between intervall ]0.0;1.0]"
-        " Requested Factor was: " << _params.minValidRaysFactor << std::endl;
+        " Requested Factor was: " << minValidRaysFactor << std::endl;
 
     std::cout << __PRETTY_FUNCTION__ << "--> Will proceed with Factor of 0.5" << std::endl;
-        _params.minValidRaysFactor = 0.5;
+        _minValidRaysFactor = 0.5;
+  }
+  else
+  {
+    _minValidRaysFactor = minValidRaysFactor;
   }
 
 }
@@ -47,14 +41,14 @@ Eigen::Matrix3Xd LaserProbMapMethod::rangesToCoordinates(ILaserMeasurement& meas
   }
 
   // calculate steps
-  int iter = (int)std::floor(ranges.size() / _params.subsamplingLaser);
+  int iter = (int)std::floor(ranges.size() / measurement.getSubsamplingRate());
 
   // init vars
   Eigen::Matrix3Xd scanCoord(3, iter + 1); // why iter+1: (int) abs(5 / 2) = 2 --> 0 2 4 --> 2 + 1 = 3
   unsigned int invalidRayCounter = 0;
 
   // transform ranges to coordinates in laser frame
-  for (unsigned int i = 0, j = 0; i < ranges.size(); i = i + _params.subsamplingLaser, j++)
+  for (unsigned int i = 0, j = 0; i < ranges.size(); i = i + measurement.getSubsamplingRate(), j++)
   {
     // filter measurements
     if (ranges[i] <= measurement.getRangeMax() && ranges[i] >= measurement.getRangeMin() && !std::isinf(ranges[i]))
@@ -74,7 +68,7 @@ Eigen::Matrix3Xd LaserProbMapMethod::rangesToCoordinates(ILaserMeasurement& meas
   }
 
   // calculate invalid scans factor and send debug message
-  if(1.0 - ( invalidRayCounter / (iter + 1) ) < _params.minValidRaysFactor)
+  if(1.0 - ( invalidRayCounter / (iter + 1) ) < _minValidRaysFactor)
   {
     std::cout << __PRETTY_FUNCTION__ << "--> Too less rays for updating filter. This is just a debugging message,"
         "The feature itsel is not implemented yet. invalidRayCounter = " << invalidRayCounter << std::endl;

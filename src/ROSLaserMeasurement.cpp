@@ -10,10 +10,12 @@
 namespace ohmPf
 {
 
-ROSLaserMeasurement::ROSLaserMeasurement(double uncertainty)
+ROSLaserMeasurement::ROSLaserMeasurement(const sensor_msgs::LaserScanConstPtr& scan,
+                                         std::string tfBaseFootprintFrame,
+                                         unsigned int subsamplingRate,
+                                         double uncertainty)
 {
-  _initialized = false;
-  _uncertainty = uncertainty; // todo: from launchfile
+  initWithMeasurement(scan,tfBaseFootprintFrame,subsamplingRate,uncertainty);
 }
 
 ROSLaserMeasurement::~ROSLaserMeasurement()
@@ -21,13 +23,40 @@ ROSLaserMeasurement::~ROSLaserMeasurement()
   // TODO Auto-generated destructor stub
 }
 
-void ROSLaserMeasurement::initWithMeasurement(const sensor_msgs::LaserScanConstPtr& scan, std::string tfBaseFootprintFrame)
+void ROSLaserMeasurement::initWithMeasurement(const sensor_msgs::LaserScanConstPtr& scan,
+                                              std::string tfBaseFootprintFrame,
+                                              unsigned int subsamplingRate,
+                                              double uncertainty)
 {
   _angleIncrement = (double)scan->angle_increment;
   _angleMax = (double)scan->angle_max;
   _angleMin = (double)scan->angle_min;
   _rangeMax = (double)scan->range_max;
   _rangeMin = (double)scan->range_min;
+
+  if(uncertainty >= 0.0 && uncertainty < 1.0)
+  {
+    _uncertainty = uncertainty;
+  }
+  else
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> uncertainty >= 0.0 && uncertainty < 1.0: "
+        "uncertainty = " << uncertainty << " --> exit()" << std::endl;
+    exit(EXIT_FAILURE);
+  }
+
+  if(subsamplingRate > 1)
+  {
+    _subsamplingRate = subsamplingRate;
+  }
+  else
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> subsampling rate of laser must be > 1. Subsampling under 2 is not"
+        "yet implementet. Requestet subsampling factor is: " << subsamplingRate << std::endl;
+
+    std::cout << __PRETTY_FUNCTION__ << "--> Will proceed with subsampling factor of 3" << std::endl;
+    _subsamplingRate = 3;
+  }
 
   std::string tfLaserFrame = scan->header.frame_id;
 
@@ -104,6 +133,11 @@ unsigned int ROSLaserMeasurement::getCount()
 std::vector<float> ROSLaserMeasurement::getRanges()
 {
   return _ranges;
+}
+
+unsigned int ROSLaserMeasurement::getSubsamplingRate()
+{
+  return _subsamplingRate;
 }
 
 double ROSLaserMeasurement::getUncertainty()

@@ -28,7 +28,7 @@ FilterController::FilterController(FilterParams_t params) :
   _resampler = NULL;
   _filter = NULL;
 
-  _laserQuantifier = new LaserProbMapMethod(_filterParams.laserProbMapParams);
+  _laserQuantifier = new LaserProbMapMethod(_filterParams.minValidScanRaysFactor);
 
   _filter = new Filter(_filterParams);
   _ocsObserver = new OCSObserver();

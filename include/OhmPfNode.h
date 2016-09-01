@@ -19,7 +19,6 @@
 #include "tf/transform_datatypes.h"
 #include "assert.h"
 #include "OhmPfNodeParams.h"
-#include "RosLaserPMParams.h"
 
 #include "interfaces/IFilterController.h"
 #include "FilterParams.h"
@@ -63,11 +62,9 @@ private:
   ros::Timer _resampleTimer;
   OhmPfNodeParams_t _paramSet;
   OdomDiffParams_t _odomDiffParams;
-  RosLaserPMParams_t _rosLaserPMParams;
   FilterParams_t _filterParams;
   unsigned int _maxDistanceProbMap;
   bool _odomInitialized;
-  std::vector<bool> _lasersInitialized;
   bool _ceilCamInitialized;
   IFilterController* _filterController;
   ROSOdomMeasurement* _odomMeasurement;

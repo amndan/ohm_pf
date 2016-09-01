@@ -24,7 +24,7 @@ namespace ohmPf
     /**
      * @brief Constructor stores params.
      */
-    LaserProbMapMethod(LaserProbMapParams_t params);
+    LaserProbMapMethod(double minValidRaysFactor);
 
     /**
      * @brief Destructor (empty)
@@ -44,7 +44,7 @@ namespace ohmPf
 
     Eigen::Matrix3Xd rangesToCoordinates(ILaserMeasurement& measurement);
 
-    LaserProbMapParams_t _params;
+    double _minValidRaysFactor;
   };
 } /* namespace ohmPf */
 
