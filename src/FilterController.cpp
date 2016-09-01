@@ -35,7 +35,8 @@ FilterController::FilterController(FilterParams_t params) :
 
   if(params.resamplingMethod == "STD")
   {
-    _resampler = new STDResampler();
+    _resampler = new STDResampler(0.00, 0);
+    //_resampler = new STDResampler(0.05, 10.0 / 180.0 * M_PI);
   }
   else if(params.resamplingMethod == "LV")
   {

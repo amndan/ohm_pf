@@ -7,75 +7,83 @@
 
 #include "../include/STDResampler.h"
 
+#include <cstdlib>
+#include <iterator>
+#include <numeric>
+#include <vector>
+
+#include "../include/Sample.h"
+#include "../include/SampleSet.h"
+#include "../include/UtilitiesOhmPf.h"
+
 namespace ohmPf
 {
 
-  STDResampler::STDResampler()
-  {
-    // TODO Auto-generated constructor stub
+STDResampler::STDResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot)
+{
+  _OCSFlag = false;
+  _addNoiseSigmaRot = abs(addNoiseSigmaRot);
+  _addNoiseSigmaTrans = abs(addNoiseSigmaTrans);
+}
 
-  }
+STDResampler::~STDResampler()
+{
+  // TODO Auto-generated destructor stub
+}
 
-  STDResampler::~STDResampler()
+void STDResampler::resample(Filter* filter)
+{
+  if(_OCSFlag == true)
   {
-    // TODO Auto-generated destructor stub
-  }
+    SampleSet* set = filter->getSampleSet();
+    std::vector<Sample_t>* samples = set->getSamples();
+    unsigned int countSamples = set->getCountSamples();
+    assert(countSamples > 0);
+    set->normalize();
 
-  void STDResampler::resample(Filter* filter)
-  {
-    if(_OCSFlag == true)
+    std::vector<double> weightsCumsum;
+    std::vector<Sample_t> newSamples;
+
+    weightsCumsum.reserve(countSamples);
+    newSamples.reserve(countSamples);
+
+    for(int i = 0; i < samples->size(); i++)
     {
-      SampleSet* set = filter->getSampleSet();
-      std::vector<Sample_t>* samples = set->getSamples();
-      unsigned int countSamples = set->getCountSamples();
+      weightsCumsum.push_back(samples->at(i).weight);
+    }
 
-      // todo: use a more intelligent way to do this
-      if(!set->isNormalized()) set->normalize();
+    //std::cout << "stabw:" << getStabw(weightsCumsum) << std::endl;
 
-      std::vector<double> weightsCumsum;
+    std::partial_sum(weightsCumsum.begin(), weightsCumsum.end(), weightsCumsum.begin());
 
-      weightsCumsum.reserve(countSamples);
+    double rand;
 
-      for(int i = 0; i < samples->size(); i++)
+    for(unsigned int i = 0; i < countSamples; i++)
+    {
+      rand = drand48();
+      for(int j = 0; j < countSamples; j++)
       {
-        weightsCumsum.push_back(samples->at(i).weight);
-      }
-
-      //std::cout << "stabw:" << getStabw(weightsCumsum) << std::endl;
-
-      std::partial_sum(weightsCumsum.begin(), weightsCumsum.end(), weightsCumsum.begin());
-
-      std::vector<Sample_t> newSamples;
-      newSamples.reserve(countSamples);
-
-      double rand;
-
-      for(unsigned int i = 0; i < countSamples; i++)
-      {
-        rand = drand48();
-        for(int j = 0; j < countSamples; j++)
+        if(rand < weightsCumsum[j])
         {
-          if(rand < weightsCumsum[j])
-          {
-            newSamples.push_back(samples->at(j));
-            addGaussianRandomness(newSamples[i]);
-            newSamples[i].weight = 1.0;
-            break;
-          }
+          newSamples.push_back(samples->at(j));
+          addGaussianRandomness(newSamples[i], _addNoiseSigmaTrans, _addNoiseSigmaRot);
+          newSamples[i].weight = 1.0 / countSamples;
+          break;
         }
       }
-
-      *samples = newSamples;
-      set->normalize();
-
-      _OCSFlag = false;
     }
-  }
 
-  void STDResampler::setOCSFlagTrue()
-  {
-    _OCSFlag = true;
+    assert(countSamples == newSamples.size());
+
+    *samples = newSamples;
+    _OCSFlag = false;
   }
+}
+
+void STDResampler::setOCSFlagTrue()
+{
+  _OCSFlag = true;
+}
 
 } /* namespace ohmPf */
 

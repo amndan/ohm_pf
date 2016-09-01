@@ -35,12 +35,15 @@ public:
   /**
    * @brief Resampling function.
    * @param filter Filter instance --> Holds the particles to be resampled
+   * @todo normalizing shouold be done before or after accessing samples.
+   * Each function must normalize with that rule!
+   * @todo parameter for low variance distance.
+   * @todo parameter for gaussian randomness.
    */
   void resample(Filter* filter);
 
   /**
-   * @brief OCS flag management.
-   * @todo Do we use OCS flag here?
+   * @brief OCS flag management (see @ref OCS).
    */
   void setOCSFlagTrue();
 

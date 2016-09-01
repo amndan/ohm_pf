@@ -42,6 +42,16 @@ namespace ohmPf
     void calculate(Filter& filter, ILaserMeasurement& measurement, IMap& map, MapUpdater* updateFilterMap);
   private:
 
+    /**
+     * @brief project laser range measurements into 2d-space relative to laser frame
+     * @param measurement The laser measurement.
+     * @return Coordinates array. Each point consists of three double values: x y z
+     * x: the x value in m
+     * y: the y value in m
+     * z: used as validy mask; if z = 0 the coordinate is not valid because of invalid measurements from the laser.
+     * @todo Implement subsampling of laser measurents with rates < 2.
+     * @todo Implement min valid rays of scan routine.
+     */
     Eigen::Matrix3Xd rangesToCoordinates(ILaserMeasurement& measurement);
 
     double _minValidRaysFactor;

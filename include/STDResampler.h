@@ -8,10 +8,7 @@
 #ifndef INCLUDE_STDRESAMPLER_H_
 #define INCLUDE_STDRESAMPLER_H_
 
-#include "IResampler.h"
-#include "Filter.h"
-#include "assert.h"
-#include "IOCSClient.h"
+#include "interfaces/IResampler.h"
 
 namespace ohmPf
 {
@@ -19,12 +16,14 @@ namespace ohmPf
   class STDResampler : public IResampler
   {
   public:
-    STDResampler();
+    STDResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot);
     virtual ~STDResampler();
     void resample(Filter* filter);
     void setOCSFlagTrue();
   private:
     bool _OCSFlag;
+    double _addNoiseSigmaRot;
+    double _addNoiseSigmaTrans;
   };
 
 } /* namespace ohmPf */

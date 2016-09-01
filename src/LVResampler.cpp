@@ -12,7 +12,7 @@ namespace ohmPf
 
   LVResampler::LVResampler()
   {
-    /// @todo init ocs flag here
+    _OCSFlag = false;
   }
 
   void LVResampler::resample(Filter* filter)
@@ -23,13 +23,13 @@ namespace ohmPf
       std::vector<Sample_t>* samples = set->getSamples();
       unsigned int cnt = set->getCountSamples();
 
-      // todo: use a more intelligent way to do this
-      if(!set->isNormalized())
-        set->normalize();
+      set->normalize();
 
       std::vector<double> weightsCumsum;
+      std::vector<Sample_t> newSamples;
 
       weightsCumsum.reserve(cnt);
+      newSamples.reserve(cnt);
 
       for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
       {
@@ -38,10 +38,8 @@ namespace ohmPf
 
       //std::cout << "stabw:" << getStabw(weightsCumsum) << std::endl;
 
+      // create a cumulated sum vector
       std::partial_sum(weightsCumsum.begin(), weightsCumsum.end(), weightsCumsum.begin());
-
-      std::vector<Sample_t> newSamples;
-      newSamples.reserve(cnt);
 
       double rand;
       //low variance resampling
@@ -62,7 +60,7 @@ namespace ohmPf
               unsigned int index = (j + k * lowVarDist) % cnt;  // prevent overflow
               newSamples.push_back(samples->at(index));
               addGaussianRandomness(newSamples[i]);  //TODO: variance of gaussian randomness as launchfileparam
-              newSamples[i].weight = 1.0;
+              newSamples[i].weight = 1.0 / cnt; // normalizing is included here
             }
             break;
           }
@@ -70,8 +68,8 @@ namespace ohmPf
       }
 
       assert(cnt == newSamples.size());
+
       set->setSamples(newSamples);
-      set->normalize();
 
       _OCSFlag = false;
     }

@@ -14,6 +14,11 @@
 #include "assert.h"
 #include <cmath>
 
+/**
+ * @page OCS OCS-Management
+ * Here comes the explanation of OCS-Management.
+ */
+
 namespace ohmPf
 {
 
