@@ -28,8 +28,6 @@ FilterController::FilterController(FilterParams_t params) :
   _resampler = NULL;
   _filter = NULL;
 
-  _laserQuantifier = new LaserProbMapMethod(_filterParams.minValidScanRaysFactor);
-
   _filter = new Filter(_filterParams);
   _ocsObserver = new OCSObserver(_filterParams.OCSRotToTransFactor);
 
@@ -127,7 +125,7 @@ bool FilterController::setLaserMeasurement(ILaserMeasurement* laser, unsigned in
     return false;
   }
 
-  _laserUpdaters.at(laserId) = new LaserUpdater(_filter, _map, laser, _laserQuantifier, _mapUpdater);
+  _laserUpdaters.at(laserId) = new LaserProbMapUpdater(_filter, _map, laser, _mapUpdater, _filterParams.minValidScanRaysFactor);
   _ocsObserver->registerClient(_laserUpdaters.at(laserId), _filterParams.OCSThresholdLaser);
   return true;
 }

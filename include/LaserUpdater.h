@@ -12,7 +12,6 @@
 #include "OCSClient.h"
 #include "IMap.h"
 #include "ILaserMeasurement.h"
-#include "ILaserQuantifier.h"
 #include "MapUpdater.h"
 
 
@@ -31,7 +30,6 @@ public:
    * @param filter Pointer to the filter instance to update with the measurement.
    * @param map Pointer to a map instance.
    * @param measurement Pointer to the measurements representation.
-   * @param quantifier Pointer to the laser quantifier to be used for update.
    * @param updateFilterMap Pointer to the map updater instance.
    * @todo Perhaps implement a filterGetMap() beside the filterGetMapUpdater function.
    * MapUpdater and Map should belong to the filter. If the filter is initialized with
@@ -40,7 +38,6 @@ public:
   LaserUpdater(Filter* filter,
                IMap* map,
                ILaserMeasurement* measurement,
-               ILaserQuantifier* quantifier,
                MapUpdater* updateFilterMap);
 
   /**
@@ -54,10 +51,11 @@ public:
    */
   void update();
 
-private:
+  virtual void calculate() = 0;
+
+protected:
   IMap* _map;
   ILaserMeasurement* _measurement;
-  ILaserQuantifier* _quantifier;
   MapUpdater* _updateFilterMap;
 };
 

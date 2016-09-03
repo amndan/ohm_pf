@@ -154,7 +154,7 @@ add_library(OhmPf STATIC
     src/FilterUpdater.cpp
     src/LaserUpdater.cpp
     src/SampleSet.cpp
-    src/LaserProbMapMethod.cpp
+    src/LaserProbMapUpdater.cpp
     src/MapUpdater.cpp
     src/OdomUpdater.cpp
     src/CeilCamUpdater.cpp

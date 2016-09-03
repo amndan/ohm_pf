@@ -8,26 +8,25 @@
 #ifndef SRC_FILTERCONTROLLER_H_
 #define SRC_FILTERCONTROLLER_H_
 
-#include "interfaces/IFilterController.h"
+#include "IFilterController.h"
 #include "IOdomMeasurement.h"
 #include "ILaserMeasurement.h"
-#include "interfaces/IFilterOutput.h"
+#include "IFilterOutput.h"
 #include "IMap.h"
 #include "FilterParams.h"
 #include "DiffDriveUpdater.h"
 #include "LaserUpdater.h"
 #include "FilterOutputUpdater.h"
-#include "interfaces/IResampler.h"
+#include "IResampler.h"
 #include "MapUpdater.h"
 #include "OdomDiffParams.h"
 #include "assert.h"
-#include "LaserProbMapMethod.h"
+#include "LaserProbMapUpdater.h"
 #include "LVResampler.h"
 #include "STDResampler.h"
 #include "OCSObserver.h"
 #include "CeilCamUpdater.h"
 #include "Eigen/Dense"
-#include "LaserProbMapMethod.h"
 
 namespace ohmPf
 {
@@ -164,7 +163,6 @@ private:
   MapUpdater* _mapUpdater;
   IResampler* _resampler;
   Filter* _filter;
-  LaserProbMapMethod* _laserQuantifier;
 };
 
 } /* namespace ohmPf */
