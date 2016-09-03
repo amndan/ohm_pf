@@ -1,0 +1,21 @@
+IResampler.h
+LVResampler.h
+IOCSClient.h
+CeilCamUpdater.h
+Filter.h
+FilterController.h
+IFilterController.h
+FilterOutputUpdater.h
+FilterUpdater.h
+FilterParams.h
+FilterState.h
+GaussianPdf.h
+ILaserQuantifier.h
+LaserProbMapMethod.h
+LaserUpdater.h
+next LVResampler.h + stdResampler --> püaram for variance
+
+
+
+
+// Why does a lowe subsampling rate of laser lead to less variance of the filter?
