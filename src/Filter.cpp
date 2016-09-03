@@ -10,49 +10,43 @@
 namespace ohmPf
 {
 
-  Filter::Filter(FilterParams_t params) :
-      _sampleSet(params.samplesMax)
-  {
-    _samplesMax = params.samplesMax;
-    _samplesMin = params.samplesMin;
+Filter::Filter(FilterParams_t params) :
+    _sampleSet(params.samplesMax)
+{
+  _samplesMax = params.samplesMax;
+  _samplesMin = params.samplesMin;
 
-    _filterState.probPose = 0.0;
-  }
+  _filterState.probPose = 0.0;
+}
 
-  Filter::~Filter()
-  {
-    // TODO Auto-generated destructor stub
-  }
+unsigned int Filter::getSamplesMax()
+{
+  return _samplesMax;
+}
 
-  unsigned int Filter::getSamplesMax()
-  {
-    return _samplesMax;
-  }
+unsigned int Filter::getSamplesMin()
+{
+  return _samplesMin;
+}
 
-  unsigned int Filter::getSamplesMin()
-  {
-    return _samplesMin;
-  }
+std::vector<Sample_t>* Filter::getSamples()
+{
+  return _sampleSet.getSamples();
+}
 
-  std::vector<Sample_t>* Filter::getSamples()
-  {
-    return _sampleSet.getSamples();
-  }
+SampleSet* Filter::getSampleSet()
+{
+  return &_sampleSet;
+}
 
+void Filter::setSamples(std::vector<Sample_t> samples)
+{
+  _sampleSet.setSamples(samples);
+}
 
-  SampleSet* Filter::getSampleSet()
-  {
-    return &_sampleSet;
-  }
-
-  void Filter::setSamples(std::vector<Sample_t> samples)
-  {
-    _sampleSet.setSamples(samples);
-  }
-
-  FilterState_t* Filter::getFilterState()
-  {
-	  return &_filterState;
-  }
+FilterState_t* Filter::getFilterState()
+{
+  return &_filterState;
+}
 
 } /* namespace ohmPf */

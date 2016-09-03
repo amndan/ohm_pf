@@ -20,39 +20,46 @@
 namespace ohmPf
 {
 
-  class ROSLaserMeasurement : public ILaserMeasurement
-  {
-  public:
-    ROSLaserMeasurement(double uncertainty);
-    virtual ~ROSLaserMeasurement();
-    void initWithMeasurement(const sensor_msgs::LaserScanConstPtr& scan, std::string tfBaseFootprintFrame);
-    void setMeasurement(sensor_msgs::LaserScanConstPtr scan);
-    ros::Time getStamp();
-    double getAngleIncrement();
-    double getRangeMax();
-    double getRangeMin();
-    double getAngleMin();
-    double getAngleMax();
-    unsigned int getCount();
-    std::vector<float> getRanges();
-    double getUncertainty();
-    Eigen::Matrix3d getTfBaseFootprintToLaser();
-    bool isInitialized();
+class ROSLaserMeasurement : public ILaserMeasurement
+{
+public:
+  ROSLaserMeasurement(const sensor_msgs::LaserScanConstPtr& scan,
+                      std::string tfBaseFootprintFrame,
+                      unsigned int subsamplingRate,
+                      double uncertainty);
+  virtual ~ROSLaserMeasurement();
+  void initWithMeasurement(const sensor_msgs::LaserScanConstPtr& scan,
+                           std::string tfBaseFootprintFrame,
+                           unsigned int subsamplingRate,
+                           double uncertainty);
+  void setMeasurement(sensor_msgs::LaserScanConstPtr scan);
+  ros::Time getStamp();
+  double getAngleIncrement();
+  double getRangeMax();
+  double getRangeMin();
+  double getAngleMin();
+  double getAngleMax();
+  unsigned int getCount();
+  std::vector<float> getRanges();
+  unsigned int getSubsamplingRate();
+  double getUncertainty();
+  Eigen::Matrix3d getTfBaseFootprintToLaser();
+  bool isInitialized();
 
-  private:
-    double _angleIncrement;
-    double _rangeMax;
-    double _rangeMin;
-    double _angleMin;
-    double _angleMax;
-    unsigned int _count;
-    unsigned int _subsamplingRate;
-    double _uncertainty; // range: [0 1[
-    Eigen::Matrix3d _tfBaseFootprintToLaser;
-    bool _initialized;
-    std::vector<float> _ranges;
-    ros::Time _stamp;
-  };
+private:
+  double _angleIncrement;
+  double _rangeMax;
+  double _rangeMin;
+  double _angleMin;
+  double _angleMax;
+  unsigned int _count;
+  unsigned int _subsamplingRate;
+  double _uncertainty; // range: [0 1[
+  Eigen::Matrix3d _tfBaseFootprintToLaser;
+  bool _initialized;
+  std::vector<float> _ranges;
+  ros::Time _stamp;
+};
 
 } /* namespace ohmPf */
 

@@ -15,11 +15,6 @@ namespace ohmPf
     _filterOutput = filterOutput;
   }
 
-  FilterOutputUpdater::~FilterOutputUpdater()
-  {
-    // TODO Auto-generated destructor stub
-  }
-
   Eigen::Vector3d FilterOutputUpdater::updateTf()
   {
     if(!_filter->getSampleSet()->isNormalized())
@@ -55,8 +50,6 @@ namespace ohmPf
     _filter->getFilterState()->probPose = getQualityOfSamples(*(_filter->getSamples()));
 
     _filterOutput->actualizeState(*(_filter->getFilterState()));
-
-
   }
 
 } /* namespace ohmPf */

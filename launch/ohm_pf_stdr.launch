@@ -28,9 +28,9 @@
     <arg name="samplesMin" value="50" />
     <arg name="topScan" value="/robot0/laser_0;/robot0/laser_1" />
     <arg name="maxDistanceProbMap" value="60" />
-    <arg name="subsamplingRateLaser" value="3" />
+    <arg name="subsamplingRateLaser" value="5" />
     <arg name="resamplingIntervallFilter" value="0.5" />
-    <arg name="uncertaintyLaser" value="0.5" />
+    <arg name="uncertaintyLaser" value="0.3" />
     <arg name="resamplingMethod" value="STD" />
     <arg name="initX" value="0.0" />
     <arg name="initY" value="0.0" />

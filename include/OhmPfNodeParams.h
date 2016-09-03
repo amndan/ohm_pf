@@ -32,6 +32,8 @@ typedef struct
   Eigen::Vector3d initPose;
   double initSigmaTrans;
   double initSigmaRot;
+  double uncertaintyLaser;
+  unsigned int subsamplingLaser;
   int skipParticleForGui;
 
 

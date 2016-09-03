@@ -17,12 +17,6 @@ namespace ohmPf
     _updateFilterMap = updateFilterMap;
   }
 
-  CeilCamUpdater::~CeilCamUpdater()
-  {
-    // TODO Auto-generated destructor stub
-  }
-
-
   void CeilCamUpdater::injectSamples()
   {
     std::vector<Sample_t>* samples = _filter->getSamples();

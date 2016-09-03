@@ -28,6 +28,7 @@ namespace ohmPf
     virtual double getAngleMax() = 0;
     virtual unsigned int getCount() = 0;
     virtual std::vector<float> getRanges() = 0;
+    virtual unsigned int getSubsamplingRate() = 0;
     virtual double getUncertainty() = 0;
     virtual Eigen::Matrix3d getTfBaseFootprintToLaser() = 0;
     virtual bool isInitialized() = 0;

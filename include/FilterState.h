@@ -11,6 +11,11 @@
 namespace ohmPf
 {
 
+/**
+ * @brief Structure for holding the filters Status.
+ * @todo Use this structure for maintaining whole filter state.
+ * E.g. variables like prob of pose and variance of weights.
+ */
 typedef struct
 {
   double probPose;

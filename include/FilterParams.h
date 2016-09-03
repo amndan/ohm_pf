@@ -13,6 +13,9 @@
 namespace ohmPf
 {
 
+/**
+ * @brief structure for holding filter parameters.
+ */
 typedef struct
 {
   unsigned int samplesMin;
@@ -23,6 +26,7 @@ typedef struct
   double OCSThresholdOdom;
   double OCSThresholdResampler;
   unsigned int countLasers;
+  double minValidScanRaysFactor;
 } FilterParams_t;
 
 } /* namespace ohmPf */

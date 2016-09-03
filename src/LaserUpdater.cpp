@@ -20,11 +20,6 @@ namespace ohmPf
     _OCSFlag = false;
   }
 
-  LaserUpdater::~LaserUpdater()
-  {
-    // TODO Auto-generated destructor stub
-  }
-
   void LaserUpdater::update()
   {
     if (_OCSFlag == true)

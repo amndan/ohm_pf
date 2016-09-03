@@ -11,11 +11,25 @@
 namespace ohmPf
 {
 
+/**
+ * @brief Interface for using OCS functionality.
+ */
 class IOCSClient
 {
 public:
+  /**
+   * @brief Constructor
+   */
   IOCSClient(){};
+
+  /**
+   * @brief Destructor
+   */
   virtual ~IOCSClient(){};
+
+  /**
+   * @brief Abstract function for OCS signal
+   */
   virtual void setOCSFlagTrue() = 0;
 };
 
