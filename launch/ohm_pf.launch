@@ -70,6 +70,7 @@
         <param name="OCSThresholdOdom" type="double" value="$(arg OCSThresholdOdom)" />
         <param name="OCSThresholdResampler" type="double" value="$(arg OCSThresholdResampler)" />
         
+        <param name="OCSRotToTransFactor" type="double" value="8.0" />
         <param name="minimumValidScanRaysFactor" type="double" value="0.5" />
         <param name="additionalTranslationalNoise" type="double" value="0.05" />
         <param name="additionalRotationalNoise" type="double" value="0.17" /> <!-- 10.0 / 180.0 * M_PI -->

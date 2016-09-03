@@ -31,7 +31,7 @@ FilterController::FilterController(FilterParams_t params) :
   _laserQuantifier = new LaserProbMapMethod(_filterParams.minValidScanRaysFactor);
 
   _filter = new Filter(_filterParams);
-  _ocsObserver = new OCSObserver();
+  _ocsObserver = new OCSObserver(_filterParams.OCSRotToTransFactor);
 
   if(params.resamplingMethod == "STD")
   {

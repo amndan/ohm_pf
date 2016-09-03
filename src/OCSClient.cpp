@@ -24,7 +24,7 @@ namespace ohmPf
   {
     if(resetIfTrue && _OCSFlag)
     {
-      _OCSFlag = false;
+      resetOCSFlag();
       return true;
     }
     else
@@ -32,4 +32,10 @@ namespace ohmPf
       return false;
     }
   }
+
+  void OCSClient::resetOCSFlag()
+  {
+    _OCSFlag = false;
+  }
+
 }

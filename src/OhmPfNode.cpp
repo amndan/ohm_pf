@@ -62,6 +62,7 @@ namespace ohmPf
     _prvNh.param<double>("OCSThresholdLaser", _filterParams.OCSThresholdLaser, 0.2);
     _prvNh.param<double>("OCSThresholdOdom", _filterParams.OCSThresholdOdom, 0.001);
     _prvNh.param<double>("OCSThresholdResampler", _filterParams.OCSThresholdResampler, 0.2);
+    _prvNh.param<double>("OCSRotToTransFactor", _filterParams.OCSRotToTransFactor, 8.0);
 
     _prvNh.param<double>("initSigmaTrans", _paramSet.initSigmaTrans, 0.5);
     _prvNh.param<double>("initSigmaRot", _paramSet.initSigmaRot, 180 / M_PI * 10);

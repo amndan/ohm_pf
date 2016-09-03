@@ -30,6 +30,7 @@ typedef struct
   double resamplerAdditionalTranslationalNoise;
   double resamplerAdditionalRotationalNoise;
   unsigned int resamplerLowVarianceFactor;
+  double OCSRotToTransFactor;
 } FilterParams_t;
 
 } /* namespace ohmPf */

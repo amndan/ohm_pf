@@ -10,12 +10,11 @@
 namespace ohmPf
 {
 
-OCSObserver::OCSObserver()
+OCSObserver::OCSObserver(double rotToTransFactor)
 {
   _cumDist = 0;
   _initialized = false;
-  _rotToTransFactor = 8; //TODO: magic number
-
+  _rotToTransFactor = rotToTransFactor;
 }
 
 void OCSObserver::registerClient(OCSClient* client, double dist)
@@ -41,7 +40,7 @@ void OCSObserver::update(IOdomMeasurement* measurement)
   }
   else
   {
-    double dist = calcDist(measurement->getMeasurement(), _lastOdomMeasurement); 
+    double dist = calcDist(measurement->getMeasurement(), _lastOdomMeasurement);
 
     for(int i = 0; i < _clientList.size(); i++)
     {
