@@ -156,7 +156,6 @@ add_library(OhmPf STATIC
     src/SampleSet.cpp
     src/LaserProbMapMethod.cpp
     src/MapUpdater.cpp
-    src/OdomDiff.cpp
     src/OdomUpdater.cpp
     src/CeilCamUpdater.cpp
     src/LVResampler.cpp
@@ -164,6 +163,7 @@ add_library(OhmPf STATIC
     src/OCSObserver.cpp
     src/STDResampler.cpp
     src/OCSClient.cpp
+    src/DiffDriveUpdater.cpp
 )
 
 add_library(rostimeohmpf STATIC

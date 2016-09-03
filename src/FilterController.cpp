@@ -96,7 +96,7 @@ bool FilterController::setOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams
   }
 
   // everything ok...
-  _odomUpdater = new OdomUpdater(_filter, new OdomDiff(params), odom, _ocsObserver);
+  _odomUpdater = new DiffDriveUpdater(_filter, odom, _ocsObserver, params);
   _ocsObserver->registerClient(_odomUpdater, _filterParams.OCSThresholdOdom);
   return true;
 }

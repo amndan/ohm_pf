@@ -11,7 +11,6 @@
 #include "FilterUpdater.h"
 #include "Filter.h"
 #include "OCSClient.h"
-#include "IOdomQuantifier.h"
 #include "IOdomMeasurement.h"
 #include "OCSObserver.h"
 
@@ -21,12 +20,12 @@ namespace ohmPf
   class OdomUpdater : public FilterUpdater, public OCSClient
   {
   public:
-    OdomUpdater(Filter* filter, IOdomQuantifier* quantifier, IOdomMeasurement* measurement, OCSObserver* ocsObserver);
+    OdomUpdater(Filter* filter, IOdomMeasurement* measurement, OCSObserver* ocsObserver);
     virtual ~OdomUpdater();
+    virtual void calculate() = 0;
     void update();
-  private:
+  protected:
     OCSObserver* _ocsObserver;
-    IOdomQuantifier* _quantifier;
     IOdomMeasurement* _measurement;
   };
 

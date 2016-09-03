@@ -10,10 +10,9 @@
 namespace ohmPf
 {
 
-  OdomUpdater::OdomUpdater(Filter* filter, IOdomQuantifier* quantifier, IOdomMeasurement* measurement, OCSObserver* ocsObserver) :
+  OdomUpdater::OdomUpdater(Filter* filter, IOdomMeasurement* measurement, OCSObserver* ocsObserver) :
       FilterUpdater(filter)
   {
-    _quantifier = quantifier;
     _measurement = measurement;
     _ocsObserver = ocsObserver;
   }
@@ -29,7 +28,7 @@ namespace ohmPf
 
     if(this->getOCSFlag() == true)
     {
-    _quantifier->calculate(*_filter, *_measurement);
+      calculate();
     }
   }
 

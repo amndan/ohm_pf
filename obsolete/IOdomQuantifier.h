@@ -22,6 +22,12 @@ class IOdomQuantifier
 public:
   IOdomQuantifier(){};
   virtual ~IOdomQuantifier(){};
+
+  /**
+   * @brief Abstract calculate function. Each OdomQuantifier
+   * @param filter
+   * @param measurement
+   */
   virtual void calculate(Filter& filter, IOdomMeasurement& measurement) = 0;
 
 };
