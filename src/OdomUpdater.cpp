@@ -17,11 +17,6 @@ namespace ohmPf
     _ocsObserver = ocsObserver;
   }
 
-  OdomUpdater::~OdomUpdater()
-  {
-    // TODO Auto-generated destructor stub
-  }
-
   void OdomUpdater::update()
   {
     _ocsObserver->update(_measurement);

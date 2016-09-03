@@ -12,7 +12,7 @@ namespace ohmPf
 {
 
 /**
- * @brief Class for OCS functionality.
+ * @brief Class for OCS functionality. (see @ref OCS)
  */
 class OCSClient
 {

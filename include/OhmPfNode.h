@@ -20,7 +20,7 @@
 #include "assert.h"
 #include "OhmPfNodeParams.h"
 
-#include "interfaces/IFilterController.h"
+#include "IFilterController.h"
 #include "FilterParams.h"
 #include "ROSOdomMeasurement.h"
 #include "ROSMap.h"
@@ -31,23 +31,100 @@
 namespace ohmPf
 {
 
+/**
+ * @brief This class is used to get the ohmPf running together with ROS.
+ * The initialization of the particle filter is done here.
+ * ROS callbacks are implemented and pushed through to ohmPf Implementation.
+ * Measurement containers are instantiated and updated in the respective callbacks.
+ */
 class OhmPfNode
 {
 public:
+  /**
+   * @brief Standard ros node constructor. Parameter parsing is done here.
+   */
   OhmPfNode();
-  virtual ~OhmPfNode();
+
+  /**
+   * @brief Deconstructor (empty)
+   */
+  virtual ~OhmPfNode(){};
+
+  /**
+   * @brief ROS spin function.
+   */
   void spin();
+
+  /**
+   * @brief ROS spinOnce function.
+   */
   void spinOnce();
+
 private:
+  /**
+   * @brief Callback for odometry messages.
+   * @param msg ROS odometry message.
+   */
   void calOdom(const nav_msgs::OdometryConstPtr& msg);
+
+  /**
+   * @brief Callback for a pose estimate for use with rviz.
+   * If somebody sends a pose estimate with rviz the particle filter
+   * will reinitialize its particle at this pose.
+   * @param msg rvizs pose estimate message.
+   */
   void cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg);
+
+  /**
+   * @brief Callback for a clicked point msg from rviz.
+   * If this callback gets called the particle filter will reinitialize with a global
+   * localization step.
+   * @param msg Point message (is not used)
+   */
   void calClickedPoint(const geometry_msgs::PointStampedConstPtr& msg);
+
+  /**
+   * @brief Callback for managing ceil cam measurements.
+   * @param msg Pose array from CeilCam node.
+   */
   void calCeilCam(const geometry_msgs::PoseArrayConstPtr& msg);
+
+  /**
+   * @param Modified scan callback. If multible scanners are activated, this callback
+   * provides the topic of the scan message to distinguish between different lasers.
+   * @param msg ROS laser scanner message.
+   * @param topic The topic the scan comes from.
+   */
   void calScan(const sensor_msgs::LaserScanConstPtr& msg, const std::string topic);
+
+  /**
+   * @brief a timer to call the filters resampling step periodically.
+   * @todo This should not be the users job. This timer should take place
+   * inside ohmPf library.
+   * @param event ROS timer event (not used)
+   */
   void calResampleTimer(const ros::TimerEvent& event);
+
+  /**
+   * @brief Helper function for instantiating filter itself
+   * and the ROS measurement containers.
+   */
   void spawnFilter();
+
+  /**
+   * @brief helper function for waiting for the ros map service and to create
+   * the ROS map for the filter.
+   */
   void waitForMap();
+
+  /**
+   * @brief helper function to parse multible laser topics if multible lasers
+   * are requested via launch file parameter.
+   * @param topic The raw launch file parameter of laser topics. If multible lasers
+   * are requested the topics must be separated with ";"
+   */
   void parseLaserTopics(std::string topic);
+
   ros::Publisher _pubSampleSet;
   ros::Publisher _pubProbMap;
   ros::Subscriber _subOdometry;
@@ -72,8 +149,6 @@ private:
   std::vector<ROSLaserMeasurement*> _laserMeasurements;
   ROSFilterOutput* _filterOutput;
   ROSCeilCamMeasurement* _ceilCamMeasurement;
-
-  int odomCounter;
 };
 
 } /* namespace ohmPf */

@@ -17,6 +17,11 @@ LVResampler.h
 STDResampler.h
 MapUpdater.h
 OCSObserver.h
+OdomDiffParams.h
+OdomUpdater.h
+OhmPfNode.h
+OhmPfNodeParams.h
+NEXT ROSCeilCamMeasurement.h
 
 
 

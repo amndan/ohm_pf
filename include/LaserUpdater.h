@@ -19,7 +19,7 @@ namespace ohmPf
 {
 
 /**
- * @brief A Class for updating the filter with a laser measurement.
+ * @brief An abstract Class for updating the filter with a laser measurement.
  */
 class LaserUpdater : public FilterUpdater, public OCSClient
 {
@@ -46,11 +46,16 @@ public:
   virtual ~LaserUpdater(){};
 
   /**
-   * @brief The update function for updating the filter with the actual measurement using the quantifier.
+   * @brief The update function for updating the filter with
+   * the actual measurement using the calculate function.
    * Update just takes place, if odom has changed significantly (see @ref OCS)
    */
   void update();
 
+  /**
+   * @brief This function gets called when there is a update requested.
+   * Each LaserUpdater implementation must implement this method.
+   */
   virtual void calculate() = 0;
 
 protected:

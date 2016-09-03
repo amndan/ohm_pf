@@ -122,11 +122,6 @@ namespace ohmPf
     }
   }
 
-  OhmPfNode::~OhmPfNode()
-  {
-
-  }
-
   void OhmPfNode::waitForMap()
   {
     // todo: integrate into gl service

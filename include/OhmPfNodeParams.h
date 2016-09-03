@@ -13,6 +13,9 @@
 namespace ohmPf
 {
 
+/**
+ * @brief Structure to hold all parameters at one place.
+ */
 typedef struct
 {
   std::string tfFixedFrame;
