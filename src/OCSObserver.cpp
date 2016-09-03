@@ -44,14 +44,17 @@ void OCSObserver::update(IOdomMeasurement* measurement)
 
     for(int i = 0; i < _clientList.size(); i++)
     {
+      // decrement dist buffer
       _actualDists.at(i) -= dist;
 
+      // if dist buffer under 0 odom changed sigificantly for this client
       if(_actualDists.at(i) < 0.0)
       {
         _clientList.at(i)->setOCSFlagTrue();
         _actualDists.at(i) = _dists.at(i);
       }
     }
+    // remember new value
     _lastOdomMeasurement = measurement->getMeasurement();
   }
 }

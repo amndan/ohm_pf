@@ -14,14 +14,17 @@
 namespace ohmPf
 {
 
-  class IOdomQuantifier
-  {
-  public:
-    IOdomQuantifier(){};
-    virtual ~IOdomQuantifier(){};
-    virtual void calculate(Filter& filter, IOdomMeasurement& measurement) = 0;
+/**
+ * @brief Interface for implementing different odometry models (e.g. diff drive, omni drive, ...)
+ */
+class IOdomQuantifier
+{
+public:
+  IOdomQuantifier(){};
+  virtual ~IOdomQuantifier(){};
+  virtual void calculate(Filter& filter, IOdomMeasurement& measurement) = 0;
 
-  };
+};
 
 } /* namespace ohmPf */
 
