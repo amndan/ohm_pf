@@ -9,10 +9,10 @@
 #define INCLUDE_LASERUPDATER_H_
 
 #include "FilterUpdater.h"
+#include "OCSClient.h"
 #include "IMap.h"
 #include "ILaserMeasurement.h"
 #include "ILaserQuantifier.h"
-#include "IOCSClient.h"
 #include "MapUpdater.h"
 
 
@@ -22,7 +22,7 @@ namespace ohmPf
 /**
  * @brief A Class for updating the filter with a laser measurement.
  */
-class LaserUpdater : public FilterUpdater, public IOCSClient
+class LaserUpdater : public FilterUpdater, public OCSClient
 {
 public:
 
@@ -54,18 +54,11 @@ public:
    */
   void update();
 
-  /**
-   * @brief Abstract method for implementig OCS-routine (see @ref OCS).
-   */
-  void setOCSFlagTrue();
-
-
 private:
   IMap* _map;
   ILaserMeasurement* _measurement;
   ILaserQuantifier* _quantifier;
   MapUpdater* _updateFilterMap;
-  bool _OCSFlag;
 };
 
 } /* namespace ohmPf */

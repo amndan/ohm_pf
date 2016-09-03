@@ -12,14 +12,13 @@ namespace ohmPf
 
 STDResampler::STDResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot)
 {
-  _OCSFlag = false;
   _addNoiseSigmaRot = std::abs(addNoiseSigmaRot);
   _addNoiseSigmaTrans = std::abs(addNoiseSigmaTrans);
 }
 
 void STDResampler::resample(Filter* filter)
 {
-  if(_OCSFlag == true)
+  if(this->getOCSFlag() == true)
   {
     SampleSet* set = filter->getSampleSet();
     std::vector<Sample_t>* samples = set->getSamples();
@@ -62,13 +61,7 @@ void STDResampler::resample(Filter* filter)
     assert(countSamples == newSamples.size());
 
     *samples = newSamples;
-    _OCSFlag = false;
   }
-}
-
-void STDResampler::setOCSFlagTrue()
-{
-  _OCSFlag = true;
 }
 
 } /* namespace ohmPf */

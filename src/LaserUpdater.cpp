@@ -17,21 +17,15 @@ namespace ohmPf
     _quantifier = quantifier;
     _measurement = measurement;
     _updateFilterMap = updateFilterMap;
-    _OCSFlag = false;
   }
 
   void LaserUpdater::update()
   {
-    if (_OCSFlag == true)
+
+    if (this->getOCSFlag() == true)
     {
       _quantifier->calculate(*_filter, *_measurement, *_map, _updateFilterMap);
-      _OCSFlag = false;
     }
-  }
-
-  void LaserUpdater::setOCSFlagTrue()
-  {
-    _OCSFlag = true;
   }
 
 } /* namespace ohmPf */

@@ -9,11 +9,11 @@
 #define INCLUDE_LVRESAMPLER_H_
 
 #include "IResampler.h"
-#include "IOCSClient.h"
 #include "Filter.h"
 #include "assert.h"
 #include "UtilitiesOhmPf.h"
 #include <cmath>
+#include "OCSClient.h"
 
 namespace ohmPf
 {
@@ -45,14 +45,8 @@ public:
    */
   void resample(Filter* filter);
 
-  /**
-   * @brief OCS flag management (see @ref OCS).
-   */
-  void setOCSFlagTrue();
-
 private:
 
-  bool _OCSFlag;
   double _addNoiseSigmaRot;
   double _addNoiseSigmaTrans;
   unsigned int _lowVarianceFactor;

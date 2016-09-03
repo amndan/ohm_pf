@@ -10,7 +10,7 @@
 
 #include "FilterUpdater.h"
 #include "Filter.h"
-#include "IOCSClient.h"
+#include "OCSClient.h"
 #include "IOdomQuantifier.h"
 #include "IOdomMeasurement.h"
 #include "OCSObserver.h"
@@ -18,18 +18,16 @@
 namespace ohmPf
 {
 
-  class OdomUpdater : public FilterUpdater, public IOCSClient
+  class OdomUpdater : public FilterUpdater, public OCSClient
   {
   public:
     OdomUpdater(Filter* filter, IOdomQuantifier* quantifier, IOdomMeasurement* measurement, OCSObserver* ocsObserver);
     virtual ~OdomUpdater();
     void update();
-    void setOCSFlagTrue();
   private:
     OCSObserver* _ocsObserver;
     IOdomQuantifier* _quantifier;
     IOdomMeasurement* _measurement;
-    bool _OCSFlag;
   };
 
 } /* namespace ohmPf */

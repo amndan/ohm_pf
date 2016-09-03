@@ -18,7 +18,7 @@ OCSObserver::OCSObserver()
 
 }
 
-void OCSObserver::registerClient(IOCSClient* client, double dist)
+void OCSObserver::registerClient(OCSClient* client, double dist)
 {
   assert(client != NULL);
   assert(dist >= 0);

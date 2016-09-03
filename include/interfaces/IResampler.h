@@ -9,7 +9,7 @@
 #define SRC_IRESAMPLER_H_
 
 #include "Filter.h"
-#include "IOCSClient.h"
+#include "OCSClient.h"
 
 namespace ohmPf
 {
@@ -18,7 +18,7 @@ namespace ohmPf
  * @brief Interface class for a resampling algorithm.
  * Inherits from IOCSClient to provide OCS functionality.
  */
-class IResampler : public IOCSClient
+class IResampler : public OCSClient
 {
 public:
 

@@ -163,6 +163,7 @@ add_library(OhmPf STATIC
     src/FilterController.cpp
     src/OCSObserver.cpp
     src/STDResampler.cpp
+    src/OCSClient.cpp
 )
 
 add_library(rostimeohmpf STATIC
