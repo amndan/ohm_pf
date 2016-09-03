@@ -13,7 +13,10 @@ GaussianPdf.h
 ILaserQuantifier.h
 LaserProbMapMethod.h
 LaserUpdater.h
-next LVResampler.h + stdResampler --> püaram for variance
+LVResampler.h
+STDResampler.h
+MapUpdater.h
+NEXT OCSObserver.h
 
 
 

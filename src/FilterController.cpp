@@ -35,12 +35,16 @@ FilterController::FilterController(FilterParams_t params) :
 
   if(params.resamplingMethod == "STD")
   {
-    _resampler = new STDResampler(0.00, 0);
-    //_resampler = new STDResampler(0.05, 10.0 / 180.0 * M_PI);
+    _resampler = new STDResampler(
+        params.resamplerAdditionalTranslationalNoise,
+        params.resamplerAdditionalRotationalNoise);
   }
   else if(params.resamplingMethod == "LV")
   {
-    _resampler = new LVResampler();
+    _resampler = new LVResampler(
+        params.resamplerAdditionalTranslationalNoise,
+        params.resamplerAdditionalRotationalNoise,
+        params.resamplerLowVarianceFactor);
   }
   else
   {
@@ -49,8 +53,6 @@ FilterController::FilterController(FilterParams_t params) :
   }
 
   _ocsObserver->registerClient(_resampler, _filterParams.OCSThresholdResampler);
-
-
 }
 
 

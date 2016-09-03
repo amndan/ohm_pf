@@ -41,6 +41,7 @@
     <arg name="OCSThresholdLaser" value="0.2" />
     <arg name="OCSThresholdOdom" value="0.001" />
     <arg name="OCSThresholdResampler" value="0.2" />
+    <arg name="countLasers" default="2" />
     </include>
 
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ohm_pf)/rviz/ohm_pf_stdr.rviz" />

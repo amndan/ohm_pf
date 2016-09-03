@@ -17,16 +17,20 @@
 /**
  * @page OCS OCS-Management
  * Here comes the explanation of OCS-Management.
+ * @todo add ocs management page.
  */
 
 namespace ohmPf
 {
 
+/**
+ * @brief Implementation of the OCS management.
+ */
 class OCSObserver
 {
 public:
   OCSObserver();
-  virtual ~OCSObserver();
+  virtual ~OCSObserver(){};
   void registerClient(IOCSClient* client, double dist);
   void update(IOdomMeasurement* measurement);
 private:

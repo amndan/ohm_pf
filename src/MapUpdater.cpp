@@ -16,11 +16,6 @@ namespace ohmPf
     _map = map;
   }
 
-  MapUpdater::~MapUpdater()
-  {
-    // TODO Auto-generated destructor stub
-  }
-
   void MapUpdater::update()  // update weights
   {
     std::vector<Sample_t>* samples = _filter->getSamples();
@@ -36,11 +31,13 @@ namespace ohmPf
 
   void MapUpdater::initFilter()  // update weights
   {
+    // init vars
     double xMin;
     double yMin;
     double xMax;
     double yMax;
 
+    // calculate bounds
     getMinEnclRect(xMin, yMin, xMax, yMax);
 
     // generate cloud
@@ -51,7 +48,8 @@ namespace ohmPf
       Sample_t sample;
       sample.weight = 1.0;
       sample.pose(2) = drand48() * 2 * M_PI - M_PI;
-      // todo: more efficient way here
+
+      // create random sample while it falls on a not occupied region
       do
       {
         sample.pose(0) = drand48() * (xMax - xMin) + xMin;
@@ -62,7 +60,6 @@ namespace ohmPf
 
       samples.push_back(sample);
     }
-
     _filter->setSamples(samples);
   }
 
@@ -82,10 +79,6 @@ namespace ohmPf
     yMin = rectInOrigin.row(1).minCoeff();
   }
 
-  void MapUpdater::updateForce()  // update weights and replace particles
-  {
-    // TODO: update weights and replace particles
-  }
 
 } /* namespace ohmPf */
 

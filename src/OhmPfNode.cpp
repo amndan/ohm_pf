@@ -40,13 +40,18 @@ namespace ohmPf
     _prvNh.param<int>("samplesMin", itmp, 50);
     _filterParams.samplesMin = (unsigned int)std::abs(itmp);
     _prvNh.param<double>("resamplingIntervallFilter", _filterParams.resamplingIntervall, 0.5);
-    _prvNh.param<double>("uncertaintyLaser", dtmp, 0.5);
-    _paramSet.uncertaintyLaser = dtmp;
+    _prvNh.param<double>("uncertaintyLaser", _paramSet.uncertaintyLaser, 0.5);
     _prvNh.param<double>("minimumValidScanRaysFactor", _filterParams.minValidScanRaysFactor, 0.5);
+    _prvNh.param<double>("additionalTranslationalNoise", _filterParams.resamplerAdditionalTranslationalNoise, 0.05);
+    _prvNh.param<double>("additionalRotationalNoise", _filterParams.resamplerAdditionalRotationalNoise, 10.0 / 180.0 * M_PI);
+
+    _prvNh.param<int>("lowVarianceFactor", itmp, 3);
+    _filterParams.resamplerLowVarianceFactor = (unsigned int) itmp;
     _prvNh.param<int>("subsamplingRateLaser", itmp, 3);
     _paramSet.subsamplingLaser = (unsigned int) itmp;
-
-    _filterParams.countLasers = 2; // TODO: launchfile Parameter
+    _prvNh.param<int>("countLasers", itmp, 1);
+    assert(itmp > 0);
+    _filterParams.countLasers = itmp;
 
     _prvNh.param<double>("initX", _paramSet.initPose(0), 0.0);
     _prvNh.param<double>("initY", _paramSet.initPose(1), 0.0);
@@ -94,28 +99,26 @@ namespace ohmPf
     std::string token;
     unsigned int nScanners = 0;
 
-    while(std::getline(ss, token, ';')) {
-        _paramSet.topScans.push_back(token);
-        nScanners++;
+    while(std::getline(ss, token, ';'))
+    {
+      _paramSet.topScans.push_back(token);
+      nScanners++;
+    }
+
+    if(_filterParams.countLasers != nScanners)
+    {
+      ROS_ERROR("_filterParams.countLasers != nScanners; number of laser topics and lasers must be the same! --> exit");
+      exit(EXIT_FAILURE);
     }
 
     for(unsigned int i = 0; i < nScanners; i++)
     {
-      _subScans.push_back(
-          _nh.subscribe<sensor_msgs::LaserScan>(
-            _paramSet.topScans.at(i),
-            1,
-            boost::bind(
-                &OhmPfNode::calScan,
-                this,
-                _1,
-                _paramSet.topScans.at(i)))
-      );
-      std::cout << "scannerNr: "<< i << std::endl;
+      _subScans.push_back(_nh.subscribe<sensor_msgs::LaserScan>(_paramSet.topScans.at(i), 1, boost::bind(&OhmPfNode::calScan, this, _1, _paramSet.topScans.at(i))));
+
+      std::cout << "scannerNr: " << i << std::endl;
+
       _laserMeasurements.push_back(NULL);
     }
-
-
   }
 
   OhmPfNode::~OhmPfNode()

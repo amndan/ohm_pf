@@ -5,16 +5,7 @@
  *      Author: amndan
  */
 
-#include "../include/STDResampler.h"
-
-#include <cstdlib>
-#include <iterator>
-#include <numeric>
-#include <vector>
-
-#include "../include/Sample.h"
-#include "../include/SampleSet.h"
-#include "../include/UtilitiesOhmPf.h"
+#include "STDResampler.h"
 
 namespace ohmPf
 {
@@ -22,13 +13,8 @@ namespace ohmPf
 STDResampler::STDResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot)
 {
   _OCSFlag = false;
-  _addNoiseSigmaRot = abs(addNoiseSigmaRot);
-  _addNoiseSigmaTrans = abs(addNoiseSigmaTrans);
-}
-
-STDResampler::~STDResampler()
-{
-  // TODO Auto-generated destructor stub
+  _addNoiseSigmaRot = std::abs(addNoiseSigmaRot);
+  _addNoiseSigmaTrans = std::abs(addNoiseSigmaTrans);
 }
 
 void STDResampler::resample(Filter* filter)

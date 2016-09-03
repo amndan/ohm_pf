@@ -33,6 +33,7 @@
     <arg name="OCSThresholdOdom" default="0.001" />
     <arg name="OCSThresholdResampler" default="0.2" />
     <arg name="skipParticleForGui" default="0" />
+    <arg name="countLasers" default="1" />
     <!-- ******************* -->
     <!-- For Debugging: <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" launch-prefix="xterm -e cgdb -ex run -->  <!--args": append this; xml comment problem here -->
     <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" >
@@ -54,6 +55,7 @@
         <param name="topScan" type="string" value="$(arg topScan)" />
         <param name="maxDistanceProbMap" type="int" value="$(arg maxDistanceProbMap)" />
         <param name="subsamplingRateLaser" type="int" value="$(arg subsamplingRateLaser)" />
+        <param name="countLasers" type="int" value="$(arg countLasers)" />
         <param name="resamplingIntervallFilter" type="double" value="$(arg resamplingIntervallFilter)" />
         <param name="skipParticleForGui" type="int" value="$(arg skipParticleForGui)" />
 
@@ -67,6 +69,11 @@
         <param name="OCSThresholdLaser" type="double" value="$(arg OCSThresholdLaser)" />
         <param name="OCSThresholdOdom" type="double" value="$(arg OCSThresholdOdom)" />
         <param name="OCSThresholdResampler" type="double" value="$(arg OCSThresholdResampler)" />
+        
+        <param name="minimumValidScanRaysFactor" type="double" value="0.5" />
+        <param name="additionalTranslationalNoise" type="double" value="0.05" />
+        <param name="additionalRotationalNoise" type="double" value="0.17" /> <!-- 10.0 / 180.0 * M_PI -->
+        <param name="lowVarianceFactor" type="int" value="3" />
     </node>
 
 </launch>

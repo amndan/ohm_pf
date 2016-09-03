@@ -10,9 +10,22 @@
 namespace ohmPf
 {
 
-  LVResampler::LVResampler()
+  LVResampler::LVResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot, unsigned int lowVarianceFactor)
   {
     _OCSFlag = false;
+    _addNoiseSigmaRot = std::abs(addNoiseSigmaRot);
+    _addNoiseSigmaTrans = std::abs(addNoiseSigmaTrans);
+
+    if(lowVarianceFactor <= 0)
+    {
+      std::cout << __PRETTY_FUNCTION__ << " --> lowVarianceFactor must be > 0; lowVarianceFactor = "
+          << lowVarianceFactor << "; Will set lowVarianceFactor to 3 and continue" << std::endl;
+      _lowVarianceFactor = 3;
+    }
+    else
+    {
+      _lowVarianceFactor = lowVarianceFactor;
+    }
   }
 
   void LVResampler::resample(Filter* filter)
@@ -43,7 +56,7 @@ namespace ohmPf
 
       double rand;
       //low variance resampling
-      unsigned int lowVarDist = cnt / 3;  //TODO: magic numbers; add launchfile parameter!
+      unsigned int lowVarDist = cnt / _lowVarianceFactor;
       unsigned int count = std::floor(cnt / lowVarDist);
 
       assert(count > 0);
@@ -59,7 +72,7 @@ namespace ohmPf
             {
               unsigned int index = (j + k * lowVarDist) % cnt;  // prevent overflow
               newSamples.push_back(samples->at(index));
-              addGaussianRandomness(newSamples[i]);  //TODO: variance of gaussian randomness as launchfileparam
+              addGaussianRandomness(newSamples[i], _addNoiseSigmaTrans, _addNoiseSigmaRot);
               newSamples[i].weight = 1.0 / cnt; // normalizing is included here
             }
             break;

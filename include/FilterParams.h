@@ -27,6 +27,9 @@ typedef struct
   double OCSThresholdResampler;
   unsigned int countLasers;
   double minValidScanRaysFactor;
+  double resamplerAdditionalTranslationalNoise;
+  double resamplerAdditionalRotationalNoise;
+  unsigned int resamplerLowVarianceFactor;
 } FilterParams_t;
 
 } /* namespace ohmPf */

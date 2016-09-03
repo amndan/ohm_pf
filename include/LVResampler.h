@@ -9,23 +9,28 @@
 #define INCLUDE_LVRESAMPLER_H_
 
 #include "IResampler.h"
+#include "IOCSClient.h"
 #include "Filter.h"
 #include "assert.h"
-#include "IOCSClient.h"
+#include "UtilitiesOhmPf.h"
+#include <cmath>
 
 namespace ohmPf
 {
 
 /**
- * @brief Implementation of a low variance resampler algorithm.
+ * @brief Implementation of a low variance resampling algorithm.
  */
 class LVResampler : public IResampler
 {
 public:
   /**
    * @brief Constructor
+   * @param addNoiseSigmaTrans Additional translational noise to increase filters variance at resampling step.
+   * @param addNoiseSigmaRot Additional rotational noise to increase filters variance at resampling step.
+   * @param lowVarianceFactor Each randomly chosen sample generates lowVarianceFactor new samples.
    */
-  LVResampler();
+  LVResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot, unsigned int lowVarianceFactor);
 
   /**
    * @brief Deconstructor (empty)
@@ -37,8 +42,6 @@ public:
    * @param filter Filter instance --> Holds the particles to be resampled
    * @todo normalizing shouold be done before or after accessing samples.
    * Each function must normalize with that rule!
-   * @todo parameter for low variance distance.
-   * @todo parameter for gaussian randomness.
    */
   void resample(Filter* filter);
 
@@ -50,6 +53,9 @@ public:
 private:
 
   bool _OCSFlag;
+  double _addNoiseSigmaRot;
+  double _addNoiseSigmaTrans;
+  unsigned int _lowVarianceFactor;
 };
 
 } /* namespace ohmPf */

@@ -18,15 +18,11 @@ OCSObserver::OCSObserver()
 
 }
 
-OCSObserver::~OCSObserver()
-{
-  // TODO Auto-generated destructor stub
-}
-
 void OCSObserver::registerClient(IOCSClient* client, double dist)
 {
   assert(client != NULL);
-  assert(dist >= 0);   
+  assert(dist >= 0);
+
   _clientList.push_back(client);
   _dists.push_back(dist);
   _actualDists.push_back(dist);
@@ -47,7 +43,6 @@ void OCSObserver::update(IOdomMeasurement* measurement)
   {
     double dist = calcDist(measurement->getMeasurement(), _lastOdomMeasurement); 
 
-
     for(int i = 0; i < _clientList.size(); i++)
     {
       _actualDists.at(i) -= dist;
@@ -58,7 +53,6 @@ void OCSObserver::update(IOdomMeasurement* measurement)
         _actualDists.at(i) = _dists.at(i);
       }
     }
-
     _lastOdomMeasurement = measurement->getMeasurement();
   }
 }
