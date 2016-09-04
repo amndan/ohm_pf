@@ -16,6 +16,8 @@ ProbMap::ProbMap(IMap& map, unsigned int maxDistanceProbMap) :
   // dont use this function --> generate raw map from isOccupied() function.
   // we cannot rely on the data format, its up to the user.
   _mapRaw = getMapRaw();
+
+  calcProbMap();
 }
 
 ProbMap::~ProbMap()
@@ -108,8 +110,8 @@ double ProbMap::getProbability(Eigen::Matrix3Xd& coords, double pRand)
   {
     if(coords(2, i) != 0)
     {
-      x = (int)std::floor(coords(0, i) / _resolution);
-      y = (int)std::floor(coords(1, i) / _resolution);
+      x = (int)std::floor(coords(0, i) / getResolution());
+      y = (int)std::floor(coords(1, i) / getResolution());
 
       if(!isInMapRange(x, y))
       {
@@ -117,7 +119,7 @@ double ProbMap::getProbability(Eigen::Matrix3Xd& coords, double pRand)
       }
       else
       {
-        prob = (double)_probMap[y * _width + x] / 100.0;  // todo: coords wird hier verändert -> das darf nicht sein!!
+        prob = (double)_probMap[y * getWidthInCells() + x] / 100.0;  // todo: coords wird hier verändert -> das darf nicht sein!!
       }
       prob = (1 - pRand) * prob + pRand;
       probOfCoords *= prob;
@@ -138,7 +140,7 @@ double ProbMap::getProbability(double x, double y)
     return 0.0;
   }
 
-  double prob = (double)_probMap[y_c * _width + x_c] / 100.0;
+  double prob = (double)_probMap[y_c * getWidthInCells() + x_c] / 100.0;
 
   assert(prob <= 1.0 && prob >= 0.0);
 
