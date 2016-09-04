@@ -1,270 +1,75 @@
 /*
- * RosMap.cpp
+ * ROSMap.cpp
  *
- *  Created on: 10.01.2016
+ *  Created on: Sep 4, 2016
  *      Author: amndan
  */
 
-#include "../include/ROSMap.h"
+#include "ROSMap.h"
 
 namespace ohmPf
 {
 
-  ROSMap::ROSMap(const nav_msgs::OccupancyGrid& msg, unsigned int maxDistanceProbMap)
-  {
-    _mapRaw = msg.data;
-    _resolution = msg.info.resolution;
-    _width = msg.info.width;  // width is in map_origin_system
-    _height = msg.info.height;  // height is in map_origin_system
-    _stamp = msg.header.stamp;
-    _maxDistanceProbMap = maxDistanceProbMap;
-
-    tf::Transform tmp;
-    tf::poseMsgToTF(msg.info.origin, tmp);
-    _tfMapToMapOrigin = tfToEigenMatrix3x3(tmp);
-
-    calcProbMap();  // todo: just do that if neccesary; handle getProb when no prob map is there
-
-    //Eigen::Map< Madouble RosMap::getProbability(Eigen::Matrix3Xd coords)trix<int8_t, Eigen::Dynamic, Eigen::Dynamic> > mf(_mapRaw.data(), _width, _height);
-    //_map = mf;
-  }
-
-  Eigen::Matrix3d ROSMap::getTfMapToMapOrigin()
-  {
-    return _tfMapToMapOrigin;
-  }
-
-
-  ROSMap::~ROSMap()
-  {
-    // TODO Auto-generated destructor stub
-  }
-
-  ros::Time ROSMap::getStamp()
-  {
-    return _stamp;
-  }
-
-  bool ROSMap::isOccupied(double x, double y)
-  {
-    PointInMapToOrigin(x, y);
-
-    int x_c = meterToCells(x);
-    int y_c = meterToCells(y);
-
-    if(!isInMapRange(x_c, y_c))  // cause we are using the enclosing rect at initialisation there are values outside the map
-    {
-      return true;
-    }
-
-    if(_mapRaw[y_c * _width + x_c] > IS_OCCUPIED_THRESHHOLD || _mapRaw[y_c * _width + x_c] == -1)
-    {
-      return true;
-    }
-    else
-    {
-      return false;
-    }
-  }
-
-  bool ROSMap::isInMapRange(int x, int y)
-  {
-    if(x < 0 || y < 0 || x >= (int) _width || y >= (int) _height)
-    {
-      return false;
-    }
-
-    return true;
-  }
-
-  int ROSMap::meterToCells(double x)
-  {
-    assert(_resolution != 0);
-    int ret = std::floor(x / _resolution);
-    return ret;
-  }
-
-  double ROSMap::getProbability(Eigen::Matrix3Xd& coords, double pRand)
-  {
-    PointInMapToOrigin(coords);
-
-    double prob;
-    double probOfCoords = 1.0;
-    int x;
-    int y;
-
-    for(unsigned int i = 0; i < coords.cols(); i++)  // whole scan
-    {
-      if(coords(2, i) != 0)
-      {
-        x = (int)std::floor(coords(0, i) / _resolution);
-        y = (int)std::floor(coords(1, i) / _resolution);
-
-        if(!isInMapRange(x, y))
-        {
-          prob = 0.0;
-        }
-        else
-        {
-          prob = (double)_probMap[y * _width + x] / 100.0;  // todo: coords wird hier verändert -> das darf nicht sein!!
-        }
-        prob = (1 - pRand) * prob + pRand;
-        probOfCoords *= prob;
-      }
-    }
-    return probOfCoords;
-  }
-
-  double ROSMap::getProbability(double x, double y)
-  {
-    PointInMapToOrigin(x, y);
-
-    int x_c = meterToCells(x);
-    int y_c = meterToCells(y);
-
-    if(!isInMapRange(x_c, y_c))
-    {
-      return 0.0;
-    }
-
-    double prob = (double)_probMap[y_c * _width + x_c] / 100.0;
-
-    assert(prob <= 1.0 && prob >= 0.0);
-
-    return prob;
-  }
-
-  void ROSMap::PointInMapToOrigin(double& x, double& y)
-  {
-    Eigen::Vector3d point;
-    point(0) = x;
-    point(1) = y;
-    point(2) = 1;
-
-    point = _tfMapToMapOrigin.inverse() * point;
-
-    x = point(0);
-    y = point(1);
-
-    return;
-  }
-
-  void ROSMap::PointInMapToOrigin(Eigen::Matrix3Xd& coords)
-  {
-    coords = _tfMapToMapOrigin.inverse() * coords;
-    return;
-  }
-
-  double ROSMap::getHeigh()
-  {
-    return _height * _resolution;
-  }
-
-  double ROSMap::getWith()
-  {
-    return _width * _resolution;
-  }
-
-  Eigen::Matrix3d ROSMap::getOrigin()
-  {
-    return _tfMapToMapOrigin;
-  }
-
-  void ROSMap::getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax)
-  {
-    Eigen::MatrixXd rectInOrigin(3, 4);
-    rectInOrigin.col(0) << 0, 0, 1;
-    rectInOrigin.col(1) << getWith(), 0, 1;
-    rectInOrigin.col(2) << 0, getHeigh(), 1;
-    rectInOrigin.col(3) << getWith(), getHeigh(), 1;
-
-    rectInOrigin = _tfMapToMapOrigin * rectInOrigin;
-
-    xMax = rectInOrigin.row(0).maxCoeff();
-    xMin = rectInOrigin.row(0).minCoeff();
-    yMax = rectInOrigin.row(1).maxCoeff();
-    yMin = rectInOrigin.row(1).minCoeff();
-  }
-
-  void ROSMap::calcProbMap()
-  {
-    calcContourMap();
-    
-    int filterSize = std::ceil(1.0 * (double)_maxDistanceProbMap);  // in cells
-
-    _probMap = _contourMap;
-    double dist = 0.0;
-
-    for(int i = 0; i < _width; i++)  // x map
-    {
-      for(int j = 0; j < _height; j++)  //y map
-      {
-        if(_contourMap[j * _width + i] > IS_OCCUPIED_THRESHHOLD)  // is occupied?
-        {
-          for(int k = -filterSize; k <= filterSize; k++)  // x filter
-          {
-            for(int l = -filterSize; l <= filterSize; l++)  //y filter
-            {
-              if((i + k) >= 0 && (i + k) < _width && (j + l) >= 0 && (j + l) < _height)
-              {
-                dist = std::sqrt(std::pow(k, 2) + std::pow(l, 2));  // precalculate that in future
-                if(dist < _maxDistanceProbMap)
-                {
-                  dist = (1.0 - dist / _maxDistanceProbMap) * 100.0;  // normalize to [0;100]
-                  _probMap[(j + l) * _width + (i + k)] = std::max((double)_probMap[(j + l) * _width + (i + k)], dist);
-                }
-              }
-            }
-          }
-        }
-        else if(_probMap[j * _width + i] == -1)
-        {
-          _probMap[j * _width + i] = 0;
-        }
-      }
-    }
-    std::cout << __PRETTY_FUNCTION__ << " --> created prob map!" << std::endl;
-  }
-
-  void ROSMap::calcContourMap()
-  {
-    int filterSize = 1;  // in cells
-
-    _contourMap = _mapRaw;
-    bool edge = false;
-
-    for(int i = 0; i < _width; i++)  // x map
-    {
-      for(int j = 0; j < _height; j++)  //y map
-      {
-        if(_mapRaw[j * _width + i] == -1) continue;
-        edge = false;
-          for(int k = -filterSize; k <= filterSize; k++)  // x filter
-          {
-            for(int l = -filterSize; l <= filterSize; l++)  //y filter
-            {
-              if((i + k) >= 0 && (i + k) < _width && (j + l) >= 0 && (j + l) < _height)
-              {
-                edge = 
-                  edge | 
-                  (
-                    (_mapRaw[j * _width + i] > IS_OCCUPIED_THRESHHOLD) ^
-                    (_mapRaw[(j + l) * _width + (i + k)] > IS_OCCUPIED_THRESHHOLD)
-                  );
-              }
-            }
-          }
-        _contourMap[j * _width + i] = 100 * (int8_t) edge;
-      }
-    }
-    std::cout << __PRETTY_FUNCTION__ << " --> created contour map!" << std::endl;
-  }
-
-
-  void ROSMap::getProbMap(nav_msgs::OccupancyGrid& msg)
-  {
-    msg.data = _probMap;
-  }
-
+ROSMap::ROSMap(const nav_msgs::OccupancyGrid& msg)
+{
+  _mapRaw = msg.data;
+  _resolution = msg.info.resolution;
+  assert(_resolution != 0);
+  _width = msg.info.width;  // width is in map_origin_system
+  _height = msg.info.height;  // height is in map_origin_system
+  _stamp = msg.header.stamp;
+  tf::Transform tmp;
+  tf::poseMsgToTF(msg.info.origin, tmp);
+  _tfMapToMapOrigin = tfToEigenMatrix3x3(tmp);
 }
-/* namespace ohmPf */
+
+std::vector<int8_t> ROSMap::getMapRaw()
+{
+  ROS_WARN("Warning ohmPf is using return _mapRaw workaround! ProbMap cannot rely on this output"
+      " it should generate its own raw map data matrix");
+  return _mapRaw;
+}
+
+unsigned int ROSMap::isOccupied(int x_c, int y_c)  //x, y in cells
+{
+  if(!isInMapRange(x_c, y_c))
+  {
+    return OCC_STATES::OUTBOUND;
+  }
+
+  int8_t value = _mapRaw[y_c * _width + x_c];
+
+  if(value > IS_OCCUPIED_THRESHHOLD)
+  {
+    return OCC_STATES::OCCUPIED;
+  }
+
+  if(value == IS_UNKNOWN_CELL)
+  {
+    return OCC_STATES::UNKNOWN;
+  }
+
+  return OCC_STATES::FREE;
+}
+
+unsigned int ROSMap::getHeighInCells()
+{
+  return _height;
+}
+
+unsigned int ROSMap::getWidthInCells()
+{
+  return _width;
+}
+
+double ROSMap::getResolution()
+{
+  return _resolution;
+}
+
+Eigen::Matrix3d ROSMap::getTfMapToMapOrigin()
+{
+  return _tfMapToMapOrigin;
+}
+
+} /* namespace ohmPf */

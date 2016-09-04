@@ -27,3 +27,11 @@ NEXT ROSCeilCamMeasurement.h
 
 
 // Why does a lowe subsampling rate of laser lead to less variance of the filter?
+
+
+   * @todo Implement timing. Its easy to let every updater set one filter stamp
+   * with a function in the filter to track or log timing. E.g. something like:
+   * _filter.setStamp(ros::Time stamp, string id)...
+   
+   // i want to maka a input var const but i have to modifie it before assigning it to the const class member
+   // how to do that?
