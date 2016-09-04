@@ -12,7 +12,7 @@
 #include "IOdomMeasurement.h"
 #include "ILaserMeasurement.h"
 #include "IFilterOutput.h"
-#include "IMap.h"
+#include "interfaces/IMap.h"
 #include "FilterParams.h"
 #include "DiffDriveUpdater.h"
 #include "LaserUpdater.h"
@@ -24,6 +24,7 @@
 #include "LaserProbMapUpdater.h"
 #include "LVResampler.h"
 #include "STDResampler.h"
+#include "ProbMap.h"
 #include "OCSObserver.h"
 #include "CeilCamUpdater.h"
 #include "Eigen/Dense"
@@ -151,6 +152,7 @@ public:
 
 private:
   IMap* _map;
+  ProbMap* _probMap;
   IOdomMeasurement* _odomMeasurement;
   std::vector<ILaserMeasurement*> _laserMeasurements;
   IFilterOutput* _filterOutput;

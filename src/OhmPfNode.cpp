@@ -34,7 +34,7 @@ namespace ohmPf
     _prvNh.param<std::string>("resamplingMethod", _filterParams.resamplingMethod, "STD");
     _prvNh.param<int>("maxDistanceProbMap", itmp, 10);
     assert(itmp > 0);
-    _maxDistanceProbMap = (unsigned int)itmp;
+    _filterParams.maxDistanceProbMap = (unsigned int)itmp;
     _prvNh.param<int>("samplesMax", itmp, 5000);
     _filterParams.samplesMax = (unsigned int)std::abs(itmp);
     _prvNh.param<int>("samplesMin", itmp, 50);
@@ -141,7 +141,7 @@ namespace ohmPf
 
     assert(_map == NULL);
 
-    _map = new ROSMap(map, _maxDistanceProbMap);
+    _map = new ROSMap(map);
     _filterController->setMap(_map);
 
     if(_paramSet.initMode == "GL")
@@ -149,11 +149,11 @@ namespace ohmPf
       _filterController->initFilterMap();
     }
 
-    nav_msgs::OccupancyGrid probMapMsg;
-    probMapMsg.header = map.header;
-    probMapMsg.info = map.info;
-    _map->getProbMap(probMapMsg);
-    _pubProbMap.publish(probMapMsg);
+//    nav_msgs::OccupancyGrid probMapMsg;
+//    probMapMsg.header = map.header;
+//    probMapMsg.info = map.info;
+//    _map->getProbMap(probMapMsg);
+//    _pubProbMap.publish(probMapMsg);
   }
 
   void OhmPfNode::spin()

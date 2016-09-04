@@ -8,7 +8,7 @@
 #ifndef SRC_ROSMAP_H_
 #define SRC_ROSMAP_H_
 
-#include "IMap.h"
+#include "interfaces/IMap.h"
 #include "nav_msgs/OccupancyGrid.h"
 #include "ros/types.h"
 #include "tf/transform_datatypes.h"

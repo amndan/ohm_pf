@@ -11,7 +11,7 @@
 #include "IOdomMeasurement.h"
 #include "ILaserMeasurement.h"
 #include "IFilterOutput.h"
-#include "IMap.h"
+#include "interfaces/IMap.h"
 #include "FilterParams.h"
 #include "OdomDiffParams.h"
 #include "ICeilCamMeasurement.h"

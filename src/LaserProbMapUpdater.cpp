@@ -10,7 +10,7 @@
 namespace ohmPf
 {
 
-LaserProbMapUpdater::LaserProbMapUpdater(Filter* filter, IMap* map, ILaserMeasurement* measurement, MapUpdater* updateFilterMap, double minValidRaysFactor) :
+LaserProbMapUpdater::LaserProbMapUpdater(Filter* filter, ProbMap* map, ILaserMeasurement* measurement, MapUpdater* updateFilterMap, double minValidRaysFactor) :
     LaserUpdater(filter, map, measurement, updateFilterMap)
 {
   if(minValidRaysFactor > 1.0 || minValidRaysFactor <= 0.0)
@@ -43,7 +43,7 @@ void LaserProbMapUpdater::calculate()
     coordsTf = tf * _measurement->getTfBaseFootprintToLaser() * coords;
 
     // lookup probs
-    it->weight = _map->getProbability(coordsTf, _measurement->getUncertainty());
+    it->weight = ((ProbMap*)_map)->getProbability(coordsTf, _measurement->getUncertainty());
   }
 
   _filter->getSampleSet()->boostWeights();

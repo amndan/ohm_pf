@@ -140,7 +140,6 @@ private:
   OhmPfNodeParams_t _paramSet;
   OdomDiffParams_t _odomDiffParams;
   FilterParams_t _filterParams;
-  unsigned int _maxDistanceProbMap;
   bool _odomInitialized;
   bool _ceilCamInitialized;
   IFilterController* _filterController;

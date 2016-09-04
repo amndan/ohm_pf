@@ -17,6 +17,7 @@ FilterController::FilterController(FilterParams_t params) :
   _filterParams = params;
 
   _map = NULL;
+  _probMap = NULL;
   _odomMeasurement = NULL;
   _filterOutput = NULL;
 
@@ -72,9 +73,9 @@ bool FilterController::setMap(IMap* map)
 
   // everything ok...
   _map = map;
+  _probMap = new ProbMap(*map,_filterParams.maxDistanceProbMap);
   _mapUpdater = new MapUpdater(_filter, _map);
   return true;
-
 }
 
 bool FilterController::setOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams_t params)

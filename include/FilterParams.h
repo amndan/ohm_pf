@@ -31,6 +31,7 @@ typedef struct
   double resamplerAdditionalRotationalNoise;
   unsigned int resamplerLowVarianceFactor;
   double OCSRotToTransFactor;
+  unsigned int maxDistanceProbMap;
 } FilterParams_t;
 
 } /* namespace ohmPf */

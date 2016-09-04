@@ -10,7 +10,7 @@
 
 #include "FilterUpdater.h"
 #include "OCSClient.h"
-#include "IMap.h"
+#include "interfaces/IMap.h"
 #include "ILaserMeasurement.h"
 #include "MapUpdater.h"
 
