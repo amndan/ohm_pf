@@ -21,6 +21,7 @@ namespace ohmPf
 
 /**
  * @brief Updates the filters output
+ * @todo Filter output updater could be a ocs client?
  */
 class FilterOutputUpdater : public FilterUpdater
 {
@@ -33,7 +34,7 @@ public:
    * @todo The filter has no Main loop or spin function for
    * updating its output variables. If the user calls FilterController::updateOutput()
    * The filters variables got updated and the FilterOutput callbacks get called.
-   * Perhaps there is a better design for doing that.
+   * There must be a better design for doing that.
    * @param filter Pointer to the Filter.
    */
   FilterOutputUpdater(IFilterOutput* filterOutput, Filter* filter);

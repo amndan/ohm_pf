@@ -22,12 +22,7 @@ namespace ohmPf
     // TODO: we schould separate the pub gui output from the resampling step
   }
 
-  ROSFilterOutput::~ROSFilterOutput()
-  {
-    // TODO Auto-generated destructor stub
-  }
-
-  void ROSFilterOutput::actualizeTF(Eigen::Vector3d pose)
+  void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose)
   {
     // map_odom * odom_bf = map_ohmPf
     // map_odom = map_ohmPf * odom_bf.inverse() --> pose correction from map to odom frame
@@ -35,20 +30,16 @@ namespace ohmPf
 
     tf::StampedTransform tmpTransform;
 
-    // TODO: better solution here!
-    assert(_tfListener.waitForTransform(_paramSet.tfBaseFootprintFrame, _paramSet.tfOdomFrame, ros::Time(0), ros::Duration(10)));
+    if(!_tfListener.waitForTransform(_paramSet.tfBaseFootprintFrame, _paramSet.tfOdomFrame, ros::Time(0), ros::Duration(10)))
+    {
+      ROS_ERROR_STREAM("cannot publish filters output because tf from " << _paramSet.tfBaseFootprintFrame << " to "
+          << _paramSet.tfOdomFrame << " is not available --> will continue without output...");
+      return;
+    }
 
-    try
-    {
-      _tfListener.lookupTransform(_paramSet.tfBaseFootprintFrame, _paramSet.tfOdomFrame, ros::Time(0), tmpTransform);
-      // TODO: TIMING!
-    }
-    catch(tf::TransformException ex)
-    {
-      ROS_ERROR("%s", ex.what());
-      ros::Duration(1.0).sleep();
-      exit(EXIT_FAILURE);
-    }
+    _tfListener.lookupTransform(_paramSet.tfBaseFootprintFrame, _paramSet.tfOdomFrame, ros::Time(0), tmpTransform);
+    //TIMING?
+
     tf::Transform tf_bf_odom = tmpTransform;
 
     tf::Transform tf_map_pf;
@@ -73,7 +64,7 @@ namespace ohmPf
     _pubPose.publish(poseStamped);
   }
 
-  void ROSFilterOutput::printSampleSet(std::vector<Sample_t>&  samples)
+  void ROSFilterOutput::onSampleSetChanged(const std::vector<Sample_t>&  samples)
   {
     geometry_msgs::PoseArray poseArray;
     geometry_msgs::Pose pose;
@@ -91,7 +82,7 @@ namespace ohmPf
     _pubPoseArray.publish(poseArray);
   }
 
-  void ROSFilterOutput::actualizeState(FilterState_t state)
+  void ROSFilterOutput::onFilterStateChanged(FilterState_t state)
   {
     std_msgs::Float32 msg;
     msg.data = state.probPose;

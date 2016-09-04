@@ -20,19 +20,47 @@
 namespace ohmPf
 {
 
+/**
+ * @brief An implementation of a laser measurement for the ros middleware.
+ * For detailed member description please look at ILaserMeasurement.
+ */
 class ROSLaserMeasurement : public ILaserMeasurement
 {
 public:
+  /**
+   * @brief Constructor initializes the measurement.
+   * @param scan ROS laser scan message.
+   * @param tfBaseFootprintFrame Name of the base_footprint frame.
+   * The name of the laser frame is available in the laser message.
+   * @param subsamplingRate Subsampling rate to use. Subsampling rate
+   * is just stored --> the scan does not get subsampled here.
+   * @param uncertainty The overall laser uncertainty.
+   * (see ILaserMeasurement::getUncertainty() )
+   */
   ROSLaserMeasurement(const sensor_msgs::LaserScanConstPtr& scan,
                       std::string tfBaseFootprintFrame,
                       unsigned int subsamplingRate,
                       double uncertainty);
-  virtual ~ROSLaserMeasurement();
+
+  /**
+   * @brief Destructor (empty)
+   */
+  virtual ~ROSLaserMeasurement(){};
+
+  /**
+   * @brief Gets called from constructor with same parameters.
+   */
   void initWithMeasurement(const sensor_msgs::LaserScanConstPtr& scan,
                            std::string tfBaseFootprintFrame,
                            unsigned int subsamplingRate,
                            double uncertainty);
+
+  /**
+   * @brief Sets the actual measurement data.
+   * @param scan ROS laser scan message.
+   */
   void setMeasurement(sensor_msgs::LaserScanConstPtr scan);
+
   ros::Time getStamp();
   double getAngleIncrement();
   double getRangeMax();

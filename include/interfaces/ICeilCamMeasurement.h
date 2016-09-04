@@ -15,14 +15,31 @@
 namespace ohmPf
 {
 
-  class ICeilCamMeasurement : public IMeasurement
-  {
-  public:
-    ICeilCamMeasurement(){};
-    virtual ~ICeilCamMeasurement(){};
-    virtual std::vector<Eigen::Vector3d> getPoses() = 0;
-    virtual std::vector<double> getProbabilities() = 0;
-  };
+/**
+ * An abstract class for providing a generalized ceil cam
+ * measurement to the filter.
+ */
+class ICeilCamMeasurement : public IMeasurement
+{
+public:
+  ICeilCamMeasurement(){};
+  virtual ~ICeilCamMeasurement(){};
+
+  /**
+   * @brief An abstract function to get the poses of the
+   * actual measurement. Poses are in map frame.
+   * Structure is: x y yaw in: m m rad
+   * @return The poses vector.
+   */
+  virtual std::vector<Eigen::Vector3d> getPoses() = 0;
+
+  /**
+   * @brief An abstract function for getting the probabilities
+   * of the corresponding poses from getPoses().
+   * @return The probabilities vector.
+   */
+  virtual std::vector<double> getProbabilities() = 0;
+};
 
 } /* namespace ohmPf */
 

@@ -16,11 +16,6 @@ namespace ohmPf
 
   }
 
-  ROSCeilCamMeasurement::~ROSCeilCamMeasurement()
-  {
-    // TODO Auto-generated destructor stub
-  }
-
   std::vector<Eigen::Vector3d> ROSCeilCamMeasurement::getPoses()
   {
     return _poses;

@@ -16,20 +16,60 @@
 namespace ohmPf
 {
 
-  class ROSCeilCamMeasurement : public ICeilCamMeasurement
-  {
-  public:
-    ROSCeilCamMeasurement();
-    virtual ~ROSCeilCamMeasurement();
-    std::vector<Eigen::Vector3d> getPoses();
-    std::vector<double> getProbabilities();
-    void setMeasurement(const geometry_msgs::PoseArrayConstPtr& msgs);
-    ros::Time getStamp();
-  private:
-    std::vector<Eigen::Vector3d> _poses;
-    std::vector<double> _probs;
-    ros::Time _stamp;
-  };
+/**
+ * @brief A measurement container for ROS ceil cam measurements.
+ * It implements ICeilCamMeasurement to provide ceil cam measurements
+ * from ROS to the filter under a generalized interface.
+ * @todo Implement a generalized PoseUpdater class for
+ * updating the filter with pose updates. If neccessary
+ * inherit from this class and reimplement CeilCamUpdater.
+ */
+class ROSCeilCamMeasurement : public ICeilCamMeasurement
+{
+public:
+
+  /**
+   * @brief Constructor
+   */
+  ROSCeilCamMeasurement();
+
+  /**
+   * @brief Destructor (empty)
+   */
+  virtual ~ROSCeilCamMeasurement(){};
+
+  /**
+   * @brief Poses getter.
+   * @return Array of poses.
+   */
+  std::vector<Eigen::Vector3d> getPoses();
+
+  /**
+   * @brief Probabilities getter.
+   * @return Array of probabilities corresponding to poses.
+   */
+  std::vector<double> getProbabilities();
+
+  /**
+   * @brief Set actual measurement.
+   * @param msgs ROS pose array.
+   */
+  void setMeasurement(const geometry_msgs::PoseArrayConstPtr& msgs);
+
+  /**
+   * @brief get measurements timestamp.
+   * @return ROS timestamp.
+   * @todo Implement timing. Its easy to let every updater set one filter stamp
+   * with a function in the filter to track or log timing. E.g. something like:
+   * _filter.setStamp(ros::Time stamp, string id)...
+   */
+  ros::Time getStamp();
+
+private:
+  std::vector<Eigen::Vector3d> _poses;
+  std::vector<double> _probs;
+  ros::Time _stamp;
+};
 
 } /* namespace ohmPf */
 

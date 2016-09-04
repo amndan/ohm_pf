@@ -26,23 +26,51 @@
 namespace ohmPf
 {
 
-  class ROSFilterOutput : public IFilterOutput
-  {
-  public:
-    ROSFilterOutput(OhmPfNodeParams_t paramSet);
-    virtual ~ROSFilterOutput();
-    void actualizeTF(Eigen::Vector3d pose);
-    void printSampleSet(std::vector<Sample_t>& samples); // TODO: saples must be const here
-    void actualizeState(FilterState_t state);
-  private:
-    ros::Publisher _pubPoseArray;
-    ros::Publisher _pubPose;
-    ros::Publisher _pubProbPose;
-    OhmPfNodeParams_t _paramSet;
-    tf::TransformBroadcaster _tfBroadcaster;
-    tf::TransformListener _tfListener;
-    int _skipParticleForGui;
-  };
+/**
+ * @brief A measurement container for ROS ceil cam measurements.
+ * It implements IFilterOutput to provide the user of the filter
+ * a generalized interface for getting access to the filters output.
+ * E.g. to vizualize the output.
+ */
+class ROSFilterOutput : public IFilterOutput
+{
+public:
+  /**
+   * @brief Constructor
+   * @param paramSet ROS node param set for initialization.
+   * @todo For calculating the right filter output we need
+   * the actual filter time --> requires timing
+   */
+  ROSFilterOutput(OhmPfNodeParams_t paramSet);
+
+  /**
+   * @brief Destructor (empty)
+   */
+  virtual ~ROSFilterOutput(){};
+
+  /**
+   * @brief Calculate the output tfs for ROS and publish them.
+   * @param pose Filter output pose in map frame.
+   */
+  void onOutputPoseChanged(Eigen::Vector3d pose);
+
+  /**
+   * @brief Create and publish a PoseArray for displaying particle cloud in rviz.
+   * @param samples Particle cloud.
+   */
+  void onSampleSetChanged(const std::vector<Sample_t>& samples); // TODO: saples must be const here
+
+
+  void onFilterStateChanged(FilterState_t state);
+private:
+  ros::Publisher _pubPoseArray;
+  ros::Publisher _pubPose;
+  ros::Publisher _pubProbPose;
+  OhmPfNodeParams_t _paramSet;
+  tf::TransformBroadcaster _tfBroadcaster;
+  tf::TransformListener _tfListener;
+  int _skipParticleForGui;
+};
 
 } /* namespace ohmPf */
 

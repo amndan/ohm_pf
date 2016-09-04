@@ -18,11 +18,6 @@ ROSLaserMeasurement::ROSLaserMeasurement(const sensor_msgs::LaserScanConstPtr& s
   initWithMeasurement(scan,tfBaseFootprintFrame,subsamplingRate,uncertainty);
 }
 
-ROSLaserMeasurement::~ROSLaserMeasurement()
-{
-  // TODO Auto-generated destructor stub
-}
-
 void ROSLaserMeasurement::initWithMeasurement(const sensor_msgs::LaserScanConstPtr& scan,
                                               std::string tfBaseFootprintFrame,
                                               unsigned int subsamplingRate,
@@ -60,17 +55,20 @@ void ROSLaserMeasurement::initWithMeasurement(const sensor_msgs::LaserScanConstP
 
   std::string tfLaserFrame = scan->header.frame_id;
 
-  double angleRange = _angleMax - _angleMin;
+  double angleRange = std::abs(_angleMax - _angleMin);
+  double angleIncrement = angleRange / (double) scan->ranges.size();
 
-  assert(angleRange > 0.0);
+  if( abs(angleIncrement) > abs(_angleIncrement + 0.01) || abs(angleIncrement) < abs(_angleIncrement - 0.01))
+  {
+    ROS_WARN_STREAM("abs(angleIncrement) > abs(_angleIncrement + 0.01) || abs(angleIncrement) < abs(_angleIncrement - 0.01) "
+        "abs(angleIncrement) = " << std::abs(angleIncrement) << "; abs(_angleIncrement) = " << std::abs(_angleIncrement));
+  }
+
+  _angleIncrement = angleIncrement;
+
   assert(_angleIncrement != 0);
 
-  int count = (int)(angleRange / _angleIncrement);  // todo: angle inc and ranges.size() dont equals!
-
-  //assert(scan->ranges.size() == count);
-
   _count = scan->ranges.size();
-  _angleIncrement = std::abs(angleRange) / _count;
 
   tf::Transform tf;
   tf::StampedTransform tmp;
@@ -83,16 +81,22 @@ void ROSLaserMeasurement::initWithMeasurement(const sensor_msgs::LaserScanConstP
   tf = tmp;  // stamped to not stamped
 
   _tfBaseFootprintToLaser = tfToEigenMatrix3x3(tf);
-
   _initialized = true;
 }
 
 void ROSLaserMeasurement::setMeasurement(sensor_msgs::LaserScanConstPtr scan)
 {
   assert(_initialized);
-  //todo: set stamp here
-  _ranges = scan->ranges;
-  _stamp = scan->header.stamp;
+
+  if(scan->ranges.size() != _count)
+  {
+    ROS_WARN_STREAM("scan->ranges.size() != _count " << scan->ranges.size() << " != " << _count);
+  }
+  else
+  {
+    _ranges = scan->ranges;
+    _stamp = scan->header.stamp;
+  }
 }
 
 ros::Time ROSLaserMeasurement::getStamp()

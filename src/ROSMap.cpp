@@ -12,14 +12,12 @@ namespace ohmPf
 
   ROSMap::ROSMap(const nav_msgs::OccupancyGrid& msg, unsigned int maxDistanceProbMap)
   {
-    // todo: clean variables
     _mapRaw = msg.data;
     _resolution = msg.info.resolution;
     _width = msg.info.width;  // width is in map_origin_system
     _height = msg.info.height;  // height is in map_origin_system
     _stamp = msg.header.stamp;
     _maxDistanceProbMap = maxDistanceProbMap;
-    // todo: need getXmin() getXmax() functions for injecting particles over whole map
 
     tf::Transform tmp;
     tf::poseMsgToTF(msg.info.origin, tmp);
@@ -68,38 +66,6 @@ namespace ohmPf
       return false;
     }
   }
-
-//  void ROSMap::initFilter(Filter& filter)
-//  {
-//    double xMin;
-//    double yMin;
-//    double xMax;
-//    double yMax;
-//
-//    getMinEnclRect(xMin, yMin, xMax, yMax);
-//
-//    // generate cloud
-//    std::vector<Sample_t> samples;
-//
-//    for(unsigned int i = 0; i < filter.getParamSet()->samplesMax; i++)
-//    {
-//      Sample_t sample;
-//      sample.weight = 1.0;
-//      sample.pose(2) = drand48() * 2 * M_PI - M_PI;
-//      // todo: more efficient way here
-//      do
-//      {
-//        sample.pose(0) = drand48() * (xMax - xMin) + xMin;
-//        sample.pose(1) = drand48() * (yMax - yMin) + yMin;
-//      }
-//      while(isOccupied(sample.pose(0), sample.pose(1)));
-//      //todo: check if there is at least one field not occupied
-//
-//      samples.push_back(sample);
-//    }
-//
-//    filter.setSamples(samples);
-//  }
 
   bool ROSMap::isInMapRange(int x, int y)
   {
@@ -182,19 +148,6 @@ namespace ohmPf
 
     return;
   }
-
-//  void ROSMap::updateFilter(Filter& filter)
-//  {
-//    std::vector<Sample_t>* samples = filter.getSampleSet()->getSamples();
-//
-//    for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
-//    {
-//      if(isOccupied(it->pose(0), it->pose(1)))
-//      {
-//        it->weight = 0.0;
-//      }
-//    }
-//  }
 
   void ROSMap::PointInMapToOrigin(Eigen::Matrix3Xd& coords)
   {
