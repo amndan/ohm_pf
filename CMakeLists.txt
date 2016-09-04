@@ -164,6 +164,8 @@ add_library(OhmPf STATIC
     src/STDResampler.cpp
     src/OCSClient.cpp
     src/DiffDriveUpdater.cpp
+    src/ProbMap.cpp
+    src/IMap.cpp
 )
 
 add_library(rostimeohmpf STATIC

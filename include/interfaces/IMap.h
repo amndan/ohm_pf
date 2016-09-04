@@ -28,8 +28,8 @@ class IMap
 {
 
 public:
-  IMap(){}
-  virtual ~IMap(){}
+  IMap(){};
+  virtual ~IMap(){};
   virtual unsigned int isOccupied(int x, int y) = 0;  //x, y in cells
   virtual unsigned int getHeighInCells() = 0;
   virtual unsigned int getWidthInCells() = 0;
@@ -38,6 +38,15 @@ public:
   virtual std::vector<int8_t> getMapRaw() = 0;
 
   unsigned int isOccupied(double x, double y);  //x, y in m
+  /**
+   * @brief Calculates coordinates for generating random samples all over the map.
+   * Map origin in map frame is variable, so before sampling for the whole map
+   * x and y bounds must be known.
+   * @param xMin minimum x bound in m.
+   * @param yMin minimum y bound in m.
+   * @param xMax maximum x bound in m.
+   * @param yMax maximum y bound in m.
+   */
   void getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax);  // in meter
   double getHeighInMeter();
   double getWidthInMeter();

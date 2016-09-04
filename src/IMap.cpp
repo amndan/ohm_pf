@@ -10,17 +10,6 @@
 namespace ohmPf
 {
 
-IMap::IMap()
-{
-  // TODO Auto-generated constructor stub
-
-}
-
-IMap::~IMap()
-{
-  // TODO Auto-generated destructor stub
-}
-
 void IMap::getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax)
 {
   Eigen::MatrixXd rectInOrigin(3, 4);

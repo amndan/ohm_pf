@@ -126,7 +126,7 @@ bool FilterController::setLaserMeasurement(ILaserMeasurement* laser, unsigned in
     return false;
   }
 
-  _laserUpdaters.at(laserId) = new LaserProbMapUpdater(_filter, _map, laser, _mapUpdater, _filterParams.minValidScanRaysFactor);
+  _laserUpdaters.at(laserId) = new LaserProbMapUpdater(_filter, _probMap, laser, _mapUpdater, _filterParams.minValidScanRaysFactor);
   _ocsObserver->registerClient(_laserUpdaters.at(laserId), _filterParams.OCSThresholdLaser);
   return true;
 }

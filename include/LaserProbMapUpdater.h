@@ -8,7 +8,8 @@
 #ifndef SRC_LASERPROBMAPUPDATER_H_
 #define SRC_LASERPROBMAPUPDATER_H_
 
-#include "IMap.h"
+#include "interfaces/IMap.h"
+#include "ProbMap.h"
 #include "ILaserMeasurement.h"
 #include "MapUpdater.h"
 #include "LaserUpdater.h"

@@ -38,7 +38,7 @@ namespace ohmPf
     double yMax;
 
     // calculate bounds
-    getMinEnclRect(xMin, yMin, xMax, yMax);
+    _map->getMinEnclRect(xMin, yMin, xMax, yMax);
 
     // generate cloud
     std::vector<Sample_t> samples;
@@ -62,23 +62,6 @@ namespace ohmPf
     }
     _filter->setSamples(samples);
   }
-
-  void MapUpdater::getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax)
-  {
-    Eigen::MatrixXd rectInOrigin(3, 4);
-    rectInOrigin.col(0) << 0, 0, 1;
-    rectInOrigin.col(1) << _map->getWith(), 0, 1;
-    rectInOrigin.col(2) << 0, _map->getHeigh(), 1;
-    rectInOrigin.col(3) << _map->getWith(), _map->getHeigh(), 1;
-
-    rectInOrigin = _map->getTfMapToMapOrigin() * rectInOrigin;
-
-    xMax = rectInOrigin.row(0).maxCoeff();
-    xMin = rectInOrigin.row(0).minCoeff();
-    yMax = rectInOrigin.row(1).maxCoeff();
-    yMin = rectInOrigin.row(1).minCoeff();
-  }
-
 
 } /* namespace ohmPf */
 

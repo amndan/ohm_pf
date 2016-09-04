@@ -50,17 +50,6 @@ public:
   void update();
 
 private:
-  /**
-   * @brief Calculates coordinates for generating random samples all over the map.
-   * Map origin in map frame is variable, so before sampling for the whole map
-   * x and y bounds must be known.
-   * @param xMin minimum x bound in m.
-   * @param yMin minimum y bound in m.
-   * @param xMax maximum x bound in m.
-   * @param yMax maximum y bound in m.
-   */
-  void getMinEnclRect(double& xMin, double& yMin, double& xMax, double& yMax);
-
   IMap* _map;
 };
 
