@@ -10,6 +10,9 @@
 
 #include <IMap.h>
 
+#include <ros/ros.h>
+#include <nav_msgs/OccupancyGrid.h>
+
 #define IS_OCCUPIED_THRESHHOLD 50
 #define IS_UNKNOWN_CELL -1
 

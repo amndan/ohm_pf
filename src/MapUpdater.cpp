@@ -22,7 +22,7 @@ namespace ohmPf
 
     for(std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it)
     {
-      if(_map->isOccupied(it->pose(0), it->pose(1)))
+      if(_map->isOccupied(it->pose(0), it->pose(1)) == OCC_STATES::OCCUPIED)
       {
         it->weight = 0.0;
       }
@@ -55,7 +55,7 @@ namespace ohmPf
         sample.pose(0) = drand48() * (xMax - xMin) + xMin;
         sample.pose(1) = drand48() * (yMax - yMin) + yMin;
       }
-      while(_map->isOccupied(sample.pose(0), sample.pose(1)));
+      while(_map->isOccupied(sample.pose(0), sample.pose(1)) != OCC_STATES::FREE);
       //todo: check if there is at least one field not occupied
 
       samples.push_back(sample);

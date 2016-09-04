@@ -47,13 +47,14 @@ void ProbMap::calcContourMap()
           {
             edge = edge
                 | ((_mapRaw[j * getWidthInCells() + i] > IS_OCCUPIED_THRESHHOLD)
-                    ^ (_mapRaw[(j + l) * getHeighInCells() + (i + k)] > IS_OCCUPIED_THRESHHOLD));
+                    ^ (_mapRaw[(j + l) * getWidthInCells() + (i + k)] > IS_OCCUPIED_THRESHHOLD));
           }
         }
       }
       _contourMap[j * getWidthInCells() + i] = 100 * (int8_t)edge;
     }
   }
+
   std::cout << __PRETTY_FUNCTION__ << " --> created contour map!" << std::endl;
 }
 
@@ -94,6 +95,19 @@ void ProbMap::calcProbMap()
       }
     }
   }
+
+//  assert(ros::ok());
+//  ros::NodeHandle nh = ros::NodeHandle();
+//  ros::Publisher _pubProbMap = nh.advertise<nav_msgs::OccupancyGrid>("probMap", 1, true);
+//  nav_msgs::OccupancyGrid mapMsg;
+//  mapMsg.header.frame_id = "map";
+//  mapMsg.data = _probMap;
+//  mapMsg.info.height = getHeighInCells();
+//  mapMsg.info.width = getWidthInCells();
+//  mapMsg.info.resolution = getResolution();
+//  _pubProbMap.publish(mapMsg);
+//  ros::spinOnce();
+
   std::cout << __PRETTY_FUNCTION__ << " --> created prob map!" << std::endl;
 }
 
@@ -110,8 +124,8 @@ double ProbMap::getProbability(Eigen::Matrix3Xd& coords, double pRand)
   {
     if(coords(2, i) != 0)
     {
-      x = (int)std::floor(coords(0, i) / getResolution());
-      y = (int)std::floor(coords(1, i) / getResolution());
+      x = meterToCells(coords(0, i));
+      y = meterToCells(coords(1, i));
 
       if(!isInMapRange(x, y))
       {
