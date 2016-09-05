@@ -24,11 +24,29 @@
 namespace ohmPf
 {
 
+/**
+ * @brief An implementation of the IMap interface
+ * for connection a ROS map to the filter. For detailed
+ * description of implementation of abstract members
+ * please see IMap.
+ */
 class ROSMap : public IMap
 {
 public:
+  /**
+   * @brief Constructor initializes with a ros map.
+   * @param msg A ros map.
+   */
   ROSMap(const nav_msgs::OccupancyGrid& msg);
+
+  /**
+   * Destructor (empty)
+   */
   virtual ~ROSMap(){};
+
+  /**
+   * IMPLEMENTATION OF ABSTRACT MEMBERS
+   */
   unsigned int isOccupied(int x, int y);  //x, y in cells
   unsigned int getHeighInCells();
   unsigned int getWidthInCells();

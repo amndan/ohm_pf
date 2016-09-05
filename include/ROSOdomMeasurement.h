@@ -18,22 +18,37 @@
 namespace ohmPf
 {
 
-  class ROSOdomMeasurement : public IOdomMeasurement
-  {
-  public:
-    ROSOdomMeasurement();
-    virtual ~ROSOdomMeasurement();
-    double getX();
-    double getY();
-    double getPhi();
-    Eigen::Vector3d getMeasurement();
-    ros::Time getStamp();
-    void setMeasurement(const nav_msgs::OdometryConstPtr& msgs);
+/**
+ * @brief An implementaion of IOdomMeasurement for connecting a ros
+ * odom message to the filter. For detailed
+ * description of implementation of abstract members
+ * please see IOdomMeasurement.
+ */
+class ROSOdomMeasurement : public IOdomMeasurement
+{
+public:
+  ROSOdomMeasurement(){};
+  virtual ~ROSOdomMeasurement(){};
 
-  private:
-    ros::Time _stamp;
-    Eigen::Vector3d _measurement;
-  };
+  /**
+   * @brief Sets a new measurement.
+   * @param msgs ROS odom measurement.
+   */
+  void setMeasurement(const nav_msgs::OdometryConstPtr& msgs);
+
+  /**
+   * IMPLEMENTATION OF ABSTRACT MEMBERS
+   */
+  double getX();
+  double getY();
+  double getPhi();
+  Eigen::Vector3d getMeasurement();
+  ros::Time getStamp();
+
+private:
+  ros::Time _stamp;
+  Eigen::Vector3d _measurement;
+};
 
 } /* namespace ohmPf */
 

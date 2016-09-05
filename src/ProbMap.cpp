@@ -20,10 +20,6 @@ ProbMap::ProbMap(IMap& map, unsigned int maxDistanceProbMap) :
   calcProbMap();
 }
 
-ProbMap::~ProbMap()
-{
-  // TODO Auto-generated destructor stub
-}
 
 void ProbMap::calcContourMap()
 {
@@ -129,24 +125,6 @@ double ProbMap::getProbability(Eigen::Matrix3Xd& coords, double pRand)
   return probOfCoords;
 }
 
-double ProbMap::getProbability(double x, double y)
-{
-  PointInMapToOrigin(x, y);
-
-  int x_c = meterToCells(x);
-  int y_c = meterToCells(y);
-
-  if(!isInMapRange(x_c, y_c))
-  {
-    return 0.0;
-  }
-
-  double prob = (double)_probMap[y_c * getWidthInCells() + x_c] / 100.0;
-
-  assert(prob <= 1.0 && prob >= 0.0);
-
-  return prob;
-}
 
 unsigned int ProbMap::isOccupied(int x, int y)
 {

@@ -60,7 +60,10 @@ public:
    */
   void onSampleSetChanged(const std::vector<Sample_t>& samples); // TODO: saples must be const here
 
-
+  /**
+   * @brief Actualize the filter state if this method gets called.
+   * @param state filter state struct.
+   */
   void onFilterStateChanged(FilterState_t state);
 
 private:

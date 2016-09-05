@@ -14,16 +14,38 @@
 namespace ohmPf
 {
 
-  class IOdomMeasurement : public IMeasurement
-  {
-  public:
-    IOdomMeasurement(){};
-    virtual ~IOdomMeasurement(){};
-    virtual double getX() = 0;
-    virtual double getY() = 0;
-    virtual double getPhi() = 0;
-    virtual Eigen::Vector3d getMeasurement() = 0;
-  };
+/**
+ * @brief An Interface for odom measurements.
+ */
+class IOdomMeasurement : public IMeasurement
+{
+public:
+  IOdomMeasurement(){};
+  virtual ~IOdomMeasurement(){};
+
+  /**
+   * @return returns the x value of the actual odom measurement in m.
+   */
+  virtual double getX() = 0;
+
+  /**
+   * @return returns the y value of the actual odom measurement in m.
+   */
+  virtual double getY() = 0;
+
+  /**
+   * @return returns the phi value of the actual odom measurement in rad.
+   */
+  virtual double getPhi() = 0;
+
+  /**
+   * @return returns the actual measurement as vector - Format:
+   * x in meter
+   * y in meter
+   * phi in rad
+   */
+  virtual Eigen::Vector3d getMeasurement() = 0;
+};
 
 } /* namespace ohmPf */
 

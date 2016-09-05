@@ -150,6 +150,17 @@ public:
    */
   bool initFilterPose(Eigen::Vector3d pose, double sigTrans, double sigPhi);
 
+  /**
+   * @brief Function to request the probability map. So the user can display this map.
+   * @param width Width of the map in cells.
+   * @param height Height of the mao in cells.
+   * @param resolution Resolution of the map in m/cells.
+   * @param originTf The transformation from global map frame to the maps origin (cell (0|0)).
+   * @param mapData Data array.
+   * -1:        unknown
+   * 0-100:     probability mapped from 0.0-1.0 to 0-100
+   * @todo The data array is in ROS format. It should be a more general format definition.
+   */
   void requestProbMap(
       unsigned int& width,
       unsigned int& height,

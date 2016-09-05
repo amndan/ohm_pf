@@ -13,13 +13,21 @@
 namespace ohmPf
 {
 
-  class IMeasurement
-  {
-  public:
-    IMeasurement(){};
-    virtual ~IMeasurement(){};
-    virtual ros::Time getStamp() = 0; // TODO: should do this not virtual and relate to this class
-  };
+/**
+ * @brief An Interface for a generic measurement.
+ */
+class IMeasurement
+{
+public:
+  IMeasurement(){};
+  virtual ~IMeasurement(){};
+
+  /**
+   * @brief Each measurement should manage its actual time stamp.
+   * @return time stamp of actual measurement.
+   */
+  virtual ros::Time getStamp() = 0; // TODO: should do this not virtual and relate to this class
+};
 
 } /* namespace ohmPf */
 

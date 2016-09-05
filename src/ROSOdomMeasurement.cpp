@@ -9,18 +9,6 @@
 
 namespace ohmPf
 {
-
-  ROSOdomMeasurement::ROSOdomMeasurement()
-  {
-    // TODO Auto-generated constructor stub
-
-  }
-
-  ROSOdomMeasurement::~ROSOdomMeasurement()
-  {
-    // TODO Auto-generated destructor stub
-  }
-
   void ROSOdomMeasurement::setMeasurement(const nav_msgs::OdometryConstPtr& msgs)
   {
     _measurement(0) = msgs->pose.pose.position.x;
