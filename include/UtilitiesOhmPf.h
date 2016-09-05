@@ -20,7 +20,77 @@
 namespace ohmPf
 {
 
-static double getMeanOfAngles(const std::vector<Sample_t>& samples)
+/*
+ * PROTOTYPES
+ */
+
+/**
+ * @return returns the mean angle of a samples vector in range of -pi to pi.
+ */
+static double getMeanOfAngles(const std::vector<Sample_t>& samples);
+
+/**
+ * @param corrects the input angle to range of -pi to pi
+ */
+static void correctAngleOverflow(double& angle);
+
+/**
+ * @param measurement First Pose.
+ * @param sample Second Pose.
+ * @param sigmaPos Translational standard deviation.
+ * @param sigmaPhi Rotational standard deviation.
+ * @return An indicator for the equality of the to poses.
+ */
+static double getProbabilityFrom2Poses(
+    const Eigen::Vector3d& measurement,
+    const Eigen::Vector3d& sample,
+    double sigmaPos = 0.5,
+    double sigmaPhi = 0.5 * M_PI);
+
+/**
+ * @brief Adds gaussian noise to a sample.
+ * @param sample The sample noise should be added.
+ * @param sigmaPos Translational standard deviation.
+ * @param sigmaPhi Rotational stadard deviation.
+ */
+static void addGaussianRandomness(Sample_t& sample, double sigmaPos = 0.05, double sigmaPhi = 10 / 180 * M_PI);
+
+/**
+ * @return returns the standard deviation from a double vector.
+ */
+static double getStabw(const std::vector<double>& v);
+
+/**
+ * @return returns the standard deviation of a samples vector.
+ */
+static double getStabwOfSamples(const std::vector<Sample_t>& samples);
+
+/**
+ * @brief quality of samples is a value between 0 and 1.0.
+ * 1.0 means the standard deviation is very low and vice versa
+ */
+static double getQualityOfSamples(const std::vector<Sample_t>& samples);
+
+/**
+ * @brief Converter function for eigen matrix and tf transform
+ */
+static tf::Transform eigenMatrix3x3ToTf(const Eigen::Matrix3d& eigen);
+
+/**
+ * @brief create a 3x3 eigen transformation matrix
+ */
+static void create3x3TransformationMatrix(double& x, double& y, double& theta, Eigen::Matrix3d& tf);
+
+/**
+ * @brief Converter function for eigen matrix and tf transform
+ */
+static Eigen::Matrix3d tfToEigenMatrix3x3(const tf::Transform& tf);
+
+/*
+ * IMPLEMENTATIONS
+ */
+
+double getMeanOfAngles(const std::vector<Sample_t>& samples)
 {
   // TODO: assert samples are normalized
 
@@ -40,7 +110,7 @@ static double getMeanOfAngles(const std::vector<Sample_t>& samples)
   return std::atan2(sumSin, sumCos);
 }
 
-static void correctAngleOverflow(double& angle)
+void correctAngleOverflow(double& angle)
 {
   angle = std::fmod(angle, 2 * M_PI);
 
@@ -50,8 +120,7 @@ static void correctAngleOverflow(double& angle)
     angle += 2 * M_PI;
 }
 
-static double getProbabilityFrom2Poses(const Eigen::Vector3d& measurement, const Eigen::Vector3d& sample, double sigmaPos = 0.5, double sigmaPhi = 0.5
-    * M_PI)
+double getProbabilityFrom2Poses(const Eigen::Vector3d& measurement, const Eigen::Vector3d& sample, double sigmaPos, double sigmaPhi)
 {
   double px = GaussianPdf::getProbability(measurement(0), sigmaPos, sample(0));
   double py = GaussianPdf::getProbability(measurement(1), sigmaPos, sample(1));
@@ -73,7 +142,7 @@ static double getProbabilityFrom2Poses(const Eigen::Vector3d& measurement, const
 //    return (1 - weightPhi) * pPos + weightPhi * pPhi;
 //  }
 
-static void addGaussianRandomness(Sample_t& sample, double sigmaPos = 0.05, double sigmaPhi = 10 / 180 * M_PI)
+void addGaussianRandomness(Sample_t& sample, double sigmaPos, double sigmaPhi)
 {
   sample.pose(0) -= GaussianPdf::getRandomValue(0.0, sigmaPos);
   sample.pose(1) -= GaussianPdf::getRandomValue(0.0, sigmaPos);
@@ -81,7 +150,7 @@ static void addGaussianRandomness(Sample_t& sample, double sigmaPos = 0.05, doub
   correctAngleOverflow(sample.pose(2));
 }
 
-static double getStabw(const std::vector<double>& v)
+double getStabw(const std::vector<double>& v)
 {
   double sum = std::accumulate(v.begin(), v.end(), 0.0);
   double mean = sum / v.size();
@@ -90,7 +159,7 @@ static double getStabw(const std::vector<double>& v)
   return std::sqrt(sq_sum / v.size() - mean * mean);
 }
 
-static double getStabwOfSamples(const std::vector<Sample_t>& samples)
+double getStabwOfSamples(const std::vector<Sample_t>& samples)
 {
   std::vector<double> x;
   std::vector<double> y;
@@ -109,13 +178,13 @@ static double getStabwOfSamples(const std::vector<Sample_t>& samples)
   return std::sqrt( pow(stabwX, 2) + pow(stabwY, 2) );
 }
 
-static double getQualityOfSamples(const std::vector<Sample_t>& samples)
+double getQualityOfSamples(const std::vector<Sample_t>& samples)
 {
   double stabw = getStabwOfSamples(samples);
   return std::pow( M_E, -stabw); // e^-x --> f(0) = 1; f(inf) = 0
 }
 
-static tf::Transform eigenMatrix3x3ToTf(const Eigen::Matrix3d& eigen)
+tf::Transform eigenMatrix3x3ToTf(const Eigen::Matrix3d& eigen)
 {
   tf::Transform tf;
   tf.setOrigin(tf::Vector3(eigen(0, 2), eigen(1, 2), 0.0));
@@ -124,7 +193,7 @@ static tf::Transform eigenMatrix3x3ToTf(const Eigen::Matrix3d& eigen)
   return tf;
 }
 
-static void create3x3TransformationMatrix(double& x, double& y, double& theta, Eigen::Matrix3d& tf)
+void create3x3TransformationMatrix(double& x, double& y, double& theta, Eigen::Matrix3d& tf)
 {
   tf(0, 0) = std::cos(theta) + 0.0;
   tf(0, 1) = -std::sin(theta) + 0.0;
@@ -137,7 +206,7 @@ static void create3x3TransformationMatrix(double& x, double& y, double& theta, E
   tf(2, 2) = 1.0;
 }
 
-static Eigen::Matrix3d tfToEigenMatrix3x3(const tf::Transform& tf)
+Eigen::Matrix3d tfToEigenMatrix3x3(const tf::Transform& tf)
 {
   Eigen::Matrix3d eigen(3, 3);
   eigen.setIdentity();

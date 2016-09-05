@@ -13,6 +13,9 @@
 namespace ohmPf
 {
 
+/**
+ * @brief A structure for representing a sample (a particle).
+ */
 typedef struct
 {
   Eigen::Vector3d pose;
