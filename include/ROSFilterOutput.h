@@ -62,6 +62,7 @@ public:
 
 
   void onFilterStateChanged(FilterState_t state);
+
 private:
   ros::Publisher _pubPoseArray;
   ros::Publisher _pubPose;

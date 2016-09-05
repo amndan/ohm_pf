@@ -23,7 +23,7 @@ ROSMap::ROSMap(const nav_msgs::OccupancyGrid& msg)
   _tfMapToMapOrigin = tfToEigenMatrix3x3(tmp);
 }
 
-std::vector<int8_t> ROSMap::getMapRaw()
+std::vector<int8_t> ROSMap::getMapData()
 {
   ROS_WARN("Warning ohmPf is using return _mapRaw workaround! ProbMap cannot rely on this output"
       " it should generate its own raw map data matrix");

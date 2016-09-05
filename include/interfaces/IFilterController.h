@@ -131,6 +131,13 @@ public:
    * @return Returns true if successful.
    */
   virtual bool initFilterPose(Eigen::Vector3d pose, double sigTrans, double sigPhi) = 0;
+
+  virtual void requestProbMap(
+      unsigned int& width,
+      unsigned int& height,
+      double resolution,
+      Eigen::Matrix3d originTf,
+      std::vector<int8_t>& mapData) = 0;
 };
 
 } /* namespace ohmPf */

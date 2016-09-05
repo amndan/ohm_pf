@@ -150,6 +150,13 @@ public:
    */
   bool initFilterPose(Eigen::Vector3d pose, double sigTrans, double sigPhi);
 
+  void requestProbMap(
+      unsigned int& width,
+      unsigned int& height,
+      double resolution,
+      Eigen::Matrix3d originTf,
+      std::vector<int8_t>& mapData);
+
 private:
   IMap* _map;
   ProbMap* _probMap;

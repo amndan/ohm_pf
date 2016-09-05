@@ -15,7 +15,7 @@ ProbMap::ProbMap(IMap& map, unsigned int maxDistanceProbMap) :
 {
   // dont use this function --> generate raw map from isOccupied() function.
   // we cannot rely on the data format, its up to the user.
-  _mapRaw = getMapRaw();
+  _mapRaw = _map.getMapData();
 
   calcProbMap();
 }
@@ -95,19 +95,6 @@ void ProbMap::calcProbMap()
       }
     }
   }
-
-//  assert(ros::ok());
-//  ros::NodeHandle nh = ros::NodeHandle();
-//  ros::Publisher _pubProbMap = nh.advertise<nav_msgs::OccupancyGrid>("probMap", 1, true);
-//  nav_msgs::OccupancyGrid mapMsg;
-//  mapMsg.header.frame_id = "map";
-//  mapMsg.data = _probMap;
-//  mapMsg.info.height = getHeighInCells();
-//  mapMsg.info.width = getWidthInCells();
-//  mapMsg.info.resolution = getResolution();
-//  _pubProbMap.publish(mapMsg);
-//  ros::spinOnce();
-
   std::cout << __PRETTY_FUNCTION__ << " --> created prob map!" << std::endl;
 }
 
@@ -186,9 +173,9 @@ Eigen::Matrix3d ProbMap::getTfMapToMapOrigin()
   return _map.getTfMapToMapOrigin();
 }
 
-std::vector<int8_t> ProbMap::getMapRaw()
+std::vector<int8_t> ProbMap::getMapData()
 {
-  return _map.getMapRaw();
+  return _probMap;
 }
 
 } /* namespace ohmPf */

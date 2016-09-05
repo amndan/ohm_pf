@@ -277,6 +277,25 @@ bool FilterController::initFilterPose(Eigen::Vector3d pose, double sigTrans, dou
   return true;
 }
 
+void FilterController::requestProbMap(unsigned int& width, unsigned int& height, double resolution,
+                                     Eigen::Matrix3d originTf, std::vector<int8_t>& mapData)
+{
+  if(_probMap != NULL)
+  {
+    width = _probMap->getWidthInCells();
+    height = _probMap->getHeighInCells();
+    resolution = _probMap->getResolution();
+    originTf = _probMap->getTfMapToMapOrigin();
+    mapData = _probMap->getMapData();
+  }
+  else
+  {
+    width = 0;
+    height = 0;
+    mapData.clear();
+  }
+}
+
 // factory method
 IFilterController* IFilterController::createFilter(FilterParams_t params)
 {

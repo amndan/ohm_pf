@@ -35,7 +35,7 @@ public:
   virtual unsigned int getWidthInCells() = 0;
   virtual double getResolution() = 0; //res in m/cell
   virtual Eigen::Matrix3d getTfMapToMapOrigin() = 0;
-  virtual std::vector<int8_t> getMapRaw() = 0;
+  virtual std::vector<int8_t> getMapData() = 0;
 
   unsigned int isOccupied(double x, double y);  //x, y in m
   /**

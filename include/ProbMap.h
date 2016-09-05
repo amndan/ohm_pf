@@ -30,7 +30,7 @@ public:
   unsigned int getWidthInCells();
   double getResolution(); //res in m/cell
   Eigen::Matrix3d getTfMapToMapOrigin();
-  std::vector<int8_t> getMapRaw();
+  std::vector<int8_t> getMapData();
 
   double getProbability(Eigen::Matrix3Xd& coords, double pRand);
   double getProbability(double x, double y);

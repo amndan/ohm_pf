@@ -142,6 +142,7 @@ namespace ohmPf
     assert(_map == NULL);
 
     _map = new ROSMap(map);
+
     _filterController->setMap(_map);
 
     if(_paramSet.initMode == "GL")
@@ -149,11 +150,27 @@ namespace ohmPf
       _filterController->initFilterMap();
     }
 
-//    nav_msgs::OccupancyGrid probMapMsg;
-//    probMapMsg.header = map.header;
-//    probMapMsg.info = map.info;
-//    _map->getProbMap(probMapMsg);
-//    _pubProbMap.publish(probMapMsg);
+    // Should not use map messages information because prob map could be new format!
+    nav_msgs::OccupancyGrid probMapMsg;
+    probMapMsg.header = map.header;
+    Eigen::Matrix3d originTf;
+    probMapMsg.info = map.info;
+
+    _filterController->requestProbMap(
+        probMapMsg.info.width,
+        probMapMsg.info.height,
+        probMapMsg.info.resolution,
+        originTf,
+        probMapMsg.data);
+
+    tf::Transform tmp = eigenMatrix3x3ToTf(originTf);
+    tf::quaternionTFToMsg(tmp.getRotation(), probMapMsg.info.origin.orientation);
+    probMapMsg.info.origin.position.x = tmp.getOrigin().getX();
+    probMapMsg.info.origin.position.y = tmp.getOrigin().getY();
+    probMapMsg.info.origin.position.z = 0.0;
+
+    _pubProbMap.publish(probMapMsg);
+
   }
 
   void OhmPfNode::spin()
@@ -224,7 +241,7 @@ namespace ohmPf
 
     //todo: get odom Params from Launchfile
     _odomDiffParams.a1 = 0.01;  // rot error from rot motion
-    _odomDiffParams.a2 = 20.0;  // rot error from trans motion
+    _odomDiffParams.a2 = 10.0;  // rot error from trans motion
     _odomDiffParams.a3 = 0.01;  // trans error from trans motion
     _odomDiffParams.a4 = 0.001;  // trans error from rot motion
     _odomMeasurement = new ROSOdomMeasurement();

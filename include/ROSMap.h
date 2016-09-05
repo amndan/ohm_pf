@@ -34,7 +34,7 @@ public:
   unsigned int getWidthInCells();
   double getResolution();
   Eigen::Matrix3d getTfMapToMapOrigin();
-  std::vector<int8_t> getMapRaw();
+  std::vector<int8_t> getMapData();
 
 private:
   std::vector<int8_t> _mapRaw;
