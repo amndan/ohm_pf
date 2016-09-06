@@ -56,6 +56,14 @@ static double getProbabilityFrom2Poses(
 static void addGaussianRandomness(Sample_t& sample, double sigmaPos = 0.05, double sigmaPhi = 10 / 180 * M_PI);
 
 /**
+ * @brief Adds uniform noise to a sample.
+ * @param sample The sample noise should be added.
+ * @param sigmaPos Translational standard deviation.
+ * @param sigmaPhi Rotational stadard deviation.
+ */
+static void addUniformRandomness(Sample_t& sample, double sigmaPos, double sigmaPhi);
+
+/**
  * @return returns the standard deviation from a double vector.
  */
 static double getStabw(const std::vector<double>& v);
@@ -147,6 +155,17 @@ void addGaussianRandomness(Sample_t& sample, double sigmaPos, double sigmaPhi)
   sample.pose(0) -= GaussianPdf::getRandomValue(0.0, sigmaPos);
   sample.pose(1) -= GaussianPdf::getRandomValue(0.0, sigmaPos);
   sample.pose(2) -= GaussianPdf::getRandomValue(0.0, sigmaPhi);
+  correctAngleOverflow(sample.pose(2));
+}
+
+void addUniformRandomness(Sample_t& sample, double sigmaPos, double sigmaPhi)
+{
+  sigmaPhi = std::abs(sigmaPhi);
+  sigmaPos = std::abs(sigmaPos);
+
+  sample.pose(0) -= drand48() * sigmaPos - sigmaPos / 2.0;
+  sample.pose(1) -= drand48() * sigmaPos - sigmaPos / 2.0;
+  sample.pose(2) -= drand48() * sigmaPhi - sigmaPhi / 2.0;
   correctAngleOverflow(sample.pose(2));
 }
 
