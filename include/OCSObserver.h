@@ -18,6 +18,8 @@
  * @page OCS OCS-Management
  * Here comes the explanation of OCS-Management.
  * @todo add ocs management page.
+ * @image html classohm_pf_1_1_filter_controller__coll__graph.png "Filter Controller Overview" width=1cm
+ *
  */
 
 namespace ohmPf
