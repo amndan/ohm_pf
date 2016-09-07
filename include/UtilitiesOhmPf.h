@@ -52,6 +52,7 @@ static double getProbabilityFrom2Poses(
  * @param sample The sample noise should be added.
  * @param sigmaPos Translational standard deviation.
  * @param sigmaPhi Rotational stadard deviation.
+ * @bug We are sampling from a square - not from a circle!
  */
 static void addGaussianRandomness(Sample_t& sample, double sigmaPos = 0.05, double sigmaPhi = 10 / 180 * M_PI);
 
@@ -60,6 +61,8 @@ static void addGaussianRandomness(Sample_t& sample, double sigmaPos = 0.05, doub
  * @param sample The sample noise should be added.
  * @param sigmaPos Translational standard deviation.
  * @param sigmaPhi Rotational stadard deviation.
+ * @bug This was the attempt to sample in circular form
+ * but is is not uniform!?
  */
 static void addUniformRandomness(Sample_t& sample, double sigmaPos, double sigmaPhi);
 
@@ -163,8 +166,12 @@ void addUniformRandomness(Sample_t& sample, double sigmaPos, double sigmaPhi)
   sigmaPhi = std::abs(sigmaPhi);
   sigmaPos = std::abs(sigmaPos);
 
-  sample.pose(0) -= drand48() * sigmaPos - sigmaPos / 2.0;
-  sample.pose(1) -= drand48() * sigmaPos - sigmaPos / 2.0;
+  double radius = drand48() * sigmaPos;
+  double angle = drand48() * 2 * M_PI;
+
+  sample.pose(0) += std::cos(angle) * radius;
+  sample.pose(1) += std::sin(angle) * radius;
+
   sample.pose(2) -= drand48() * sigmaPhi - sigmaPhi / 2.0;
   correctAngleOverflow(sample.pose(2));
 }
