@@ -10,12 +10,9 @@
 
 #include "interfaces/IMap.h"
 #include "nav_msgs/OccupancyGrid.h"
-#include "ros/types.h"
 #include "tf/transform_datatypes.h"
 #include "Eigen/Dense"
-#include "iostream"
 #include "UtilitiesOhmPf.h"
-#include <cmath>
 #include <ros/time.h>
 
 #define IS_OCCUPIED_THRESHHOLD 50

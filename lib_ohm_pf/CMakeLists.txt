@@ -1,27 +1,21 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(ohm_pf)
+project(lib_ohm_pf)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
+
+## System dependencies are found with CMake's conventions
+find_package(catkin REQUIRED
+)
+
 find_package(Boost REQUIRED COMPONENTS 
-	date_time 
-	system 
+	date_time
+	system
 	thread
 )
 
-find_package(catkin REQUIRED COMPONENTS
-	roscpp
-	nav_msgs
-	geometry_msgs
-	tf
-)
-
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS} -fopenmp -O2 -mtune=native -Wall")
-
-## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -110,9 +104,9 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES ohm_pf
-#  CATKIN_DEPENDS roscpp
+   INCLUDE_DIRS include/distribute include/distribute/interfaces
+   LIBRARIES OhmPf ROSTimeOhmPf
+#  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
 
@@ -122,32 +116,16 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
 include_directories(
-	${catkin_INCLUDE_DIRS}
 	${Boost_INCLUDE_DIRS}
 	include/
-	include/interfaces
+	include/distribute
+	include/distribute/interfaces
 	include/Time
 )
 
 ## Declare a C++ library
-# add_library(ohm_pf
-#   src/${PROJECT_NAME}/ohm_pf.cpp
-# )
-
-## Add cmake target dependencies of the library
-## as an example, code may need to be generated before libraries
-## either from message generation or dynamic reconfigure
-# add_dependencies(ohm_pf ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Declare a C++ executable
-#add_executable(main_test 
-#	testing/main_test.cpp 
-#	src/SampleSet.cpp
-#)
-
-add_library(OhmPf STATIC
+add_library(OhmPf
     src/GaussianPdf.cpp
     src/Filter.cpp
     src/FilterOutputUpdater.cpp
@@ -168,53 +146,29 @@ add_library(OhmPf STATIC
     src/IMap.cpp
 )
 
-add_library(rostimeohmpf STATIC
+add_library(ROSTimeOhmPf
 	src/Time/duration.cpp
 	src/Time/rate.cpp
 	src/Time/time.cpp
 )
 
-add_executable(OhmPfNode
-    src/main_OhmPfNode.cpp
-    src/OhmPfNode.cpp 
-    src/ROSLaserMeasurement.cpp
-    src/ROSMap.cpp
-    src/ROSOdomMeasurement.cpp
-    src/ROSCeilCamMeasurement.cpp
-    src/ROSFilterOutput.cpp
-)
+## Add cmake target dependencies of the library
+## as an example, code may need to be generated before libraries
+## either from message generation or dynamic reconfigure
+# add_dependencies(libOhmPf ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-add_executable(CeilCamSimulator
-    testing/CeilCamSimulator.cpp 
-)
-
+## Declare a C++ executable
+# add_executable(libOhmPf_node src/libOhmPf_node.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(ohm_pf_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(libOhmPf_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-
-# just need this because of ros in lib --> remove ros from lib!
-target_link_libraries(rostimeohmpf ${catkin_LIBRARIES} ${Boost_LIBRARIES})
-
-#if(NOT APPLE)
-#  target_link_libraries(rostime ${RT_LIBRARY})
-#endif()
-
-target_link_libraries(OhmPf
- ${catkin_LIBRARIES}
+target_link_libraries(ROSTimeOhmPf 
+	${Boost_LIBRARIES}
 )
 
-target_link_libraries(CeilCamSimulator
- ${catkin_LIBRARIES}
-)
-
-target_link_libraries(OhmPfNode
- ${catkin_LIBRARIES}
- OhmPf
- rostimeohmpf
-)
 #############
 ## Install ##
 #############
@@ -230,7 +184,7 @@ target_link_libraries(OhmPfNode
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS ohm_pf ohm_pf_node
+# install(TARGETS ROSTimeOhmPf OhmPf
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -255,7 +209,7 @@ target_link_libraries(OhmPfNode
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_ohm_pf.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_libOhmPf.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

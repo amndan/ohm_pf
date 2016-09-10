@@ -2,6 +2,6 @@
 .project
 .ycm_extra_conf.pyc
 build/
-doc/uml/uml.pdf
+lib_ohm_pf/doc/uml/uml.pdf
 *~
 *.swp
