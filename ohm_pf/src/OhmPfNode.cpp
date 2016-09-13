@@ -177,10 +177,10 @@ namespace ohmPf
   {
     while(ros::ok())
     {
-      ros::spinOnce();
-      _filterController->filterSpinOnce();
-      _filterOutput->publishMapOdom();
-      _loopRate.sleep();
+      ros::spinOnce();  // update measurements
+      _filterController->filterSpinOnce();  // integrate measurements
+      _filterOutput->publishMapOdom();  // publish map->odom
+      _loopRate.sleep();  // sleep
     }
   }
 
@@ -223,6 +223,7 @@ namespace ohmPf
 
   void OhmPfNode::spawnFilter()
   {
+    // call factory method from lib
     _filterController = IFilterController::createFilter(_filterParams);
 
     _filterOutput = new ROSFilterOutput(_paramSet);

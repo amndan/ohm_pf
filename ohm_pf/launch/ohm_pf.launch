@@ -21,7 +21,7 @@
     <arg name="maxDistanceProbMap" default="10" />
     <arg name="subsamplingRateLaser" default="3" />
     <arg name="resamplingIntervallFilter" default="0.5" />
-    <arg name="outputIntervallFilter" default="0.01" />
+    <arg name="outputIntervallFilter" default="0.2" />
     <arg name="uncertaintyLaser" default="0.5" />
     <arg name="resamplingMethod" default="STD" />
     <arg name="initX" default="0.0" />

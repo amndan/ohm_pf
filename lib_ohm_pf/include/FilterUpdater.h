@@ -19,7 +19,6 @@ namespace ohmPf
  * Every explicit filter updater should inherit from FilterUpdater.
  * This class ensures that every filter updater implements an update
  * function and has access to a filter via a private filter reference
- * @todo implement Time sync of filter updaters. _stamp is not used here.
  */
 class FilterUpdater
 {
@@ -37,7 +36,7 @@ public:
 
   /**
    * @brief Try to update function is the trigger to update the filter. This function
-   * can be overwritten by inheriting classes if the need to check e.g. stamps
+   * can be overwritten by inheriting classes if they need to check e.g. stamps
    * before updating the filter.
    */
   virtual void tryToUpdate();
@@ -45,6 +44,8 @@ public:
 protected:
   /**
    * @brief Abstract update function. Every filter updater needs an update function.
+   * It is protected because FilterController just calls tryToUpdate() for updating
+   * in case of everything is set for updating with this updater.
    */
   virtual void update() = 0;
 
