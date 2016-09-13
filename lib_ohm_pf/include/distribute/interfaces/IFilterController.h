@@ -87,41 +87,15 @@ public:
   virtual bool connectFilterOutput(IFilterOutput* output) = 0;
 
   /**
-   * @brief Updates the filter with the actual laser measurement
-   * @param laserId Which laser id to update.
-   * @return Returns true if successful.
-   */
-  virtual bool updateLaser(unsigned int laserId) = 0;
-
-  /**
-   * @brief Updates the filter with the actual Ceil Cam Measurement.
-   * @return Returns true if successful.
-   */
-  virtual bool updateCeilCam() = 0;
-
-  /**
-   * @brief Updates the filter with the actual Odom measurement.
-   * @return Returns true if successful.
-   */
-  virtual bool updateOdom() = 0;
-
-  /**
-   * @brief Updates the Filter output variables
-   * @return Returns true if successful.
-   */
-  virtual bool updateOutput() = 0;
-
-  /**
-   * @brief Resamples the particles of the filter.
-   * @return Returns true if successful.
-   */
-  virtual bool resample() = 0;
-
-  /**
    * @brief Initializes the filter with its Map instance.
    * @return Returns true if successful.
    */
   virtual bool initFilterMap() = 0;
+
+  /**
+   * @brief Let the filter start to work.
+   */
+  virtual void filterSpinOnce() = 0;
 
   /**
    * @ Initializes the filter with a Pose in Map frame.

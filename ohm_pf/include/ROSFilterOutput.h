@@ -66,6 +66,8 @@ public:
    */
   void onFilterStateChanged(FilterState_t state);
 
+  void publishMapOdom();
+
 private:
   ros::Publisher _pubPoseArray;
   ros::Publisher _pubPose;
@@ -73,6 +75,7 @@ private:
   OhmPfNodeParams_t _paramSet;
   tf::TransformBroadcaster _tfBroadcaster;
   tf::TransformListener _tfListener;
+  tf::Transform _map_odom;
   int _skipParticleForGui;
 };
 

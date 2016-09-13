@@ -8,10 +8,11 @@
 #ifndef INCLUDE_LVRESAMPLER_H_
 #define INCLUDE_LVRESAMPLER_H_
 
-#include "IResampler.h"
 #include "Filter.h"
+#include "FilterUpdaterTimed.h"
 #include "assert.h"
 #include "UtilitiesOhmPf.h"
+#include "ros/time.h"
 #include <cmath>
 #include "OCSClient.h"
 
@@ -21,7 +22,7 @@ namespace ohmPf
 /**
  * @brief Implementation of a low variance resampling algorithm.
  */
-class LVResampler : public IResampler
+class LVResampler : public FilterUpdaterTimed , public OCSClient
 {
 public:
   /**
@@ -30,12 +31,16 @@ public:
    * @param addNoiseSigmaRot Additional rotational noise to increase filters variance at resampling step.
    * @param lowVarianceFactor Each randomly chosen sample generates lowVarianceFactor new samples.
    */
-  LVResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot, unsigned int lowVarianceFactor);
+  LVResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot, unsigned int lowVarianceFactor, Filter* filter);
 
   /**
    * @brief Deconstructor (empty)
    */
   virtual ~LVResampler(){};
+
+
+
+private:
 
   /**
    * @brief Resampling function.
@@ -43,9 +48,7 @@ public:
    * @todo normalizing shouold be done before or after accessing samples.
    * Each function must normalize with that rule!
    */
-  void resample(Filter* filter);
-
-private:
+  void update();
 
   double _addNoiseSigmaRot;
   double _addNoiseSigmaTrans;

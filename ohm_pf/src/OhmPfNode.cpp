@@ -11,7 +11,7 @@ namespace ohmPf
 {
 
   OhmPfNode::OhmPfNode() :
-      _nh(), _prvNh("~"), _loopRate(25)
+      _nh(), _prvNh("~"), _loopRate(50)
   {
     std::string rawLaserTopicString;
     _prvNh.param<std::string>("tfFixedFrame", _paramSet.tfFixedFrame, "/map");
@@ -40,6 +40,7 @@ namespace ohmPf
     _prvNh.param<int>("samplesMin", itmp, 50);
     _filterParams.samplesMin = (unsigned int)std::abs(itmp);
     _prvNh.param<double>("resamplingIntervallFilter", _filterParams.resamplingIntervall, 0.5);
+    _prvNh.param<double>("outputIntervallFilter", _filterParams.outputIntervall, 1.0);
     _prvNh.param<double>("uncertaintyLaser", _paramSet.uncertaintyLaser, 0.5);
     _prvNh.param<double>("minimumValidScanRaysFactor", _filterParams.minValidScanRaysFactor, 0.5);
     _prvNh.param<double>("additionalTranslationalNoise", _filterParams.resamplerAdditionalTranslationalNoise, 0.05);
@@ -77,7 +78,6 @@ namespace ohmPf
     _subCeilCam = _nh.subscribe(_paramSet.topCeilCam, 1, &OhmPfNode::calCeilCam, this);
     _cliMapSrv = _nh.serviceClient<nav_msgs::GetMap>(_paramSet.topMapSrv);
 
-    _resampleTimer = _nh.createTimer(ros::Duration(_filterParams.resamplingIntervall), &OhmPfNode::calResampleTimer, this);
 
     parseLaserTopics(rawLaserTopicString);
     spawnFilter();
@@ -175,19 +175,12 @@ namespace ohmPf
 
   void OhmPfNode::spin()
   {
-    ros::spin();
-  }
-
-  void OhmPfNode::spinOnce()
-  {
-    if(ros::ok())
+    while(ros::ok())
     {
-      _loopRate.sleep();
       ros::spinOnce();
-    }
-    else
-    {
-      exit(EXIT_FAILURE);
+      _filterController->filterSpinOnce();
+      _filterOutput->publishMapOdom();
+      _loopRate.sleep();
     }
   }
 
@@ -211,8 +204,6 @@ namespace ohmPf
     }
 
     _odomMeasurement->setMeasurement(msg);
-    _filterController->updateOdom();
-    _filterController->updateOutput();
   }
 
   void OhmPfNode::cal2dPoseEst(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg)
@@ -262,7 +253,6 @@ namespace ohmPf
       }
     }
     _ceilCamMeasurement->setMeasurement(msg);
-    _filterController->updateCeilCam();
   }
 
   void OhmPfNode::calScan(const sensor_msgs::LaserScanConstPtr& msg, const std::string topic)
@@ -300,18 +290,7 @@ namespace ohmPf
     else
     {
       _laserMeasurements.at(i)->setMeasurement(msg);
-      _filterController->updateLaser(i);
     }
-  }
-
-  void OhmPfNode::calResampleTimer(const ros::TimerEvent& event)
-  {
-    //TODO: we need a resampling method without LVS because after map
-    //update no particle should be on occupied cells; or map updates
-    //not weights but whole particle set and seeds random particles
-    _filterController->resample();
-    _filterController->updateOutput();
-
   }
 
 } /* namespace ohmPf */

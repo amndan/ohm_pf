@@ -7,6 +7,7 @@
 
 #include "FilterController.h"
 
+
 namespace ohmPf
 {
 
@@ -34,16 +35,22 @@ FilterController::FilterController(FilterParams_t params) :
 
   if(params.resamplingMethod == "STD")
   {
-    _resampler = new STDResampler(
+    STDResampler* tmp = new STDResampler(
         params.resamplerAdditionalTranslationalNoise,
-        params.resamplerAdditionalRotationalNoise);
+        params.resamplerAdditionalRotationalNoise,
+        _filter);
+    _ocsObserver->registerClient( tmp, _filterParams.OCSThresholdResampler);
+    _resampler = tmp;
   }
   else if(params.resamplingMethod == "LV")
   {
-    _resampler = new LVResampler(
+    LVResampler* tmp = new LVResampler(
         params.resamplerAdditionalTranslationalNoise,
         params.resamplerAdditionalRotationalNoise,
-        params.resamplerLowVarianceFactor);
+        params.resamplerLowVarianceFactor,
+        _filter);
+    _ocsObserver->registerClient( tmp, _filterParams.OCSThresholdResampler);
+    _resampler = tmp;
   }
   else
   {
@@ -51,7 +58,16 @@ FilterController::FilterController(FilterParams_t params) :
     exit(EXIT_FAILURE);
   }
 
-  _ocsObserver->registerClient(_resampler, _filterParams.OCSThresholdResampler);
+  _periodicFilterUpdaters.push_back(_resampler);
+
+}
+
+void FilterController::filterSpinOnce()
+{
+  for(unsigned int i = 0; i < _periodicFilterUpdaters.size(); i++)
+  {
+    _periodicFilterUpdaters.at(i)->tryToUpdate();
+  }
 }
 
 
@@ -97,6 +113,7 @@ bool FilterController::connectOdomMeasurement(IOdomMeasurement* odom, OdomDiffPa
   // everything ok...
   _odomUpdater = new DiffDriveUpdater(_filter, odom, _ocsObserver, params);
   _ocsObserver->registerClient(_odomUpdater, _filterParams.OCSThresholdOdom);
+  _periodicFilterUpdaters.push_back(_odomUpdater);
   return true;
 }
 
@@ -128,6 +145,7 @@ bool FilterController::connectLaserMeasurement(ILaserMeasurement* laser, unsigne
 
   _laserUpdaters.at(laserId) = new LaserProbMapUpdater(_filter, _probMap, laser, _mapUpdater, _filterParams.minValidScanRaysFactor);
   _ocsObserver->registerClient(_laserUpdaters.at(laserId), _filterParams.OCSThresholdLaser);
+  _periodicFilterUpdaters.push_back(_laserUpdaters.at(laserId));
   return true;
 }
 
@@ -156,6 +174,7 @@ bool FilterController::connectCeilCamMeasurement(ICeilCamMeasurement* ceilCam)
 
   // everything ok...
   _ceilCamUpdater = new CeilCamUpdater(_filter, ceilCam, _mapUpdater);
+  _periodicFilterUpdaters.push_back(_ceilCamUpdater);
   return true;
 }
 
@@ -175,66 +194,7 @@ bool FilterController::connectFilterOutput(IFilterOutput* output)
 
   _filterOutput = output;
   _outputUpdater = new FilterOutputUpdater(_filterOutput, _filter);
-  return true;
-}
-
-bool FilterController::updateLaser(unsigned int laserId)
-{
-  if(laserId >= _filterParams.countLasers)
-  {
-    std::cout << __PRETTY_FUNCTION__ << "--> laser id must be less than count lasers" << std::endl;
-    return false;
-  }
-
-  _laserUpdaters.at(laserId)->tryToUpdate();
-
-  return true;
-}
-
-bool FilterController::updateCeilCam()
-{
-  if(_ceilCamUpdater == NULL)
-  {
-    std::cout << __PRETTY_FUNCTION__ << "--> must set ceil cam measurement before update ceil cam" << std::endl;
-    return false;
-  }
-
-  _ceilCamUpdater->tryToUpdate();
-
-  return true;
-}
-
-bool FilterController::updateOdom()
-{
-  if(_odomUpdater == NULL)
-  {
-    std::cout << __PRETTY_FUNCTION__ << "--> must set odom measurement before update odom" << std::endl;
-    return false;
-  }
-
-  _odomUpdater->tryToUpdate();
-
-  return true;
-}
-
-bool FilterController::updateOutput()
-{
-
-  if(_outputUpdater == NULL)
-  {
-    std::cout << __PRETTY_FUNCTION__ << "--> must set filter output before update output" << std::endl;
-    return false;
-  }
-
-  _outputUpdater->tryToUpdate();
-
-  return true;
-
-}
-
-bool FilterController::resample()
-{
-  _resampler->resample(_filter);
+  _periodicFilterUpdaters.push_back(_outputUpdater);
   return true;
 }
 

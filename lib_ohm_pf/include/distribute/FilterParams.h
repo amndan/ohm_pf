@@ -21,6 +21,7 @@ typedef struct
   unsigned int samplesMin;
   unsigned int samplesMax;
   double resamplingIntervall;
+  double outputIntervall;
   std::string resamplingMethod;
   double OCSThresholdLaser;
   double OCSThresholdOdom;

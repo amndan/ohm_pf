@@ -23,10 +23,11 @@ void FilterUpdaterMeasurement::tryToUpdate()
   if(_lastStamp != _measurement->getStamp()) // if stamp has changed
   {
     update();
+    _lastStamp = _measurement->getStamp();
   }
   else
   {
-    std::cout << __PRETTY_FUNCTION__ << "--> will not update; stamp has not changed!" << std::endl;
+    //std::cout << __PRETTY_FUNCTION__ << "--> will not update; stamp has not changed!" << std::endl;
   }
 }
 

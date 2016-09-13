@@ -55,10 +55,6 @@ public:
    */
   void spin();
 
-  /**
-   * @brief ROS spinOnce function.
-   */
-  void spinOnce();
 
 private:
   /**
@@ -98,14 +94,6 @@ private:
   void calScan(const sensor_msgs::LaserScanConstPtr& msg, const std::string topic);
 
   /**
-   * @brief a timer to call the filters resampling step periodically.
-   * @todo This should not be the users job. This timer should take place
-   * inside ohmPf library.
-   * @param event ROS timer event (not used)
-   */
-  void calResampleTimer(const ros::TimerEvent& event);
-
-  /**
    * @brief Helper function for instantiating filter itself
    * and the ROS measurement containers.
    */
@@ -136,7 +124,6 @@ private:
   ros::NodeHandle _nh;
   ros::NodeHandle _prvNh;
   ros::Rate _loopRate;
-  ros::Timer _resampleTimer;
   OhmPfNodeParams_t _paramSet;
   OdomDiffParams_t _odomDiffParams;
   FilterParams_t _filterParams;

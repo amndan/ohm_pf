@@ -10,7 +10,8 @@
 namespace ohmPf
 {
 
-  FilterOutputUpdater::FilterOutputUpdater(IFilterOutput* filterOutput, Filter* filter) : FilterUpdater(filter)
+  FilterOutputUpdater::FilterOutputUpdater(IFilterOutput* filterOutput, Filter* filter) :
+      FilterUpdaterTimed( filter, ros::Duration(filter->getParams().outputIntervall) )
   {
     _filterOutput = filterOutput;
   }

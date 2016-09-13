@@ -8,9 +8,10 @@
 #ifndef INCLUDE_STDRESAMPLER_H_
 #define INCLUDE_STDRESAMPLER_H_
 
-#include "IResampler.h"
 #include "Filter.h"
 #include "assert.h"
+#include "FilterUpdaterTimed.h"
+#include "ros/time.h"
 #include "UtilitiesOhmPf.h"
 #include <cmath>
 #include "OCSClient.h"
@@ -21,7 +22,7 @@ namespace ohmPf
 /**
  * @brief An implementation of a standard random resampling algorithm.
  */
-class STDResampler : public IResampler
+class STDResampler : public FilterUpdaterTimed , public OCSClient
 {
 public:
   /**
@@ -29,20 +30,20 @@ public:
    * @param addNoiseSigmaTrans Additional translational noise to increase filters variance at resampling step.
    * @param addNoiseSigmaRot Additional rotational noise to increase filters variance at resampling step.
    */
-  STDResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot);
+  STDResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot, Filter* filter);
 
   /**
    * @brief Deconstructor (empty)
    */
   virtual ~STDResampler(){};
 
+private:
   /**
    * @brief Resampling function.
    * @param filter Filter instance --> Holds the particles to be resampled
    */
-  void resample(Filter* filter);
+  void update();
 
-private:
   double _addNoiseSigmaRot;
   double _addNoiseSigmaTrans;
 };

@@ -10,17 +10,18 @@
 namespace ohmPf
 {
 
-STDResampler::STDResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot)
+STDResampler::STDResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot, Filter* filter) :
+    FilterUpdaterTimed(filter, ros::Duration(filter->getParams().resamplingIntervall))
 {
   _addNoiseSigmaRot = std::abs(addNoiseSigmaRot);
   _addNoiseSigmaTrans = std::abs(addNoiseSigmaTrans);
 }
 
-void STDResampler::resample(Filter* filter)
+void STDResampler::update()
 {
   if(this->getOCSFlag() == true)
   {
-    SampleSet* set = filter->getSampleSet();
+    SampleSet* set = _filter->getSampleSet();
     std::vector<Sample_t>* samples = set->getSamples();
     unsigned int countSamples = set->getCountSamples();
     assert(countSamples > 0);

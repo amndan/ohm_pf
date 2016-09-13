@@ -8,12 +8,13 @@
 #ifndef SRC_FILTEROUTPUTUPDATER_H_
 #define SRC_FILTEROUTPUTUPDATER_H_
 
-#include "FilterUpdater.h"
+#include "FilterUpdaterTimed.h"
 #include "Filter.h"
 #include "IFilterOutput.h"
 #include "Eigen/Dense"
 #include "assert.h"
 #include "UtilitiesOhmPf.h"
+#include "ros/time.h"
 
 
 namespace ohmPf
@@ -23,7 +24,7 @@ namespace ohmPf
  * @brief Updates the filters output
  * @todo Filter output updater could be a ocs client?
  */
-class FilterOutputUpdater : public FilterUpdater
+class FilterOutputUpdater : public FilterUpdaterTimed
 {
 public:
   /**

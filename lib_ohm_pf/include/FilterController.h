@@ -17,7 +17,6 @@
 #include "DiffDriveUpdater.h"
 #include "LaserUpdater.h"
 #include "FilterOutputUpdater.h"
-#include "IResampler.h"
 #include "MapUpdater.h"
 #include "OdomDiffParams.h"
 #include "assert.h"
@@ -51,6 +50,8 @@ public:
    * @brief Destructor (empty)
    */
   virtual ~FilterController(){};
+
+  void filterSpinOnce();
 
   /**
    * @brief Sets a reference to the filters map. The used map has to implement the
@@ -98,44 +99,6 @@ public:
   bool connectFilterOutput(IFilterOutput* output);
 
   /**
-   * @brief Updates the filter with the actual laser measurement
-   * connected with setLaserMeasurement()
-   * Updates the filter if OCS flag for measurement is set to true.
-   * If not Function returns true but filter will not be updated.
-   * @return returns true if filter is properly initialized to handle measurement
-   */
-  bool updateLaser(unsigned int laserId = 0);
-
-  /**
-   * @brief updates the filter with the actual odom measurement
-   * connected with setOdomMeasurement()
-   * Updates the filter if OCS flag for measurement is set to true.
-   * If not Function returns true but filter will not be updated.
-   * @return returns true if filter is properly initialized to handle measurement
-   */
-  bool updateOdom();
-
-  /**
-   * @brief updates the output object of the filter
-   * which has been connected with setFilterOutput()
-   * @return returns true if filter output was properly set
-   */
-  bool updateOutput();
-
-  /**
-   * @brief updates the filter with the actual ceil cam measurement
-   * which has been connected with setCeilCamMeasurement()
-   * @return returns true if ceil cam is sucessfully initialized
-   */
-  bool updateCeilCam();
-
-  /**
-   * @brief resamples the filter if OCS flag is active
-   * @return returns true
-   */
-  bool resample();
-
-  /**
    * @brief initializes/reinitializes the filters particles with its map data
    * @return returns true if map is available
    */
@@ -181,8 +144,9 @@ private:
   CeilCamUpdater* _ceilCamUpdater;
   FilterOutputUpdater* _outputUpdater;
   MapUpdater* _mapUpdater;
-  IResampler* _resampler;
+  FilterUpdater* _resampler;
   Filter* _filter;
+  std::vector<FilterUpdater*> _periodicFilterUpdaters;
 };
 
 } /* namespace ohmPf */

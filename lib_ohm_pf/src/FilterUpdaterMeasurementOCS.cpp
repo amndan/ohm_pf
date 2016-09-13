@@ -25,7 +25,7 @@ void FilterUpdaterMeasurementOCS::tryToUpdate()
 {
   if( _lastStamp == _measurement->getStamp())
   {
-    std::cout << __PRETTY_FUNCTION__ << "--> will not update; stamp has not changed!" << std::endl;
+    //std::cout << __PRETTY_FUNCTION__ << "--> will not update; stamp has not changed!" << std::endl;
     return;
   }
 
@@ -36,6 +36,7 @@ void FilterUpdaterMeasurementOCS::tryToUpdate()
   }
 
   update();
+  _lastStamp = _measurement->getStamp();
 
 }
 

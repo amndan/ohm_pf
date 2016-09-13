@@ -74,10 +74,15 @@ public:
    */
   FilterState_t* getFilterState();
 
+  /**
+   * @brief returns a copy of filter params
+   * @return copy of filter params
+   */
+  FilterParams_t getParams();
+
 private:
+  FilterParams_t _params;
   SampleSet _sampleSet;
-  unsigned int _samplesMin;
-  unsigned int _samplesMax;
   FilterState_t _filterState;
 };
 

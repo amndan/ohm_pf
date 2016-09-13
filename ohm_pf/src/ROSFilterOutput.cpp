@@ -48,12 +48,12 @@ void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose)
   tf_map_pf.setOrigin(tf::Vector3(pose(0), pose(1), 0.0));
   tf_map_pf.setRotation(tf::createQuaternionFromYaw(pose(2)));
 
-  tf::Transform map_odom = tf_map_pf * tf_bf_odom;
+  _map_odom = tf_map_pf * tf_bf_odom;
 
   ros::Time now(ros::Time::now());
 
   _tfBroadcaster.sendTransform(tf::StampedTransform(tf_map_pf, now, _paramSet.tfFixedFrame, _paramSet.tfOutputFrame));
-  _tfBroadcaster.sendTransform(tf::StampedTransform(map_odom, now, _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
+  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, now, _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
 
   //pose publisher
   geometry_msgs::PoseStamped poseStamped;
@@ -89,6 +89,11 @@ void ROSFilterOutput::onFilterStateChanged(FilterState_t state)
   std_msgs::Float32 msg;
   msg.data = state.probPose;
   _pubProbPose.publish(msg);
+}
+
+void ROSFilterOutput::publishMapOdom()
+{
+  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, ros::Time::now(), _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
 }
 
 

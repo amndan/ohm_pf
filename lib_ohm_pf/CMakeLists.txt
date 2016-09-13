@@ -130,6 +130,7 @@ add_library(OhmPf
     src/Filter.cpp
     src/FilterOutputUpdater.cpp
     src/FilterUpdaterMeasurement.cpp
+    src/FilterUpdaterTimed.cpp
     src/FilterUpdaterMeasurementOCS.cpp
     src/FilterUpdater.cpp
     src/LaserUpdater.cpp
