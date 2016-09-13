@@ -78,7 +78,7 @@ bool FilterController::setMap(IMap* map)
   return true;
 }
 
-bool FilterController::setOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams_t params)
+bool FilterController::connectOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams_t params)
 {
   // input pointer is NULL
   if(odom == NULL)
@@ -100,7 +100,7 @@ bool FilterController::setOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams
   return true;
 }
 
-bool FilterController::setLaserMeasurement(ILaserMeasurement* laser, unsigned int laserId)
+bool FilterController::connectLaserMeasurement(ILaserMeasurement* laser, unsigned int laserId)
 {
   if(laserId >= _filterParams.countLasers)
   {
@@ -131,7 +131,7 @@ bool FilterController::setLaserMeasurement(ILaserMeasurement* laser, unsigned in
   return true;
 }
 
-bool FilterController::setCeilCamMeasurement(ICeilCamMeasurement* ceilCam)
+bool FilterController::connectCeilCamMeasurement(ICeilCamMeasurement* ceilCam)
 {
   // wrong input
   if(ceilCam == NULL)
@@ -159,7 +159,7 @@ bool FilterController::setCeilCamMeasurement(ICeilCamMeasurement* ceilCam)
   return true;
 }
 
-bool FilterController::setFilterOutput(IFilterOutput* output)
+bool FilterController::connectFilterOutput(IFilterOutput* output)
 {
   if(output == NULL)
   {

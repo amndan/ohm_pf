@@ -62,7 +62,7 @@ public:
    * @param params Odometry params.
    * @return Returns true if successful.
    */
-  virtual bool setOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams_t params) = 0; // TODO: odom params and not odom diff params
+  virtual bool connectOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams_t params) = 0; // TODO: odom params and not odom diff params
 
   /**
    * @brief Sets the filters laser measurement.
@@ -70,21 +70,21 @@ public:
    * @param laserId Laser id for multible laser scanners.
    * @return Returns true if successfu0l.
    */
-  virtual bool setLaserMeasurement(ILaserMeasurement* laser, unsigned int laserId) = 0;
+  virtual bool connectLaserMeasurement(ILaserMeasurement* laser, unsigned int laserId) = 0;
 
   /**
    * @brief Sets the filters ceiling cam measurement interface.
    * @param ceilCam Ceil cam measurement interface.
    * @return Returns true if successful.
    */
-  virtual bool setCeilCamMeasurement(ICeilCamMeasurement* ceilCam) = 0;
+  virtual bool connectCeilCamMeasurement(ICeilCamMeasurement* ceilCam) = 0;
 
   /**
    * @brief Sets the filters filter output interface.
    * @param output Output interface.
    * @return Returns true if successful.
    */
-  virtual bool setFilterOutput(IFilterOutput* output) = 0;
+  virtual bool connectFilterOutput(IFilterOutput* output) = 0;
 
   /**
    * @brief Updates the filter with the actual laser measurement

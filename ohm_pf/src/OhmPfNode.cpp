@@ -198,7 +198,7 @@ namespace ohmPf
       ROS_INFO_STREAM("Received first odom message - initializing odom...");
       _odomMeasurement->setMeasurement(msg);
 
-      if(_filterController->setOdomMeasurement(_odomMeasurement, _odomDiffParams))
+      if(_filterController->connectOdomMeasurement(_odomMeasurement, _odomDiffParams))
       {
         _odomInitialized = true;
         ROS_INFO_STREAM("odom initialized");
@@ -235,7 +235,7 @@ namespace ohmPf
     _filterController = IFilterController::createFilter(_filterParams);
 
     _filterOutput = new ROSFilterOutput(_paramSet);
-    assert(_filterController->setFilterOutput(_filterOutput));
+    assert(_filterController->connectFilterOutput(_filterOutput));
 
     _ceilCamMeasurement = new ROSCeilCamMeasurement();
 
@@ -252,7 +252,7 @@ namespace ohmPf
   {
     if(!_ceilCamInitialized)
     {
-      if(_filterController->setCeilCamMeasurement(_ceilCamMeasurement))
+      if(_filterController->connectCeilCamMeasurement(_ceilCamMeasurement))
       {
         _ceilCamInitialized = true;
       }
@@ -286,7 +286,7 @@ namespace ohmPf
                                                          _paramSet.subsamplingLaser,
                                                          _paramSet.uncertaintyLaser);
 
-      if(_filterController->setLaserMeasurement(_laserMeasurements.at(i), i))
+      if(_filterController->connectLaserMeasurement(_laserMeasurements.at(i), i))
       {
         return;
       }

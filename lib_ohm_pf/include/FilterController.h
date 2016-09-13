@@ -69,7 +69,7 @@ public:
    * @todo Overload this function with e.g. OdomOmniParams for omnidirectional robots
    * @return returns true if odom measurement has been correctly connected
    */
-  bool setOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams_t params);
+  bool connectOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams_t params);
 
   /**
    * @brief Connect a single laser measurement to the filter
@@ -79,7 +79,7 @@ public:
    * ids for different laser measurements.
    * @return returns true if laser measurement has been connected successfully
    */
-  bool setLaserMeasurement(ILaserMeasurement* laser, unsigned int laserId = 0);
+  bool connectLaserMeasurement(ILaserMeasurement* laser, unsigned int laserId = 0);
 
   /**
    * @brief connect a ceil cam measurement to the filter.
@@ -87,7 +87,7 @@ public:
    * which is implementing the ICeilCamMeasurement interface e.g. ROSCeilCamMeasurement.
    * @return return true if ceil cam measurement connected properly
    */
-  bool setCeilCamMeasurement(ICeilCamMeasurement* ceilCam);
+  bool connectCeilCamMeasurement(ICeilCamMeasurement* ceilCam);
 
   /**
    * @brief connect a filter output interface to the filter
@@ -95,7 +95,7 @@ public:
    * a IFilterOutput interface e.g. ROSFilterOutput.
    * @return returns true if filter output has been connected successfully
    */
-  bool setFilterOutput(IFilterOutput* output);
+  bool connectFilterOutput(IFilterOutput* output);
 
   /**
    * @brief Updates the filter with the actual laser measurement
