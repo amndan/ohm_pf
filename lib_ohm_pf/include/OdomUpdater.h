@@ -8,11 +8,10 @@
 #ifndef SRC_ODOMUPDATER_H_
 #define SRC_ODOMUPDATER_H_
 
-#include "FilterUpdater.h"
+#include "FilterUpdaterMeasurementOCS.h"
 #include "Filter.h"
-#include "OCSClient.h"
-#include "IOdomMeasurement.h"
 #include "OCSObserver.h"
+#include "IOdomMeasurement.h"
 
 namespace ohmPf
 {
@@ -22,7 +21,7 @@ namespace ohmPf
  * if odom changed significantly (see @ref OCS) and actualize the
  * OCS-Observer with odom measurement updates.
  */
-class OdomUpdater : public FilterUpdater, public OCSClient
+class OdomUpdater : public FilterUpdaterMeasurementOCS
 {
 public:
   /**
@@ -39,11 +38,20 @@ public:
   virtual ~OdomUpdater(){};
 
   /**
+   * @brief Try to update function is the trigger to update the filter. In odom
+   * Updater we have to overwrite it for ocs management.
+   */
+  virtual void tryToUpdate();
+
+protected:
+  /**
    * @brief This function gets called when there is a update requested.
    * Each OdomUpdater implementation must implement this method.
    */
   virtual void calculate() = 0;
+  IOdomMeasurement* _odomMeasurement;
 
+private:
   /**
    * @brief The update function for updating the filter with
    * the actual measurement using the calculate function.
@@ -51,9 +59,8 @@ public:
    */
   void update();
 
-protected:
   OCSObserver* _ocsObserver;
-  IOdomMeasurement* _measurement;
+
 };
 
 } /* namespace ohmPf */

@@ -186,7 +186,7 @@ bool FilterController::updateLaser(unsigned int laserId)
     return false;
   }
 
-  _laserUpdaters.at(laserId)->update();
+  _laserUpdaters.at(laserId)->tryToUpdate();
 
   return true;
 }
@@ -199,7 +199,7 @@ bool FilterController::updateCeilCam()
     return false;
   }
 
-  _ceilCamUpdater->update();
+  _ceilCamUpdater->tryToUpdate();
 
   return true;
 }
@@ -212,7 +212,7 @@ bool FilterController::updateOdom()
     return false;
   }
 
-  _odomUpdater->update();
+  _odomUpdater->tryToUpdate();
 
   return true;
 }
@@ -226,7 +226,7 @@ bool FilterController::updateOutput()
     return false;
   }
 
-  _outputUpdater->update();
+  _outputUpdater->tryToUpdate();
 
   return true;
 
@@ -299,7 +299,7 @@ void FilterController::requestProbMap(unsigned int& width, unsigned int& height,
 // factory method
 IFilterController* IFilterController::createFilter(FilterParams_t params)
 {
-  return new FilterController(params);
+  return (IFilterController*) new FilterController(params);
 }
 
 } /* namespace ohmPf */

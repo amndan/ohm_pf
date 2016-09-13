@@ -10,21 +10,22 @@
 namespace ohmPf
 {
 
-  OdomUpdater::OdomUpdater(Filter* filter, IOdomMeasurement* measurement, OCSObserver* ocsObserver) :
-      FilterUpdater(filter)
-  {
-    _measurement = measurement;
-    _ocsObserver = ocsObserver;
-  }
+OdomUpdater::OdomUpdater(Filter* filter, IOdomMeasurement* measurement, OCSObserver* ocsObserver) :
+    FilterUpdaterMeasurementOCS(measurement, filter)
+{
+  _odomMeasurement = measurement;
+  _ocsObserver = ocsObserver;
+}
 
-  void OdomUpdater::update()
-  {
-    _ocsObserver->update(_measurement);
+void OdomUpdater::tryToUpdate()
+{
+  _ocsObserver->update(_odomMeasurement);
+  FilterUpdaterMeasurementOCS::tryToUpdate();
+}
 
-    if(this->getOCSFlag() == true)
-    {
-      calculate();
-    }
-  }
+void OdomUpdater::update()
+{
+    calculate();
+}
 
 } /* namespace ohmPf */

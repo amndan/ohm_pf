@@ -11,10 +11,12 @@ namespace ohmPf
 {
 
   CeilCamUpdater::CeilCamUpdater(Filter* filter, ICeilCamMeasurement* measurement, MapUpdater* updateFilterMap) :
-          FilterUpdater(filter)
+          FilterUpdaterMeasurementOCS(measurement, filter)
   {
-    _measurement = measurement;
+    _ceilCamMeasurement = measurement;
     _updateFilterMap = updateFilterMap;
+
+    deactivateOCS();
   }
 
   void CeilCamUpdater::injectSamples()
@@ -52,12 +54,12 @@ namespace ohmPf
 
     while(countNewSamples > 0)
     {
-      for(int i = 0; i < _measurement->getPoses().size(); i++)
+      for(int i = 0; i < _ceilCamMeasurement->getPoses().size(); i++)
       {
         Sample_t newSample;
         newSample.weight = weightAvg;
         newSample.weight = 0;
-        newSample.pose = _measurement->getPoses().at(i);
+        newSample.pose = _ceilCamMeasurement->getPoses().at(i);
         //addGaussianRandomness(newSample, 0.5, 10 / 180 * M_PI);
         addUniformRandomness(newSample, 3.0, 2 * M_PI);
         samples->push_back(newSample);
@@ -73,7 +75,7 @@ namespace ohmPf
     std::vector<Sample_t>* samples = _filter->getSamples();
     std::vector<double> probs(samples->size(), 0.0);
 
-    std::vector<Eigen::Vector3d> poses = _measurement->getPoses();
+    std::vector<Eigen::Vector3d> poses = _ceilCamMeasurement->getPoses();
 
     for(int i = 0; i < poses.size(); i++)
     {
@@ -111,12 +113,12 @@ namespace ohmPf
     //
     //
     //    _filter->getSampleSet()->normalize();
-    //    //_updateFilterMap->update();
+    //    //_updateFilterMap->tryToUpdate();
 
     injectSamples();
 
     _filter->getSampleSet()->normalize();
-    _updateFilterMap->update();
+    _updateFilterMap->tryToUpdate();
     _filter->getSampleSet()->normalize();
 
     //    //filter.getSampleSet()->resample();

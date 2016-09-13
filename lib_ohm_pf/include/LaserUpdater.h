@@ -8,8 +8,7 @@
 #ifndef INCLUDE_LASERUPDATER_H_
 #define INCLUDE_LASERUPDATER_H_
 
-#include "FilterUpdater.h"
-#include "OCSClient.h"
+#include "FilterUpdaterMeasurementOCS.h"
 #include "interfaces/IMap.h"
 #include "ILaserMeasurement.h"
 #include "MapUpdater.h"
@@ -21,7 +20,7 @@ namespace ohmPf
 /**
  * @brief An abstract Class for updating the filter with a laser measurement.
  */
-class LaserUpdater : public FilterUpdater, public OCSClient
+class LaserUpdater : public FilterUpdaterMeasurementOCS
 {
 public:
 
@@ -45,12 +44,7 @@ public:
    */
   virtual ~LaserUpdater(){};
 
-  /**
-   * @brief The update function for updating the filter with
-   * the actual measurement using the calculate function.
-   * Update just takes place, if odom has changed significantly (see @ref OCS)
-   */
-  void update();
+
 
   /**
    * @brief This function gets called when there is a update requested.
@@ -60,8 +54,18 @@ public:
 
 protected:
   IMap* _map;
-  ILaserMeasurement* _measurement;
+  ILaserMeasurement* _laserMeasurement;
   MapUpdater* _updateFilterMap;
+
+private:
+  /**
+   * @brief The update function for updating the filter with
+   * the actual measurement using the calculate function.
+   * Update just takes place, if odom has changed significantly (see @ref OCS)
+   */
+  void update();
+
+
 };
 
 } /* namespace ohmPf */

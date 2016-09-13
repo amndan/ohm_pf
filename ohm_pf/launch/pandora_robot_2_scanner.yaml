@@ -1,5 +1,8 @@
 robot:
   robot_specifications:
+    - kinematic:
+        kinematic_specifications:
+          kinematic_model: omni
     - footprint:
         footprint_specifications:
           radius: 0.200000002980232

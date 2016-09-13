@@ -31,22 +31,27 @@ public:
   FilterUpdater(Filter* filter);
 
   /**
-   * Destructor (empty)
+   * @brief Destructor (empty)
    */
   virtual ~FilterUpdater(){};
 
   /**
-   * Abstract update function. Every filter updater needs an update function.
+   * @brief Try to update function is the trigger to update the filter. This function
+   * can be overwritten by inheriting classes if the need to check e.g. stamps
+   * before updating the filter.
+   */
+  virtual void tryToUpdate();
+
+protected:
+  /**
+   * @brief Abstract update function. Every filter updater needs an update function.
    */
   virtual void update() = 0;
 
-
-protected:
   /**
    * @brief Protected filter pointer for use in inheriting classes.
    */
   Filter* _filter;
-
 };
 
 } /* namespace ohmPf */

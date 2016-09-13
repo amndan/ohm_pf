@@ -43,13 +43,13 @@ public:
    */
   void initFilter();
 
+private:
   /**
    * @brief Update the filters particles with the map information.
    * No resampling takes place here!
    */
   void update();
 
-private:
   IMap* _map;
 };
 

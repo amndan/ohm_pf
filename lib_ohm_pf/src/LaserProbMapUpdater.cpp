@@ -29,7 +29,7 @@ LaserProbMapUpdater::LaserProbMapUpdater(Filter* filter, ProbMap* map, ILaserMea
 
 void LaserProbMapUpdater::calculate()
 {
-  Eigen::Matrix3Xd coords = rangesToCoordinates(*_measurement);
+  Eigen::Matrix3Xd coords = rangesToCoordinates(*_laserMeasurement);
 
   std::vector<Sample_t>* samples = _filter->getSamples();
 
@@ -40,15 +40,15 @@ void LaserProbMapUpdater::calculate()
   {
     // transform scan to position of particle
     create3x3TransformationMatrix(it->pose(0), it->pose(1), it->pose(2), tf);
-    coordsTf = tf * _measurement->getTfBaseFootprintToLaser() * coords;
+    coordsTf = tf * _laserMeasurement->getTfBaseFootprintToLaser() * coords;
 
     // lookup probs
-    it->weight = ((ProbMap*)_map)->getProbability(coordsTf, _measurement->getUncertainty());
+    it->weight = ((ProbMap*)_map)->getProbability(coordsTf, _laserMeasurement->getUncertainty());
   }
 
   _filter->getSampleSet()->boostWeights();
   if (_updateFilterMap != NULL)
-    _updateFilterMap->update();
+    _updateFilterMap->tryToUpdate();
   _filter->getSampleSet()->normalize();
 
   //_filter->getSampleSet()->normalize();

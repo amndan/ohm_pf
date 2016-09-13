@@ -9,9 +9,15 @@
 
 namespace ohmPf
 {
-  FilterUpdater::FilterUpdater(Filter* filter)
-  {
-    _filter = filter;
-  }
+
+FilterUpdater::FilterUpdater(Filter* filter)
+{
+  _filter = filter;
+}
+
+void FilterUpdater::tryToUpdate()
+{
+  update();
+}
 
 } /* namespace ohmPf */

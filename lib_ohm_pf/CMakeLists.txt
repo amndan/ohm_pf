@@ -129,6 +129,8 @@ add_library(OhmPf
     src/GaussianPdf.cpp
     src/Filter.cpp
     src/FilterOutputUpdater.cpp
+    src/FilterUpdaterMeasurement.cpp
+    src/FilterUpdaterMeasurementOCS.cpp
     src/FilterUpdater.cpp
     src/LaserUpdater.cpp
     src/SampleSet.cpp

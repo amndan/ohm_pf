@@ -13,6 +13,9 @@ namespace ohmPf
 DiffDriveUpdater::DiffDriveUpdater(Filter* filter, IOdomMeasurement* measurement, OCSObserver* ocsObserver, OdomDiffParams_t paramSet) :
     OdomUpdater(filter, measurement, ocsObserver)
 {
+  _dRot1 = 0.0;
+  _dTrans = 0.0;
+  _dRot2 = 0.0;
   _initialized = false;
   _receivedFirstMeasurement = false;
   _paramSet = paramSet;
@@ -22,13 +25,13 @@ void DiffDriveUpdater::calculate()
 {
   if(!_receivedFirstMeasurement)
   {
-    _odom1 = _measurement->getMeasurement();
+    _odom1 = _odomMeasurement->getMeasurement();
     _receivedFirstMeasurement = true;
     return;
   }
   else
   {
-    processMeasurement(_measurement->getMeasurement());
+    processMeasurement(_odomMeasurement->getMeasurement());
     updateFilter(*_filter);
   }
 }

@@ -26,9 +26,9 @@ class DiffDriveUpdater : public OdomUpdater
 public:
   DiffDriveUpdater(Filter* filter, IOdomMeasurement* measurement, OCSObserver* ocsObserver, OdomDiffParams_t paramSet);
   virtual ~DiffDriveUpdater(){};
-  void calculate();
 
 private:
+  void calculate();
   void updatePose(Eigen::Vector3d& pose);
   void updateFilter(Filter& filter);
   void processMeasurement(Eigen::Vector3d odom);

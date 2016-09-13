@@ -11,21 +11,16 @@ namespace ohmPf
 {
 
   LaserUpdater::LaserUpdater(Filter* filter, IMap* map, ILaserMeasurement* measurement, MapUpdater* updateFilterMap) :
-      FilterUpdater(filter)
+    FilterUpdaterMeasurementOCS(measurement, filter)
   {
     _map = map;
-    _measurement = measurement;
+    _laserMeasurement = measurement;
     _updateFilterMap = updateFilterMap;
   }
 
   void LaserUpdater::update()
   {
-
-    if (this->getOCSFlag() == true)
-    {
-      calculate();
-    }
+    calculate();
   }
 
 } /* namespace ohmPf */
-

@@ -8,7 +8,7 @@
 #ifndef SRC_CEILCAM_H_
 #define SRC_CEILCAM_H_
 
-#include "FilterUpdater.h"
+#include "FilterUpdaterMeasurementOCS.h"
 #include "ICeilCamMeasurement.h"
 #include "GaussianPdf.h"
 #include "UtilitiesOhmPf.h"
@@ -21,7 +21,7 @@ namespace ohmPf
  * @brief An implementation of Filter Updater.
  * It processes measurements from a ceiling cam.
  */
-class CeilCamUpdater : public FilterUpdater
+class CeilCamUpdater : public FilterUpdaterMeasurementOCS
 {
 public:
   /**
@@ -43,13 +43,13 @@ public:
    */
   virtual ~CeilCamUpdater(){};
 
+private:
   /**
    * @brief Update function for updating the filters particles with the actual CeilCamMeasurement.
    */
   void update();
 
-private:
-  ICeilCamMeasurement* _measurement;
+  ICeilCamMeasurement* _ceilCamMeasurement;
   MapUpdater* _updateFilterMap;
   void injectSamples();
 };
