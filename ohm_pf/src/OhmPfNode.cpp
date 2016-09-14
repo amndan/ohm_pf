@@ -11,7 +11,7 @@ namespace ohmPf
 {
 
   OhmPfNode::OhmPfNode() :
-      _nh(), _prvNh("~"), _loopRate(50)
+      _nh(), _prvNh("~")
   {
     std::string rawLaserTopicString;
     _prvNh.param<std::string>("tfFixedFrame", _paramSet.tfFixedFrame, "/map");
@@ -45,6 +45,7 @@ namespace ohmPf
     _prvNh.param<double>("minimumValidScanRaysFactor", _filterParams.minValidScanRaysFactor, 0.5);
     _prvNh.param<double>("additionalTranslationalNoise", _filterParams.resamplerAdditionalTranslationalNoise, 0.05);
     _prvNh.param<double>("additionalRotationalNoise", _filterParams.resamplerAdditionalRotationalNoise, 10.0 / 180.0 * M_PI);
+    _prvNh.param<double>("filterLoopRate", _filterParams.filterLoopRate, 50);
 
     _prvNh.param<int>("lowVarianceFactor", itmp, 3);
     _filterParams.resamplerLowVarianceFactor = (unsigned int) itmp;
@@ -69,6 +70,9 @@ namespace ohmPf
     _prvNh.param<double>("initSigmaRot", _paramSet.initSigmaRot, 180 / M_PI * 10);
 
     _prvNh.param<std::string>("initMode", _paramSet.initMode, "GL");
+
+
+    _loopRate = new ros::Rate(_filterParams.filterLoopRate);
 
     //_pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>(_paramSet.topParticleCloud, 1, true); // tob: published in ROSFilterOutput
     _pubProbMap = _nh.advertise<nav_msgs::OccupancyGrid>("probMap", 1, true);
@@ -180,7 +184,10 @@ namespace ohmPf
       ros::spinOnce();  // update measurements
       _filterController->filterSpinOnce();  // integrate measurements
       _filterOutput->publishMapOdom();  // publish map->odom
-      _loopRate.sleep();  // sleep
+      if(!_loopRate->sleep())
+      {
+        ROS_DEBUG("Filter cannot reach its desired rate of %f Hz", _filterParams.filterLoopRate);
+      }
     }
   }
 

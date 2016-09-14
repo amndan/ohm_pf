@@ -33,8 +33,10 @@
     <arg name="OCSThresholdLaser" default="0.2" />
     <arg name="OCSThresholdOdom" default="0.001" />
     <arg name="OCSThresholdResampler" default="0.2" />
-    <arg name="skipParticleForGui" default="0" />
+    <arg name="skipParticleForGui" default="10" />
     <arg name="countLasers" default="1" />
+    <arg name="filterLoopRate" default="20" />
+    
     <!-- ******************* -->
     <!-- For Debugging: <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" launch-prefix="xterm -e cgdb -ex run -->  <!--args": append this; xml comment problem here -->
     <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" >
@@ -59,6 +61,7 @@
         <param name="countLasers" type="int" value="$(arg countLasers)" />
         <param name="resamplingIntervallFilter" type="double" value="$(arg resamplingIntervallFilter)" />
         <param name="outputIntervallFilter" type="double" value="$(arg outputIntervallFilter)" />
+        <param name="filterLoopRate" type="double" value="$(arg filterLoopRate)" />
         <param name="skipParticleForGui" type="int" value="$(arg skipParticleForGui)" />
 
         <param name="initX" type="double" value="$(arg initX)" />
