@@ -18,16 +18,18 @@ FilterUpdaterMeasurement::FilterUpdaterMeasurement(IMeasurement* measurement, Fi
   _measurement = measurement;
 }
 
-void FilterUpdaterMeasurement::tryToUpdate()
+bool FilterUpdaterMeasurement::tryToUpdate()
 {
   if(_lastStamp != _measurement->getStamp()) // if stamp has changed
   {
     update();
     _lastStamp = _measurement->getStamp();
+    return true;
   }
   else
   {
     //std::cout << __PRETTY_FUNCTION__ << "--> will not update; stamp has not changed!" << std::endl;
+    return false;
   }
 }
 

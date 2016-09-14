@@ -43,7 +43,7 @@ public:
    * the stamp of the measurement gets compared to the last stamp before
    * calling FilterUpdater::update().
    */
-  virtual void tryToUpdate();
+  virtual bool tryToUpdate();
 
 protected:
   ros::Time _lastStamp;

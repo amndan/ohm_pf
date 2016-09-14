@@ -39,7 +39,7 @@ public:
    * @brief FilterUpdaterMeasurementOCS overwrites tryToUpdate in a way that
    * the stamp of the measurement and OCS-State is checked before calling FilterUpdater::update().
    */
-  virtual void tryToUpdate();
+  virtual bool tryToUpdate();
 
 protected:
   /**

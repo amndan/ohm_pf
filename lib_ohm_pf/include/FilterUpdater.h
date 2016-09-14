@@ -39,7 +39,7 @@ public:
    * can be overwritten by inheriting classes if they need to check e.g. stamps
    * before updating the filter.
    */
-  virtual void tryToUpdate();
+  virtual bool tryToUpdate();
 
 protected:
   /**

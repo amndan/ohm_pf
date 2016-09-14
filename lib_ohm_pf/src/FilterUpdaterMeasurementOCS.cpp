@@ -21,22 +21,23 @@ FilterUpdaterMeasurementOCS::FilterUpdaterMeasurementOCS(IMeasurement* measureme
 }
 
 
-void FilterUpdaterMeasurementOCS::tryToUpdate()
+bool FilterUpdaterMeasurementOCS::tryToUpdate()
 {
   if( _lastStamp == _measurement->getStamp())
   {
     //std::cout << __PRETTY_FUNCTION__ << "--> will not update; stamp has not changed!" << std::endl;
-    return;
+    return false;
   }
 
   if(!getOCSFlag(true) && _OCSactive)
   {
     //std::cout << __PRETTY_FUNCTION__ << "--> will not update; no OCS!" << std::endl;
-    return;
+    return false;
   }
 
   update();
   _lastStamp = _measurement->getStamp();
+  return true;
 
 }
 

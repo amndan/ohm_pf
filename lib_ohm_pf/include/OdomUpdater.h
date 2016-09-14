@@ -41,7 +41,7 @@ public:
    * @brief Try to update function is the trigger to update the filter. In odom
    * Updater we have to overwrite it for ocs management.
    */
-  virtual void tryToUpdate();
+  virtual bool tryToUpdate();
 
 protected:
   /**

@@ -37,7 +37,7 @@ public:
    * @brief FilterUpdaterTimed overwrites tryToUpdate in a way that
    * FilterUpdater::update() gets called if time period is elapsed.
    */
-  void tryToUpdate();
+  virtual bool tryToUpdate();
 
 private:
   ros::Duration _intervall;

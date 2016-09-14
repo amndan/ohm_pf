@@ -15,9 +15,10 @@ FilterUpdater::FilterUpdater(Filter* filter)
   _filter = filter;
 }
 
-void FilterUpdater::tryToUpdate()
+bool FilterUpdater::tryToUpdate()
 {
   update();
+  return true;
 }
 
 } /* namespace ohmPf */

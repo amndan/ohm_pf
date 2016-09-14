@@ -17,10 +17,10 @@ OdomUpdater::OdomUpdater(Filter* filter, IOdomMeasurement* measurement, OCSObser
   _ocsObserver = ocsObserver;
 }
 
-void OdomUpdater::tryToUpdate()
+bool OdomUpdater::tryToUpdate()
 {
   _ocsObserver->update(_odomMeasurement);
-  FilterUpdaterMeasurementOCS::tryToUpdate();
+  return FilterUpdaterMeasurementOCS::tryToUpdate();
 }
 
 void OdomUpdater::update()

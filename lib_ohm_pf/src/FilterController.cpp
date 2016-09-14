@@ -64,9 +64,46 @@ FilterController::FilterController(FilterParams_t params) :
 
 void FilterController::filterSpinOnce()
 {
-  for(unsigned int i = 0; i < _periodicFilterUpdaters.size(); i++)
+
+  if(false)
   {
-    _periodicFilterUpdaters.at(i)->tryToUpdate();
+    ros::Time stamp = ros::Time::now();
+
+    std::vector<double> times;
+
+    std::cout << "|";
+
+    for(unsigned int i = 0; i < _periodicFilterUpdaters.size(); i++)
+    {
+      stamp = ros::Time::now();
+
+
+      if(_periodicFilterUpdaters.at(i)->tryToUpdate())
+      {
+        std::cout << " x |";
+        times.push_back( (ros::Time::now() - stamp).toNSec() / 1000000 );
+      }
+      else
+      {
+        std::cout << " o |";
+      }
+    }
+
+    std::cout << "| ";
+
+    for (unsigned int i = 0; i < times.size(); i++)
+    {
+      std::cout << (int)times.at(i) << " |";
+    }
+
+    std::cout << std::endl;
+  }
+  else
+  {
+    for(unsigned int i = 0; i < _periodicFilterUpdaters.size(); i++)
+    {
+      _periodicFilterUpdaters.at(i)->tryToUpdate();
+    }
   }
 }
 

@@ -18,7 +18,7 @@ FilterUpdaterTimed::FilterUpdaterTimed(Filter* filter, ros::Duration intervall) 
 
 }
 
-void FilterUpdaterTimed::tryToUpdate()
+bool FilterUpdaterTimed::tryToUpdate()
 {
   ros::Time now = ros::Time::now();
 
@@ -26,7 +26,10 @@ void FilterUpdaterTimed::tryToUpdate()
   {
     update();
     _lastStamp = now;
+    return true;
   }
+
+  return false;
 }
 
 } /* namespace ohmPf */
