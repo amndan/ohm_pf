@@ -147,6 +147,7 @@ add_library(OhmPf
     src/DiffDriveUpdater.cpp
     src/ProbMap.cpp
     src/IMap.cpp
+#    src/Timer.cpp
 )
 
 add_library(ROSTimeOhmPf
