@@ -11,6 +11,7 @@
 #include "sensor_msgs/LaserScan.h"
 #include "Eigen/Dense"
 #include "UtilitiesOhmPf.h"
+#include "UtilitiesOhmPfROS.h"
 #include "tf/transform_datatypes.h"
 #include "tf/transform_listener.h"
 #include "assert.h"

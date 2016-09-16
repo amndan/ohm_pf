@@ -8,9 +8,7 @@
 #ifndef SRC_ILASERMEASUREMENT_H_
 #define SRC_ILASERMEASUREMENT_H_
 
-#include "sensor_msgs/LaserScan.h"
 #include "Eigen/Dense"
-#include "tf/transform_datatypes.h"
 #include "IMeasurement.h"
 
 namespace ohmPf

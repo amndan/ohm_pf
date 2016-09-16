@@ -13,6 +13,7 @@
 #include "tf/transform_datatypes.h"
 #include "Eigen/Dense"
 #include "UtilitiesOhmPf.h"
+#include "UtilitiesOhmPfROS.h"
 #include <ros/time.h>
 
 #define IS_OCCUPIED_THRESHHOLD 50

@@ -13,7 +13,6 @@
 #include "assert.h"
 #include "Eigen/Dense"
 #include <numeric>
-#include "tf/transform_datatypes.h"
 #include <time.h>
 #include "ros/time.h"
 
@@ -83,19 +82,9 @@ static double getStabwOfSamples(const std::vector<Sample_t>& samples);
 static double getQualityOfSamples(const std::vector<Sample_t>& samples);
 
 /**
- * @brief Converter function for eigen matrix and tf transform
- */
-static tf::Transform eigenMatrix3x3ToTf(const Eigen::Matrix3d& eigen);
-
-/**
  * @brief create a 3x3 eigen transformation matrix
  */
 static void create3x3TransformationMatrix(double& x, double& y, double& theta, Eigen::Matrix3d& tf);
-
-/**
- * @brief Converter function for eigen matrix and tf transform
- */
-static Eigen::Matrix3d tfToEigenMatrix3x3(const tf::Transform& tf);
 
 /*
  * IMPLEMENTATIONS
@@ -210,15 +199,6 @@ double getQualityOfSamples(const std::vector<Sample_t>& samples)
   return std::pow( M_E, -stabw); // e^-x --> f(0) = 1; f(inf) = 0
 }
 
-tf::Transform eigenMatrix3x3ToTf(const Eigen::Matrix3d& eigen)
-{
-  tf::Transform tf;
-  tf.setOrigin(tf::Vector3(eigen(0, 2), eigen(1, 2), 0.0));
-  tf.setRotation(tf::createQuaternionFromYaw(asin(eigen(0, 1))));
-
-  return tf;
-}
-
 void create3x3TransformationMatrix(double& x, double& y, double& theta, Eigen::Matrix3d& tf)
 {
   tf(0, 0) = std::cos(theta) + 0.0;
@@ -232,25 +212,7 @@ void create3x3TransformationMatrix(double& x, double& y, double& theta, Eigen::M
   tf(2, 2) = 1.0;
 }
 
-Eigen::Matrix3d tfToEigenMatrix3x3(const tf::Transform& tf)
-{
-  Eigen::Matrix3d eigen(3, 3);
-  eigen.setIdentity();
 
-  double theta = tf::getYaw(tf.getRotation());
-  double x = tf.getOrigin().getX();
-  double y = tf.getOrigin().getY();
-
-  // preigenlem with sin() returns -0.0 (avoid with +0.0)
-  eigen(0, 0) = cos(theta) + 0.0;
-  eigen(0, 1) = -sin(theta) + 0.0;
-  eigen(0, 2) = x + 0.0;
-  eigen(1, 0) = sin(theta) + 0.0;
-  eigen(1, 1) = cos(theta) + 0.0;
-  eigen(1, 2) = y + 0.0;
-
-  return eigen;
-}
 }  // ohmPf
 
 #endif /* INCLUDE_UTILITIESOHMPF_H_ */
