@@ -31,7 +31,7 @@ public:
    * @param addNoiseSigmaRot Additional rotational noise to increase filters variance at resampling step.
    * @param lowVarianceFactor Each randomly chosen sample generates lowVarianceFactor new samples.
    */
-  LVResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot, unsigned int lowVarianceFactor, Filter* filter);
+  LVResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot, unsigned int lowVarianceFactor, Filter* filter, std::string idString);
 
   /**
    * @brief Deconstructor (empty)

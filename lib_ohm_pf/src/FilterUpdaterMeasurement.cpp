@@ -10,8 +10,8 @@
 namespace ohmPf
 {
 
-FilterUpdaterMeasurement::FilterUpdaterMeasurement(IMeasurement* measurement, Filter* filter) :
-    FilterUpdater(filter)
+FilterUpdaterMeasurement::FilterUpdaterMeasurement(IMeasurement* measurement, Filter* filter, std::string idString) :
+    FilterUpdater(filter, idString)
 {
   //init last stamp
   _lastStamp = measurement->getStamp();

@@ -38,7 +38,8 @@ FilterController::FilterController(FilterParams_t params) :
     STDResampler* tmp = new STDResampler(
         params.resamplerAdditionalTranslationalNoise,
         params.resamplerAdditionalRotationalNoise,
-        _filter);
+        _filter,
+        "STR");
     _ocsObserver->registerClient( tmp, _filterParams.OCSThresholdResampler);
     _resampler = tmp;
   }
@@ -48,7 +49,8 @@ FilterController::FilterController(FilterParams_t params) :
         params.resamplerAdditionalTranslationalNoise,
         params.resamplerAdditionalRotationalNoise,
         params.resamplerLowVarianceFactor,
-        _filter);
+        _filter,
+        "LVR");
     _ocsObserver->registerClient( tmp, _filterParams.OCSThresholdResampler);
     _resampler = tmp;
   }
@@ -67,21 +69,28 @@ void FilterController::filterSpinOnce()
 
   if(false)
   {
-    ros::Time stamp = ros::Time::now();
-
     std::vector<double> times;
 
     std::cout << "|";
 
     for(unsigned int i = 0; i < _periodicFilterUpdaters.size(); i++)
     {
-      stamp = ros::Time::now();
+      std::cout << _periodicFilterUpdaters.at(i)->getIdString() << "|";
+    }
 
+    std::cout << "|" << std::endl;
+
+    std::cout << "|";
+
+    for(unsigned int i = 0; i < _periodicFilterUpdaters.size(); i++)
+    {
+      Timer timer("/tmp/" + _periodicFilterUpdaters.at(i)->getIdString());
 
       if(_periodicFilterUpdaters.at(i)->tryToUpdate())
       {
         std::cout << " x |";
-        times.push_back( (ros::Time::now() - stamp).toNSec() / 1000000 );
+        timer.stopAndWrite();
+        times.push_back( timer.getTimeInMs() );
       }
       else
       {
@@ -127,7 +136,7 @@ bool FilterController::setMap(IMap* map)
   // everything ok...
   _map = map;
   _probMap = new ProbMap(*map,_filterParams.maxDistanceProbMap);
-  _mapUpdater = new MapUpdater(_filter, _map);
+  _mapUpdater = new MapUpdater(_filter, _map, "MAP");
   return true;
 }
 
@@ -148,7 +157,7 @@ bool FilterController::connectOdomMeasurement(IOdomMeasurement* odom, OdomDiffPa
   }
 
   // everything ok...
-  _odomUpdater = new DiffDriveUpdater(_filter, odom, _ocsObserver, params);
+  _odomUpdater = new DiffDriveUpdater(_filter, odom, _ocsObserver, params, "ODM");
   _ocsObserver->registerClient(_odomUpdater, _filterParams.OCSThresholdOdom);
   _periodicFilterUpdaters.push_back(_odomUpdater);
   return true;
@@ -180,7 +189,7 @@ bool FilterController::connectLaserMeasurement(ILaserMeasurement* laser, unsigne
     return false;
   }
 
-  _laserUpdaters.at(laserId) = new LaserProbMapUpdater(_filter, _probMap, laser, _mapUpdater, _filterParams.minValidScanRaysFactor);
+  _laserUpdaters.at(laserId) = new LaserProbMapUpdater(_filter, _probMap, laser, _mapUpdater, _filterParams.minValidScanRaysFactor, "LPM");
   _ocsObserver->registerClient(_laserUpdaters.at(laserId), _filterParams.OCSThresholdLaser);
   _periodicFilterUpdaters.push_back(_laserUpdaters.at(laserId));
   return true;
@@ -210,7 +219,7 @@ bool FilterController::connectCeilCamMeasurement(ICeilCamMeasurement* ceilCam)
   }
 
   // everything ok...
-  _ceilCamUpdater = new CeilCamUpdater(_filter, ceilCam, _mapUpdater);
+  _ceilCamUpdater = new CeilCamUpdater(_filter, ceilCam, _mapUpdater, "CCM");
   _periodicFilterUpdaters.push_back(_ceilCamUpdater);
   return true;
 }
@@ -230,7 +239,7 @@ bool FilterController::connectFilterOutput(IFilterOutput* output)
   }
 
   _filterOutput = output;
-  _outputUpdater = new FilterOutputUpdater(_filterOutput, _filter);
+  _outputUpdater = new FilterOutputUpdater(_filterOutput, _filter, "OUT");
   _periodicFilterUpdaters.push_back(_outputUpdater);
   return true;
 }

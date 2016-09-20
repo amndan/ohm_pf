@@ -24,12 +24,20 @@ public:
 
   virtual ~Timer();
 
-  void start();
+  void restart();
   void stop();
+  void stopAndWrite();
+
+  int64_t getTimeInNs();
+  int64_t getTimeInMs();
+  int64_t getTimeInUs();
+  int64_t getTimeInSec();
 
 private:
+  void openStream();
   void writeToStream();
   ros::Time _stamp;
+  ros::Duration _time;
   std::string _path;
   std::ofstream _stream;
 };

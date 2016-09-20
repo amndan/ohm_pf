@@ -30,7 +30,7 @@ public:
    * @param measurement Pointer to the odom measurement.
    * @param ocsObserver Pointer to the OCS observer.
    */
-  OdomUpdater(Filter* filter, IOdomMeasurement* measurement, OCSObserver* ocsObserver);
+  OdomUpdater(Filter* filter, IOdomMeasurement* measurement, OCSObserver* ocsObserver, std::string idString);
 
   /**
    * @brief Destructor (empty)

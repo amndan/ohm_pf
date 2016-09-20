@@ -28,7 +28,7 @@ public:
    * @param filter Pointer to the filter instance to be updated.
    * @param map Pointer to a map implementing the IMap interface, e.g. ROSMap.
    */
-  MapUpdater(Filter* filter, IMap* map);
+  MapUpdater(Filter* filter, IMap* map, std::string idString);
 
   /**
    * @brief Destructor (empty)

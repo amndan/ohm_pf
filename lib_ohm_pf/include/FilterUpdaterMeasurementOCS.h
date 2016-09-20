@@ -28,7 +28,7 @@ public:
    * @param filter Pointer to the filter instance to be updated.
    * @param measurement Measurement whose stamp gets compared.
    */
-  FilterUpdaterMeasurementOCS(IMeasurement* measurement, Filter* filter);
+  FilterUpdaterMeasurementOCS(IMeasurement* measurement, Filter* filter, std::string idString);
 
   /**
    * @brief Destructor (empty)

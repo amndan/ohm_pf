@@ -10,8 +10,8 @@
 namespace ohmPf
 {
 //class FilterUpdaterMeasurementOCS : public FilterUpdaterMeasurement, public OCSClient
-FilterUpdaterMeasurementOCS::FilterUpdaterMeasurementOCS(IMeasurement* measurement, Filter* filter) :
-    FilterUpdaterMeasurement(measurement, filter), OCSClient()
+FilterUpdaterMeasurementOCS::FilterUpdaterMeasurementOCS(IMeasurement* measurement, Filter* filter, std::string idString) :
+    FilterUpdaterMeasurement(measurement, filter, idString), OCSClient()
 {
   //filter->getOCSObserver.registerClient(this);
   // inherit private from ocs client??

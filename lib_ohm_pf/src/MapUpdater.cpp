@@ -10,8 +10,8 @@
 namespace ohmPf
 {
 
-  MapUpdater::MapUpdater(Filter* filter, IMap* map) :
-      FilterUpdater(filter)
+  MapUpdater::MapUpdater(Filter* filter, IMap* map, std::string idString) :
+      FilterUpdater(filter, idString)
   {
     _map = map;
   }

@@ -9,6 +9,7 @@
 #define SRC_FILTERUPDATER_H_
 
 #include <ros/time.h>
+#include <string>
 #include "Filter.h"
 
 namespace ohmPf
@@ -27,7 +28,7 @@ public:
    * @brief Constructor: Needs filter pointer for initialization.
    * @param filter Pointer to the filter instance to be updated.
    */
-  FilterUpdater(Filter* filter);
+  FilterUpdater(Filter* filter, std::string idString);
 
   /**
    * @brief Destructor (empty)
@@ -41,6 +42,11 @@ public:
    */
   virtual bool tryToUpdate();
 
+  /**
+   * @return returns the idString for display the type of the updater.
+   */
+  std::string getIdString();
+
 protected:
   /**
    * @brief Abstract update function. Every filter updater needs an update function.
@@ -53,6 +59,9 @@ protected:
    * @brief Protected filter pointer for use in inheriting classes.
    */
   Filter* _filter;
+
+private:
+  std::string _idString;
 };
 
 } /* namespace ohmPf */

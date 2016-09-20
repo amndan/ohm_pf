@@ -10,8 +10,8 @@
 namespace ohmPf
 {
 
-LVResampler::LVResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot, unsigned int lowVarianceFactor, Filter* filter) :
-    FilterUpdaterTimed(filter, ros::Duration(filter->getParams().resamplingIntervall))
+LVResampler::LVResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot, unsigned int lowVarianceFactor, Filter* filter, std::string idString) :
+    FilterUpdaterTimed(filter, ros::Duration(filter->getParams().resamplingIntervall), idString)
 {
   _addNoiseSigmaRot = std::abs(addNoiseSigmaRot);
   _addNoiseSigmaTrans = std::abs(addNoiseSigmaTrans);

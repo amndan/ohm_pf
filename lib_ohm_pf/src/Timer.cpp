@@ -12,39 +12,83 @@ namespace ohmPf
 
 Timer::Timer()
 {
-  Timer("/tmp/timer");
+  _path = "/tmp/timer";
+
+  openStream();
+  _stream.close();
+
+  _stamp = ros::Time::now();
 }
 
 Timer::Timer(std::string path)
 {
   _path = path;
 
-  _stream.open(_path.c_str());
-
-  if(!_stream.is_open())
-  {
-    throw std::runtime_error;
-  }
-
+  openStream();
   _stream.close();
+
+  _stamp = ros::Time::now();
 }
 
 Timer::~Timer()
 {
-  // TODO Auto-generated destructor stub
+  _stream.close();
 }
 
-void Timer::start()
+void Timer::restart()
 {
+  _stamp = ros::Time::now();
 }
 
 void Timer::stop()
 {
+  _time = ros::Time::now() - _stamp;
+}
+
+void Timer::stopAndWrite()
+{
+  stop();
+  writeToStream();
+}
+
+void Timer::openStream()
+{
+  _stream.open(_path.c_str(), std::ios_base::app);
+
+  if(!_stream.is_open())
+  {
+    std::runtime_error e("cannot open stream!");
+    throw e;
+  }
 }
 
 void Timer::writeToStream()
 {
-  // open write close
+  openStream();
+  _stream << (int) getTimeInMs() << ";";
+  _stream.close();
 }
 
 } /* namespace ohmPf */
+
+int64_t ohmPf::Timer::getTimeInNs()
+{
+  return _time.toNSec();
+}
+
+int64_t ohmPf::Timer::getTimeInUs()
+{
+  return getTimeInNs() / 1000ll;
+}
+
+int64_t ohmPf::Timer::getTimeInMs()
+{
+  return getTimeInUs() / 1000ll;
+}
+
+int64_t ohmPf::Timer::getTimeInSec()
+{
+  return getTimeInMs() / 1000ll;
+}
+
+

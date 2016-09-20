@@ -41,7 +41,7 @@ public:
    * @todo Implement minValidRaysFactor support.
    * @todo Implement subsampling of laser measurents with rates < 2.
    */
-  LaserProbMapUpdater(Filter* filter, ProbMap* map, ILaserMeasurement* measurement, MapUpdater* updateFilterMap, double minValidRaysFactor);
+  LaserProbMapUpdater(Filter* filter, ProbMap* map, ILaserMeasurement* measurement, MapUpdater* updateFilterMap, double minValidRaysFactor, std::string idString);
 
   /**
    * Destructor (empty)

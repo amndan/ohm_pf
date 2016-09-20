@@ -26,7 +26,7 @@ public:
    * @param filter Pointer to the filter instance to be updated.
    * @param time intervall for update
    */
-  FilterUpdaterTimed(Filter* filter, ros::Duration intervall);
+  FilterUpdaterTimed(Filter* filter, ros::Duration intervall, std::string idString);
 
   /**
    * @brief Destructor (empty)

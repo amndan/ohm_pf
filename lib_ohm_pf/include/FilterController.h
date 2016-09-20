@@ -27,6 +27,7 @@
 #include "OCSObserver.h"
 #include "CeilCamUpdater.h"
 #include "Eigen/Dense"
+#include "Timer.h"
 
 namespace ohmPf
 {

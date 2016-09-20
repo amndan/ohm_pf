@@ -37,7 +37,8 @@ public:
   LaserUpdater(Filter* filter,
                IMap* map,
                ILaserMeasurement* measurement,
-               MapUpdater* updateFilterMap);
+               MapUpdater* updateFilterMap,
+               std::string idString);
 
   /**
    * Destructor (empty)

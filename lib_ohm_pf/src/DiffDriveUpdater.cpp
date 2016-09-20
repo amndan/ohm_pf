@@ -10,8 +10,8 @@
 namespace ohmPf
 {
 
-DiffDriveUpdater::DiffDriveUpdater(Filter* filter, IOdomMeasurement* measurement, OCSObserver* ocsObserver, OdomDiffParams_t paramSet) :
-    OdomUpdater(filter, measurement, ocsObserver)
+DiffDriveUpdater::DiffDriveUpdater(Filter* filter, IOdomMeasurement* measurement, OCSObserver* ocsObserver, OdomDiffParams_t paramSet, std::string idString) :
+    OdomUpdater(filter, measurement, ocsObserver, idString)
 {
   _dRot1 = 0.0;
   _dTrans = 0.0;

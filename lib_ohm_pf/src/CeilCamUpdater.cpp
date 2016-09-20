@@ -10,8 +10,8 @@
 namespace ohmPf
 {
 
-  CeilCamUpdater::CeilCamUpdater(Filter* filter, ICeilCamMeasurement* measurement, MapUpdater* updateFilterMap) :
-          FilterUpdaterMeasurementOCS(measurement, filter)
+  CeilCamUpdater::CeilCamUpdater(Filter* filter, ICeilCamMeasurement* measurement, MapUpdater* updateFilterMap, std::string idString) :
+          FilterUpdaterMeasurementOCS(measurement, filter, idString)
   {
     _ceilCamMeasurement = measurement;
     _updateFilterMap = updateFilterMap;

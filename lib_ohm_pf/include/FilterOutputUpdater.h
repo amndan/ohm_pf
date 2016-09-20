@@ -38,7 +38,7 @@ public:
    * There must be a better design for doing that.
    * @param filter Pointer to the Filter.
    */
-  FilterOutputUpdater(IFilterOutput* filterOutput, Filter* filter);
+  FilterOutputUpdater(IFilterOutput* filterOutput, Filter* filter, std::string idString);
 
   /**
    * Destructor (empty)

@@ -10,8 +10,8 @@
 namespace ohmPf
 {
 
-LaserProbMapUpdater::LaserProbMapUpdater(Filter* filter, ProbMap* map, ILaserMeasurement* measurement, MapUpdater* updateFilterMap, double minValidRaysFactor) :
-    LaserUpdater(filter, map, measurement, updateFilterMap)
+LaserProbMapUpdater::LaserProbMapUpdater(Filter* filter, ProbMap* map, ILaserMeasurement* measurement, MapUpdater* updateFilterMap, double minValidRaysFactor, std::string idString) :
+    LaserUpdater(filter, map, measurement, updateFilterMap, idString)
 {
   if(minValidRaysFactor > 1.0 || minValidRaysFactor <= 0.0)
   {

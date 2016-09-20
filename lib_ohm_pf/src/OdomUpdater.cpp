@@ -10,8 +10,8 @@
 namespace ohmPf
 {
 
-OdomUpdater::OdomUpdater(Filter* filter, IOdomMeasurement* measurement, OCSObserver* ocsObserver) :
-    FilterUpdaterMeasurementOCS(measurement, filter)
+OdomUpdater::OdomUpdater(Filter* filter, IOdomMeasurement* measurement, OCSObserver* ocsObserver, std::string idString) :
+    FilterUpdaterMeasurementOCS(measurement, filter, idString)
 {
   _odomMeasurement = measurement;
   _ocsObserver = ocsObserver;

@@ -36,7 +36,7 @@ public:
    * @todo CeilCamUpdater should be updated to universal interface for pose with covar arrays
    * also injecting or not injecting particles should be selectable
    */
-  CeilCamUpdater(Filter* filter, ICeilCamMeasurement* measurement, MapUpdater* updateFilterMap);
+  CeilCamUpdater(Filter* filter, ICeilCamMeasurement* measurement, MapUpdater* updateFilterMap, std::string idString);
 
   /**
    * Destructor (empty)

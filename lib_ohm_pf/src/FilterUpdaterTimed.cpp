@@ -10,8 +10,8 @@
 namespace ohmPf
 {
 
-FilterUpdaterTimed::FilterUpdaterTimed(Filter* filter, ros::Duration intervall) :
-    FilterUpdater(filter)
+FilterUpdaterTimed::FilterUpdaterTimed(Filter* filter, ros::Duration intervall, std::string idString) :
+    FilterUpdater(filter, idString)
 {
   _intervall = intervall;
   _lastStamp = ros::Time::now() - intervall; // force update at first iter

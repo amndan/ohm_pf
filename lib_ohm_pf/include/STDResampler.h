@@ -30,7 +30,7 @@ public:
    * @param addNoiseSigmaTrans Additional translational noise to increase filters variance at resampling step.
    * @param addNoiseSigmaRot Additional rotational noise to increase filters variance at resampling step.
    */
-  STDResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot, Filter* filter);
+  STDResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot, Filter* filter, std::string idString);
 
   /**
    * @brief Deconstructor (empty)
