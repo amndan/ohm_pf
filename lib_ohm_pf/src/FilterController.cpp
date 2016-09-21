@@ -107,13 +107,55 @@ void FilterController::filterSpinOnce()
 
     std::cout << std::endl;
   }
-  else
+
+  if(false)
   {
     for(unsigned int i = 0; i < _periodicFilterUpdaters.size(); i++)
     {
       _periodicFilterUpdaters.at(i)->tryToUpdate();
     }
   }
+
+  if(false)
+  {
+    for(unsigned int i = 0; i < _periodicFilterUpdaters.size(); i++)
+    {
+      if(_periodicFilterUpdaters.at(i)->getIdString() == "LPM" || _periodicFilterUpdaters.at(i)->getIdString() == "ODM")
+      {
+
+
+        if(_periodicFilterUpdaters.at(i)->tryToUpdate())
+        {
+          ros::Time stamp =  ((FilterUpdaterMeasurementOCS*) _periodicFilterUpdaters.at(i))->getMeasurement()->getStamp();
+          std::cout << _periodicFilterUpdaters.at(i)->getIdString() << ": " << stamp << " ";
+        }
+
+      }
+      else
+      {
+        _periodicFilterUpdaters.at(i)->tryToUpdate();
+      }
+    }
+
+    std::cout << std::endl;
+  }
+
+  // overload < in filterUpdaterMeasurement to sort vector with timestamps?
+  if(true)
+  {
+    for(unsigned int i = 0; i < _periodicFilterUpdaters.size(); i++)
+    {
+      if(_periodicFilterUpdaters.at(i)->getIdString() != "ODM")
+        _periodicFilterUpdaters.at(i)->tryToUpdate();
+    }
+
+    for(unsigned int i = 0; i < _periodicFilterUpdaters.size(); i++)
+    {
+      if(_periodicFilterUpdaters.at(i)->getIdString() == "ODM")
+        _periodicFilterUpdaters.at(i)->tryToUpdate();
+    }
+  }
+
 }
 
 

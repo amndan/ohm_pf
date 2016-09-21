@@ -240,9 +240,9 @@ namespace ohmPf
 
     //todo: get odom Params from Launchfile
     _odomDiffParams.a1 = 0.01;  // rot error from rot motion
-    _odomDiffParams.a2 = 10.0;  // rot error from trans motion
-    _odomDiffParams.a3 = 0.01;  // trans error from trans motion
-    _odomDiffParams.a4 = 0.001;  // trans error from rot motion
+    _odomDiffParams.a2 = 0;  // rot error from trans motion
+    _odomDiffParams.a3 = 0;  // trans error from trans motion
+    _odomDiffParams.a4 = 0;  // trans error from rot motion
     _odomMeasurement = new ROSOdomMeasurement();
 
   }

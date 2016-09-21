@@ -16,6 +16,7 @@
 #include "Filter.h"
 #include "UtilitiesOhmPf.h"
 #include "Eigen/Dense"
+#include "Timer.h"
 
 namespace ohmPf
 {

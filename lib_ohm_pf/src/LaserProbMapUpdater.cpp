@@ -29,22 +29,45 @@ LaserProbMapUpdater::LaserProbMapUpdater(Filter* filter, ProbMap* map, ILaserMea
 
 void LaserProbMapUpdater::calculate()
 {
+
   Eigen::Matrix3Xd coords = rangesToCoordinates(*_laserMeasurement);
+
 
   std::vector<Sample_t>* samples = _filter->getSamples();
 
   Eigen::Matrix3Xd coordsTf;
   Eigen::Matrix3d tf;
 
+  Timer timer("/tmp/PMU");
+
+
+  std::vector<double> times;
+  times.reserve(samples->size());
+
+  // time gets waste here! openmp this for loop!
   for (std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it) // each sample
   {
     // transform scan to position of particle
+    timer.restart();
+
     create3x3TransformationMatrix(it->pose(0), it->pose(1), it->pose(2), tf);
     coordsTf = tf * _laserMeasurement->getTfBaseFootprintToLaser() * coords;
 
     // lookup probs
     it->weight = ((ProbMap*)_map)->getProbability(coordsTf, _laserMeasurement->getUncertainty());
+
+    timer.stop();
+    times.push_back( (double) timer.getTimeInUs() );
   }
+
+
+  double time = 0.0;
+  for(int i = 0; i < times.size(); i++)
+  {
+    time += times.at(i);
+  }
+  //std::cout << "m = " << time / (double) times.size() << " us s = " << getStabw(times) << " ms all = " << time/1000 << " ms" << std::endl;
+
 
   _filter->getSampleSet()->boostWeights();
   if (_updateFilterMap != NULL)
@@ -53,6 +76,9 @@ void LaserProbMapUpdater::calculate()
 
   //_filter->getSampleSet()->normalize();
   //_filter->getSampleSet()->resample(); // todo: should we do that here??
+
+
+
 }
 
 Eigen::Matrix3Xd LaserProbMapUpdater::rangesToCoordinates(ILaserMeasurement& measurement)

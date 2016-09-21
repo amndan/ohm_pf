@@ -45,6 +45,8 @@ public:
    */
   virtual bool tryToUpdate();
 
+  IMeasurement* getMeasurement();
+
 protected:
   ros::Time _lastStamp;
   IMeasurement* _measurement;

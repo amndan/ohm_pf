@@ -33,4 +33,9 @@ bool FilterUpdaterMeasurement::tryToUpdate()
   }
 }
 
+IMeasurement* FilterUpdaterMeasurement::getMeasurement()
+{
+  return _measurement;
+}
+
 } /* namespace ohmPf */
