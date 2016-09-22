@@ -201,12 +201,12 @@ double getQualityOfSamples(const std::vector<Sample_t>& samples)
 
 void create3x3TransformationMatrix(double& x, double& y, double& theta, Eigen::Matrix3d& tf)
 {
-  tf(0, 0) = std::cos(theta) + 0.0;
-  tf(0, 1) = -std::sin(theta) + 0.0;
-  tf(0, 2) = x + 0.0;
-  tf(1, 0) = std::sin(theta) + 0.0;
-  tf(1, 1) = std::cos(theta) + 0.0;
-  tf(1, 2) = y + 0.0;
+  tf(0, 0) = std::cos(theta);
+  tf(0, 1) = -std::sin(theta);
+  tf(0, 2) = x;
+  tf(1, 0) = -tf(0, 1);
+  tf(1, 1) = tf(0, 0);
+  tf(1, 2) = y;
   tf(2, 0) = 0.0;
   tf(2, 1) = 0.0;
   tf(2, 2) = 1.0;

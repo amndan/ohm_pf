@@ -96,7 +96,7 @@ void ProbMap::calcProbMap()
 
 double ProbMap::getProbability(Eigen::Matrix3Xd& coords, double pRand)
 {
-  PointInMapToOrigin(coords);
+  //PointInMapToOrigin(coords);
 
   double prob;
   double probOfCoords = 1.0;
@@ -116,9 +116,9 @@ double ProbMap::getProbability(Eigen::Matrix3Xd& coords, double pRand)
       }
       else
       {
-        prob = (double)_probMap[y * getWidthInCells() + x] / 100.0;  // todo: coords wird hier verändert -> das darf nicht sein!!
+        prob = (double)_probMap[y * getWidthInCells() + x] / 100.0;
       }
-      prob = (1 - pRand) * prob + pRand;
+      prob = (1.0 - pRand) * prob + pRand;
       probOfCoords *= prob;
     }
   }

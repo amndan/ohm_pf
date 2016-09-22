@@ -76,6 +76,7 @@ public:
    * x y valid with units: m m a.u
    * z value is used as validity mask. 0 means this pose
    * is not valid whereas it does not get processed.
+   * Frame of coordinates has to be in MAP ORIGIN (cell 0|0)
    * @param pRand The random probability to add.
    * @return summed up probability of all poses.
    */

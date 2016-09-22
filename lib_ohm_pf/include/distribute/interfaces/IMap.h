@@ -64,7 +64,7 @@ public:
   /**
    * @brief Origin of the map is not fix, but origin of the occupancy array is (cell 0 | cell 0)
    * This function returns a transformation matrix from the maps origin to the arrays origin.
-   * Its unit is meter.
+   * Its unit is meter and rad.
    * @return The transformation from the maps origin to the arrays origin in meter.
    */
   virtual Eigen::Matrix3d getTfMapToMapOrigin() = 0;

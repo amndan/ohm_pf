@@ -36,7 +36,7 @@
     <arg name="initPhi" value="0.0" />
     <arg name="initSigmaTrans" value="0.1" />
     <arg name="initSigmaRot" value="0.1" />
-    <arg name="initMode" value="POSE" />
+    <arg name="initMode" value="GL" />
     <arg name="OCSThresholdLaser" value="0.00001" />
     <arg name="OCSThresholdOdom" value="0.000001" />
     <arg name="OCSThresholdResampler" value="0.2" />

@@ -15,7 +15,9 @@ find_package(Boost REQUIRED COMPONENTS
 	thread
 )
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS} -fopenmp -O3 -mtune=native")
+
+#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
