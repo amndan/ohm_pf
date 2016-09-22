@@ -39,29 +39,17 @@ void LaserProbMapUpdater::calculate()
   Eigen::Matrix3d tf;
   double laserUncertainty = _laserMeasurement->getUncertainty();
 
-  Timer timer("/tmp/PMU");
-
-  // time gets waste here! openmp this for loop!
-#pragma omp parallel for
-  for(int i = 0; i < 1000; i++)
-  {
-    i++;
-  }
-
-  for (std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it) // each sample
+  for (unsigned int i = 0; i < samples->size(); i++) // each sample
+  //for (std::vector<Sample_t>::iterator it = samples->begin(); it != samples->end(); ++it) // each sample
   {
     // transform scan to position of particle
 
-    create3x3TransformationMatrix(it->pose(0), it->pose(1), it->pose(2), tf);
+    create3x3TransformationMatrix(samples->at(i).pose(0), samples->at(i).pose(1), samples->at(i).pose(2), tf);
     coordsTf = _map->getTfMapToMapOrigin().inverse() * tf * _laserMeasurement->getTfBaseFootprintToLaser() * coords;
 
     // lookup probs
-    it->weight = static_cast<ProbMap*>(_map)->getProbability(coordsTf, laserUncertainty);
+    samples->at(i).weight = static_cast<ProbMap*>(_map)->getProbability(coordsTf, laserUncertainty);
   }
-
-  timer.stop();
-
-  std::cout << timer.getTimeInMs() << std::endl;
 
   _filter->getSampleSet()->boostWeights();
   if (_updateFilterMap != NULL)
@@ -70,9 +58,6 @@ void LaserProbMapUpdater::calculate()
 
   //_filter->getSampleSet()->normalize();
   //_filter->getSampleSet()->resample(); // todo: should we do that here??
-
-
-
 }
 
 Eigen::Matrix3Xd LaserProbMapUpdater::rangesToCoordinates(ILaserMeasurement& measurement)
