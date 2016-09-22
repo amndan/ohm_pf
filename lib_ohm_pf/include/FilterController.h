@@ -132,6 +132,17 @@ public:
       Eigen::Matrix3d originTf,
       std::vector<int8_t>& mapData);
 
+  /**
+   * @brief Sort function for sorting FilterUpdaterWithMeasurementPointers.
+   * It sorts measurement updaters with respect to their timestamp.
+   */
+  static inline bool sortMeasurementsLessThanOperator(
+      const FilterUpdaterMeasurement* lhs,
+      const FilterUpdaterMeasurement* rhs)
+  {
+    return lhs->getMeasurement()->getStamp() < rhs->getMeasurement()->getStamp();
+  }
+
 private:
   IMap* _map;
   ProbMap* _probMap;
@@ -147,7 +158,8 @@ private:
   MapUpdater* _mapUpdater;
   FilterUpdater* _resampler;
   Filter* _filter;
-  std::vector<FilterUpdater*> _periodicFilterUpdaters;
+  std::vector<FilterUpdater*> _periodicFilterUpdatersWithoutMeasurement;
+  std::vector<FilterUpdaterMeasurement*> _periodicFilterUpdatersWithMeasurement;
 };
 
 } /* namespace ohmPf */

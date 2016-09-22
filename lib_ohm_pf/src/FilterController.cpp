@@ -60,100 +60,26 @@ FilterController::FilterController(FilterParams_t params) :
     exit(EXIT_FAILURE);
   }
 
-  _periodicFilterUpdaters.push_back(_resampler);
+  _periodicFilterUpdatersWithoutMeasurement.push_back(_resampler);
 
 }
 
 void FilterController::filterSpinOnce()
 {
 
-  if(false)
+  std::sort(
+      _periodicFilterUpdatersWithMeasurement.begin(),
+      _periodicFilterUpdatersWithMeasurement.end(),
+      FilterController::sortMeasurementsLessThanOperator);
+
+  for(unsigned int i = 0; i < _periodicFilterUpdatersWithMeasurement.size(); i++)
   {
-    std::vector<double> times;
-
-    std::cout << "|";
-
-    for(unsigned int i = 0; i < _periodicFilterUpdaters.size(); i++)
-    {
-      std::cout << _periodicFilterUpdaters.at(i)->getIdString() << "|";
-    }
-
-    std::cout << "|" << std::endl;
-
-    std::cout << "|";
-
-    for(unsigned int i = 0; i < _periodicFilterUpdaters.size(); i++)
-    {
-      Timer timer("/tmp/" + _periodicFilterUpdaters.at(i)->getIdString());
-
-      if(_periodicFilterUpdaters.at(i)->tryToUpdate())
-      {
-        std::cout << " x |";
-        timer.stopAndWrite();
-        times.push_back( timer.getTimeInMs() );
-      }
-      else
-      {
-        std::cout << " o |";
-      }
-    }
-
-    std::cout << "| ";
-
-    for (unsigned int i = 0; i < times.size(); i++)
-    {
-      std::cout << (int)times.at(i) << " |";
-    }
-
-    std::cout << std::endl;
+    _periodicFilterUpdatersWithMeasurement.at(i)->tryToUpdate();
   }
 
-  if(false)
+  for(unsigned int i = 0; i < _periodicFilterUpdatersWithoutMeasurement.size(); i++)
   {
-    for(unsigned int i = 0; i < _periodicFilterUpdaters.size(); i++)
-    {
-      _periodicFilterUpdaters.at(i)->tryToUpdate();
-    }
-  }
-
-  if(false)
-  {
-    for(unsigned int i = 0; i < _periodicFilterUpdaters.size(); i++)
-    {
-      if(_periodicFilterUpdaters.at(i)->getIdString() == "LPM" || _periodicFilterUpdaters.at(i)->getIdString() == "ODM")
-      {
-
-
-        if(_periodicFilterUpdaters.at(i)->tryToUpdate())
-        {
-          ros::Time stamp =  ((FilterUpdaterMeasurementOCS*) _periodicFilterUpdaters.at(i))->getMeasurement()->getStamp();
-          std::cout << _periodicFilterUpdaters.at(i)->getIdString() << ": " << stamp << " ";
-        }
-
-      }
-      else
-      {
-        _periodicFilterUpdaters.at(i)->tryToUpdate();
-      }
-    }
-
-    std::cout << std::endl;
-  }
-
-  // overload < in filterUpdaterMeasurement to sort vector with timestamps?
-  if(true)
-  {
-    for(unsigned int i = 0; i < _periodicFilterUpdaters.size(); i++)
-    {
-      if(_periodicFilterUpdaters.at(i)->getIdString() != "ODM")
-        _periodicFilterUpdaters.at(i)->tryToUpdate();
-    }
-
-    for(unsigned int i = 0; i < _periodicFilterUpdaters.size(); i++)
-    {
-      if(_periodicFilterUpdaters.at(i)->getIdString() == "ODM")
-        _periodicFilterUpdaters.at(i)->tryToUpdate();
-    }
+    _periodicFilterUpdatersWithoutMeasurement.at(i)->tryToUpdate();
   }
 
 }
@@ -201,7 +127,7 @@ bool FilterController::connectOdomMeasurement(IOdomMeasurement* odom, OdomDiffPa
   // everything ok...
   _odomUpdater = new DiffDriveUpdater(_filter, odom, _ocsObserver, params, "ODM");
   _ocsObserver->registerClient(_odomUpdater, _filterParams.OCSThresholdOdom);
-  _periodicFilterUpdaters.push_back(_odomUpdater);
+  _periodicFilterUpdatersWithMeasurement.push_back(_odomUpdater);
   return true;
 }
 
@@ -233,7 +159,7 @@ bool FilterController::connectLaserMeasurement(ILaserMeasurement* laser, unsigne
 
   _laserUpdaters.at(laserId) = new LaserProbMapUpdater(_filter, _probMap, laser, _mapUpdater, _filterParams.minValidScanRaysFactor, "LPM");
   _ocsObserver->registerClient(_laserUpdaters.at(laserId), _filterParams.OCSThresholdLaser);
-  _periodicFilterUpdaters.push_back(_laserUpdaters.at(laserId));
+  _periodicFilterUpdatersWithMeasurement.push_back(_laserUpdaters.at(laserId));
   return true;
 }
 
@@ -262,7 +188,7 @@ bool FilterController::connectCeilCamMeasurement(ICeilCamMeasurement* ceilCam)
 
   // everything ok...
   _ceilCamUpdater = new CeilCamUpdater(_filter, ceilCam, _mapUpdater, "CCM");
-  _periodicFilterUpdaters.push_back(_ceilCamUpdater);
+  _periodicFilterUpdatersWithMeasurement.push_back(_ceilCamUpdater);
   return true;
 }
 
@@ -282,7 +208,7 @@ bool FilterController::connectFilterOutput(IFilterOutput* output)
 
   _filterOutput = output;
   _outputUpdater = new FilterOutputUpdater(_filterOutput, _filter, "OUT");
-  _periodicFilterUpdaters.push_back(_outputUpdater);
+  _periodicFilterUpdatersWithoutMeasurement.push_back(_outputUpdater);
   return true;
 }
 

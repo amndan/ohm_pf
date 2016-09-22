@@ -44,7 +44,7 @@
     <arg name="skipParticleForGui" value="10" />
     <arg name="resamplingIntervallFilter" value="0.5" />
     <arg name="outputIntervallFilter" value="0.1" />
-    <arg name="filterLoopRate" value="50" />
+    <arg name="filterLoopRate" value="20" />
     </include>
 
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ohm_pf)/rviz/ohm_pf_stdr.rviz" />

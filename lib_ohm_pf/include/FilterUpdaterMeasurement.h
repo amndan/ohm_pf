@@ -45,7 +45,18 @@ public:
    */
   virtual bool tryToUpdate();
 
-  IMeasurement* getMeasurement();
+  IMeasurement* getMeasurement() const;
+
+  inline bool operator< (const FilterUpdaterMeasurement& rhs)
+  {
+    std::cout << "called" << std::endl;
+    return this->getMeasurement()->getStamp() < rhs.getMeasurement()->getStamp();
+  }
+
+  inline bool operator< (const FilterUpdaterMeasurement*& rhs)
+  {
+    return operator< (*rhs);
+  }
 
 protected:
   ros::Time _lastStamp;

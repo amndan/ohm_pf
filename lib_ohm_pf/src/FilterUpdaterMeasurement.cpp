@@ -33,7 +33,7 @@ bool FilterUpdaterMeasurement::tryToUpdate()
   }
 }
 
-IMeasurement* FilterUpdaterMeasurement::getMeasurement()
+IMeasurement* FilterUpdaterMeasurement::getMeasurement() const
 {
   return _measurement;
 }
