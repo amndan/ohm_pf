@@ -20,6 +20,9 @@ OdomUpdater::OdomUpdater(Filter* filter, IOdomMeasurement* measurement, OCSObser
 bool OdomUpdater::tryToUpdate()
 {
   _ocsObserver->update(_odomMeasurement);
+
+  _filter->setStamp(_odomMeasurement->getStamp()); // push time ahead
+
   return FilterUpdaterMeasurementOCS::tryToUpdate();
 }
 

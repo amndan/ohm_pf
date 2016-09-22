@@ -15,6 +15,7 @@ Filter::Filter(FilterParams_t params) :
 {
   _params = params;
   _filterState.probPose = 0.0;
+  _stamp = ros::Time::now();
 }
 
 unsigned int Filter::getSamplesMax()
@@ -52,4 +53,16 @@ FilterParams_t Filter::getParams()
   return _params;
 }
 
+void Filter::setStamp(ros::Time stamp)
+{
+  _stamp = stamp;
+}
+
+ros::Time Filter::getStamp()
+{
+  return _stamp;
+}
+
 } /* namespace ohmPf */
+
+

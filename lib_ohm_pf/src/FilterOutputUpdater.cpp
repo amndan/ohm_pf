@@ -43,7 +43,7 @@ namespace ohmPf
 
   void FilterOutputUpdater::update()
   {
-    _filterOutput->onOutputPoseChanged(updateTf());
+    _filterOutput->onOutputPoseChanged(updateTf(), _filter->getStamp());
     _filterOutput->onSampleSetChanged(*(_filter->getSamples()));
 
     // update prob of samples TODO: this one should go elsewhere

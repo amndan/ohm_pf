@@ -80,10 +80,21 @@ public:
    */
   FilterParams_t getParams();
 
+  /**
+   * @param stamp setter for timestamp of filter. It is used for pose output of filter.
+   */
+  void setStamp(ros::Time stamp);
+
+  /**
+   * @return getter for timestamp of filter. It is used for pose output of filter.
+   */
+  ros::Time getStamp();
+
 private:
   FilterParams_t _params;
   SampleSet _sampleSet;
   FilterState_t _filterState;
+  ros::Time _stamp;
 };
 
 } /* namespace ohmPf */

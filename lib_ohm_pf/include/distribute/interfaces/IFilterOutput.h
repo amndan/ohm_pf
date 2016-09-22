@@ -12,6 +12,7 @@
 #include <vector>
 #include "Eigen/Dense"
 #include "FilterState.h"
+#include "ros/time.h"
 
 namespace ohmPf
 {
@@ -35,7 +36,7 @@ public:
    * be a ocs client too?
    * @param pose The filter output pose: x y yaw
    */
-  virtual void onOutputPoseChanged(Eigen::Vector3d pose) = 0;
+  virtual void onOutputPoseChanged(Eigen::Vector3d pose, ros::Time stamp) = 0;
 
   /**
    * @brief Gets called if the filters state struct has changed.
