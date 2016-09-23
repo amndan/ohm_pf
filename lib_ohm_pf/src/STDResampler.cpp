@@ -27,6 +27,9 @@ void STDResampler::update()
     assert(countSamples > 0);
     set->normalize();
 
+    //double stabwOfSamples = getStabwOfSamples(*set->getSamples());
+    //std::cout << "SOW" << stabwOfSamples << std::endl;
+
     std::vector<double> weightsCumsum;
     std::vector<Sample_t> newSamples;
 

@@ -37,6 +37,8 @@ void LaserProbMapUpdater::calculate()
 
   Eigen::Matrix3Xd coordsTf;
   Eigen::Matrix3d tf;
+  std::vector<double> weights;
+  weights.reserve(samples->size());
   double laserUncertainty = _laserMeasurement->getUncertainty();
 
   for (unsigned int i = 0; i < samples->size(); i++) // each sample
@@ -48,8 +50,16 @@ void LaserProbMapUpdater::calculate()
     coordsTf = _map->getTfMapToMapOrigin().inverse() * tf * _laserMeasurement->getTfBaseFootprintToLaser() * coords;
 
     // lookup probs
-    samples->at(i).weight = static_cast<ProbMap*>(_map)->getProbability(coordsTf, laserUncertainty);
+    samples->at(i).weight *= static_cast<ProbMap*>(_map)->getProbability(coordsTf, laserUncertainty);
+
+    // save probs for mean of probs
+    weights.push_back(samples->at(i).weight);
   }
+
+  //double meanOfWeights = std::accumulate(weights.begin(), weights.end(), 0.0);
+  //std::cout << "MOW" << meanOfWeights / (double) samples->size() << std::endl;
+
+
 
   _filter->getSampleSet()->boostWeights();
   if (_updateFilterMap != NULL)
