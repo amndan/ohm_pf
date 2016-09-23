@@ -13,6 +13,13 @@ namespace ohmPf
   OhmPfNode::OhmPfNode() :
       _nh(), _prvNh("~")
   {
+
+    ROS_INFO("Waiting for ros time initialization.."); // waiting for clock server in use_sim_time mode
+    while(ros::Time::now().toSec() == 0 && ros::ok())
+    {
+    }
+    ROS_INFO_STREAM("Got first ros time now: " << ros::Time::now().toSec() << ". Initialized");
+
     std::string rawLaserTopicString;
     _prvNh.param<std::string>("tfFixedFrame", _paramSet.tfFixedFrame, "/map");
     _prvNh.param<std::string>("tfBaseFootprintFrame", _paramSet.tfBaseFootprintFrame, "base_footprint_ekf");
@@ -237,7 +244,6 @@ namespace ohmPf
     assert(_filterController->connectFilterOutput(_filterOutput));
 
     _ceilCamMeasurement = new ROSCeilCamMeasurement();
-
     //todo: get odom Params from Launchfile
     _odomDiffParams.a1 = 0.01;  // rot error from rot motion
     _odomDiffParams.a2 = 10.0;  // rot error from trans motion
