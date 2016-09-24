@@ -84,7 +84,7 @@
         <param name="OCSRotToTransFactor" type="double" value="8.0" />
         <param name="minimumValidScanRaysFactor" type="double" value="0.5" />
         <param name="additionalTranslationalNoise" type="double" value="0.2" />
-        <param name="additionalRotationalNoise" type="double" value="0.2" /> <!-- 10.0 / 180.0 * M_PI = 0.17 == 10° -->
+        <param name="additionalRotationalNoise" type="double" value="0.17" /> <!-- 10.0 / 180.0 * M_PI = 0.17 == 10° -->
         <param name="lowVarianceFactor" type="int" value="3" />
     </node>
 

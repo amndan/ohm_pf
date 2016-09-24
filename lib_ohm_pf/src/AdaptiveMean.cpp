@@ -30,7 +30,7 @@ double AdaptiveMean::getQuotient()
   {
     if(_slowMean == 0.0)
     {
-      return std::numeric_limits<double>::max();
+      return 0;
     }
     else
     {

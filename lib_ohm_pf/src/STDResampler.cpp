@@ -56,7 +56,7 @@ void STDResampler::update()
     double addRand;
     if(_useAdaptiveMean)
     {
-      addRand = std::max(1.0 - _filter->getFilterState()->probPose, _filter->getFilterState()->adaptiveMeanQuotient);
+      addRand = 0.5 * (1.0 - _filter->getFilterState()->probPose) + 0.5 * _filter->getFilterState()->adaptiveMeanQuotient;
 
       if(addRand < 0 || addRand > 1)
       {
