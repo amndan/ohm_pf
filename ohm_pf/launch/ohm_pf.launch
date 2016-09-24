@@ -75,15 +75,15 @@
         <param name="OCSThresholdOdom" type="double" value="$(arg OCSThresholdOdom)" />
         <param name="OCSThresholdResampler" type="double" value="$(arg OCSThresholdResampler)" />
 
-        <param name="useAdaptiveMean" type="bool" value="true" />
+        <param name="useAdaptiveMean" type="bool" value="false" />
         <param name="alphaFast" type="double" value="0.055" />
         <param name="alphaSlow" type="double" value="0.048" />
         
-        <param name="minStabwToResample" type="double" value="0.0001" />
+        <param name="minStabwToResample" type="double" value="0.0" /> <!-- 0 for not using stabw for resampling-->
         
         <param name="OCSRotToTransFactor" type="double" value="8.0" />
         <param name="minimumValidScanRaysFactor" type="double" value="0.5" />
-        <param name="additionalTranslationalNoise" type="double" value="0.2" />
+        <param name="additionalTranslationalNoise" type="double" value="0.05" />
         <param name="additionalRotationalNoise" type="double" value="0.17" /> <!-- 10.0 / 180.0 * M_PI = 0.17 == 10° -->
         <param name="lowVarianceFactor" type="int" value="3" />
     </node>
