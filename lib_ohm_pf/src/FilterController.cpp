@@ -157,19 +157,17 @@ bool FilterController::connectLaserMeasurement(ILaserMeasurement* laser, unsigne
     return false;
   }
 
-  if(laserId == 0)
+  if(laserId == 0 && _filter->getParams().useAdaptiveMean)
   {
     // set activateAdaptiveMean to true for more sample analysis
     // only one laser updater should set this to true
     _laserUpdaters.at(laserId) = new LaserProbMapUpdater(
-        _filter, _probMap, laser, _mapUpdater, _filterParams.minValidScanRaysFactor, "LPM", false);
-
+        _filter, _probMap, laser, _mapUpdater, _filterParams.minValidScanRaysFactor, "LPM", true);
   }
   else
   {
     _laserUpdaters.at(laserId) = new LaserProbMapUpdater(
         _filter, _probMap, laser, _mapUpdater, _filterParams.minValidScanRaysFactor, "LPM", false);
-
   }
 
   _ocsObserver->registerClient(_laserUpdaters.at(laserId), _filterParams.OCSThresholdLaser);

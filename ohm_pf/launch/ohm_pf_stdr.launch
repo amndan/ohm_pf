@@ -27,19 +27,19 @@
     <arg name="samplesMax" value="5000" />
     <arg name="samplesMin" value="50" />
     <arg name="topScan" value="/robot0/laser_0;/robot0/laser_1" />
-    <arg name="maxDistanceProbMap" value="60" />
+    <arg name="maxDistanceProbMap" value="30" />
     <arg name="subsamplingRateLaser" value="5" />
     <arg name="uncertaintyLaser" value="0.3" />
     <arg name="resamplingMethod" value="STD" />
     <arg name="initX" value="2.0" />
     <arg name="initY" value="2.0" />
     <arg name="initPhi" value="0.0" />
-    <arg name="initSigmaTrans" value="0.1" />
-    <arg name="initSigmaRot" value="0.1" />
+    <arg name="initSigmaTrans" value="0.01" />
+    <arg name="initSigmaRot" value="0.01" />
     <arg name="initMode" value="GL" />
-    <arg name="OCSThresholdLaser" value="0.2" />
+    <arg name="OCSThresholdLaser" value="0.01" />
     <arg name="OCSThresholdOdom" value="0.001" />
-    <arg name="OCSThresholdResampler" value="0.2" />
+    <arg name="OCSThresholdResampler" value="0.001" />
     <arg name="countLasers" value="2" />
     <arg name="skipParticleForGui" value="10" />
     <arg name="resamplingIntervallFilter" value="0.5" />

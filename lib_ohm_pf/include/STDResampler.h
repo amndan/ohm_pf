@@ -46,6 +46,8 @@ private:
 
   double _addNoiseSigmaRot;
   double _addNoiseSigmaTrans;
+  double _minStabwToResample;
+  bool _useAdaptiveMean;
 };
 
 } /* namespace ohmPf */

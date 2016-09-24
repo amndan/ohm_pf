@@ -34,6 +34,10 @@ typedef struct
   unsigned int resamplerLowVarianceFactor;
   double OCSRotToTransFactor;
   unsigned int maxDistanceProbMap;
+  bool useAdaptiveMean;
+  double minStabwToResample;
+  double alphaFast;
+  double alphaSlow;
 } FilterParams_t;
 
 } /* namespace ohmPf */

@@ -43,12 +43,14 @@ public:
    * @todo Implement minValidRaysFactor support.
    * @todo Implement subsampling of laser measurents with rates < 2.
    */
-  LaserProbMapUpdater(Filter* filter, ProbMap* map, ILaserMeasurement* measurement, MapUpdater* updateFilterMap, double minValidRaysFactor, std::string idString, bool activateAdaptiveMean);
+  LaserProbMapUpdater(Filter* filter, ProbMap* map, ILaserMeasurement* measurement,
+      MapUpdater* updateFilterMap, double minValidRaysFactor, std::string idString,
+      bool activateAdaptiveMean);
 
   /**
-   * Destructor (empty)
+   * Destructor
    */
-  virtual ~LaserProbMapUpdater(){};
+  virtual ~LaserProbMapUpdater();
 
   /**
    * @brief Actualize the filter with the scan and the probability map.
@@ -68,7 +70,7 @@ private:
 
   double _minValidRaysFactor;
   bool _adaptiveMeanIsActive;
-  AdaptiveMean _adaptiveMean;
+  AdaptiveMean* _adaptiveMean;
 };
 
 } /* namespace ohmPf */

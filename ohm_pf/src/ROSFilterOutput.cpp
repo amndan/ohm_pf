@@ -17,6 +17,8 @@ ROSFilterOutput::ROSFilterOutput(OhmPfNodeParams_t paramSet) :
   ros::NodeHandle nh = ros::NodeHandle();
   _pubPoseArray = nh.advertise<geometry_msgs::PoseArray>(_paramSet.topParticleCloud, 1, true);
   _pubProbPose = nh.advertise<std_msgs::Float32>(_paramSet.topProbPose, 1, true);
+  _pubAdaptiveMeanQuotient = nh.advertise<std_msgs::Float32>("adapMean", 1, true);
+  _pubStabWeights = nh.advertise<std_msgs::Float32>("stabWeights", 1, true);
   _pubPose = nh.advertise<geometry_msgs::PoseStamped>("pose", 1, true); // TODO: launchfile param
 
   _skipParticleForGui = std::abs(paramSet.skipParticleForGui);
@@ -88,8 +90,15 @@ void ROSFilterOutput::onSampleSetChanged(const std::vector<Sample_t>& samples)
 void ROSFilterOutput::onFilterStateChanged(FilterState_t state)
 {
   std_msgs::Float32 msg;
+
   msg.data = state.probPose;
   _pubProbPose.publish(msg);
+
+  msg.data = state.adaptiveMeanQuotient;
+  _pubAdaptiveMeanQuotient.publish(msg);
+
+  msg.data = state.stabWeights;
+  _pubStabWeights.publish(msg);
 }
 
 void ROSFilterOutput::publishMapOdom()

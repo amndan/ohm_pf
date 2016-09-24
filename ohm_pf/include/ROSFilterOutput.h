@@ -73,6 +73,8 @@ private:
   ros::Publisher _pubPoseArray;
   ros::Publisher _pubPose;
   ros::Publisher _pubProbPose;
+  ros::Publisher _pubStabWeights;
+  ros::Publisher _pubAdaptiveMeanQuotient;
   OhmPfNodeParams_t _paramSet;
   tf::TransformBroadcaster _tfBroadcaster;
   tf::TransformListener _tfListener;

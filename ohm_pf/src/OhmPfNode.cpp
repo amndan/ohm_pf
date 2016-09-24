@@ -78,6 +78,10 @@ namespace ohmPf
 
     _prvNh.param<std::string>("initMode", _paramSet.initMode, "GL");
 
+    _prvNh.param<double>("alphaFast", _filterParams.alphaFast, 0.055);
+    _prvNh.param<double>("alphaSlow", _filterParams.alphaSlow, 0.04);
+    _prvNh.param<double>("minStabwToResample", _filterParams.minStabwToResample, 0.0003);
+    _prvNh.param<bool>("useAdaptiveMean", _filterParams.useAdaptiveMean, false);
 
     _loopRate = new ros::Rate(_filterParams.filterLoopRate);
 
@@ -193,7 +197,7 @@ namespace ohmPf
       _filterOutput->publishMapOdom();  // publish map->odom
       if(!_loopRate->sleep())
       {
-        ROS_DEBUG("Filter cannot reach its desired rate of %f Hz", _filterParams.filterLoopRate);
+        ROS_INFO("Filter cannot reach its desired rate of %f Hz", _filterParams.filterLoopRate);
       }
     }
   }

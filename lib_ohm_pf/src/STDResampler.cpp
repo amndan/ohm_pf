@@ -15,24 +15,22 @@ STDResampler::STDResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot, F
 {
   _addNoiseSigmaRot = std::abs(addNoiseSigmaRot);
   _addNoiseSigmaTrans = std::abs(addNoiseSigmaTrans);
+  _useAdaptiveMean = filter->getParams().useAdaptiveMean;
+  _minStabwToResample = filter->getParams().minStabwToResample;
 }
+
 
 void STDResampler::update()
 {
-
-//  if(_filter->getFilterState()->stabWeights < 0.0005)
-//  {
-//    return;
-//  }
-
-
 
   if(this->getOCSFlag() == true)
   {
     SampleSet* set = _filter->getSampleSet();
     std::vector<Sample_t>* samples = set->getSamples();
     unsigned int countSamples = set->getCountSamples();
+
     assert(countSamples > 0);
+
     set->normalize();
 
     std::vector<double> weightsCumsum;
@@ -45,7 +43,30 @@ void STDResampler::update()
       weightsCumsum.push_back(samples->at(i).weight);
     }
 
-    //std::cout << "stabw:" << getStabw(weightsCumsum) << std::endl;
+    _filter->getFilterState()->stabWeights = getStabw(weightsCumsum);
+    _filter->getFilterState()->probPose = getQualityOfSamples(*(_filter->getSamples()));
+
+    if(_filter->getFilterState()->stabWeights < _minStabwToResample)
+    {
+      return; // dont resample
+    }
+
+    //calculate additional randomness factor
+
+    double addRand;
+    if(_useAdaptiveMean)
+    {
+      addRand = std::max(1.0 - _filter->getFilterState()->probPose, _filter->getFilterState()->adaptiveMeanQuotient);
+
+      if(addRand < 0 || addRand > 1)
+      {
+        std::cout << __PRETTY_FUNCTION__ << "--> warning addRandFactor is not [0;1] its: " << addRand << std::endl;
+      }
+    }
+    else
+    {
+      addRand = 1.0;
+    }
 
     std::partial_sum(weightsCumsum.begin(), weightsCumsum.end(), weightsCumsum.begin());
 
@@ -59,7 +80,8 @@ void STDResampler::update()
         if(rand < weightsCumsum[j])
         {
           newSamples.push_back(samples->at(j));
-          addGaussianRandomness(newSamples[i], _addNoiseSigmaTrans, _addNoiseSigmaRot);
+          addGaussianRandomness(newSamples[i], _addNoiseSigmaTrans * addRand, _addNoiseSigmaRot * addRand);
+          addGaussianRandomness(newSamples[i], _addNoiseSigmaTrans * addRand, _addNoiseSigmaRot * addRand);
           newSamples[i].weight = 1.0 / countSamples;
           break;
         }

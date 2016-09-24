@@ -43,8 +43,8 @@ void AdaptiveMean::addValue(double value)
 {
   if(!_initialized)
   {
-    _slowMean = value;
-    _fastMean = value;
+    _slowMean = 0;// = value;
+    _fastMean = 0;// = value;
     _initialized = true;
   }
   else
@@ -52,8 +52,8 @@ void AdaptiveMean::addValue(double value)
     _slowMean = _slowMean + _aSlow * (value - _slowMean);
     _fastMean = _fastMean + _aFast * (value - _fastMean);
 
-    std::cout << "fast: " << _fastMean << " slow: " << _slowMean<< " mean: " << value<<
-        " qout: " << _fastMean / _slowMean << " ret: " << std::max(0.0, 1 - _fastMean / _slowMean) <<  std::endl;
+   // std::cout << "fast: " << _fastMean << " slow: " << _slowMean<< " mean: " << value<<
+   //     " qout: " << _fastMean / _slowMean << " ret: " << std::max(0.0, 1 - _fastMean / _slowMean) <<  std::endl;
   }
 }
 

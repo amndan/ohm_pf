@@ -45,11 +45,6 @@ namespace ohmPf
   {
     _filterOutput->onOutputPoseChanged(updateTf(), _filter->getStamp());
     _filterOutput->onSampleSetChanged(*(_filter->getSamples()));
-
-    // update prob of samples TODO: this one should go elsewhere
-    // filter state is more than prob; its sample count etc. updating this values should not happen here
-    _filter->getFilterState()->probPose = getQualityOfSamples(*(_filter->getSamples()));
-
     _filterOutput->onFilterStateChanged(*(_filter->getFilterState()));
   }
 

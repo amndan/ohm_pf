@@ -10,11 +10,21 @@
 namespace ohmPf
 {
 
-LaserProbMapUpdater::LaserProbMapUpdater(Filter* filter, ProbMap* map, ILaserMeasurement* measurement, MapUpdater* updateFilterMap, double minValidRaysFactor, std::string idString, bool activateAdaptiveMean) :
-    LaserUpdater(filter, map, measurement, updateFilterMap, idString),
-    _adaptiveMean(0.06, 0.04)
+LaserProbMapUpdater::LaserProbMapUpdater(Filter* filter, ProbMap* map, ILaserMeasurement* measurement,
+    MapUpdater* updateFilterMap, double minValidRaysFactor, std::string idString, bool activateAdaptiveMean) :
+    LaserUpdater(filter, map, measurement, updateFilterMap, idString)
+
 {
   _adaptiveMeanIsActive = activateAdaptiveMean;
+
+  if(activateAdaptiveMean)
+  {
+    _adaptiveMean = new AdaptiveMean(filter->getParams().alphaFast, filter->getParams().alphaSlow);
+  }
+  else
+  {
+    _adaptiveMean = NULL;
+  }
 
   if(minValidRaysFactor > 1.0 || minValidRaysFactor <= 0.0)
   {
@@ -28,6 +38,11 @@ LaserProbMapUpdater::LaserProbMapUpdater(Filter* filter, ProbMap* map, ILaserMea
   {
     _minValidRaysFactor = minValidRaysFactor;
   }
+}
+
+LaserProbMapUpdater::~LaserProbMapUpdater()
+{
+  delete _adaptiveMean;
 }
 
 void LaserProbMapUpdater::calculate()
@@ -62,16 +77,8 @@ void LaserProbMapUpdater::calculate()
   if(_adaptiveMeanIsActive)
   {
     double meanOfWeights = std::accumulate(weights.begin(), weights.end(), 0.0);
-    _adaptiveMean.addValue(meanOfWeights);
-    _filter->getFilterState()->adaptiveMeanQuotient = _adaptiveMean.getQuotient();
-
-    _filter->getSampleSet()->normalize();
-
-    for(int i = 0; i < samples->size(); i++)
-    {
-      weights.at(i) = (samples->at(i).weight);
-    }
-    _filter->getFilterState()->stabWeights = getStabw(weights);
+    _adaptiveMean->addValue(meanOfWeights);
+    _filter->getFilterState()->adaptiveMeanQuotient = _adaptiveMean->getQuotient();
   }
 
   _filter->getSampleSet()->boostWeights();
