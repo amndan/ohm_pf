@@ -36,7 +36,20 @@
     <arg name="skipParticleForGui" default="10" />
     <arg name="countLasers" default="1" />
     <arg name="filterLoopRate" default="20" />
-    
+    <arg name="useAdaptiveMean" default="false" />
+    <arg name="alphaFast" default="0.055" />
+    <arg name="alphaSlow" default="0.048" />
+    <arg name="minStabwToResample" default="0.0" /> <!-- 0 for not using stabw for resampling-->
+    <arg name="OCSRotToTransFactor"  default="8.0" />
+    <arg name="minimumValidScanRaysFactor"  default="0.5" />
+    <arg name="additionalTranslationalNoise"  default="0.05" />
+    <arg name="additionalRotationalNoise"  default="0.17" /> <!-- 10.0 / 180.0 * M_PI = 0.17 == 10° -->
+    <arg name="lowVarianceFactor"  default="3" />
+    <arg name="odomAlpha1"  default="0.01" /> <!-- rot error from rot motion  -->
+    <arg name="odomAlpha2"  default="10.0" /> <!-- rot error from trans motion  -->
+    <arg name="odomAlpha3"  default="0.01" /> <!-- trans error from trans motion  -->
+    <arg name="odomAlpha4"  default="0.001" /> <!--  trans error from rot motion -->
+
     <!-- ******************* -->
     <!-- For Debugging: <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" launch-prefix="xterm -e cgdb -ex run -->  <!--args": append this; xml comment problem here -->
     <node name="ohm_pf_node" pkg="ohm_pf" type="OhmPfNode" output="$(arg output)" >
@@ -75,17 +88,22 @@
         <param name="OCSThresholdOdom" type="double" value="$(arg OCSThresholdOdom)" />
         <param name="OCSThresholdResampler" type="double" value="$(arg OCSThresholdResampler)" />
 
-        <param name="useAdaptiveMean" type="bool" value="false" />
-        <param name="alphaFast" type="double" value="0.055" />
-        <param name="alphaSlow" type="double" value="0.048" />
+		<param name="odomAlpha1" type="double" value="$(arg odomAlpha1)" />
+		<param name="odomAlpha2" type="double" value="$(arg odomAlpha2)" />
+		<param name="odomAlpha3" type="double" value="$(arg odomAlpha3)" />
+		<param name="odomAlpha4" type="double" value="$(arg odomAlpha4)" />
+
+        <param name="useAdaptiveMean" type="bool" value="$(arg useAdaptiveMean)" />
+        <param name="alphaFast" type="double" value="$(arg alphaFast)" />
+        <param name="alphaSlow" type="double" value="$(arg alphaSlow)" />
         
-        <param name="minStabwToResample" type="double" value="0.0" /> <!-- 0 for not using stabw for resampling-->
+        <param name="minStabwToResample" type="double" value="$(arg minStabwToResample)" /> <!-- 0 for not using stabw for resampling-->
         
-        <param name="OCSRotToTransFactor" type="double" value="8.0" />
-        <param name="minimumValidScanRaysFactor" type="double" value="0.5" />
-        <param name="additionalTranslationalNoise" type="double" value="0.05" />
-        <param name="additionalRotationalNoise" type="double" value="0.17" /> <!-- 10.0 / 180.0 * M_PI = 0.17 == 10° -->
-        <param name="lowVarianceFactor" type="int" value="3" />
+        <param name="OCSRotToTransFactor" type="double" value="$(arg OCSRotToTransFactor)" />
+        <param name="minimumValidScanRaysFactor" type="double" value="$(arg minimumValidScanRaysFactor)" />
+        <param name="additionalTranslationalNoise" type="double" value="$(arg additionalTranslationalNoise)" />
+        <param name="additionalRotationalNoise" type="double" value="$(arg additionalRotationalNoise)" /> <!-- 10.0 / 180.0 * M_PI = 0.17 == 10° -->
+        <param name="lowVarianceFactor" type="int" value="$(arg lowVarianceFactor)" />
     </node>
 
 </launch>

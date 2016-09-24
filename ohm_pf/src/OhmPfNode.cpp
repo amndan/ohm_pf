@@ -73,6 +73,11 @@ namespace ohmPf
     _prvNh.param<double>("OCSThresholdResampler", _filterParams.OCSThresholdResampler, 0.2);
     _prvNh.param<double>("OCSRotToTransFactor", _filterParams.OCSRotToTransFactor, 8.0);
 
+    _prvNh.param<double>("odomAlpha1", _odomDiffParams.a1, 0.01); // rot error from rot motion
+    _prvNh.param<double>("odomAlpha2", _odomDiffParams.a2, 10.0); // rot error from trans motion
+    _prvNh.param<double>("odomAlpha3", _odomDiffParams.a3, 0.01); // trans error from trans motion
+    _prvNh.param<double>("odomAlpha4", _odomDiffParams.a4, 0.001); // trans error from rot motion
+
     _prvNh.param<double>("initSigmaTrans", _paramSet.initSigmaTrans, 0.5);
     _prvNh.param<double>("initSigmaRot", _paramSet.initSigmaRot, 180 / M_PI * 10);
 
@@ -248,11 +253,6 @@ namespace ohmPf
     assert(_filterController->connectFilterOutput(_filterOutput));
 
     _ceilCamMeasurement = new ROSCeilCamMeasurement();
-    //todo: get odom Params from Launchfile
-    _odomDiffParams.a1 = 0.01;  // rot error from rot motion
-    _odomDiffParams.a2 = 10.0;  // rot error from trans motion
-    _odomDiffParams.a3 = 0.01;  // trans error from trans motion
-    _odomDiffParams.a4 = 0.001;  // trans error from rot motion
     _odomMeasurement = new ROSOdomMeasurement();
 
   }
