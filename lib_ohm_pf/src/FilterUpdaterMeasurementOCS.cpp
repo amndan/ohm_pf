@@ -13,8 +13,8 @@ namespace ohmPf
 FilterUpdaterMeasurementOCS::FilterUpdaterMeasurementOCS(IMeasurement* measurement, Filter* filter, std::string idString) :
     FilterUpdaterMeasurement(measurement, filter, idString), OCSClient()
 {
-  //filter->getOCSObserver.registerClient(this);
-  // inherit private from ocs client??
+  ///@todo filter->getOCSObserver.registerClient(this);
+  /// inherit private from ocs client??
 
   _OCSactive = true;
 

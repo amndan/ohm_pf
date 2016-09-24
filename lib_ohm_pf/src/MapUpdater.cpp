@@ -24,7 +24,11 @@ namespace ohmPf
     {
       if(_map->isOccupied(it->pose(0), it->pose(1)) == OCC_STATES::OCCUPIED)
       {
-        it->weight = 0.0;
+        it->weight *= 0.1;
+      }
+      else
+      {
+        it->weight *= 0.9;
       }
     }
   }

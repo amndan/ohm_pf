@@ -19,6 +19,14 @@ STDResampler::STDResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot, F
 
 void STDResampler::update()
 {
+
+//  if(_filter->getFilterState()->stabWeights < 0.0005)
+//  {
+//    return;
+//  }
+
+
+
   if(this->getOCSFlag() == true)
   {
     SampleSet* set = _filter->getSampleSet();
@@ -27,15 +35,11 @@ void STDResampler::update()
     assert(countSamples > 0);
     set->normalize();
 
-    //double stabwOfSamples = getStabwOfSamples(*set->getSamples());
-    //std::cout << "SOW" << stabwOfSamples << std::endl;
-
     std::vector<double> weightsCumsum;
     std::vector<Sample_t> newSamples;
 
     weightsCumsum.reserve(countSamples);
     newSamples.reserve(countSamples);
-
     for(int i = 0; i < samples->size(); i++)
     {
       weightsCumsum.push_back(samples->at(i).weight);

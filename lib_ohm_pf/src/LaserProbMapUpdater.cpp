@@ -10,9 +10,12 @@
 namespace ohmPf
 {
 
-LaserProbMapUpdater::LaserProbMapUpdater(Filter* filter, ProbMap* map, ILaserMeasurement* measurement, MapUpdater* updateFilterMap, double minValidRaysFactor, std::string idString) :
-    LaserUpdater(filter, map, measurement, updateFilterMap, idString)
+LaserProbMapUpdater::LaserProbMapUpdater(Filter* filter, ProbMap* map, ILaserMeasurement* measurement, MapUpdater* updateFilterMap, double minValidRaysFactor, std::string idString, bool activateAdaptiveMean) :
+    LaserUpdater(filter, map, measurement, updateFilterMap, idString),
+    _adaptiveMean(0.06, 0.04)
 {
+  _adaptiveMeanIsActive = activateAdaptiveMean;
+
   if(minValidRaysFactor > 1.0 || minValidRaysFactor <= 0.0)
   {
     std::cout << __PRETTY_FUNCTION__ << "--> minValidRaysFactor must be in between intervall ]0.0;1.0]"
@@ -52,22 +55,32 @@ void LaserProbMapUpdater::calculate()
     // lookup probs
     samples->at(i).weight *= static_cast<ProbMap*>(_map)->getProbability(coordsTf, laserUncertainty);
 
-    // save probs for mean of probs
-    weights.push_back(samples->at(i).weight);
+    if(_adaptiveMeanIsActive)
+      weights.push_back(samples->at(i).weight);
   }
 
-  //double meanOfWeights = std::accumulate(weights.begin(), weights.end(), 0.0);
-  //std::cout << "MOW" << meanOfWeights / (double) samples->size() << std::endl;
+  if(_adaptiveMeanIsActive)
+  {
+    double meanOfWeights = std::accumulate(weights.begin(), weights.end(), 0.0);
+    _adaptiveMean.addValue(meanOfWeights);
+    _filter->getFilterState()->adaptiveMeanQuotient = _adaptiveMean.getQuotient();
 
+    _filter->getSampleSet()->normalize();
 
+    for(int i = 0; i < samples->size(); i++)
+    {
+      weights.at(i) = (samples->at(i).weight);
+    }
+    _filter->getFilterState()->stabWeights = getStabw(weights);
+  }
 
   _filter->getSampleSet()->boostWeights();
-  if (_updateFilterMap != NULL)
-    _updateFilterMap->tryToUpdate();
-  _filter->getSampleSet()->normalize();
 
-  //_filter->getSampleSet()->normalize();
-  //_filter->getSampleSet()->resample(); // todo: should we do that here??
+  if (_updateFilterMap != NULL)
+  {
+    _updateFilterMap->tryToUpdate();
+  }
+
 }
 
 Eigen::Matrix3Xd LaserProbMapUpdater::rangesToCoordinates(ILaserMeasurement& measurement)

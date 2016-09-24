@@ -147,6 +147,7 @@ add_library(OhmPf
     src/ProbMap.cpp
     src/IMap.cpp
     src/Timer.cpp
+    src/AdaptiveMean.cpp
 )
 
 add_library(ROSTimeOhmPf

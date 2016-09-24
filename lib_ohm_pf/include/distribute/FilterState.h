@@ -19,7 +19,8 @@ namespace ohmPf
 typedef struct
 {
   double probPose;
-  //double countSamples;
+  double stabWeights;
+  double adaptiveMeanQuotient;
 } FilterState_t;
 
 } /* namespace ohmPf */

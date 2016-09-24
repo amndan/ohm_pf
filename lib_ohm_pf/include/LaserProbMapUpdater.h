@@ -17,6 +17,7 @@
 #include "UtilitiesOhmPf.h"
 #include "Eigen/Dense"
 #include "Timer.h"
+#include "AdaptiveMean.h"
 
 namespace ohmPf
 {
@@ -42,7 +43,7 @@ public:
    * @todo Implement minValidRaysFactor support.
    * @todo Implement subsampling of laser measurents with rates < 2.
    */
-  LaserProbMapUpdater(Filter* filter, ProbMap* map, ILaserMeasurement* measurement, MapUpdater* updateFilterMap, double minValidRaysFactor, std::string idString);
+  LaserProbMapUpdater(Filter* filter, ProbMap* map, ILaserMeasurement* measurement, MapUpdater* updateFilterMap, double minValidRaysFactor, std::string idString, bool activateAdaptiveMean);
 
   /**
    * Destructor (empty)
@@ -66,6 +67,8 @@ private:
   Eigen::Matrix3Xd rangesToCoordinates(ILaserMeasurement& measurement);
 
   double _minValidRaysFactor;
+  bool _adaptiveMeanIsActive;
+  AdaptiveMean _adaptiveMean;
 };
 
 } /* namespace ohmPf */

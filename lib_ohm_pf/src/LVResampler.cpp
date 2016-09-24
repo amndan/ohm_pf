@@ -38,6 +38,9 @@ void LVResampler::update()
 
     set->normalize();
 
+//    double stabwOfSamples = getStabwOfSamples(*set->getSamples());
+//    _filter->getFilterState()->stabWeights = stabwOfSamples;
+
     std::vector<double> weightsCumsum;
     std::vector<Sample_t> newSamples;
 
