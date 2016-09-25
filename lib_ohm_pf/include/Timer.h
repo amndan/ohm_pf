@@ -36,8 +36,8 @@ public:
 private:
   void openStream();
   void writeToStream();
-  ros::Time _stamp;
-  ros::Duration _time;
+  ros::WallTime _stamp;
+  ros::WallDuration _time;
   std::string _path;
   std::ofstream _stream;
 };

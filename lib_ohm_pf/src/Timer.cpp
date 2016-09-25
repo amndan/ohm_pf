@@ -17,7 +17,7 @@ Timer::Timer()
   openStream();
   _stream.close();
 
-  _stamp = ros::Time::now();
+  _stamp = ros::WallTime::now();
 }
 
 Timer::Timer(std::string path)
@@ -27,7 +27,7 @@ Timer::Timer(std::string path)
   openStream();
   _stream.close();
 
-  _stamp = ros::Time::now();
+  _stamp = ros::WallTime::now();
 }
 
 Timer::~Timer()
@@ -37,12 +37,12 @@ Timer::~Timer()
 
 void Timer::restart()
 {
-  _stamp = ros::Time::now();
+  _stamp = ros::WallTime::now();
 }
 
 void Timer::stop()
 {
-  _time = ros::Time::now() - _stamp;
+  _time = ros::WallTime::now() - _stamp;
 }
 
 void Timer::stopAndWrite()
@@ -65,7 +65,7 @@ void Timer::openStream()
 void Timer::writeToStream()
 {
   openStream();
-  _stream << (int) getTimeInMs() << ";";
+  _stream << (int) getTimeInMs() << std::endl;
   _stream.close();
 }
 

@@ -88,7 +88,7 @@ namespace ohmPf
     _prvNh.param<double>("minStabwToResample", _filterParams.minStabwToResample, 0.0003);
     _prvNh.param<bool>("useAdaptiveMean", _filterParams.useAdaptiveMean, false);
 
-    _loopRate = new ros::Rate(_filterParams.filterLoopRate);
+    _loopRate = new ros::WallRate(_filterParams.filterLoopRate);
 
     //_pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>(_paramSet.topParticleCloud, 1, true); // tob: published in ROSFilterOutput
     _pubProbMap = _nh.advertise<nav_msgs::OccupancyGrid>("probMap", 1, true);
@@ -200,10 +200,16 @@ namespace ohmPf
       ros::spinOnce();  // update measurements
       _filterController->filterSpinOnce();  // integrate measurements
       _filterOutput->publishMapOdom();  // publish map->odom
-      if(!_loopRate->sleep())
+
+      if(_loopRate->cycleTime() > _loopRate->expectedCycleTime()) // hack--> return value of sleep() is wrong?
       {
-        ROS_INFO("Filter cannot reach its desired rate of %f Hz", _filterParams.filterLoopRate);
+        ROS_INFO("Filter cannot reach its desired rate of %f Hz (CT %f; ECT %f)",
+            _filterParams.filterLoopRate,
+            _loopRate->cycleTime().toSec()*1000,
+            _loopRate->expectedCycleTime().toSec()*1000);
       }
+
+      _loopRate->sleep();
     }
   }
 

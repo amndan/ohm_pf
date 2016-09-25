@@ -74,12 +74,20 @@ void FilterController::filterSpinOnce()
 
   for(unsigned int i = 0; i < _periodicFilterUpdatersWithMeasurement.size(); i++)
   {
-    _periodicFilterUpdatersWithMeasurement.at(i)->tryToUpdate();
+    //Timer timer("/tmp/" + _periodicFilterUpdatersWithMeasurement.at(i)->getIdString());
+    if(_periodicFilterUpdatersWithMeasurement.at(i)->tryToUpdate())
+    {
+      //timer.stopAndWrite();
+    }
   }
 
   for(unsigned int i = 0; i < _periodicFilterUpdatersWithoutMeasurement.size(); i++)
   {
-    _periodicFilterUpdatersWithoutMeasurement.at(i)->tryToUpdate();
+    //Timer timer("/tmp/" + _periodicFilterUpdatersWithoutMeasurement.at(i)->getIdString());
+    if(_periodicFilterUpdatersWithoutMeasurement.at(i)->tryToUpdate())
+    {
+      //timer.stopAndWrite();
+    }
   }
 
 }

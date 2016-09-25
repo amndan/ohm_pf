@@ -7,8 +7,10 @@ Panels:
         - /Global Options1
         - /Map1
         - /Axes1
-        - /LaserScan1
-      Splitter Ratio: 0.5
+        - /Odometry1
+        - /Pose1
+        - /Odometry2
+      Splitter Ratio: 0.502825
     Tree Height: 747
   - Class: rviz/Selection
     Name: Selection
@@ -36,7 +38,7 @@ Visualization Manager:
       Cell Size: 1
       Class: rviz/Grid
       Color: 160; 160; 164
-      Enabled: true
+      Enabled: false
       Line Style:
         Line Width: 0.03
         Value: Lines
@@ -49,13 +51,13 @@ Visualization Manager:
       Plane: XY
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
-      Value: true
+      Value: false
     - Class: rviz/TF
       Enabled: true
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        base_footprint_ekf:
+        base_footprint:
           Value: true
         laser:
           Value: true
@@ -73,7 +75,7 @@ Visualization Manager:
       Tree:
         map:
           odom:
-            base_footprint_ekf:
+            base_footprint:
               laser:
                 {}
           ohm_pf_output:
@@ -87,6 +89,7 @@ Visualization Manager:
       Enabled: true
       Name: Map
       Topic: /map
+      Unreliable: false
       Value: true
     - Arrow Length: 0.5
       Class: rviz/PoseArray
@@ -94,6 +97,7 @@ Visualization Manager:
       Enabled: true
       Name: PoseArray
       Topic: /ceilCamPoseArray
+      Unreliable: false
       Value: true
     - Arrow Length: 0.01
       Class: rviz/PoseArray
@@ -101,14 +105,15 @@ Visualization Manager:
       Enabled: true
       Name: PoseArray
       Topic: /particleCloud
+      Unreliable: false
       Value: true
     - Class: rviz/Axes
-      Enabled: true
+      Enabled: false
       Length: 1
       Name: Axes
       Radius: 0.1
-      Reference Frame: robot0
-      Value: true
+      Reference Frame: base_footprint
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -135,15 +140,52 @@ Visualization Manager:
       Size (m): 0.1
       Style: Flat Squares
       Topic: /filtered_scan
+      Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
-    - Arrow Length: 0.3
+    - Arrow Length: 0.03
       Class: rviz/PoseArray
       Color: 255; 25; 0
       Enabled: true
       Name: PoseArray
       Topic: /particlecloud
+      Unreliable: false
+      Value: true
+    - Angle Tolerance: 0.05
+      Class: rviz/Odometry
+      Color: 255; 25; 0
+      Enabled: true
+      Keep: 0
+      Length: 2
+      Name: Odometry
+      Position Tolerance: 2.5
+      Topic: /wheelodom
+      Value: true
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.1
+      Class: rviz/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.3
+      Head Radius: 0.1
+      Name: Pose
+      Shaft Length: 1
+      Shaft Radius: 0.05
+      Shape: Arrow
+      Topic: /pose_pf
+      Unreliable: false
+      Value: true
+    - Angle Tolerance: 0.05
+      Class: rviz/Odometry
+      Color: 0; 0; 255
+      Enabled: true
+      Keep: 0
+      Length: 2
+      Name: Odometry
+      Position Tolerance: 2.5
+      Topic: /odom_pf_out
       Value: true
   Enabled: true
   Global Options:
@@ -168,7 +210,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -0.005
+      Angle: -1.57
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
@@ -177,11 +219,11 @@ Visualization Manager:
         Value: false
       Name: Current View
       Near Clip Distance: 0.01
-      Scale: 31.1401
+      Scale: 20.985
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 11.7222
-      Y: -0.242636
+      X: 17.0489
+      Y: 20.3178
     Saved: ~
 Window Geometry:
   Displays:
@@ -199,5 +241,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1855
-  X: 1975
+  X: 55
   Y: 14

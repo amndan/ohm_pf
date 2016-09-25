@@ -3,52 +3,66 @@
 
     <param name="use_sim_time" value="true" />
 
-    <node pkg="tf" type="static_transform_publisher" name="staticLaser" args="0.61 0.0 0.0 0.0 0.0 0.0 base_footprint_ekf laser 20" />
+    <node pkg="tf" type="static_transform_publisher" name="staticLaser" args="0.61 0.0 0.0 0.0 0.0 0.0 base_footprint laser 30" />
+    <node pkg="tf" type="static_transform_publisher" name="mapOdom" args="0.0 0.0 0.0 0.0 0.0 0.0 odom base_footprint 30" />
 
     <include file="$(find ohm_pf)/launch/ohm_pf.launch">
-        <arg name="output" value="screen" />
-        <arg name="topOdometry" value="wheelodom" />
-        <arg name="tfFixedFrame" value="map" />
-        <arg name="tfBaseFootprintFrame" value="base_footprint_ekf" />
-        <arg name="top2dPoseEst" value="initialpose" />
-        <arg name="topCeilCam" value="pub_PoseTopic_OFF" />
-        <arg name="topScan" value="filtered_scan" />
-        <arg name="topMap" value="map" />
-        <arg name="topMapSrv" value="static_map" />
-        <arg name="samplesMax" value="10000" />
-        <arg name="samplesMin" value="50" />
-        <arg name="maxDistanceProbMap" value="3" />
-        <arg name="subsamplingRateLaser" value="3" />
-        <arg name="resamplingIntervallFilter" value="1" />
-        <arg name="uncertaintyLaser" value="0.5" />
-        <arg name="resamplingMethod" value="STD" />
-        <arg name="initX" value="5.0" />
-        <arg name="initY" value="5.0" />
-        <arg name="initPhi" value="0.0" />
-        <arg name="initSigmaTrans" value="0.5" />
-        <arg name="initSigmaRot" value="0.2" />
-        <arg name="initMode" value="POSE" />
-        <arg name="skipParticleForGui" value="100" />
+	    <arg name="output" value="screen" />
+	    <arg name="tfFixedFrame" value="map" />
+	    <arg name="tfBaseFootprintFrame" value="base_footprint" />
+	    <arg name="tfOdomFrame" value="odom" />
+	    <arg name="tfOutputFrame" value="ohm_pf_output" />
+	    <arg name="topOdometry" value="wheelodom" />
+	    <arg name="top2dPoseEst" value="initialpose" />
+	    <arg name="topCeilCam" value="pub_PoseTopic" />
+	    <arg name="topParticleCloud" value="particlecloud" />
+	    <arg name="topProbPose" value="probPose" />
+	    <arg name="topMap" value="map" />
+	    <arg name="topMapSrv" value="static_map" />
+	    <arg name="samplesMax" value="5000" />
+	    <arg name="samplesMin" value="50" />
+	    <arg name="topScan" value="filtered_scan" />
+	    <arg name="maxDistanceProbMap" value="2" />
+	    <arg name="subsamplingRateLaser" value="10" />
+	    <arg name="resamplingIntervallFilter" value="0.3" />
+	    <arg name="outputIntervallFilter" value="0.002" />
+	    <arg name="uncertaintyLaser" value="0.8" />
+	    <arg name="resamplingMethod" value="STD" />
+	    <arg name="initX" value="0.0" />
+	    <arg name="initY" value="0.0" />
+	    <arg name="initPhi" value="0.0" />
+	    <arg name="initSigmaTrans" value="0.5" />
+	    <arg name="initSigmaRot" value="0.2" />
+	    <arg name="initMode" value="POSE" />
+	    <arg name="OCSThresholdLaser" value="0.2" />
+	    <arg name="OCSThresholdOdom" value="0.01" />
+	    <arg name="OCSThresholdResampler" value="0.5" />
+	    <arg name="skipParticleForGui" value="0" />
+	    <arg name="countLasers" value="1" />
+	    <arg name="filterLoopRate" value="20" />
+	    <arg name="useAdaptiveMean" value="true" />
+	    <arg name="alphaFast" value="0.055" />
+	    <arg name="alphaSlow" value="0.048" />
+	    <arg name="minStabwToResample" value="0" /> <!-- 0 for not using stabw for resampling -->
+	    <arg name="OCSRotToTransFactor"  value="8.0" />
+	    <arg name="minimumValidScanRaysFactor"  value="0.5" />
+	    <arg name="additionalTranslationalNoise"  value="0.05" />
+	    <arg name="additionalRotationalNoise"  value="0.17" /> <!-- 10.0 / 180.0 * M_PI = 0.17 == 10° -->
+	    <arg name="lowVarianceFactor"  value="3" />
+	    <arg name="odomAlpha1"  value="0.01" /> <!-- rot error from rot motion  -->
+	    <arg name="odomAlpha2"  value="1.0" /> <!-- rot error from trans motion  -->
+	    <arg name="odomAlpha3"  value="0.01" /> <!-- trans error from trans motion  -->
+	    <arg name="odomAlpha4"  value="0.001" /> <!--  trans error from rot motion -->
     </include>
 
     <node name="mapServer" pkg="map_server" type="map_server" args="$(find ohm_pf)/bags/mapKupfer.yaml" />
-
-    <!--EKF -->
-    <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
-        <param name="output_frame" value="odom" />
-        <param name="base_footprint_frame" value="base_footprint_ekf" />
-        <param name="freq" value="30.0" />
-        <param name="sensor_timeout" value="1.0" />
-        <param name="odom_used" value="true" />
-        <param name="imu_used" value="true" />
-        <param name="vo_used" value="false" />
-        <param name="gps_used" value="false" />
-
-        <remap from="odom" to="wheelodom" />
-        <remap from="imu_data" to="imu_fused" />
+   
+    <node name="poseToOdom" pkg="ohm_pf" type="PoseToOdom">
+    	<remap from="odom" to="odom_pf_out"/>
+    	<remap from="pose" to="pose_pf"/>
     </node>
 
-    <node pkg="rosbag" type="play" name="bagPlayer" args="--clock -s 15 -r 1.0 $(find ohm_pf)/bags/boschKupferspuleCeilCam.bag" />
+    <node pkg="rosbag" type="play" name="bagPlayer" args="--clock -s 10 -r 1.0 $(find ohm_pf)/bags/boschKupferspuleCeilCam.bag" />
 
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find ohm_pf)/rviz/ohm_pf_bosch.rviz" />
 
