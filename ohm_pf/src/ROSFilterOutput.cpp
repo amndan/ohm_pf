@@ -19,7 +19,7 @@ ROSFilterOutput::ROSFilterOutput(OhmPfNodeParams_t paramSet) :
   _pubProbPose = nh.advertise<std_msgs::Float32>(_paramSet.topProbPose, 1, true);
   _pubAdaptiveMeanQuotient = nh.advertise<std_msgs::Float32>("adapMean", 1, true);
   _pubStabWeights = nh.advertise<std_msgs::Float32>("stabWeights", 1, true);
-  _pubPose = nh.advertise<geometry_msgs::PoseStamped>("pose", 1, true); // TODO: launchfile param
+  _pubPose = nh.advertise<geometry_msgs::PoseStamped>("pose_pf", 1, true); // TODO: launchfile param
 
   _skipParticleForGui = std::abs(paramSet.skipParticleForGui);
   // TODO: we schould separate the pub gui output from the resampling step

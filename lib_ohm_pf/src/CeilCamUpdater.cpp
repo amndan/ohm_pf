@@ -58,10 +58,9 @@ namespace ohmPf
       {
         Sample_t newSample;
         newSample.weight = weightAvg;
-        newSample.weight = 0;
         newSample.pose = _ceilCamMeasurement->getPoses().at(i);
-        //addGaussianRandomness(newSample, 0.5, 10 / 180 * M_PI);
-        addUniformRandomness(newSample, 3.0, 2 * M_PI);
+        addGaussianRandomness(newSample, 0.5, 10 / 180 * M_PI);
+        //addUniformRandomness(newSample, 3.0, 2 * M_PI);
         samples->push_back(newSample);
         countNewSamples--;
         if(countNewSamples <= 0) break;
@@ -71,6 +70,8 @@ namespace ohmPf
 
   void CeilCamUpdater::update()
   {
+    injectSamples();
+
     // todo: better implementation
     std::vector<Sample_t>* samples = _filter->getSamples();
     std::vector<double> probs(samples->size(), 0.0);
@@ -115,7 +116,7 @@ namespace ohmPf
     //    _filter->getSampleSet()->normalize();
     //    //_updateFilterMap->tryToUpdate();
 
-    injectSamples();
+
 
     _filter->getSampleSet()->normalize();
     _updateFilterMap->tryToUpdate();

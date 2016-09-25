@@ -62,8 +62,8 @@
     	<remap from="pose" to="pose_pf"/>
     </node>
 
-    <node pkg="rosbag" type="play" name="bagPlayer" args="--clock -s 10 -r 1.0 $(find ohm_pf)/bags/boschKupferspuleCeilCam.bag" />
+    <!-- <node pkg="rosbag" type="play" name="bagPlayer" args="$(find ohm_pf)/bags/boschKupferspuleCeilCam.bag" /> -->
 
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find ohm_pf)/rviz/ohm_pf_bosch.rviz" />
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find ohm_pf)/rviz/ohm_pf_bosch_ceil_cam.rviz" />
 
 </launch>
