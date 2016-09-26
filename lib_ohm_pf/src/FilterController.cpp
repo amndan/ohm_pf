@@ -24,7 +24,7 @@ FilterController::FilterController(FilterParams_t params) :
 
   _odomUpdater = NULL;
   _ocsObserver = NULL;
-  _ceilCamUpdater = NULL;
+  _poseUpdater = NULL;
   _outputUpdater = NULL;
   _mapUpdater = NULL;
   _resampler = NULL;
@@ -183,10 +183,10 @@ bool FilterController::connectLaserMeasurement(ILaserMeasurement* laser, unsigne
   return true;
 }
 
-bool FilterController::connectCeilCamMeasurement(ICeilCamMeasurement* ceilCam)
+bool FilterController::connectPoseMeasurement(IPoseMeasurement* pose)
 {
   // wrong input
-  if(ceilCam == NULL)
+  if(pose == NULL)
   {
     std::cout << __PRETTY_FUNCTION__ << "--> no NULL pointer here!" << std::endl;
     return false;
@@ -195,20 +195,20 @@ bool FilterController::connectCeilCamMeasurement(ICeilCamMeasurement* ceilCam)
   // no map inizialized
   if(_mapUpdater == NULL)
   {
-    std::cout << __PRETTY_FUNCTION__ << "--> please init map before init ceilCam" << std::endl;
+    std::cout << __PRETTY_FUNCTION__ << "--> please init map before init pose measurement" << std::endl;
     return false;
   }
 
-  // ceilcam already initialized
-  if(_ceilCamUpdater != NULL)
+  // pose measurement already initialized
+  if(_poseUpdater != NULL)
   {
-    std::cout << __PRETTY_FUNCTION__ << "--> cannot init multible ceil cam updater" << std::endl;
+    std::cout << __PRETTY_FUNCTION__ << "--> cannot init multible pose measurement updater" << std::endl;
     return false;
   }
 
   // everything ok...
-  _ceilCamUpdater = new CeilCamUpdater(_filter, ceilCam, _mapUpdater, "CCM");
-  _periodicFilterUpdatersWithMeasurement.push_back(_ceilCamUpdater);
+  _poseUpdater = new PoseUpdater(_filter, pose, _mapUpdater, "CCM");
+  _periodicFilterUpdatersWithMeasurement.push_back(_poseUpdater);
   return true;
 }
 

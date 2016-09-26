@@ -14,7 +14,7 @@
 #include "interfaces/IMap.h"
 #include "FilterParams.h"
 #include "OdomDiffParams.h"
-#include "ICeilCamMeasurement.h"
+#include "IPoseMeasurement.h"
 #include "Eigen/Dense"
 
 namespace ohmPf
@@ -73,11 +73,11 @@ public:
   virtual bool connectLaserMeasurement(ILaserMeasurement* laser, unsigned int laserId) = 0;
 
   /**
-   * @brief Sets the filters ceiling cam measurement interface.
-   * @param ceilCam Ceil cam measurement interface.
+   * @brief Sets the filters pose measurement interface.
+   * @param pose pose measurement interface.
    * @return Returns true if successful.
    */
-  virtual bool connectCeilCamMeasurement(ICeilCamMeasurement* ceilCam) = 0;
+  virtual bool connectPoseMeasurement(IPoseMeasurement* pose) = 0;
 
   /**
    * @brief Sets the filters filter output interface.

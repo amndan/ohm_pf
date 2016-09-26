@@ -9,7 +9,7 @@
 #define SRC_ROSCEILCAMMEASUREMENT_H_
 
 #include "geometry_msgs/PoseArray.h"
-#include "ICeilCamMeasurement.h"
+#include "IPoseMeasurement.h"
 #include "Eigen/Dense"
 #include "tf/transform_datatypes.h"
 
@@ -18,13 +18,10 @@ namespace ohmPf
 
 /**
  * @brief A measurement container for ROS ceil cam measurements.
- * It implements ICeilCamMeasurement to provide ceil cam measurements
+ * It implements IPoseMeasurement to provide ceil cam measurements
  * from ROS to the filter under a generalized interface.
- * @todo Implement a generalized PoseUpdater class for
- * updating the filter with pose updates. If neccessary
- * inherit from this class and reimplement CeilCamUpdater.
  */
-class ROSCeilCamMeasurement : public ICeilCamMeasurement
+class ROSCeilCamMeasurement : public IPoseMeasurement
 {
 public:
 

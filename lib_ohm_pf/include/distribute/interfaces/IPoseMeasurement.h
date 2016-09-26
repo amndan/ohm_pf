@@ -1,12 +1,12 @@
 /*
- * ICeilCamMeasurement.h
+ * IPoseMeasurement.h
  *
  *  Created on: 11.03.2016
  *      Author: amndan
  */
 
-#ifndef SRC_ICEILCAMMEASUREMENT_H_
-#define SRC_ICEILCAMMEASUREMENT_H_
+#ifndef SRC_IPoseMEASUREMENT_H_
+#define SRC_IPoseMEASUREMENT_H_
 
 #include "IMeasurement.h"
 #include <vector>
@@ -16,14 +16,14 @@ namespace ohmPf
 {
 
 /**
- * An abstract class for providing a generalized ceil cam
+ * An abstract class for providing a generalized pose
  * measurement to the filter.
  */
-class ICeilCamMeasurement : public IMeasurement
+class IPoseMeasurement : public IMeasurement
 {
 public:
-  ICeilCamMeasurement(){};
-  virtual ~ICeilCamMeasurement(){};
+  IPoseMeasurement(){};
+  virtual ~IPoseMeasurement(){};
 
   /**
    * @brief An abstract function to get the poses of the
@@ -43,4 +43,4 @@ public:
 
 } /* namespace ohmPf */
 
-#endif /* SRC_ICEILCAMMEASUREMENT_H_ */
+#endif /* SRC_IPoseMEASUREMENT_H_ */

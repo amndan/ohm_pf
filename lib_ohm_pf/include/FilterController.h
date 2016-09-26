@@ -25,7 +25,7 @@
 #include "STDResampler.h"
 #include "ProbMap.h"
 #include "OCSObserver.h"
-#include "CeilCamUpdater.h"
+#include "PoseUpdater.h"
 #include "Eigen/Dense"
 #include "Timer.h"
 
@@ -84,12 +84,12 @@ public:
   bool connectLaserMeasurement(ILaserMeasurement* laser, unsigned int laserId = 0);
 
   /**
-   * @brief connect a ceil cam measurement to the filter.
-   * @param ceilCam Pointer to a ceil cam measurement object
-   * which is implementing the ICeilCamMeasurement interface e.g. ROSCeilCamMeasurement.
-   * @return return true if ceil cam measurement connected properly
+   * @brief connect a pose measurement to the filter.
+   * @param pose Pointer to a pose measurement object
+   * which is implementing the IPoseMeasurement interface e.g. ROSCeilCamMeasurement.
+   * @return return true if pose measurement connected properly
    */
-  bool connectCeilCamMeasurement(ICeilCamMeasurement* ceilCam);
+  bool connectPoseMeasurement(IPoseMeasurement* pose);
 
   /**
    * @brief connect a filter output interface to the filter
@@ -153,7 +153,7 @@ private:
   OdomUpdater* _odomUpdater;
   OCSObserver* _ocsObserver;
   std::vector<LaserUpdater*> _laserUpdaters;
-  CeilCamUpdater* _ceilCamUpdater;
+  PoseUpdater* _poseUpdater;
   FilterOutputUpdater* _outputUpdater;
   MapUpdater* _mapUpdater;
   FilterUpdater* _resampler;

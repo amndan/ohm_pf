@@ -267,7 +267,7 @@ namespace ohmPf
   {
     if(!_ceilCamInitialized)
     {
-      if(_filterController->connectCeilCamMeasurement(_ceilCamMeasurement))
+      if(_filterController->connectPoseMeasurement(_ceilCamMeasurement))
       {
         _ceilCamInitialized = true;
       }

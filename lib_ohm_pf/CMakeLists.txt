@@ -137,7 +137,7 @@ add_library(OhmPf
     src/LaserProbMapUpdater.cpp
     src/MapUpdater.cpp
     src/OdomUpdater.cpp
-    src/CeilCamUpdater.cpp
+    src/PoseUpdater.cpp
     src/LVResampler.cpp
     src/FilterController.cpp
     src/OCSObserver.cpp
