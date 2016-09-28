@@ -1,12 +1,12 @@
 /*
- * OdomDiffParams.h
+ * OdomParams.h
  *
  *  Created on: Jan 8, 2016
  *      Author: amndan
  */
 
-#ifndef INCLUDE_OdomDiffParams_t_H_
-#define INCLUDE_OdomDiffParams_t_H_
+#ifndef INCLUDE_OdomParams_t_H_
+#define INCLUDE_OdomParams_t_H_
 
 namespace ohmPf
 {
@@ -26,26 +26,26 @@ typedef struct
   int model;
 
   /**
-   * @brief rot error from rot motion.
+   * @brief diff: rot error from rot motion; omni: x variance
    */
   double a1;
 
   /**
-   * @brief rot error from trans motion.
+   * @brief rot error from trans motion; omni: y variance
    */
   double a2;
 
   /**
-   * @brief trans error from trans motion.
+   * @brief trans error from trans motion; omni: yaw variance
    */
   double a3;
 
   /**
-   * @brief trans error from rot motion.
+   * @brief trans error from rot motion; omni: not used
    */
   double a4;
 } OdomParams_t;
 
 } /* namespace ohmPf */
 
-#endif /* INCLUDE_OdomDiffParams_t_H_ */
+#endif /* INCLUDE_OdomParams_t_H_ */
