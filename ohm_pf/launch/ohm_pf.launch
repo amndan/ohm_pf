@@ -45,6 +45,7 @@
     <arg name="additionalTranslationalNoise"  default="0.05" />
     <arg name="additionalRotationalNoise"  default="0.17" /> <!-- 10.0 / 180.0 * M_PI = 0.17 == 10° -->
     <arg name="lowVarianceFactor"  default="3" />
+    <arg name="odomModel"  default="0" /> <!-- 0:diff drive; 1:omni drive  -->
     <arg name="odomAlpha1"  default="0.01" /> <!-- rot error from rot motion  -->
     <arg name="odomAlpha2"  default="10.0" /> <!-- rot error from trans motion  -->
     <arg name="odomAlpha3"  default="0.01" /> <!-- trans error from trans motion  -->
@@ -88,6 +89,7 @@
         <param name="OCSThresholdOdom" type="double" value="$(arg OCSThresholdOdom)" />
         <param name="OCSThresholdResampler" type="double" value="$(arg OCSThresholdResampler)" />
 
+		<param name="odomModel" type="int" value="$(arg odomModel)" />
 		<param name="odomAlpha1" type="double" value="$(arg odomAlpha1)" />
 		<param name="odomAlpha2" type="double" value="$(arg odomAlpha2)" />
 		<param name="odomAlpha3" type="double" value="$(arg odomAlpha3)" />

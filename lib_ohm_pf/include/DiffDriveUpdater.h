@@ -24,7 +24,7 @@ namespace ohmPf
 class DiffDriveUpdater : public OdomUpdater
 {
 public:
-  DiffDriveUpdater(Filter* filter, IOdomMeasurement* measurement, OCSObserver* ocsObserver, OdomDiffParams_t paramSet, std::string idString);
+  DiffDriveUpdater(Filter* filter, IOdomMeasurement* measurement, OCSObserver* ocsObserver, OdomParams_t paramSet, std::string idString);
   virtual ~DiffDriveUpdater(){};
 
 private:
@@ -41,7 +41,7 @@ private:
   double _dRot2;
   bool _initialized;
   bool _receivedFirstMeasurement;
-  OdomDiffParams_t _paramSet;
+  OdomParams_t _paramSet;
 };
 
 } /* namespace ohmPf */

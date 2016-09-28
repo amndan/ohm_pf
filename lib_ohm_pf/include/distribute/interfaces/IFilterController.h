@@ -62,7 +62,7 @@ public:
    * @param params Odometry params.
    * @return Returns true if successful.
    */
-  virtual bool connectOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams_t params) = 0; // TODO: odom params and not odom diff params
+  virtual bool connectOdomMeasurement(IOdomMeasurement* odom, OdomParams_t params) = 0; // TODO: odom params and not odom diff params
 
   /**
    * @brief Sets the filters laser measurement.

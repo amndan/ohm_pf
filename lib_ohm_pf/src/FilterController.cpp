@@ -116,7 +116,7 @@ bool FilterController::setMap(IMap* map)
   return true;
 }
 
-bool FilterController::connectOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams_t params)
+bool FilterController::connectOdomMeasurement(IOdomMeasurement* odom, OdomParams_t params)
 {
   // input pointer is NULL
   if(odom == NULL)
@@ -133,7 +133,21 @@ bool FilterController::connectOdomMeasurement(IOdomMeasurement* odom, OdomDiffPa
   }
 
   // everything ok...
-  _odomUpdater = new DiffDriveUpdater(_filter, odom, _ocsObserver, params, "ODM");
+
+  if(params.model == 0) //diff
+  {
+    _odomUpdater = new DiffDriveUpdater(_filter, odom, _ocsObserver, params, "ODM");
+  }
+  else if(params.model == 1) //omni
+  {
+    _odomUpdater = new OmniDriveUpdater(_filter, odom, _ocsObserver, params, "ODM");
+  }
+  else
+  {
+    std::cout << __PRETTY_FUNCTION__ << "--> Wrong odom model id. Use 0:diff or 1:omni." << std::endl;
+    return false;
+  }
+
   _ocsObserver->registerClient(_odomUpdater, _filterParams.OCSThresholdOdom);
   _periodicFilterUpdatersWithMeasurement.push_back(_odomUpdater);
   return true;

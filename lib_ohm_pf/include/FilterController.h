@@ -15,6 +15,7 @@
 #include "interfaces/IMap.h"
 #include "FilterParams.h"
 #include "DiffDriveUpdater.h"
+#include "OmniDriveUpdater.h"
 #include "LaserUpdater.h"
 #include "FilterOutputUpdater.h"
 #include "MapUpdater.h"
@@ -71,7 +72,7 @@ public:
    * @todo Overload this function with e.g. OdomOmniParams for omnidirectional robots
    * @return returns true if odom measurement has been correctly connected
    */
-  bool connectOdomMeasurement(IOdomMeasurement* odom, OdomDiffParams_t params);
+  bool connectOdomMeasurement(IOdomMeasurement* odom, OdomParams_t params);
 
   /**
    * @brief Connect a single laser measurement to the filter

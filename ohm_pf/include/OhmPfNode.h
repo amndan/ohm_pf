@@ -19,7 +19,7 @@
 #include "tf/transform_datatypes.h"
 #include "assert.h"
 #include "OhmPfNodeParams.h"
-
+#include "Eigen/Dense"
 #include "IFilterController.h"
 #include "FilterParams.h"
 #include "ROSOdomMeasurement.h"
@@ -125,7 +125,7 @@ private:
   ros::NodeHandle _prvNh;
   ros::WallRate* _loopRate;
   OhmPfNodeParams_t _paramSet;
-  OdomDiffParams_t _odomDiffParams;
+  OdomParams_t _odomParams;
   FilterParams_t _filterParams;
   bool _odomInitialized;
   bool _ceilCamInitialized;

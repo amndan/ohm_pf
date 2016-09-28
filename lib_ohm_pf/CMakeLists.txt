@@ -15,7 +15,7 @@ find_package(Boost REQUIRED COMPONENTS
 	thread
 )
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -DBENCHMARKING=0")
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -148,6 +148,7 @@ add_library(OhmPf
     src/IMap.cpp
     src/Timer.cpp
     src/AdaptiveMean.cpp
+    src/OmniDriveUpdater.cpp
 )
 
 add_library(ROSTimeOhmPf

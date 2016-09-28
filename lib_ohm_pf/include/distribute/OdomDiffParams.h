@@ -19,6 +19,13 @@ namespace ohmPf
 typedef struct
 {
   /**
+   * @brief model for odom signal
+   * 0 = diff drive
+   * 1 = omni drive
+   */
+  int model;
+
+  /**
    * @brief rot error from rot motion.
    */
   double a1;
@@ -37,7 +44,7 @@ typedef struct
    * @brief trans error from rot motion.
    */
   double a4;
-} OdomDiffParams_t;
+} OdomParams_t;
 
 } /* namespace ohmPf */
 

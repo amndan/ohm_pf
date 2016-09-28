@@ -73,10 +73,12 @@ namespace ohmPf
     _prvNh.param<double>("OCSThresholdResampler", _filterParams.OCSThresholdResampler, 0.2);
     _prvNh.param<double>("OCSRotToTransFactor", _filterParams.OCSRotToTransFactor, 8.0);
 
-    _prvNh.param<double>("odomAlpha1", _odomDiffParams.a1, 0.01); // rot error from rot motion
-    _prvNh.param<double>("odomAlpha2", _odomDiffParams.a2, 10.0); // rot error from trans motion
-    _prvNh.param<double>("odomAlpha3", _odomDiffParams.a3, 0.01); // trans error from trans motion
-    _prvNh.param<double>("odomAlpha4", _odomDiffParams.a4, 0.001); // trans error from rot motion
+    _prvNh.param<int>("odomModel", _odomParams.model, 0); // 0: diff ; 1: omni
+      assert(_odomParams.model == 0 || _odomParams.model == 1);
+    _prvNh.param<double>("odomAlpha1", _odomParams.a1, 0.01); // rot error from rot motion
+    _prvNh.param<double>("odomAlpha2", _odomParams.a2, 10.0); // rot error from trans motion
+    _prvNh.param<double>("odomAlpha3", _odomParams.a3, 0.01); // trans error from trans motion
+    _prvNh.param<double>("odomAlpha4", _odomParams.a4, 0.001); // trans error from rot motion
 
     _prvNh.param<double>("initSigmaTrans", _paramSet.initSigmaTrans, 0.5);
     _prvNh.param<double>("initSigmaRot", _paramSet.initSigmaRot, 180 / M_PI * 10);
@@ -220,7 +222,18 @@ namespace ohmPf
       ROS_INFO_STREAM("Received first odom message - initializing odom...");
       _odomMeasurement->setMeasurement(msg);
 
-      if(_filterController->connectOdomMeasurement(_odomMeasurement, _odomDiffParams))
+#if BENCHMARKING == 1
+      ROS_WARN("warning: BENCHMARKING behavior is activated!");
+      //Publish initial pose (for benchmarking tool)
+      Eigen::Vector3d pose;
+      pose = _paramSet.initPose;
+      ros::Time stamp(128.8);
+
+      _filterOutput->onOutputPoseChanged(pose, stamp);
+      //~Publish initial pose (for benchmarking tool)
+#endif
+
+      if(_filterController->connectOdomMeasurement(_odomMeasurement, _odomParams))
       {
         _odomInitialized = true;
         ROS_INFO_STREAM("odom initialized");

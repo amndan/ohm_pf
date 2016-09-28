@@ -22,7 +22,7 @@ namespace ohmPf
   class OdomDiff : public IOdomQuantifier
   {
   public:
-    OdomDiff(OdomDiffParams_t paramSet);
+    OdomDiff(OdomParams_t paramSet);
     virtual ~OdomDiff();
     void calculate(Filter& filter, IOdomMeasurement& measurement);
   private:
@@ -38,7 +38,7 @@ namespace ohmPf
     double _dRot2;
     bool _initialized;
     bool _receivedFirstMeasurement;
-    OdomDiffParams_t _paramSet;
+    OdomParams_t _paramSet;
   };
 
 } /* namespace ohmPf */

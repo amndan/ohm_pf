@@ -10,7 +10,7 @@
 namespace ohmPf
 {
 
-  OdomDiff::OdomDiff(OdomDiffParams_t paramSet)
+  OdomDiff::OdomDiff(OdomParams_t paramSet)
   {
     _initialized = false;
     _receivedFirstMeasurement = false;

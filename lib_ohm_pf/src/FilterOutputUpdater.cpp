@@ -18,10 +18,7 @@ namespace ohmPf
 
   Eigen::Vector3d FilterOutputUpdater::updateTf()
   {
-    if(!_filter->getSampleSet()->isNormalized())
-    {
-      _filter->getSampleSet()->normalize();
-    } // TODO: implement better routine for that
+    _filter->getSampleSet()->normalize();
 
     Eigen::Vector3d pose;
     pose.setZero();
