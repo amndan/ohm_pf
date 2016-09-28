@@ -21,9 +21,15 @@ bool OdomUpdater::tryToUpdate()
 {
   _ocsObserver->update(_odomMeasurement);
 
-  _filter->setStamp(_odomMeasurement->getStamp()); // push time ahead
-
-  return FilterUpdaterMeasurementOCS::tryToUpdate();
+  if(FilterUpdaterMeasurementOCS::tryToUpdate())
+  {
+    _filter->setStamp(_odomMeasurement->getStamp()); // push time ahead
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }
 
 void OdomUpdater::update()
