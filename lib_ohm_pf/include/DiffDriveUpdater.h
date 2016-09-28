@@ -13,10 +13,10 @@
 #include "Filter.h"
 #include "UtilitiesOhmPf.h"
 #include "GaussianPdf.h"
-#include "OdomDiffParams.h"
 #include "OCSObserver.h"
 #include "IOdomMeasurement.h"
 #include <cmath>
+#include "OdomParams.h"
 
 namespace ohmPf
 {

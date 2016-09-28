@@ -8,12 +8,12 @@
 #ifndef SRC_IFILTERCONTROLLER_H_
 #define SRC_IFILTERCONTROLLER_H_
 
+#include "OdomParams.h"
 #include "IOdomMeasurement.h"
 #include "ILaserMeasurement.h"
 #include "IFilterOutput.h"
 #include "interfaces/IMap.h"
 #include "FilterParams.h"
-#include "OdomDiffParams.h"
 #include "IPoseMeasurement.h"
 #include "Eigen/Dense"
 

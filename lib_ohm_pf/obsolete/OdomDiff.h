@@ -13,8 +13,8 @@
 #include "Filter.h"
 #include "UtilitiesOhmPf.h"
 #include "GaussianPdf.h"
-#include "OdomDiffParams.h"
 #include <cmath>
+#include "../include/distribute/OdomParams.h"
 
 namespace ohmPf
 {

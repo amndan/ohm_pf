@@ -9,9 +9,9 @@
 #define LIB_OHM_PF_SRC_OMNIDRIVEUPDATER_H_
 
 #include "OdomUpdater.h"
-#include "OdomDiffParams.h"
 #include "Eigen/Dense"
 #include <cmath>
+#include "OdomParams.h"
 
 namespace ohmPf
 {
