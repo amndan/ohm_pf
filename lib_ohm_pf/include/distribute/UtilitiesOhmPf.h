@@ -112,12 +112,12 @@ double getMeanOfAngles(const std::vector<Sample_t>& samples)
 
 void correctAngleOverflow(double& angle)
 {
-  angle = std::fmod(angle, 2 * M_PI);
+  angle = std::fmod(angle, 2.0 * M_PI);
 
   if(angle > M_PI)
-    angle -= 2 * M_PI;
+    angle -= 2.0 * M_PI;
   else if(angle < -M_PI)
-    angle += 2 * M_PI;
+    angle += 2.0 * M_PI;
 }
 
 double getProbabilityFrom2Poses(const Eigen::Vector3d& measurement, const Eigen::Vector3d& sample, double sigmaPos, double sigmaPhi)
