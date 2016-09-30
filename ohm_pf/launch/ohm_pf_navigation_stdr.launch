@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <include file="$(find stdr_robot)/launch/robot_manager.launch" />
+
+  <node type="stdr_server_node" pkg="stdr_server" name="stdr_server" output="screen" args="$(find ohm_pf)/maps/RAW_GT/map.yaml"/>
+
+  <node pkg="tf" type="static_transform_publisher" name="world2map" args="0 0 0 0 0 0  world map 100" />
+
+  <include file="$(find stdr_gui)/launch/stdr_gui.launch"/>
+
+  <node pkg="stdr_robot" type="robot_handler" name="$(anon robot_spawn)" args="add $(find stdr_resources)/resources/robots/omni_robot.xml 9 8 0" />
+
+  <include file="$(find ohm_pf)/launch/stdr_move_base.launch"/>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ohm_pf)/rviz/navigation.rviz" />
+
+</launch>                    
+
+MAP_STATIC
+
+    position: 
+      x: 7.9031038468
+      y: 3.87838525271
+      z: 0.0
+    orientation: 
+      x: 0.0
+      y: 0.0
+      z: -0.509207777828
+      w: 0.860643619043
+
+    position: 
+      x: 5.57118378441
+      y: 11.3988637637
+      z: 0.0
+    orientation: 
+      x: 0.0
+      y: 0.0
+      z: 0.239030303955
+      w: 0.971012107953
+
