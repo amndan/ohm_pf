@@ -36,7 +36,6 @@ namespace ohmPf
     _prvNh.param<std::string>("topScan", rawLaserTopicString, "filtered_scan");
 
     int itmp;
-    double dtmp;
 
     _prvNh.param<std::string>("resamplingMethod", _filterParams.resamplingMethod, "STD");
     _prvNh.param<int>("maxDistanceProbMap", itmp, 10);

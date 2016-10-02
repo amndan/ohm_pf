@@ -28,9 +28,9 @@ void ProbMap::calcContourMap()
   _contourMap = _mapRaw;
   bool edge = false;
 
-  for(int i = 0; i < getWidthInCells(); i++)  // x map
+  for(unsigned int i = 0; i < getWidthInCells(); i++)  // x map
   {
-    for(int j = 0; j < getHeighInCells(); j++)  //y map
+    for(unsigned int j = 0; j < getHeighInCells(); j++)  //y map
     {
       if(_mapRaw[j * getWidthInCells() + i] == -1)
         continue;
@@ -63,9 +63,9 @@ void ProbMap::calcProbMap()
   _probMap = _contourMap;
   double dist = 0.0;
 
-  for(int i = 0; i < getWidthInCells(); i++)  // x map
+  for(unsigned int i = 0; i < getWidthInCells(); i++)  // x map
   {
-    for(int j = 0; j < getHeighInCells(); j++)  //y map
+    for(unsigned int j = 0; j < getHeighInCells(); j++)  //y map
     {
       if(_contourMap[j * getWidthInCells() + i] > IS_OCCUPIED_THRESHHOLD)  // is occupied?
       {

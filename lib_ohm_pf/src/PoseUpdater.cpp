@@ -25,7 +25,7 @@ namespace ohmPf
 
     double weightAvg = 0;
 
-    for(int i = 0; i < samples->size(); i++)
+    for(unsigned int i = 0; i < samples->size(); i++)
     {
       weightAvg += samples->at(i).weight;
     }
@@ -54,7 +54,7 @@ namespace ohmPf
 
     while(countNewSamples > 0)
     {
-      for(int i = 0; i < _poseMeasurement->getPoses().size(); i++)
+      for(unsigned int i = 0; i < _poseMeasurement->getPoses().size(); i++)
       {
         Sample_t newSample;
         newSample.weight = weightAvg;
@@ -78,9 +78,9 @@ namespace ohmPf
 
     std::vector<Eigen::Vector3d> poses = _poseMeasurement->getPoses();
 
-    for(int i = 0; i < poses.size(); i++)
+    for(unsigned int i = 0; i < poses.size(); i++)
     {
-      for(int k = 0; k < samples->size(); k++)
+      for(unsigned int k = 0; k < samples->size(); k++)
       {
         probs[k] = std::max(probs[k], getProbabilityFrom2Poses(poses[i], samples->at(k).pose, 2.0));  // todo: magic number
       }
@@ -100,7 +100,7 @@ namespace ohmPf
     //
 
     // then multiply weights with old weights
-    for(int k = 0; k < samples->size(); k++)
+    for(unsigned int k = 0; k < samples->size(); k++)
     {
       samples->at(k).weight *= probs.at(k);
     }

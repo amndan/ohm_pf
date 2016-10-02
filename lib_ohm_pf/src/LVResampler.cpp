@@ -67,7 +67,7 @@ void LVResampler::update()
     for(unsigned int i = 0; i < cnt;)
     {
       rand = drand48();  // rand [0;1] --> probs are normalized
-      for(int j = 0; j < cnt; j++)
+      for(unsigned int j = 0; j < cnt; j++)
       {
         if(rand < weightsCumsum[j])  // search for matching prob
         {

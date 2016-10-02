@@ -64,6 +64,8 @@ double GaussianPdf::getRandomValue(double mu, double sigma)
     return 0.5 * tmp + mu;
   }
 
+  std::cout << __PRETTY_FUNCTION__ << "--> sigma != real; sigma = " << sigma << "; exit!";
+  exit(EXIT_FAILURE);
 }
 
 void GaussianPdf::initializeSeed()

@@ -38,7 +38,7 @@ void STDResampler::update()
 
     weightsCumsum.reserve(countSamples);
     newSamples.reserve(countSamples);
-    for(int i = 0; i < samples->size(); i++)
+    for(unsigned int i = 0; i < samples->size(); i++)
     {
       weightsCumsum.push_back(samples->at(i).weight);
     }
@@ -75,7 +75,7 @@ void STDResampler::update()
     for(unsigned int i = 0; i < countSamples; i++)
     {
       rand = drand48();
-      for(int j = 0; j < countSamples; j++)
+      for(unsigned int j = 0; j < countSamples; j++)
       {
         if(rand < weightsCumsum[j])
         {

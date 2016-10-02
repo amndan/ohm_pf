@@ -44,9 +44,6 @@ void calOdom(const nav_msgs::OdometryConstPtr& msg)
 {
   if(odomCounter > 10)
   {
-    double x = msg->pose.pose.position.x;
-    double y = msg->pose.pose.position.y;
-    double yaw = tf::getYaw(msg->pose.pose.orientation);
     geometry_msgs::PoseArray poseArray;
     poseArray.header.stamp = ros::Time::now();
 

@@ -12,7 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
 	lib_ohm_pf	
 )
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -DBENCHMARKING=0")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -DBENCHMARKING=0 -Wall")
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -140,6 +140,7 @@ add_executable(OhmPfNode
     src/ROSOdomMeasurement.cpp
     src/ROSCeilCamMeasurement.cpp
     src/ROSFilterOutput.cpp
+    src/UtilitiesOhmPfROS.cpp
 )
 
 add_executable(CeilCamSimulator

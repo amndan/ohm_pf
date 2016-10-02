@@ -42,7 +42,7 @@ void OCSObserver::update(IOdomMeasurement* measurement)
   {
     double dist = calcDist(measurement->getMeasurement(), _lastOdomMeasurement);
 
-    for(int i = 0; i < _clientList.size(); i++)
+    for(unsigned int i = 0; i < _clientList.size(); i++)
     {
       // decrement dist buffer
       _actualDists.at(i) -= dist;

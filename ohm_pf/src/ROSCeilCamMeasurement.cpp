@@ -31,7 +31,7 @@ namespace ohmPf
     _poses.clear();
     _probs.clear();
 
-    for(int i = 0; i < msgs->poses.size(); i++)
+    for(unsigned int i = 0; i < msgs->poses.size(); i++)
     {
       Eigen::Vector3d pose;
       pose(0) = msgs->poses.at(i).position.x;
