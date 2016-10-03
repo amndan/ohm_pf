@@ -65,7 +65,7 @@ void Timer::openStream()
 void Timer::writeToStream()
 {
   openStream();
-  _stream << (int) getTimeInMs() << std::endl;
+  _stream << (int64_t) getTimeInNs() << std::endl;
   _stream.close();
 }
 
