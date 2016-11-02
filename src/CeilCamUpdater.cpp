@@ -29,7 +29,7 @@ namespace ohmPf
     }
     weightAvg /= samples->size();
 
-    double maxWeight = weightAvg / 3.0;
+    double maxWeight = weightAvg;
     int countNewSamples = 0;
 
     for(std::vector<Sample_t>::iterator iter = samples->begin(); iter < samples->end(); iter++)
@@ -114,6 +114,12 @@ namespace ohmPf
     //    //_updateFilterMap->update();
 
     injectSamples();
+
+    // dirty hack for keep samples after injection
+    for(int k = 0; k < samples->size(); k++)
+    {
+      samples->at(k).weight = 1.0; 
+    }
 
     _filter->getSampleSet()->normalize();
     _updateFilterMap->update();

@@ -36,7 +36,8 @@ namespace ohmPf
       Eigen::Vector3d pose;
       pose(0) = msgs->poses.at(i).position.x;
       pose(1) = msgs->poses.at(i).position.y;
-      pose(2) = tf::getYaw(msgs->poses.at(i).orientation);
+      pose(2) = msgs->poses.at(i).position.z;
+      //pose(2) = tf::getYaw(msgs->poses.at(i).orientation);
 
       _poses.push_back(pose);
       _probs.push_back(msgs->poses.at(i).position.z); // z coordinate is used as weight of ceil cam measurement
