@@ -54,9 +54,20 @@ void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose, ros::Time stamp)
 
   ros::Time now(ros::Time::now());
 
-  // future dated TF if ros::Duration(>0.0)
-  _tfBroadcaster.sendTransform(tf::StampedTransform(tf_map_pf, stamp + ros::Duration(0.0), _paramSet.tfFixedFrame, _paramSet.tfOutputFrame));
-  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, stamp + ros::Duration(0.0), _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
+#if BENCHMARKING == 1
+  // use odom stamp of filter for benchmarking as timestamp
+  _tfBroadcaster.sendTransform(tf::StampedTransform(tf_map_pf, stamp, _paramSet.tfFixedFrame, _paramSet.tfOutputFrame));
+  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, stamp, _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
+
+#else
+  // use now stamp for normal use of filter
+  // filter stamp is just for e.g. comparing stamps with each other or detecting dead sensors
+  // stamp doesnt get updated if no sensordata arrives or meets ocs requirements
+  // future dated TF for ros::Duration(>0.0)
+  _tfBroadcaster.sendTransform(tf::StampedTransform(tf_map_pf, now + ros::Duration(0.0), _paramSet.tfFixedFrame, _paramSet.tfOutputFrame));
+  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, now + ros::Duration(0.0), _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
+#endif
+
 
   //pose publisher
   geometry_msgs::PoseStamped poseStamped;
