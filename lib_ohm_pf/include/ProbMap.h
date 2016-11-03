@@ -9,6 +9,7 @@
 #define SRC_PROBMAP_H_
 
 #include <IMap.h>
+#include <iostream>
 
 #define IS_OCCUPIED_THRESHHOLD 50
 #define IS_UNKNOWN_CELL -1

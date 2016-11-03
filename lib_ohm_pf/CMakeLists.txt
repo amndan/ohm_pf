@@ -9,12 +9,6 @@ project(lib_ohm_pf)
 find_package(catkin REQUIRED
 )
 
-find_package(Boost REQUIRED COMPONENTS 
-	date_time
-	system
-	thread
-)
-
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -DBENCHMARKING=0 -DTIMING=1 -Wall -std=c++11 -Wno-deprecated-declarations")
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -104,7 +98,7 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -DBENCHMARKING=0 -DTIMING=1 -Wall -s
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
    INCLUDE_DIRS include/distribute include/distribute/interfaces
-   LIBRARIES OhmPf ROSTimeOhmPf
+   LIBRARIES OhmPf
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
@@ -120,7 +114,6 @@ include_directories(
 	include/
 	include/distribute
 	include/distribute/interfaces
-	include/Time
 )
 
 link_directories(
@@ -156,12 +149,6 @@ add_library(OhmPf
     src/UtilitiesOhmPf.cpp
 )
 
-add_library(ROSTimeOhmPf
-	src/Time/duration.cpp
-	src/Time/rate.cpp
-	src/Time/time.cpp
-)
-
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -175,10 +162,6 @@ add_library(ROSTimeOhmPf
 # add_dependencies(libOhmPf_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(ROSTimeOhmPf 
-	${Boost_LIBRARIES}
-)
-
 target_link_libraries(OhmPf 
 	evocortex_core
 )

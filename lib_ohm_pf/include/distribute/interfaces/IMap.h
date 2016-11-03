@@ -9,7 +9,6 @@
 #define SRC_IMAP_H_
 
 #include "Eigen/Dense"
-#include <ros/time.h>
 
 namespace ohmPf
 {

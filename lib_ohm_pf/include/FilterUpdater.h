@@ -8,7 +8,6 @@
 #ifndef SRC_FILTERUPDATER_H_
 #define SRC_FILTERUPDATER_H_
 
-#include <ros/time.h>
 #include <string>
 #include "Filter.h"
 

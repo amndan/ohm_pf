@@ -11,7 +11,6 @@
 #include "Filter.h"
 #include "assert.h"
 #include "FilterUpdaterTimed.h"
-#include "ros/time.h"
 #include "UtilitiesOhmPf.h"
 #include <cmath>
 #include "OCSClient.h"
