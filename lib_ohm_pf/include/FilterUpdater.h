@@ -60,7 +60,7 @@ protected:
    */
   Filter* _filter;
 
-private:
+protected:
   std::string _idString;
 };
 

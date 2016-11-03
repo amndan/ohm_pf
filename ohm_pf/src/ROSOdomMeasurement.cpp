@@ -37,9 +37,9 @@ namespace ohmPf
     return _measurement;
   }
 
-  ros::Time ROSOdomMeasurement::getStamp()
+  evo::Time ROSOdomMeasurement::getStamp()
   {
-    return _stamp;
+    return evo::Time(_stamp);
   }
 
 } /* namespace ohmPf */

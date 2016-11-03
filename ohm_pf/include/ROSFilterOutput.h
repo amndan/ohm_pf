@@ -53,7 +53,7 @@ public:
    * @param pose Filter output pose in map frame.
    * @param auctual filter timestamp. Odom Message pushes time ahead.
    */
-  void onOutputPoseChanged(Eigen::Vector3d pose, ros::Time stamp);
+  void onOutputPoseChanged(Eigen::Vector3d pose, evo::Time stamp);
 
   /**
    * @brief Create and publish a PoseArray for displaying particle cloud in rviz.

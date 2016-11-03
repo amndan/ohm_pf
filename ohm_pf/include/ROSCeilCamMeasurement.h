@@ -60,7 +60,7 @@ public:
    * with a function in the filter to track or log timing. E.g. something like:
    * _filter.setStamp(ros::Time stamp, string id)...
    */
-  ros::Time getStamp();
+  evo::Time getStamp();
 
 private:
   std::vector<Eigen::Vector3d> _poses;

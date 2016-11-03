@@ -17,7 +17,7 @@ Timer::Timer()
   openStream();
   _stream.close();
 
-  _stamp = ros::WallTime::now();
+  _stamp = evo::Time::now();
 }
 
 Timer::Timer(std::string path)
@@ -27,7 +27,7 @@ Timer::Timer(std::string path)
   openStream();
   _stream.close();
 
-  _stamp = ros::WallTime::now();
+  _stamp = evo::Time::now();
 }
 
 Timer::~Timer()
@@ -37,12 +37,12 @@ Timer::~Timer()
 
 void Timer::restart()
 {
-  _stamp = ros::WallTime::now();
+  _stamp = evo::Time::now();
 }
 
 void Timer::stop()
 {
-  _time = ros::WallTime::now() - _stamp;
+  _time = evo::Time::now() - _stamp;
 }
 
 void Timer::stopAndWrite()
@@ -73,22 +73,22 @@ void Timer::writeToStream()
 
 int64_t ohmPf::Timer::getTimeInNs()
 {
-  return _time.toNSec();
+  return static_cast<int64_t>(_time.toNSec());
 }
 
 int64_t ohmPf::Timer::getTimeInUs()
 {
-  return getTimeInNs() / 1000ll;
+  return static_cast<int64_t>(getTimeInNs()) / 1000ll;
 }
 
 int64_t ohmPf::Timer::getTimeInMs()
 {
-  return getTimeInUs() / 1000ll;
+  return static_cast<int64_t>(getTimeInUs()) / 1000ll;
 }
 
 int64_t ohmPf::Timer::getTimeInSec()
 {
-  return getTimeInMs() / 1000ll;
+  return static_cast<int64_t>(getTimeInMs()) / 1000ll;
 }
 
 

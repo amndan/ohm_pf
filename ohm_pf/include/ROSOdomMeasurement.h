@@ -43,7 +43,7 @@ public:
   double getY();
   double getPhi();
   Eigen::Vector3d getMeasurement();
-  ros::Time getStamp();
+  evo::Time getStamp();
 
 private:
   ros::Time _stamp;

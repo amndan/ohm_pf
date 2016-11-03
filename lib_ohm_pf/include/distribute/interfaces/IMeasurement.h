@@ -8,7 +8,7 @@
 #ifndef SRC_IMEASUREMENT_H_
 #define SRC_IMEASUREMENT_H_
 
-#include <ros/time.h>
+#include <evocortex/core/time/Time.h>
 
 namespace ohmPf
 {
@@ -26,7 +26,7 @@ public:
    * @brief Each measurement should manage its actual time stamp.
    * @return time stamp of actual measurement.
    */
-  virtual ros::Time getStamp() = 0; // TODO: should do this not virtual and relate to this class
+  virtual evo::Time getStamp() = 0; // TODO: should do this not virtual and relate to this class
 };
 
 } /* namespace ohmPf */

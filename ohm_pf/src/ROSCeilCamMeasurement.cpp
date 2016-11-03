@@ -6,6 +6,7 @@
  */
 
 #include "ROSCeilCamMeasurement.h"
+#include <evocortex/core/time/Time.h>
 
 namespace ohmPf
 {
@@ -45,9 +46,9 @@ namespace ohmPf
     _stamp = msgs->header.stamp;
   }
 
-  ros::Time ROSCeilCamMeasurement::getStamp()
+  evo::Time ROSCeilCamMeasurement::getStamp()
   {
-    return _stamp;
+    return evo::Time(_stamp);
   }
 
 } /* namespace ohmPf */

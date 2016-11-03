@@ -62,7 +62,7 @@ public:
    */
   void setMeasurement(sensor_msgs::LaserScanConstPtr scan);
 
-  ros::Time getStamp();
+  evo::Time getStamp();
   double getAngleIncrement();
   double getRangeMax();
   double getRangeMin();

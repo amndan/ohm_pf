@@ -11,7 +11,7 @@ namespace ohmPf
 {
 
   FilterOutputUpdater::FilterOutputUpdater(IFilterOutput* filterOutput, Filter* filter, std::string idString) :
-      FilterUpdaterTimed( filter, ros::Duration(filter->getParams().outputIntervall), idString)
+      FilterUpdaterTimed( filter, evo::Duration(filter->getParams().outputIntervall), idString)
   {
     _filterOutput = filterOutput;
   }

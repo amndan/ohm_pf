@@ -11,6 +11,7 @@
 #include "SampleSet.h"
 #include "FilterParams.h"
 #include "FilterState.h"
+#include <evocortex/core/time/Time.h>
 
 namespace ohmPf
 {
@@ -83,18 +84,18 @@ public:
   /**
    * @param stamp setter for timestamp of filter. It is used for pose output of filter.
    */
-  void setStamp(ros::Time stamp);
+  void setStamp(evo::Time stamp);
 
   /**
    * @return getter for timestamp of filter. It is used for pose output of filter.
    */
-  ros::Time getStamp();
+  evo::Time getStamp();
 
 private:
   FilterParams_t _params;
   SampleSet _sampleSet;
   FilterState_t _filterState;
-  ros::Time _stamp;
+  evo::Time _stamp;
 };
 
 } /* namespace ohmPf */

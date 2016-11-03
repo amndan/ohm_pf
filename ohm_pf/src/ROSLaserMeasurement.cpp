@@ -99,9 +99,9 @@ void ROSLaserMeasurement::setMeasurement(sensor_msgs::LaserScanConstPtr scan)
   }
 }
 
-ros::Time ROSLaserMeasurement::getStamp()
+evo::Time ROSLaserMeasurement::getStamp()
 {
-  return _stamp;
+  return evo::Time(_stamp);
 }
 
 double ROSLaserMeasurement::getAngleIncrement()

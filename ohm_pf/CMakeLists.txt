@@ -12,7 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
 	lib_ohm_pf	
 )
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -DBENCHMARKING=0 -Wall")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -DBENCHMARKING=0 -Wall -std=c++11 -Wno-deprecated-declarations")
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -121,6 +121,10 @@ include_directories(
 	include/
 )
 
+link_directories(
+    /usr/lib
+)
+
 ## Declare a C++ library
 # add_library(ROSOhmPf
 #   src/${PROJECT_NAME}/ROSOhmPf.cpp
@@ -166,6 +170,7 @@ target_link_libraries(PoseToOdom
 
 target_link_libraries(OhmPfNode
  ${catkin_LIBRARIES}
+ evocortex_core
 )
 
 #############

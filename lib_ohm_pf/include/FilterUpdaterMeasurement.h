@@ -11,7 +11,7 @@
 #include "FilterUpdater.h"
 #include "IMeasurement.h"
 #include <iostream>
-#include "ros/time.h"
+#include <evocortex/core/time/Time.h>
 #include "Filter.h"
 
 namespace ohmPf
@@ -59,7 +59,7 @@ public:
   }
 
 protected:
-  ros::Time _lastStamp;
+  evo::Time _lastStamp;
   IMeasurement* _measurement;
 };
 

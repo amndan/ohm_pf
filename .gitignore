@@ -5,3 +5,4 @@ build/
 lib_ohm_pf/doc/uml/uml.pdf
 *~
 *.swp
+.settings/

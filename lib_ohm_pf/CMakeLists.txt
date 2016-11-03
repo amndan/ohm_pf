@@ -15,7 +15,7 @@ find_package(Boost REQUIRED COMPONENTS
 	thread
 )
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -DBENCHMARKING=0 -DTIMING=0 -Wall")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -DBENCHMARKING=0 -DTIMING=1 -Wall -std=c++11 -Wno-deprecated-declarations")
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -123,6 +123,10 @@ include_directories(
 	include/Time
 )
 
+link_directories(
+    /usr/lib
+)
+
 ## Declare a C++ library
 add_library(OhmPf
     src/GaussianPdf.cpp
@@ -173,6 +177,10 @@ add_library(ROSTimeOhmPf
 ## Specify libraries to link a library or executable target against
 target_link_libraries(ROSTimeOhmPf 
 	${Boost_LIBRARIES}
+)
+
+target_link_libraries(OhmPf 
+	evocortex_core
 )
 
 #############

@@ -9,7 +9,7 @@
 #define LIB_OHM_PF_SRC_FILTERUPDATERTIMED_H_
 
 #include "FilterUpdater.h"
-#include "ros/time.h"
+#include <evocortex/core/time/Time.h>
 
 namespace ohmPf
 {
@@ -26,7 +26,7 @@ public:
    * @param filter Pointer to the filter instance to be updated.
    * @param time intervall for update
    */
-  FilterUpdaterTimed(Filter* filter, ros::Duration intervall, std::string idString);
+  FilterUpdaterTimed(Filter* filter, evo::Duration intervall, std::string idString);
 
   /**
    * @brief Destructor (empty)
@@ -40,8 +40,8 @@ public:
   virtual bool tryToUpdate();
 
 private:
-  ros::Duration _intervall;
-  ros::Time _lastStamp;
+  evo::Duration _intervall;
+  evo::Time _lastStamp;
 };
 
 } /* namespace ohmPf */

@@ -11,7 +11,7 @@ namespace ohmPf
 {
 
 STDResampler::STDResampler(double addNoiseSigmaTrans, double addNoiseSigmaRot, Filter* filter, std::string idString) :
-    FilterUpdaterTimed(filter, ros::Duration(filter->getParams().resamplingIntervall), idString)
+    FilterUpdaterTimed(filter, evo::Duration(filter->getParams().resamplingIntervall), idString)
 {
   _addNoiseSigmaRot = std::abs(addNoiseSigmaRot);
   _addNoiseSigmaTrans = std::abs(addNoiseSigmaTrans);

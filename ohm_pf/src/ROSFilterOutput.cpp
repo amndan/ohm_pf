@@ -25,7 +25,7 @@ ROSFilterOutput::ROSFilterOutput(OhmPfNodeParams_t paramSet) :
   // TODO: we schould separate the pub gui output from the resampling step
 }
 
-void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose, ros::Time stamp)
+void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose, evo::Time stamp)
 {
   // map_odom * odom_bf = map_ohmPf
   // map_odom = map_ohmPf * odom_bf.inverse() --> pose correction from map to odom frame
@@ -56,8 +56,8 @@ void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose, ros::Time stamp)
 
 #if BENCHMARKING == 1
   // use odom stamp of filter for benchmarking as timestamp
-  _tfBroadcaster.sendTransform(tf::StampedTransform(tf_map_pf, stamp, _paramSet.tfFixedFrame, _paramSet.tfOutputFrame));
-  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, stamp, _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
+  _tfBroadcaster.sendTransform(tf::StampedTransform(tf_map_pf, stamp.toROSTime(), _paramSet.tfFixedFrame, _paramSet.tfOutputFrame));
+  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, stamp.toROSTime(), _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
 
 #else
   // use now stamp for normal use of filter
@@ -72,7 +72,7 @@ void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose, ros::Time stamp)
   //pose publisher
   geometry_msgs::PoseStamped poseStamped;
   poseStamped.header.frame_id = _paramSet.tfFixedFrame;
-  poseStamped.header.stamp = stamp;
+  poseStamped.header.stamp = stamp.toROSTime();
   tf::quaternionTFToMsg(tf::createQuaternionFromYaw(pose(2)), poseStamped.pose.orientation);
   poseStamped.pose.position.x = pose(0);
   poseStamped.pose.position.y = pose(1);

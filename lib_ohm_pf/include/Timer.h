@@ -9,9 +9,10 @@
 #define LIB_OHM_PF_SRC_TIMER_H_
 
 #include <string>
-#include <ros/time.h>
 #include <iostream>
 #include <fstream>
+
+#include <evocortex/core/time/Time.h>
 
 namespace ohmPf
 {
@@ -36,8 +37,8 @@ public:
 private:
   void openStream();
   void writeToStream();
-  ros::WallTime _stamp;
-  ros::WallDuration _time;
+  evo::Time _stamp;
+  evo::Duration _time;
   std::string _path;
   std::ofstream _stream;
 };
