@@ -9,7 +9,6 @@ find_package(catkin REQUIRED COMPONENTS
 	nav_msgs
 	geometry_msgs
 	tf
-	lib_ohm_pf	
 )
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -DBENCHMARKING=0 -Wall -std=c++11 -Wno-deprecated-declarations")
@@ -119,10 +118,13 @@ catkin_package(
 include_directories(
 	${catkin_INCLUDE_DIRS}
 	include/
+    ../lib_ohm_pf/include/distribute
+	../lib_ohm_pf/include/distribute/interfaces
 )
 
 link_directories(
     /usr/lib
+    /home/amndan/workspace/catkin_ws/src/ohm_pf/lib_ohm_pf/build
 )
 
 ## Declare a C++ library
@@ -171,6 +173,7 @@ target_link_libraries(PoseToOdom
 target_link_libraries(OhmPfNode
  ${catkin_LIBRARIES}
  evocortex_core
+ OhmPf
 )
 
 #############

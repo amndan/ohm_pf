@@ -53,8 +53,6 @@
   <build_depend>geometry_msgs</build_depend>
   <run_depend>geometry_msgs</run_depend>
 
-  <build_depend>lib_ohm_pf</build_depend>
-  <run_depend>lib_ohm_pf</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
