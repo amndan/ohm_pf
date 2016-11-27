@@ -14,19 +14,14 @@
 #include <cmath>
 #include "OCSClient.h"
 
-/**
- * @page OCS OCS-Management
- * Here comes the explanation of OCS-Management.
- * @todo add ocs management page.
- * @image html classohm_pf_1_1_filter_controller__coll__graph.png "Filter Controller Overview" width=1cm
- *
- */
-
 namespace ohmPf
 {
 
 /**
- * @brief Implementation of the OCS management.
+ * @brief OCS means Odom-Changed-Significantly. OCSObserver class observes odometry
+ * data. Any OCSClient can register to OCSObserver with a specified odom dist x.
+ * If incremental odom displacement overcomes dist x, the clients OCS-Flag is set
+ * by OCSObserver.
  */
 class OCSObserver
 {

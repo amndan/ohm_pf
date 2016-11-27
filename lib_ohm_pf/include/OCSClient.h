@@ -12,7 +12,10 @@ namespace ohmPf
 {
 
 /**
- * @brief Class for OCS functionality. (see @ref OCS)
+ * @brief Any OCSClient registered to the OCSObserver must provide
+ * OCSClient::setOCSFlagTrue() function to the Observer. If odom is
+ * changed significantly OCSObserver sets the OCSFlag to true with this
+ * function.
  */
 class OCSClient
 {
