@@ -112,8 +112,8 @@ initMode	|	Initialization mode. GL for global localization - POSE for initializa
 initX	|	Initial particle cloud position x in meter if filter initMode is POSE.	|	0.0
 initY	|	Initial particle cloud position y in meter if filter initMode is POSE.	|	0.0
 initPhi	|	Initial particle cloud position yaw in rad if filter initMode is POSE.	|	0.0
-initSigmaTrans	|	Initial translational particle cloud spreading (variance in meter) if filter initMode is POSE.	|	0.2
-initSigmaRot	|	Initial rotational particle cloud spreading (variance in rad) if filter initMode is POSE.	|	0.3
+initSigmaTrans	|	Initial translational particle cloud spreading (standard deviation in meter) if filter initMode is POSE.	|	0.2
+initSigmaRot	|	Initial rotational particle cloud spreading (standard deviation in rad) if filter initMode is POSE.	|	0.3
 subsamplingRateLaser	|	Linear subsampling of laser scan data before integration. Higher value leads to slower convergence speed but also affects pose accuracy. Choosing high subsampling rate means bad accuracy.	|	3 - 5
 uncertaintyLaser	|	Additional uncertainty of laser measurements. Higher values lead to a slower convergence speed.	|	0.1 - 0.8
 maxDistanceProbMap	|	Distance for inflation of occupied parts at creation of probability field in cells. Depends on map resolution. Higher value leads to slower convergence speed.	|	5 - 30
