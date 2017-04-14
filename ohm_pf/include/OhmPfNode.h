@@ -17,6 +17,7 @@
 #include "geometry_msgs/PoseWithCovarianceStamped.h"
 #include "sensor_msgs/LaserScan.h"
 #include "tf/transform_datatypes.h"
+#include "tf/transform_listener.h"
 #include "assert.h"
 #include "OhmPfNodeParams.h"
 #include "Eigen/Dense"
@@ -113,6 +114,8 @@ private:
    */
   void parseLaserTopics(std::string topic);
 
+  bool pushOdomTimed(ros::Time stamp);
+
   ros::Publisher _pubSampleSet;
   ros::Publisher _pubProbMap;
   ros::Subscriber _subOdometry;
@@ -124,6 +127,8 @@ private:
   ros::NodeHandle _nh;
   ros::NodeHandle _prvNh;
   ros::WallRate* _loopRate;
+  ros::Time _lastOdomStamp;
+  tf::TransformListener _tfListener;
   OhmPfNodeParams_t _paramSet;
   OdomParams_t _odomParams;
   FilterParams_t _filterParams;

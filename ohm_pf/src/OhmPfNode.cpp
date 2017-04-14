@@ -11,7 +11,7 @@ namespace ohmPf
 {
 
   OhmPfNode::OhmPfNode() :
-      _nh(), _prvNh("~")
+      _nh(), _prvNh("~"), _lastOdomStamp(0)
   {
 
     ROS_INFO("Waiting for ros time initialization.."); // waiting for clock server in use_sim_time mode
@@ -93,7 +93,7 @@ namespace ohmPf
 
     //_pubSampleSet = _nh.advertise<geometry_msgs::PoseArray>(_paramSet.topParticleCloud, 1, true); // tob: published in ROSFilterOutput
     _pubProbMap = _nh.advertise<nav_msgs::OccupancyGrid>("probMap", 1, true);
-    _subOdometry = _nh.subscribe(_paramSet.topOdometry, 1, &OhmPfNode::calOdom, this);
+    //_subOdometry = _nh.subscribe(_paramSet.topOdometry, 1, &OhmPfNode::calOdom, this);
     _sub2dPoseEst = _nh.subscribe(_paramSet.top2dPoseEst, 1, &OhmPfNode::cal2dPoseEst, this);
     _subClickedPoint = _nh.subscribe(_paramSet.topClickedPoint, 1, &OhmPfNode::calClickedPoint, this);
     _subCeilCam = _nh.subscribe(_paramSet.topCeilCam, 1, &OhmPfNode::calCeilCam, this);
@@ -325,8 +325,75 @@ namespace ohmPf
     }
     else
     {
+
+/**************************************************************************/
+
+      ros::Duration diff;
+
+//      diff = laser.time – filter.time
+      diff = msg->header.stamp - _lastOdomStamp;
+      _lastOdomStamp = msg->header.stamp;
+
+//      if( abs( diff ) < thresh )
+//      push laser
+
+
+//      else if ( diff < 0 )
+      if(diff < ros::Duration(0))
+      {
+//      skip // laser message to old
+        ROS_ERROR_STREAM("New measurement in past! Will skip it...");
+        return;
+      }
+
+//      else if ( diff > 0 )
+
+//      odom = getTf(odom, bf, laser.time, duration)
+//      push odom
+      pushOdomTimed(msg->header.stamp);
+
+//      push laser
       _laserMeasurements.at(i)->setMeasurement(msg);
+
+      _filterController->filterSpinOnce();  // integrate measurements
+
+//      odomTimer.start() // start/restart odom timer in case of laser stucks
+
+/**************************************************************************/
     }
+  }
+
+  bool OhmPfNode::pushOdomTimed(ros::Time stamp)
+  {
+
+    tf::StampedTransform odomTf;
+
+    if (!_tfListener.waitForTransform(_paramSet.tfOdomFrame, _paramSet.tfBaseFootprintFrame, stamp, ros::Duration(0.2)))
+    {
+      ROS_ERROR_STREAM("Odom tf from " << _paramSet.tfBaseFootprintFrame << " to " << _paramSet.tfOdomFrame << " is not available --> will continue without output...");
+      return false;
+    }
+    _tfListener.lookupTransform(_paramSet.tfOdomFrame, _paramSet.tfBaseFootprintFrame, stamp, odomTf);
+
+    if(!_odomInitialized)
+    {
+      ROS_INFO_STREAM("Received first odom message - initializing odom...");
+      _odomMeasurement->setMeasurement(odomTf);
+
+      if(_filterController->connectOdomMeasurement(_odomMeasurement, _odomParams))
+      {
+        _odomInitialized = true;
+        ROS_INFO_STREAM("odom initialized");
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+
+    _odomMeasurement->setMeasurement(odomTf);
+    return true;
   }
 
 } /* namespace ohmPf */

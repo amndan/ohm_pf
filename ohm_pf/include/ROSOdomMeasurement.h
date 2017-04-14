@@ -36,6 +36,8 @@ public:
    */
   void setMeasurement(const nav_msgs::OdometryConstPtr& msgs);
 
+  void setMeasurement(const tf::StampedTransform& tf);
+
   /**
    * IMPLEMENTATION OF ABSTRACT MEMBERS
    */

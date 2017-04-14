@@ -37,13 +37,13 @@
     <arg name="initSigmaTrans" value="0.01" />
     <arg name="initSigmaRot" value="0.01" />
     <arg name="initMode" value="GL" />
-    <arg name="OCSThresholdLaser" value="0.01" />
-    <arg name="OCSThresholdOdom" value="0.001" />
+    <arg name="OCSThresholdLaser" value="0.0" />
+    <arg name="OCSThresholdOdom" value="0.0" />
     <arg name="OCSThresholdResampler" value="0.001" />
     <arg name="countLasers" value="2" />
     <arg name="skipParticleForGui" value="10" />
     <arg name="resamplingIntervallFilter" value="0.5" />
-    <arg name="outputIntervallFilter" value="0.1" />
+    <arg name="outputIntervallFilter" value="0.001" />
     <arg name="filterLoopRate" value="20" />
     <arg name="useAdaptiveMean" value="true" />
     <arg name="alphaFast" value="0.055" />

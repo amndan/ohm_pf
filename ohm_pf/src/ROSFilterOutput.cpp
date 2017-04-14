@@ -64,8 +64,8 @@ void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose, ros::Time stamp)
   // filter stamp is just for e.g. comparing stamps with each other or detecting dead sensors
   // stamp doesnt get updated if no sensordata arrives or meets ocs requirements
   // future dated TF for ros::Duration(>0.0)
-  _tfBroadcaster.sendTransform(tf::StampedTransform(tf_map_pf, now + ros::Duration(0.0), _paramSet.tfFixedFrame, _paramSet.tfOutputFrame));
-  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, now + ros::Duration(0.0), _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
+  _tfBroadcaster.sendTransform(tf::StampedTransform(tf_map_pf, stamp + ros::Duration(0.0), _paramSet.tfFixedFrame, _paramSet.tfOutputFrame));
+  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, stamp + ros::Duration(0.0), _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
 #endif
 
 

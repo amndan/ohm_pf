@@ -17,6 +17,14 @@ namespace ohmPf
     _stamp = msgs->header.stamp;
   }
 
+  void ROSOdomMeasurement::setMeasurement(const tf::StampedTransform& tf)
+  {
+    _measurement(0) = tf.getOrigin().getX();
+    _measurement(1) = tf.getOrigin().getY();
+    _measurement(2) = tf::getYaw(tf.getRotation());
+    _stamp = tf.stamp_ - ros::Duration(0.0001);  ///@bug hack for integrating odom before laser
+  }
+
   double ROSOdomMeasurement::getX()
   {
     return _measurement(0);
