@@ -33,7 +33,7 @@ void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose, ros::Time stamp)
 
   tf::StampedTransform tmpTransform;
 
-  if (!_tfListener.waitForTransform(_paramSet.tfBaseFootprintFrame, _paramSet.tfOdomFrame, ros::Time(0),
+  if (!_tfListener.waitForTransform(_paramSet.tfBaseFootprintFrame, _paramSet.tfOdomFrame, stamp,
                                     ros::Duration(10)))
   {
     ROS_ERROR_STREAM(
@@ -41,7 +41,7 @@ void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose, ros::Time stamp)
     return;
   }
 
-  _tfListener.lookupTransform(_paramSet.tfBaseFootprintFrame, _paramSet.tfOdomFrame, ros::Time(0), tmpTransform);
+  _tfListener.lookupTransform(_paramSet.tfBaseFootprintFrame, _paramSet.tfOdomFrame, stamp, tmpTransform);
   //TIMING?
 
   tf::Transform tf_bf_odom = tmpTransform;
@@ -114,7 +114,7 @@ void ROSFilterOutput::onFilterStateChanged(FilterState_t state)
 
 void ROSFilterOutput::publishMapOdom()
 {
-  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, ros::Time::now(), _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
+  //_tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, ros::Time::now(), _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
 }
 
 
