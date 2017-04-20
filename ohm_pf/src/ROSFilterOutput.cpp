@@ -31,17 +31,19 @@ void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose, ros::Time stamp)
   // map_odom = map_ohmPf * odom_bf.inverse() --> pose correction from map to odom frame
   // map_odom = map_ohmPf * bf_odom
 
+  _stamp = stamp;
+
   tf::StampedTransform tmpTransform;
 
-  if (!_tfListener.waitForTransform(_paramSet.tfBaseFootprintFrame, _paramSet.tfOdomFrame, stamp,
-                                    ros::Duration(10)))
+  if (!_tfListener.waitForTransform(_paramSet.tfBaseFootprintFrame, _paramSet.tfOdomFrame, _stamp,
+                                    ros::Duration(1)))
   {
     ROS_ERROR_STREAM(
         "cannot publish filters output because tf from " << _paramSet.tfBaseFootprintFrame << " to " << _paramSet.tfOdomFrame << " is not available --> will continue without output...");
     return;
   }
 
-  _tfListener.lookupTransform(_paramSet.tfBaseFootprintFrame, _paramSet.tfOdomFrame, stamp, tmpTransform);
+  _tfListener.lookupTransform(_paramSet.tfBaseFootprintFrame, _paramSet.tfOdomFrame, _stamp, tmpTransform);
   //TIMING?
 
   tf::Transform tf_bf_odom = tmpTransform;
@@ -64,15 +66,23 @@ void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose, ros::Time stamp)
   // filter stamp is just for e.g. comparing stamps with each other or detecting dead sensors
   // stamp doesnt get updated if no sensordata arrives or meets ocs requirements
   // future dated TF for ros::Duration(>0.0)
-  _tfBroadcaster.sendTransform(tf::StampedTransform(tf_map_pf, stamp + ros::Duration(0.0), _paramSet.tfFixedFrame, _paramSet.tfOutputFrame));
-  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, stamp + ros::Duration(0.0), _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
+
+  //tf::Transform zerotf;
+  //zerotf.setRotation(tf::createQuaternionFromRPY(0,0,0));
+  //zerotf.setOrigin(tf::Vector3(0,0,0));
+  //_tfBroadcaster.sendTransform(tf::StampedTransform(zerotf, _stamp, _paramSet.tfFixedFrame, _paramSet.tfOutputFrame));
+  //_tfBroadcaster.sendTransform(tf::StampedTransform(zerotf, _stamp, _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
+
+  _tfBroadcaster.sendTransform(tf::StampedTransform(tf_map_pf, _stamp, _paramSet.tfFixedFrame, _paramSet.tfOutputFrame));
+  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, _stamp, _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
+
 #endif
 
 
   //pose publisher
   geometry_msgs::PoseStamped poseStamped;
   poseStamped.header.frame_id = _paramSet.tfFixedFrame;
-  poseStamped.header.stamp = stamp;
+  poseStamped.header.stamp = _stamp;
   tf::quaternionTFToMsg(tf::createQuaternionFromYaw(pose(2)), poseStamped.pose.orientation);
   poseStamped.pose.position.x = pose(0);
   poseStamped.pose.position.y = pose(1);
@@ -114,7 +124,7 @@ void ROSFilterOutput::onFilterStateChanged(FilterState_t state)
 
 void ROSFilterOutput::publishMapOdom()
 {
-  //_tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, ros::Time::now(), _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
+  //_tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, _stamp, _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
 }
 
 
