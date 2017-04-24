@@ -124,7 +124,7 @@ void ROSFilterOutput::onFilterStateChanged(FilterState_t state)
 
 void ROSFilterOutput::publishMapOdom()
 {
-  //_tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, _stamp, _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
+  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, ros::Time::now(), _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
 }
 
 

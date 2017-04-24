@@ -81,7 +81,7 @@ void FilterController::filterSpinOnce()
 
     if(_periodicFilterUpdatersWithMeasurement.at(i)->tryToUpdate())
     {
-      std::cout << _periodicFilterUpdatersWithMeasurement.at(i)->getIdString() << std::endl;
+      //std::cout << _periodicFilterUpdatersWithMeasurement.at(i)->getIdString() << std::endl;
 
 #if TIMING == 1
       timer.stopAndWrite();
@@ -100,7 +100,7 @@ void FilterController::filterSpinOnce()
     if(_periodicFilterUpdatersWithoutMeasurement.at(i)->tryToUpdate())
     {
 
-      std::cout << _periodicFilterUpdatersWithoutMeasurement.at(i)->getIdString() << std::endl;
+      //std::cout << _periodicFilterUpdatersWithoutMeasurement.at(i)->getIdString() << std::endl;
 
 #if TIMING == 1
       timer.stopAndWrite();

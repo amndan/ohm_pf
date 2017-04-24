@@ -204,7 +204,7 @@ namespace ohmPf
 
       if(_loopRate->cycleTime() > _loopRate->expectedCycleTime()) // hack--> return value of sleep() is wrong?
       {
-        ROS_INFO("Filter cannot reach its desired rate of %f Hz (CT %f; ECT %f)",
+        ROS_DEBUG("Filter cannot reach its desired rate of %f Hz (CT %f; ECT %f)",
             _filterParams.filterLoopRate,
             _loopRate->cycleTime().toSec()*1000,
             _loopRate->expectedCycleTime().toSec()*1000);
