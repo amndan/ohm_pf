@@ -124,6 +124,7 @@ void ROSFilterOutput::onFilterStateChanged(FilterState_t state)
 
 void ROSFilterOutput::publishMapOdom()
 {
+  ///@bug cannot use _stamp here! need actual stamp from filter in this callback!? _stamp is not actual here!
   _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, ros::Time::now(), _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
 }
 
