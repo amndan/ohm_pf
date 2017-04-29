@@ -19,8 +19,10 @@ ROSFilterOutput::ROSFilterOutput(OhmPfNodeParams_t paramSet) :
   _pubProbPose = nh.advertise<std_msgs::Float32>(_paramSet.topProbPose, 1, true);
   _pubAdaptiveMeanQuotient = nh.advertise<std_msgs::Float32>("adapMean", 1, true);
   _pubStabWeights = nh.advertise<std_msgs::Float32>("stabWeights", 1, true);
-  _pubPose = nh.advertise<geometry_msgs::PoseStamped>("pose_pf", 1, true); // TODO: launchfile param
+  _pubPose = nh.advertise<geometry_msgs::PoseStamped>("pose_pf", 1, true);
 
+  _map_odom.setIdentity();
+  _transormTimeOffset = ros::Duration(0.100);
   _skipParticleForGui = std::abs(paramSet.skipParticleForGui);
   // TODO: we schould separate the pub gui output from the resampling step
 }
@@ -32,11 +34,12 @@ void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose, ros::Time stamp)
   // map_odom = map_ohmPf * bf_odom
 
   _stamp = stamp;
+  _stampFutureDated = _stamp + _transormTimeOffset;
 
   tf::StampedTransform tmpTransform;
 
   if (!_tfListener.waitForTransform(_paramSet.tfBaseFootprintFrame, _paramSet.tfOdomFrame, _stamp,
-                                    ros::Duration(1)))
+                                    ros::Duration(1.0)))
   {
     ROS_ERROR_STREAM(
         "cannot publish filters output because tf from " << _paramSet.tfBaseFootprintFrame << " to " << _paramSet.tfOdomFrame << " is not available --> will continue without output...");
@@ -73,8 +76,8 @@ void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose, ros::Time stamp)
   //_tfBroadcaster.sendTransform(tf::StampedTransform(zerotf, _stamp, _paramSet.tfFixedFrame, _paramSet.tfOutputFrame));
   //_tfBroadcaster.sendTransform(tf::StampedTransform(zerotf, _stamp, _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
 
-  _tfBroadcaster.sendTransform(tf::StampedTransform(tf_map_pf, _stamp, _paramSet.tfFixedFrame, _paramSet.tfOutputFrame));
-  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, _stamp, _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
+  _tfBroadcaster.sendTransform(tf::StampedTransform(tf_map_pf, _stampFutureDated, _paramSet.tfFixedFrame, _paramSet.tfOutputFrame));
+  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, _stampFutureDated, _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
 
 #endif
 
@@ -82,7 +85,7 @@ void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose, ros::Time stamp)
   //pose publisher
   geometry_msgs::PoseStamped poseStamped;
   poseStamped.header.frame_id = _paramSet.tfFixedFrame;
-  poseStamped.header.stamp = _stamp;
+  poseStamped.header.stamp = _stampFutureDated;
   tf::quaternionTFToMsg(tf::createQuaternionFromYaw(pose(2)), poseStamped.pose.orientation);
   poseStamped.pose.position.x = pose(0);
   poseStamped.pose.position.y = pose(1);
@@ -125,7 +128,8 @@ void ROSFilterOutput::onFilterStateChanged(FilterState_t state)
 void ROSFilterOutput::publishMapOdom()
 {
   ///@bug cannot use _stamp here! need actual stamp from filter in this callback!? _stamp is not actual here!
-  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, ros::Time::now(), _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
+  ///hack --> set update frequncy to inf --> so stamp will be actual here for republishing when there is no sensor input
+  _tfBroadcaster.sendTransform(tf::StampedTransform(_map_odom, _stampFutureDated, _paramSet.tfFixedFrame, _paramSet.tfOdomFrame));
 }
 
 

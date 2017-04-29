@@ -76,6 +76,8 @@ private:
   ros::Publisher _pubStabWeights;
   ros::Publisher _pubAdaptiveMeanQuotient;
   ros::Time _stamp;
+  ros::Time _stampFutureDated;
+  ros::Duration _transormTimeOffset;
   OhmPfNodeParams_t _paramSet;
   tf::TransformBroadcaster _tfBroadcaster;
   tf::TransformListener _tfListener;

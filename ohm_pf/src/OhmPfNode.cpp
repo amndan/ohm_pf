@@ -350,7 +350,7 @@ namespace ohmPf
 
 //      odom = getTf(odom, bf, laser.time, duration)
 //      push odom
-      pushOdomTimed(msg->header.stamp);
+      pushOdomTimed(msg->header.stamp - ros::Duration(0.0001)); ///@bug hack for integrating odom before laser
 
 //      push laser
       _laserMeasurements.at(i)->setMeasurement(msg);

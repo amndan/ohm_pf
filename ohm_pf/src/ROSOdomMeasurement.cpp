@@ -22,7 +22,7 @@ namespace ohmPf
     _measurement(0) = tf.getOrigin().getX();
     _measurement(1) = tf.getOrigin().getY();
     _measurement(2) = tf::getYaw(tf.getRotation());
-    _stamp = tf.stamp_ - ros::Duration(0.0001);  ///@bug hack for integrating odom before laser
+    _stamp = tf.stamp_;
   }
 
   double ROSOdomMeasurement::getX()
