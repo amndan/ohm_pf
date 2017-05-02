@@ -339,7 +339,7 @@ namespace ohmPf
 
 
 //      else if ( diff < 0 )
-      if(diff < ros::Duration(0))
+      if(diff < ros::Duration(-0.01))  //@todo param and meaningful value here)
       {
 //      skip // laser message to old
         ROS_ERROR_STREAM("New measurement in past! Will skip it...");
