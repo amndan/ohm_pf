@@ -22,7 +22,7 @@ ROSFilterOutput::ROSFilterOutput(OhmPfNodeParams_t paramSet) :
   _pubPose = nh.advertise<geometry_msgs::PoseStamped>("pose_pf", 1, true);
 
   _map_odom.setIdentity();
-  _transormTimeOffset = ros::Duration(0.100);
+  _transormTimeOffset = ros::Duration(0.300);
   _skipParticleForGui = std::abs(paramSet.skipParticleForGui);
   // TODO: we schould separate the pub gui output from the resampling step
 }
