@@ -332,20 +332,26 @@ namespace ohmPf
 
 //      diff = laser.time – filter.time
       diff = msg->header.stamp - _lastOdomStamp;
-      _lastOdomStamp = msg->header.stamp;
 
 //      if( abs( diff ) < thresh )
 //      push laser
 
 
 //      else if ( diff < 0 )
-      if(diff < ros::Duration(-0.01))  //@todo param and meaningful value here)
-      {
-//      skip // laser message to old
-        ROS_ERROR_STREAM("New measurement in past! Will skip it...");
-        return;
-      }
 
+      if(diff > ros::Duration(0.0))
+      {
+        _lastOdomStamp = msg->header.stamp;
+      }
+      else
+      {
+        if(diff < ros::Duration(-0.01))  //@todo param and meaningful value here)
+        {
+//        skip // laser message --> to old
+          ROS_ERROR_STREAM("New measurement in past! Will skip it... (diff = " << diff << ")");
+          return;
+        }
+      }
 //      else if ( diff > 0 )
 
 //      odom = getTf(odom, bf, laser.time, duration)
