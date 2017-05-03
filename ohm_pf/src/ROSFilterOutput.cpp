@@ -22,8 +22,12 @@ ROSFilterOutput::ROSFilterOutput(OhmPfNodeParams_t paramSet) :
   _pubPose = nh.advertise<geometry_msgs::PoseStamped>("pose_pf", 1, true);
 
   _map_odom.setIdentity();
-  _transormTimeOffset = ros::Duration(0.300);
+
+  _transormTimeOffset = ros::Duration(0.300); //@todo parameter here
+  _tfMeanCount = 10; //@todo parameter here
+
   _skipParticleForGui = std::abs(paramSet.skipParticleForGui);
+
   // TODO: we schould separate the pub gui output from the resampling step
 }
 
@@ -56,6 +60,8 @@ void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose, ros::Time stamp)
   tf_map_pf.setRotation(tf::createQuaternionFromYaw(pose(2)));
 
   _map_odom = tf_map_pf * tf_bf_odom;
+
+  _map_odom = buildMean(_map_odom);
 
   ros::Time now(ros::Time::now());
 
@@ -91,6 +97,63 @@ void ROSFilterOutput::onOutputPoseChanged(Eigen::Vector3d pose, ros::Time stamp)
   poseStamped.pose.position.y = pose(1);
   poseStamped.pose.position.z = 0.0;
   _pubPose.publish(poseStamped);
+}
+
+tf::Transform ROSFilterOutput::buildMean(const tf::Transform& tf)
+{
+  tf::Transform tfOut(tf);
+
+  // push front
+  _tfQueue.push_front(tf);
+
+  if(_tfQueue.size() >= _tfMeanCount)
+  {
+    // pop back
+    _tfQueue.pop_back();
+  }
+
+  double x = 0;
+  double y = 0;
+  double yaw = 0;
+
+  std::vector<double> yaws;
+
+  //calc tf
+  for(unsigned int i = 0; i < _tfQueue.size(); i++)
+  {
+    x += _tfQueue.at(i).getOrigin().getX();
+    y += _tfQueue.at(i).getOrigin().getY();
+    yaws.push_back(tf::getYaw(_tfQueue.at(i).getRotation()));
+  }
+
+  x = x / (double) _tfQueue.size();
+  y = y / (double) _tfQueue.size();
+
+  // ******************* mean of angles **********
+  ///@todo make a function for that
+
+  //https://en.wikipedia.org/wiki/Mean_of_circular_quantities
+  //mean = atan2(sum(sin(alpha)), sum(cos(alpha)))
+
+  double sumSin = 0;
+  double sumCos = 0;
+
+  for(unsigned int i = 0; i < yaws.size(); i++)
+  {
+    sumSin += std::sin(yaws.at(i));
+    sumCos += std::cos(yaws.at(i));
+  }
+
+  sumSin = sumSin / (double) yaws.size();
+  sumCos = sumCos / (double) yaws.size();
+
+  yaw = std::atan2(sumSin, sumCos);
+  // ******************* \mean of angles **********
+
+  tfOut.setOrigin(tf::Vector3(x, y, 0.0));
+  tfOut.setRotation(tf::createQuaternionFromYaw(yaw));
+
+  return tfOut;
 }
 
 void ROSFilterOutput::onSampleSetChanged(const std::vector<Sample_t>& samples)

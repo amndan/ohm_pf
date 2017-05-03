@@ -69,6 +69,8 @@ public:
 
   void publishMapOdom();
 
+  tf::Transform buildMean(const tf::Transform& tf);
+
 private:
   ros::Publisher _pubPoseArray;
   ros::Publisher _pubPose;
@@ -82,6 +84,8 @@ private:
   tf::TransformBroadcaster _tfBroadcaster;
   tf::TransformListener _tfListener;
   tf::Transform _map_odom;
+  std::deque<tf::Transform> _tfQueue;
+  unsigned int _tfMeanCount;
   int _skipParticleForGui;
 };
 
